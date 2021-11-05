@@ -22,7 +22,7 @@
             <section class="qa_question_block">
                 <div class="qa_question_bar">
                     <div class="qa_maxtitlebar">
-                        <img class="qa_maxopenclose" src="" alt="">
+                        <font-awesome-icon class="icon_40" icon="fa-solid fa-minus" />
                         <label>保存問題</label>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                     <div class="qa_question_answer_block_insideblock">
                         <div class="qa_common_question_answerblock">
                             <div class="qa_common_question_titlebar">
-                                <img class="qa_common_question_titleimg" src="" alt="">
+                                <font-awesome-icon class="icon_30" icon="fa-solid fa-minus" />
                                 <div class="qa_common_question_title">蛋糕保存辦法</div>
                             </div>
                             <div class="qa_hr"></div>
@@ -38,14 +38,14 @@
                         </div>
                         <div class="qa_common_question_answerblock">
                             <div class="qa_common_question_titlebar ">
-                                <img class="qa_common_question_titleimg" src="" alt="">
+                                <font-awesome-icon class="icon_30" icon="fa-solid fa-plus" />
                                 <div class="qa_common_question_title">蛋糕可在室溫可以存放多久</div>
                             </div>
                             <div class="qa_hr"></div>
                         </div>
                         <div class="qa_common_question_answerblock">
                             <div class="qa_common_question_titlebar">
-                                <img class="qa_common_question_titleimg" src="" alt="">
+                                <font-awesome-icon class="icon_30" icon="fa-solid fa-plus" />
                                 <div class="qa_common_question_title">蛋糕最多可以放幾天</div>
                             </div>
                             <div class="qa_hr"></div>
@@ -55,7 +55,7 @@
                 <section class="qa_question_blockother">
                     <div class="qa_question_bar qa_question_barother">
                         <div class="qa_maxtitlebar">
-                            <img class="qa_maxopenclose" src="" alt="">
+                            <font-awesome-icon class="icon_40" icon="fa-solid fa-plus" />
                             <label>訂單問題</label>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                 <section class="qa_question_blockother2">
                     <div class="qa_question_bar qa_question_barother">
                         <div class="qa_maxtitlebar">
-                            <img class="qa_maxopenclose" src="" alt="">
+                            <font-awesome-icon class="icon_40" icon="fa-solid fa-plus" />
                             <label>預訂蛋糕</label>
                         </div>
                     </div>
@@ -256,6 +256,15 @@ body{
     font-size: $h2;
     align-items: center;
 }
+.icon_30{
+    width: 30px;
+    height: 30px;
+}
+.icon_40{
+    width: 40px;
+    height: 40px;
+}
+
 .qa_maxopenclose{
     width: 40px;
     height: 40px;
@@ -289,13 +298,15 @@ body{
     max-width: 900px;
     // margin-bottom: 40px;
 }
-.qa_common_question_titlebar qa_common_question_titlebar_other{
-    max-width: 500px;
+.qa_common_question_titlebar{
+    max-width: 400px;
     width: 100%;
     display: flex;
+    align-items: center;
     line-height: 50px;
 }
 .qa_common_question_titleimg{
+    
     width: 30px;
     height: 30px;
     object-fit: cover;
@@ -304,6 +315,7 @@ body{
 }
 .qa_common_question_title{
     font-size: $h3;
+    margin-left: 20px;
 }
 .qa_hr{
     margin: auto;

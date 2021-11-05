@@ -153,7 +153,7 @@ body{
             .shopping_cart_bread_arrow_img{
                 width: 20px;
                 height: 20px;
-                object-fit: cover;
+                object-fit: fill;
                 @media screen and (max-width:767.98px){ 
                     width: 20px;
                     height: 20px;

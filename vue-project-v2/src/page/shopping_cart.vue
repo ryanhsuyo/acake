@@ -16,13 +16,15 @@
                 <span class="checkout_page">結帳完成</span>
             </section>
             <!-- 從這開始 -->
-            <font-awesome-icon icon="coffee" />
             <section class="addenda_block_outline">
+                <div class="addenda_cancel_button">
+                    <font-awesome-icon class="addenda_cancel_button_icon" icon="fa-solid fa-xmark" />
+                </div>
                 <div class="addenda_block_inline">
                     <div class="addenda_block_list1">
                         <div class="addenda_block_cake">
                             <div class="addenda_block_cake_img_block">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
+                                <img src="../assets/images/bit_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content">
                                 <div class="addenda_block_cake_title">草莓奶油蛋糕草莓奶油</div>
@@ -69,9 +71,7 @@
                             </select>
                         </div>
                         <div class="addenda_cancel_button_block">
-                            <div class="addenda_cancel_button">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="addenda_hr"></div>
@@ -81,7 +81,7 @@
                                 <img src="../assets/images/cho_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">草莓奶油蛋糕草莓奶油</div>
+                                <div class="addenda_block_cake_title_cardorcandle">吵架王手寫的卡片</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -118,7 +118,7 @@
                         <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
                             <div class="addenda_item_cancel">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
+                                <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                                 <img src="../assets/images/cho_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">草莓奶油蛋糕草莓奶油</div>
+                                <div class="addenda_block_cake_title_cardorcandle">吵架王的蠟燭</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -165,7 +165,7 @@
                         <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
                             <div class="addenda_item_cancel">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
+                                <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
                     </div>
@@ -196,8 +196,7 @@
                     <div class="addenda_block_list4">
                         <div class="new_addenda_block_outline">
                             <div class="new_addenda_block_square">
-                                <div class="new_addenda_text">新增加購</div>
-                                <div class="new_addenda_button"></div>
+                                <img src="../assets/images/add_purchase_icon.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -364,7 +363,7 @@ body{
             .shopping_cart_bread_arrow_img{
                 width: 20px;
                 height: 20px;
-                object-fit: cover;
+                object-fit: fill;
                 @media screen and (max-width:767.98px){ 
                     width: 20px;
                     height: 20px;
@@ -375,13 +374,36 @@ body{
         }
     }
     .addenda_block_outline{
+        position: relative;
         max-width: 1120px;
         width: 100%;
-        height: 780px;
+        height: 650px;
         background-color: $palePike;
         border-radius: 5px;
         display: flex;
         flex-direction: column;;
+        .addenda_cancel_button{
+            height: 35px;
+            width: 35px;
+            // display: flex;
+            // justify-content: flex-end;
+            position: absolute;
+            top:20px;
+            right: 20px;
+            .addenda_cancel_button_icon{
+                width: 35px;
+                height: 35px;
+                object-fit: cover;
+                color: $darkGrey;
+                cursor: pointer;
+                // transform: rotate(0deg);
+                transition: all .2s ease-out;
+                &:hover{
+                    // transform: rotate(10deg);
+                    color: #916060;
+                }
+            }
+        }
         .addenda_block_inline{
             max-width: 1120px;
             width: 95%;
@@ -526,17 +548,7 @@ body{
                     width: 150px;
                     display: flex;
                     justify-content: flex-end;
-                    .addenda_cancel_button{
-                        height: 35px;
-                        width: 35px;
-                        display: flex;
-                        justify-content: flex-end;
-                        img{
-                            width: 35px;
-                            height: 35px;
-                            object-fit: cover;
-                        }
-                    }
+                    
                 }
             }
             .addenda_hr{
@@ -631,48 +643,51 @@ body{
                     justify-content: center;
                     align-items: center;
                     .addenda_item_cancel{
+                        cursor: pointer;
                         width: 30px;
                         height: 30px;
+                        transform:scale(1,1);
+                            transition:all .3s ease-out;
+                            &:hover{
+                                transform: scale(1.2,1.2);
+                            }
                         img{
                             width: 30px;
                             height: 30px;
-    
                         }
                     }
+
                 }
             }
             .addenda_block_list4{
                 display: flex;
-                max-width: 960px;
+                max-width: 1120px;
                 width: 100%;
-                height: 200px;
+                height: 100px;
                 margin: auto;
                 background-color: rgba(255, 255, 255, 0.4);
                 .new_addenda_block_outline{
                     max-width: 960;
                     width: 100%;
-                    height: 200px;
+                    height: 100px;
                     display: flex;
-                    margin-bottom: 50px;
+                    // margin-bottom: 50px;
                     justify-content: center;
                     align-items: center;
                     .new_addenda_block_square{
-                        width: 120px;
-                        height: 120px;
+                        width: 75px;
+                        height: 75px;
                         
-                        background-color: white;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-around;
                         align-items: center;
-                        .new_addenda_text{
-                            font-size: $h4;
-                            color: $palePike;
-                        }
-                        .new_addenda_button{
-                            width: 45px;
-                            height: 45px;
-
+                        img{
+                            object-fit: fill;
+                            align-items: center;
+                            margin: auto;
+                            width: 75px;
+                            height: 75px
                         }
                     }
                 }

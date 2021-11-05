@@ -19,10 +19,16 @@
             <!-- 登入區塊 -->
             <section id="sign_in">
                 <span>
+                <span class="position">
                 <label for="account">帳號 </label>
-                <input type="text" id="account" placeholder="請輸入帳號" />
+                <input type="text" id="account" placeholder="請輸入帳號" v-model.lazy="account" />
+                <span class="wrong" :class="{'open':accountSuccess}">*需輸入英、數字，介於5~10字之間</span>
+                </span>
+                <span class="position">
                 <label for="password">密碼 </label>
-                <input type="text" id="password" placeholder="請輸入密碼" />
+                <input type="password" id="password" placeholder="請輸入密碼" v-model.lazy="password" />
+                <span class="wrong" :class="{'open':passwordSuccess}">*需輸入英、數字，介於5~10字之間</span>
+                </span>
                 <span><a href="#">忘記密碼</a></span>
                 <button class="sign_button check">SIGN IN</button>
                 <button class="sign_button">以Instagram登入<font-awesome-icon icon="fa-brands fa-instagram" /></button>
@@ -33,14 +39,26 @@
             <!-- 註冊區塊 -->
             <section id="register" class="close">
                 <span  >
+                <span class="position">
                 <label for="email">Email </label >
-                <input type="text" id="email" placeholder="請輸入Email" />
+                <span class="wrong" :class="{'open':emailSuccess}">信箱格式錯誤</span>
+                </span>
+                <input type="text" id="email" placeholder="請輸入Email" v-model.lazy="email" />
+                <span class="position">
                 <label for="password">密碼 </label>
-                <input type="text" id="password" placeholder="請輸入密碼" />
+                <span class="wrong" :class="{'open': registPasswordSuccess}">*需輸入英、數字，介於5~10字之間</span>
+                </span>
+                <input type="password" id="password" placeholder="請輸入密碼" v-model.lazy="registPassword" />
+                <span class="position">
                 <label for="re_password">確認密碼 </label>
-                <input type="text" id="re_password" placeholder="請重複輸入帳號" />
+                <span class="wrong" :class="{'open':confirmPasswordSuccess}">需與密碼相同</span>
+                </span>
+                <input type="password" id="re_password" placeholder="請重複輸入密碼" v-model.lazy="confirmPassword" />
+                <span class="position">
                 <label for="user_name">姓名 </label>
-                <input type="text" id="user_name" placeholder="請輸入姓名" />
+                <span class="wrong" :class="{'open':nameSuccess}">請輸入您的姓名</span>
+                </span>
+                <input type="text" id="user_name" placeholder="請輸入姓名"  v-model.lazy="name"/>
                 <label>生日</label>
                 <div  id="birthday">
                 <select name="" id="years">
@@ -76,9 +94,20 @@ export default {
         headercom,
         footercom,
     },
-    data(){
+    data(){  
         return{
-            asd:123546
+            account:'',
+            password:'',
+            email:'',
+            registPassword:'',
+            confirmPassword:'',
+            name:'',
+            accountSuccess:false,
+            passwordSuccess:false,
+            emailSuccess:false,
+            registPasswordSuccess:false,
+            confirmPasswordSuccess:false,
+            nameSuccess:false,
         }
     },
     methods:{
@@ -94,6 +123,30 @@ export default {
         }
     },
     watch:{
+        account:function(newValue){
+            
+            this.accountSuccess =!(/^[a-zA-Z0-9_]{5,10}$/.test(newValue))
+        },
+        password:function(newValue){
+            this.passwordSuccess =!( /^[a-zA-Z0-9_]{5,10}$/.test(newValue))
+        },
+        email:function(newValue){
+            this.emailSuccess = !(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(newValue))
+        },
+        registPassword:function(newValue){
+            this.registPasswordSuccess = !(/^[a-zA-Z0-9_]{5,10}$/.test(newValue))
+        },
+        confirmPassword:function(newValue){
+            if(this.registPassword == this.confirmPassword){
+                this.confirmPasswordSuccess = false
+            }else{
+                this.confirmPasswordSuccess =true
+            }
+        },
+        name:function(newValue){
+            this.nameSuccess = !(/^[a-zA-Z0-9_]{5,10}$/.test(newValue))
+        },
+        
         
     },
     computed:{
@@ -122,7 +175,7 @@ export default {
 
 </script>
 <style scoped lang="scss">
-// @import "../assets/style/var.scss";
+@import "../assets/style/var.scss";
 *{
     box-sizing: border-box;
 }
@@ -154,6 +207,21 @@ body{
     margin:0 auto 50px;
     display:grid;
     grid-template-columns: 1fr 1fr;
+    .position{
+        position:relative;
+        .wrong{
+            position:absolute;
+            white-space: nowrap;
+            top:66px;
+            left:0;
+            font-size:12px;
+            color:red;
+            display:none
+        }
+        .wrong.open{
+            display:inline-block
+        }
+    }
     section{
         // border:1px solid red;
         // margin-left:40px;
@@ -171,17 +239,25 @@ body{
             height:45px;
             border-radius: 5px;
             width:100%;
+            color:#515151;
+            background: white;
+            border:none;
+            &:focus{
+            border:1px solid #515151
+        }
         }
     }
     button{
         height:55px;
         border-radius: 5px;
         background-color:#F7EDD4;
+        border:none;
+        box-shadow: $shadow;
         width:100%;
         margin-top: 20px;
         font-size: 20px;
         color:#515151;
-        // box-shadow: $shadow;
+        
         &:hover{
             cursor: pointer;
             background-color: #DFB9B0;
@@ -215,9 +291,15 @@ body{
             width:100%;
             height:45px;
             border-radius: 5px;
+            border:none;
+            background: white;
+            &:focus{
+                border:1px solid #515151;
+            }
             option{
                 text-align: center;
                 width:100%;
+                border:none;
             }
         }
     }

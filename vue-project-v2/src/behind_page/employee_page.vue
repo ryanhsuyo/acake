@@ -107,8 +107,9 @@
         <div id="employee">
           <div class="manager_list">
             <div class="manager_img_outline">
-              <img src="" alt="" />
-              <button>修改照片</button>
+              <img src="" alt="" class="employee_image"/>
+              <button @click="clickInput(index, $event)">修改照片</button>
+              <input type="file" style="display:none" class="imageButton" @click="setImage()">
             </div>
             <div class="manager_list_content">
               <div class="manager_details">
@@ -211,6 +212,7 @@ export default {
         create_date: "",
         biulder: "",
       },
+      theIndex:0,
     };
   },
   mounted() {
@@ -224,21 +226,6 @@ const url ='api'
       console.log(res.data);
       this.data = res.data;
     });
-
-
-  //   var xhttp = new XMLHttpRequest();
-  //   xhttp.onreadystatechange = function () {
-  //       if (this.readyState == 4 && this.status == 200) {
-  //   console.log("done");
-  //           }
-  //       }
-  //   xhttp.open("POST","http://tfd103g2.sexfat.tw/join_employee.php", true);
-  //   xhttp.send(JSON.stringify({
-  //       // email:email,
-  //       // password:password,
-  //       number:123,
-  //   }));
-  
   },
   methods: {
     change(index) {
@@ -254,13 +241,7 @@ const url ='api'
       let create_date = this.new_employee.create_date;
       let authority = this.new_employee.authority;
       let data = this.new_employee;
-
-
-
-
     const params = new URLSearchParams();
-
-    
     params.append('number', number);
     params.append('password', password);
     params.append('name', name);
@@ -268,7 +249,6 @@ const url ='api'
     params.append('create_date', create_date);
     params.append('authority', authority);
     params.append('data', data);
-
               // const json = encodeURI(JSON.stringify(data),'utf-8')
                 axios({
                     method: 'post',
@@ -285,10 +265,6 @@ const url ='api'
                     .catch((error) => {
                         console.log(error);
                     })
-
-
-
-
       this.create = 1;
       this.new_employee.number = "";
       this.new_employee.password = "";
@@ -297,6 +273,32 @@ const url ='api'
       this.new_employee.create_date = "";
       this.new_employee.authority = "";
     },
+    clickInput(index,$event){
+      let file=$event.target.nextSibling.nextSibling;
+      this.theIndex = index
+      file.click()
+    },
+    setImage(){
+      let button = document.querySelectorAll("input[type='file']")[this.theIndex];
+      button.onchange=this.pushImage;
+    },
+    pushImage(){
+      
+      let index = this.theIndex;
+      let file = document.querySelectorAll("input[type='file']")[this.theIndex].files[0];
+      let readFile = new FileReader();
+      readFile.readAsDataURL(file);
+      readFile.addEventListener('load',function(){
+        let image = document.getElementsByClassName("employee_image")[index];
+        image.src = readFile.result
+      })
+    }
+  },
+  watch:{
+    theIndex:{function(newValue){
+      // theIndex = newValue
+    },
+    deep:true}
   },
   computed: {
     employee_data() {
@@ -348,6 +350,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     img {
       width: 200px;
       height: 200px;
+      object-fit: cover;
     }
     button {
       position: absolute;

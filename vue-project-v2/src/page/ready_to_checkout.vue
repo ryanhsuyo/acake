@@ -57,8 +57,8 @@
                             <div class="ready_to_checkout_coupon">
                                 <input type="checkbox" name="" class="ready_to_checkout_coupon_click" checked>
                                 <label for="">使用折價卷</label>
-                                <img src="" alt="">
                             </div>
+                            <coupon class="coupon"></coupon>
                         </form>
                     </div>
 
@@ -220,14 +220,14 @@
                                 <div class="bill_payment_block">
                                     <div class="bill_payment_style_block">
                                         <input type="radio" name="payment" id="">信用卡付款/ATM轉帳
-                                        <img src="" alt="">
+                                        <img class="img_30" src="../assets/images/ecpay_icon.png" alt="">
                                     </div>
                                     <div class="bill_payment_style_block">
                                         <input type="radio" name="payment" id="">貨到付款
                                     </div>
                                     <div class="bill_payment_style_block">
                                         <input type="radio" name="payment" id="">LinePay
-                                        <img src="" alt="">
+                                        <img src="../assets/images/linepay_icon.png" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -250,12 +250,14 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
+import coupon from "../components/coupon.vue"
 export default {
     name:'shopping_cart',
     components:{
         titleh1,
         headercom,
         footercom,
+        coupon,
     },
     data(){
         return{
@@ -358,7 +360,7 @@ router-link{
             .shopping_cart_bread_arrow_img{
                 width: 20px;
                 height: 20px;
-                object-fit: cover;
+                object-fit: fill;
                 @media screen and (max-width:767.98px){ 
                     width: 20px;
                     height: 20px;
@@ -450,9 +452,9 @@ router-link{
                             display: flex;
                             .bill_individual_address{
                                 height: 28px;
+                            
                                 max-width: 550px;
                                 width: 100%;
-                                display: block;
                             }
                             .bill_individual_title_short{
                                 display: flex;
@@ -463,6 +465,9 @@ router-link{
                                 height: 28px;
                                 max-width: 150px;
                                 width: 100%;
+                                // &:focus{
+                                //     border: $darkGrey;
+                                // }
                             }
                             .bill_individual_title_long{
                                 max-width: 500px;
@@ -686,6 +691,15 @@ router-link{
                 flex-direction: column;
                 .bill_payment_style_block{
                     margin-bottom: 5px;
+                    display: flex;
+                    .img_30{
+                        width: 30px;
+                        height: 30px;
+                    }
+                    img{
+                        margin-left: 10px;
+                        height: 30px;
+                    }
                 }
             }
         }
@@ -790,12 +804,25 @@ router-link{
     height: 28px;
     max-width: 150px;
     width: 100%;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: $inputShadow;
+    &:focus{
+        border: 1px solid $darkGrey;
+    }
 }
 .bill_individual_address{
-    height: 28px;
+    height: 56px;
     max-width: 550px;
     width: 100%;
     display: block;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: $inputShadow;
+    // align-items: top;
+    &:focus{
+        border: 1px solid $darkGrey;
+    }
 }
 .preset_address,.new_address,.mark{
     display: flex;
@@ -823,14 +850,14 @@ router-link{
     width: 100%;
     display: block;
     resize: none;
-
+    border: 0;
+    border-radius: 5px;
+    box-shadow: $inputShadow;
+    align-items: flex-start;
+    &:focus{
+        border: 1px solid $darkGrey;
+    }
 }
-.bill_individual_mark:hover{
-    border-width: 2px;
-    padding: 1px 2px;
-    border-style: ins-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-}
-
 .bill_details_outline{
     max-width: 1120px;
     width: 40%;
@@ -987,6 +1014,8 @@ justify-content: flex-end;
 }
 .bill_payment_style_block{
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
 }
 .bill_ready_to_checkout_sumbit{
     margin-top: 45px;
@@ -1074,6 +1103,9 @@ font-weight: bold;
     .security_and_privacy{
         max-width: 350px;
         width: 100%;
+    }
+    .coupon{
+        transform: scale(0.8);
     }
 }
 

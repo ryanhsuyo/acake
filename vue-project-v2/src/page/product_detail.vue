@@ -253,6 +253,9 @@ body{
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
+                        @media screen and (max-width:767.98px){ 
+                            margin-bottom: 70px;
+                        }
                         #cake_title{
                             font-size: 36px;
                             // display: flex;
@@ -514,13 +517,12 @@ body{
         flex-direction: column;
         justify-content: space-between;
         max-width: 120px;
-        height: 50px; 
+        height: 100px; 
+        margin-top: 50px;
         align-items: flex-end;
         width: 100%;
         #product_details_combination1_commit{
             margin: 0 auto;
-            // margin-top: 20px;
-            // margin-bottom: 50px;
             background-color: $darkGrey;
             width: 120px;
             height: 40px;
@@ -534,6 +536,10 @@ body{
             border: 0;
             &:hover{
                 color: $lightYellow;
+            }
+            router-link{
+            text-decoration: none;
+            height: 40px;
             }
         }
         #product_details_combination1_buy{
@@ -556,6 +562,7 @@ body{
             }
         router-link{
             text-decoration: none;
+            height: 40px;
         }
 
         }

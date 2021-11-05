@@ -16,23 +16,27 @@
             <form action="" method="post">
                 <div id="member_name">
                     <span>姓名: </span>
-                    <input type="text" name="member_name" class="data-input" v-model="userName">
-                    <span class="data_input_span">{{userName}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userName" class="data-input" v-model="userName" v-show="!edit.userName">
+                    <span class="data_input_span" v-show="edit.userName">{{userName}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userName" @click="edit.userName = !edit.userName">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData($event); resetInputSize()">
                 </div>
                 <div id="member_nickname">
                     <span>暱稱: </span>
-                    <input type="text" name="member_nickname" class="data-input" v-model="userNickname">
-                    <span class="data_input_span">{{userNickname}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userNickname" class="data-input" v-model="userNickname" v-show="!edit.userNickname">
+                    <span class="data_input_span" v-show="edit.userNickname">{{userNickname}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userNickname" @click="edit.userNickname = !edit.userNickname">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData($event); resetInputSize()">
                 </div>
                 <div id="member_birthday">
                     <span>生日: </span>
-                    <input type="text" name="member_birthday_year" class="data-input" v-model="userBirthdayYear">
-                    <input type="text" name="member_birthday_month" class="data-input" v-model="userBirthdayMonth">
-                    <input type="text" name="member_birthday_date" class="data-input" v-model="userBirthdayDate">
-                    <span id="data_input_span">{{userBirthday}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userBirthdayYear" class="data-input  input_combined_three" v-model="userBirthdayYear" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayMonth" class="data-input  input_combined_three" v-model="userBirthdayMonth" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayDate" class="data-input  input_combined_three" v-model="userBirthdayDate" v-show="!edit.userBirthday">
+                    <span class="data_input_span" v-show="edit.userBirthday">{{userBirthday}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userBirthday"
+                    @click="edit.userBirthday = !edit.userBirthday">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userBirthday" @click="edit.userBirthday = !edit.userBirthday; updateDataMultiple($event)">
                 </div>
             </form>
         </section>
@@ -41,27 +45,33 @@
             <form action="" method="post">
                 <div id="member_email">
                     <span>E-mail: </span>
-                    <input type="email" name="member_email" class="data-input" v-model="userEmail">
-                    <span class="data_input_span">{{userEmail}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="email" name="userEmail" class="data-input" v-model="userEmail" v-show="!edit.userEmail">
+                    <span class="data_input_span" v-show="edit.userEmail">{{userEmail}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userEmail" 
+                    @click="edit.userEmail = !edit.userEmail">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData($event); resetInputSize()">
                 </div>
                 <div id="member_address">
                     <span>地址:&nbsp;</span>
-                    <input type="text" name="member_address" class="data-input" v-model="userAddress">
-                    <span class="data_input_span">{{userAddress}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userAddress" class="data-input" v-model="userAddress" v-show="!edit.userAddress">
+                    <span class="data_input_span" v-show="edit.userAddress">{{userAddress}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userAddress" @click="edit.userAddress = !edit.userAddress">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData($event); resetInputSize()">
                 </div>
                 <div id="member_phone">
                     <span>電話:&nbsp;</span>
-                    <input type="text" name="member_phone" class="data-input" v-model="userPhone">
-                    <span class="data_input_span">{{userPhone}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userPhone" class="data-input" v-model="userPhone" v-show="!edit.userPhone">
+                    <span class="data_input_span" v-show="edit.userPhone">{{userPhone}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userPhone"
+                    @click="edit.userPhone = !edit.userPhone">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData($event); resetInputSize()">
                 </div>
                 <div id="member_password">
                     <span>密碼:&nbsp;</span>
-                    <input type="text" name="member_password" class="data-input" v-model="userPassword">
-                    <span class="data_input_span">{{userPassword}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword">
+                    <span class="data_input_span" v-show="edit.userPassword">{{userPassword}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userPassword" @click="edit.userPassword = !edit.userPassword">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData($event); resetInputSize()">
                 </div>
             </form>
         </section>
@@ -259,6 +269,7 @@
     import headercomp from "../components/headercom";
     import footercomp from "../components/footercom";
     import axios from 'axios';
+    import $ from 'jquery';
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -283,10 +294,57 @@
                 userAddress: "台北市中山區南京東路三段219號4-5F",
                 userPhone: "0912234456",
                 userPassword: "******336",
+                //會員資料修改控制
+                edit:{
+                    userName: true,
+                    userNickname: true,
+                    userBirthday: true,
+                    userEmail: true,
+                    userAddress: true,
+                    userPhone: true,
+                    userPassword: true,
+                },
                 // 折價券資料
                 titleDesign: "蛋糕庫設計",
                 titleCoupon: "折價券",
             };
+        },
+        methods: {
+            alterBoolean(val){
+                val = !val;
+            },
+
+            resetInputSize(){
+                $("input.data-input").each(function(){
+                    // console.log($(this).siblings("span.data_input_span").css("width"));
+                    $(this).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
+                    $(this).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
+                    // console.log("/" + $(this).css("width"))
+                 });
+                $("input.data-input.input_combined_three").each(function(){
+                    // console.log(parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                    $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                });
+            },
+
+            updateData($event){
+                let inputValue = $($event.target).siblings("input.data-input")[0].value;
+                let columnName = $($event.target).siblings("input.data-input")[0].name.substring(4).toUpperCase();
+
+                axios.get("../../../../Applications/XAMPP/xamppfiles/htdocs/A_cake/test.php").then(res => console.log(res));
+            },
+
+            updateDataMultiple($event){
+                let inputValue = "";
+                let columnName = "BIRTHDAY";
+                let inputs = $($event.target).siblings("input.data-input");
+                inputs.each(function(index){
+                    inputValue += this.value;
+                    if(index !== inputs.length - 1){
+                        inputValue += "-";
+                    }
+                });
+            },
         },
         computed: {
             userBirthday(){
@@ -295,8 +353,13 @@
         },
         mounted(){
             // axios.get("http://tfd103g2.sexfat.tw/test_echo.php").then(res => console.log(res));
+
+            this.resetInputSize();
+
         },
     }
+// span套用字體後寬度似乎會變，jQuery抓到的是使用預設字體的寬度。
+// 手機版時span標籤會變兩行，input的高度也會被影響
 </script>
 
 
@@ -329,17 +392,33 @@
         color: $darkGrey;
 
         @media (max-width: 575.98px){
+            width: auto;
             margin: 20px auto 30px;
         }
 
         > form{
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr;
 
             @media (max-width: 575.98px){
+                display: flex;
+                justify-content: space-between;
                 flex-direction: column;
                 align-items: center;
                 height: 120px;
+                width: 100vw;
+            }
+
+            #member_name{
+                text-align: left;
+            }
+
+            #member_nickname{
+                text-align: center;
+            }
+
+            #member_birthday{
+                text-align: right;
             }
 
             span{
@@ -350,8 +429,9 @@
                 border: 1px solid #515151;
                 outline: none;
                 font-size: $h4;
+                max-width: 298px;
 
-                display: none;
+                // display: none;
             }
 
             img{
@@ -409,8 +489,9 @@
                     border: 1px solid #515151;
                     outline: none;
                     font-size: $h4;
+                    max-width: 298px;
 
-                    display: none;
+                    // display: none;
                 }
 
             }
@@ -423,7 +504,7 @@
         text-align: center;
         padding: 0 40px;
 
-        @media (max-width: 575.98px){
+        @media (max-width: 1198.98px){
             padding: 0;
         }
 
@@ -434,19 +515,27 @@
 
         #cake_design_cards{
             text-align: left;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-auto-rows: auto;
+
+            @media (min-width: 1200px){
+                grid-column-gap: 35px;
+            }            
 
             @media (max-width: 1199.98px){
+                display: flex;
+                justify-content: space-between;
                 width: 100vw;
-                overflow-y: scroll;
-                padding: 0 30px 10px;
+                overflow-x: scroll;
+                padding: 0 0 10px;
+                justify-content: flex-start;
             }
 
             .card_outline{
                 box-shadow: $shadow;
 
-                @media (max-width: 575.98px){
+                @media (max-width: 1199.98px){
                     margin: 0 17.5px;
                 }
 
@@ -529,7 +618,7 @@
 
         #view_all_design_area{
 
-            @media (max-width: 575.98px){
+            @media (max-width: 1198.98px){
                 height: 75px;
             }
 
@@ -550,7 +639,7 @@
                     color: $darkGrey;
                 }
 
-                @media (max-width: 575.98px){
+                @media (max-width: 1198.98px){
                     display: none;
                 }
                 

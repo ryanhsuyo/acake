@@ -331,7 +331,7 @@
                 let inputValue = $($event.target).siblings("input.data-input")[0].value;
                 let columnName = $($event.target).siblings("input.data-input")[0].name.substring(4).toUpperCase();
 
-                axios.get("../../../../Applications/XAMPP/xamppfiles/htdocs/A_cake/test.php").then(res => console.log(res));
+                // axios.get("http:/localhost/static").then(res => console.log(res));
             },
 
             updateDataMultiple($event){

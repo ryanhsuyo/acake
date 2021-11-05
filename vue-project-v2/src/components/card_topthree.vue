@@ -1,6 +1,6 @@
 <template>
   <div class="vote_topthree">
-    <img src="" alt="" class="topthree_hat" />
+    <img src="../assets/images/chefHatNo2.png" alt="" class="topthree_hat" />
     <img src="../assets/images/cho_cake.jpg" alt="" class="pic_cake" />
     <div>
       <h1>巧克力蛋糕</h1>

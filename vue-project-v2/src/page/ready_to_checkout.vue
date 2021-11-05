@@ -321,6 +321,7 @@ router-link{
     // 購物車麵包屑
     .shopping_cart_bread{
         width: 70%;
+        max-width: 1120px;
         justify-content: space-around;
         display: flex;
         margin: 0 auto;
@@ -343,6 +344,10 @@ router-link{
             @media screen and (max-width:767.98px){ 
                 font-size: $h4;
             }
+        }
+        .shopping_cart_page,.checkout_page{
+            color: $darkGrey;
+            opacity: .2;
         }
         .shopping_cart_bread_arrow{
             width: 100%;

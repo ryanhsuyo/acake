@@ -1,5 +1,8 @@
 <template>
-  <div id="treat">
+<div>
+  <button id="open_selector" :class="{'close':openSelector}" @click="[overflow(),openSelector=true]">篩選器</button>
+
+  <div id="treat" :class="{'open':openSelector}">
     <div id="select_ingredients">
       <div id="select_outline">
         <div class="select">
@@ -58,10 +61,11 @@
           :for="choose"
           ><span>{{ choose }} <font-awesome-icon icon="fa-solid fa-xmark" /></span></label>
       </div>
-      <button class="clearall" id='send'>確認送出</button>
-      <button class="clearall" id='clear'>清空選項</button>
+      <button class="clearall" id='send' @click="overflowReverse()">確認送出</button>
+      <button class="clearall" id='clear' @click="choose_total=[]">清空選項</button>
     </div>
   </div>
+</div>
 </template>
 <script>
 import $ from "jquery";
@@ -71,8 +75,19 @@ export default {
   data() {
     return {
       choose_total: [],
+      openSelector:false,
     };
   },
+  methods:{
+    overflow(){
+                document.querySelector('body').style.overflow='hidden'
+      },
+    overflowReverse(){
+      document.querySelector('body').style.overflow='auto';
+      this.openSelector=false
+
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -161,6 +176,7 @@ right: 40px;
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
   width:100%;
+  gap:5px 0;
 }
 .checkbox {
   display: flex;
@@ -178,8 +194,46 @@ right: 40px;
   .select{
     flex-direction: column;
   }
+  .header{
+    z-index:998;
+  }
   #treat{
     padding:90px 60px 40px 60px;
+    height:100%;
+    width:100%;
+    position:fixed;
+    border-radius:0;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index:99999;
+    display:none;
   }
+  #treat.open{
+    display:inline-block;
+  }
+}
+@media (max-width:576px){
+    #open_selector{
+    width:400px;
+    max-width:100%;
+    position:relative;
+    transform: translate(-50%);
+    left:50%;
+    height:50px;
+    border-radius:100px;
+    font-size:24px;
+    color:#515151;
+    box-shadow: 4px 4px 5px 0 rgba(0,0,0,.3);
+    border:none;
+    background: #f7edd4;
+    cursor: pointer;
+    &:active{
+        box-shadow: inset 4px 4px 5px 0 rgba(0,0,0,.3);
+    }
+}
+#open_selector.close{
+    display:none;
+}
 }
 </style>

@@ -28,7 +28,7 @@
         <div class="text_outline">
           <div class="forPosition open">
             <span>
-              <span class="switch_button" @click="change(index)">
+              <span class="switch_button" @click="change(index);opened_index = index">
                 <label for="" style="margin-right: 10px" >狀態</label>
                 <div class="switch" id="outline" :class="{ '-on': status.status }"><!--按鈕開關-->
                   <span
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      opened_index:null,
       confirmCase: 0,
       switchCase: 1,
     };
@@ -97,7 +98,7 @@ export default {
         if(this.member_data[index].status == 0){
           this.confirmCase = 1;
         };
-          return index;
+        this.opened_index = index;
     },
   },
   mounted() {

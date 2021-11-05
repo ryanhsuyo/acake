@@ -10,17 +10,17 @@
                     <!-- RWD漢堡選單 才會出現的背景圖 -->
                     <img id="hamburger_img" src="../assets/images/snowRWD.svg" alt="">
                     <!-- RWD漢堡選單 才會出現的背景圖 -->   
-                    <li class="nav_item">
-                        <router-link to="/cakeDesign" id="cakeDesign">蛋糕設計</router-link>
+                    <li class="nav_item" >
+                        <router-link to="/cakeDesign" id="cakeDesign"  class="headerIcon" :class="{'open':openWhat == 'cakeDesign'}" >蛋糕設計</router-link>
                     </li>
-                    <li class="nav_item">
-                        <router-link to="/vote" id="vote">人氣票選</router-link>
+                    <li class="nav_item" >
+                        <router-link to="/vote" id="vote" class="headerIcon" :class="{'open':openWhat == 'vote'}">人氣票選</router-link>
                     </li>
-                    <li class="nav_item">
-                        <router-link to="/product" id="product">商城</router-link>
+                    <li class="nav_item" >
+                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}">商城</router-link>
                     </li>
-                    <li class="nav_item">
-                        <router-link to="/qa" id="qa">QA</router-link>
+                    <li class="nav_item" >
+                        <router-link to="/qa" id="qa"  class="headerIcon" :class="{'open':openWhat == 'qa'}">QA</router-link>
                     </li>
                 </div>
 
@@ -47,15 +47,25 @@
 import $ from 'jquery'
 export default {
     name:"headercom",
+    props:['openWhat'],
     methods: {
         isShow(){
              $('#header_nav').toggleClass('show');
              $(".nav_item").css({"margin":20,});
-        }
+        },
+        // openHeader(e){
+        //     e.preventDefault();
+        //     let header = document.querySelectorAll(".headerIcon");
+        //     for(let i = 0;i<header.length;i++){
+        //         header[i].classList.remove("on")
+        //     }
+            
+        //     e.target.classList.add("on");
+        //     console.log(e.target);
+        // }
     },
     mounted() {
         // header陰影
-        console.log(window);
 
         $(document).ready(function(){
             $(window).bind('scroll',function(){
@@ -86,6 +96,7 @@ export default {
 </script>
 <style scoped lang="scss">
     @import "../assets/style/var.scss";
+    
     // *{
     //  box-sizing: border-box;
     //  list-style-type: none;
@@ -153,6 +164,9 @@ export default {
                                 color: #9F746B;
                                 cursor: pointer;
                             }
+                        }
+                        a.open{
+                            color:#9F746B
                         }
                     }
                 }

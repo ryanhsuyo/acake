@@ -9,9 +9,9 @@
             <div class="voting_area">
                 <div class="voting_num">
                     <span class="heart_icon"></span>
-                    <span class="num">310</span>
+                    <span class="num">{{vote}}</span>
                 </div>
-                <button class="voting">
+                <button class="voting" @click="[choose=choose?0:1,votePlus()]" :class="{'check':choose}">
                     投票
                     <span></span>
                 </button>
@@ -22,6 +22,21 @@
 <script>
 export default {
     name:"card_voting",
+    data(){
+        return{
+            choose:0,
+            vote:310,
+        }
+    },
+    methods:{
+        votePlus(){
+            if(this.choose == 0){
+                this.vote++
+            }else{
+                this.vote--
+            }
+        }
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -96,11 +111,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
                 &:hover{
                     background-color: #F4E9C9;
                 }
-                &:active{
-                    span{
-                        background-image: url('../assets/images/favorites_icon_h_1.svg');
-                    }
-                }
+                
                 span{
                     @extend %heart_icon;
                     position: absolute;
@@ -108,6 +119,10 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
                     top: 30px;
                     transform: translateY(-50%);
                 }
+            }
+            .voting.check{
+                box-shadow: inset $shadow;
+                background: #F4E9C9;
             }
         }
     }

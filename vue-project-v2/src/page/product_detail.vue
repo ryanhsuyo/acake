@@ -2,11 +2,23 @@
     <div>
         <headercom></headercom>
         <main id="product_details">
+            <section class="shopping_cart_bread">
+                <span class="shopping_cart_page">主廚蛋糕</span>
+                <div class="shopping_cart_bread_arrow">
+                    <img class="shopping_cart_bread_arrow_img" src="../assets/images/process_icon.svg" alt="">
+                </div>
+                <span class="prepare_checkout_page">巧克力蛋糕</span>
+                <!-- <div class="shopping_cart_bread_arrow">
+                    <img class="shopping_cart_bread_arrow_img" src="../assets/images/process_icon.svg" alt="">
+                </div>
+                <span class="checkout_page">結帳完成</span> -->
+            </section>
+
             <section id="product_details_combination1">
                 <div id="cake_information"> 
                     <div id="cake_img_outline"> 
                         <img class="cake_img" src="../assets/images/cho_cake.jpg" alt="">
-                        <img id="change_cake" src="../assets/images/cho_cake.jpg" alt="">
+                        <!-- <img id="change_cake" src="../assets/images/cho_cake.jpg" alt=""> -->
                     </div>
                     <div id="cake_details">
                         <div class="cake_titlebar_content">
@@ -14,9 +26,20 @@
                                 <div id="cake_title">巧克力蛋糕
                                     <img class="cake_detail_img" src="../assets/images/love_icon.svg" alt="">
                                 </div>
-                                <div id="cake_clear">
-                                    <button id="">清空選項</button>
+                                <div class="product_details_combination1_button">
+                                    <!-- <router-link to="shopping_cart"> -->
+                                        <button id="product_details_combination1_commit">加入購物車</button>
+                                    <!-- </router-link> -->
+                                    <router-link to="shopping_cart">
+
+                                        <button id="product_details_combination1_buy" @click="open">直接購買</button>
+                                    </router-link>
+                                        <!-- <div class="productDetailAddenda_block ㄌ">
+                                            <productDetailAddenda></productDetailAddenda>
+                                        </div> -->
                                 </div>
+
+
                             </div>
                             <div id="cake_content">文字文字文字文字文字文字文字文文字文字
                                 文字文字文字文字文字文字文字文文字文字文字文字文字文字文字
@@ -42,190 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="addenda_titlebar">
-                    <div class="addenda_title">包裝
-                        <div class="addenda_cancel_icon">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                    
-                    <div class="addenda_detail_item">
-                        <div id="addenda_detail">
-                            <div class="addenda_img">
-                                <img src="../assets/images/cho_cake.jpg" alt="">   
-                            </div>
-                            <div class="addenda_describe">這只是一班包裝</div>
-                        </div>
-                        <div class="addenda_detail_outline">
-                            <div class="addenda_amount">
-                                <label for="">
-                                    <select>
-                                        <option>普通包裝</option>
-                                        <option>特殊包裝</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="addenda_twandprice">
-                                
-                                <div class="addenda_price_tw">NT$</div>
-                                <div class="addenda_price">0</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="addenda_block">
-                    <div class="addenda_titlebar">
-                        <div class="addenda_title">卡片
-                            <div class="addenda_cancel_icon">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-                        
-                        <div class="addenda_detail_item">
-                            <div id="addenda_detail">
-                                <div class="addenda_img">
-                                    <img src="../assets/images/cho_cake.jpg" alt="">   
-                                </div>
-                                <div class="addenda_describe">
-                                    這只是一班的卡片卡片卡片卡片
-                                </div>
-                            </div>
-                            <div class="addenda_detail_outline">
-                                <div class="addenda_amount">
-                                    <label for="">
-                                        <select>
-                                            <option>一般卡片</option>
-                                            <option>情人節卡片</option>
-                                        </select>
-                                    </label>
-                                </div>
-                                <div class="addenda_twandprice">
-                                    
-                                    <div class="addenda_price_tw">NT$</div>
-                                    <div class="addenda_price">0</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="addenda_titlebar">
-                        <div class="addenda_title">蠟燭
-                            <div class="addenda_cancel_icon">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-                        
-                        <div class="addenda_detail_item">
-                            <div id="addenda_detail">
-                                <div class="addenda_img">
-                                    <img src="../assets/images/cho_cake.jpg" alt="">   
-                                </div>
-                                <div class="addenda_describe">一根小蠟燭一根小蠟燭一根小蠟燭一根小蠟燭一根小蠟燭</div>
-                            </div>
-                            <div class="addenda_detail_outline">
-                                <div class="addenda_amount">
-                                    <label for="">
-                                        <select>
-                                            <option>一根蠟燭</option>
-                                            <option>造型蠟燭:數字0</option>
-                                        </select>
-                                    </label>
-                                </div>
-                                <div class="addenda_twandprice">
-                                    <div class="addenda_price_tw">NT$</div>
-                                    <div class="addenda_price">0</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="addnew_product_hr"></span>
-                    <div class="new_addenda_titlebar">
-                        <div class="new_addenda">
-                            <div class="new_addenda_title">新增加購</div>
-                            <img src="../assets/images/cho_cake.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <button id="product_details_combination1_commit">確認</button>
-            </section>
-            <section id="product_details_combination2">
-                <div class="new_combination">
-                    <div class="new_combination_title">新增組合</div>
-                    <img src="../assets/images/cho_cake.jpg" alt="">
-                </div>
-            </section>
-            <section id="product_details_combination3">
-                <div id="combination3_contentoutline">
-                    <div id="product_details_total">
-                        <div id="combination_titlebar">
-                            <div id="combination_title">組合一</div>
-                        </div>
-                        <div class="combination_contentbar">
-                            <div class="product_contentbar">
-                                <div class="product">巧克力蛋糕巧克力蛋糕</div>
-                                <div class="product_priceandamount">
-                                    <div class="proudct_amount_x">X</div>
-                                    <div class="proudct_amount_number">1</div>
-                                </div>
-                            </div>
-                            <div class="product_twandprice">
-                                <div class="product_price_tw">NT$</div>
-                                <div class="product_price">500</div>
-                            </div>
-                        </div>
-                        <div class="combination_contentbar">
-                            <div class="product_contentbar">
-                                <div class="product">卡片普通</div>
-                                    <div class="product_priceandamount">
-                                        <div class="proudct_amount_x">X</div>
-                                        <div class="proudct_amount_number">1</div>
-                                    </div>
-                            </div>
-                            <div class="product_twandprice">
-                                <div class="product_price_tw">NT$</div>
-                                <div class="product_price">0</div>
-                            </div>
-                        </div>
-                        <div class="combination_contentbar">
-                            <div class="product_contentbar">
-                                <div class="product">普通蠟燭</div>
-                                    <div class="product_priceandamount">
-                                        <div class="proudct_amount_x">X</div>
-                                        <div class="proudct_amount_number">1</div>
-                                    </div>
-                            </div>
-                            <div class="product_twandprice">
-                                <div class="product_price_tw">NT$</div>
-                                <div class="product_price">0</div>
-                            </div>
-                        </div>
-                        <span class="addnew_product_hr2"></span>
-                        <div class="combination_contentbar">
-                            <div class="product_contentbar">
-                                <div class="product product_speical_fontsize">小計</div>
-                                    <div class="product_priceandamount">
-                                        <div class="proudct_amount_x"></div>
-                                        <div class="proudct_amount_number"></div>
-                                    </div>
-                            </div>
-                            <div class="product_twandprice">
-                                <div class="product_price_tw">NT$</div>
-                                <div class="product_price product_speical_color">500</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="product_logo_img">
-                    <img src="../assets/images/cho_cake.jpg" alt="">
-                </div>
-            </section>
-            <section id="product_details_combination4">
-                <router-link id="product_details_combination_router" to="shopping_cart">
-                    <button id="product_details_combination_checkout">
-                        <div class="product_details_combination_checkout_text">
-                            前往購物車$610
-                        </div>
-                    </button>
-                </router-link>
+                
             </section>
         </main>
         <footercom></footercom>
@@ -237,12 +77,15 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
+// import productDetailAddenda from "../components/productDetailAddenda"
+
 export default {
     name:'product_detail',
     components:{
         titleh1,
         headercom,
         footercom,
+        // productDetailAddenda,
     },
     data(){
         return{
@@ -257,8 +100,9 @@ export default {
             if(this.counter > 1){
                 (this.counter -= 1);
             }
-
-            
+        },
+        open(){
+            true;
         },
     },
     watch:{
@@ -283,6 +127,56 @@ export default {
 body{
     background-color: $bg;
 }
+// 購物車麵包屑
+.shopping_cart_bread{
+    width: 95%;
+    max-width: 950px;
+    justify-content: flex-start;
+    display: flex;
+    font-size: $h4;
+    margin-top: 120px;
+    // margin-bottom: 50px;
+    @media screen and (max-width:767.98px){ 
+        display: flex;
+        margin-top: 120px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        height: 120px;
+    }
+    .shopping_cart_page,.prepare_checkout_page,.checkout_page{
+        font-size: $p;
+        max-width: 80px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @media screen and (max-width:767.98px){ 
+            font-size: $h4;
+            max-width: 100px;
+            width: 100%;
+        }
+    }
+    .shopping_cart_bread_arrow{
+        width: 100%;
+        max-width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .shopping_cart_bread_arrow_img{
+            width: 16px;
+            height: 16px;
+            object-fit: fill;
+            @media screen and (max-width:767.98px){ 
+                width: 16px;
+                height: 16px;
+                object-fit: fill;
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
+     // 購物車麵包屑結束
 #product_details{
     background-color: $lightPike;
     box-sizing: border-box;
@@ -294,13 +188,18 @@ body{
         max-width: 1120px;
         width:100%;
         margin: 0 auto;
-        margin-top: 150px;
+        margin-top: 30px;
+        margin-bottom: 100px;
         background-color: $palePike;
+        @media screen and (max-width:767.98px){ 
+            
+            margin-bottom: 50px;
+        }
         #cake_information{
             margin: 0 auto;
             margin-top: 100px;
             margin-bottom: 100px;
-            max-width: 900px;
+            max-width: 950px;
             width: 95%;
             display: flex;
             justify-content: space-between;
@@ -310,27 +209,29 @@ body{
                 max-width: 768px;
                 width: 100%;
                 align-items: center;
+                margin-top: 50px;
+                margin-bottom: 50px;
             }
             #cake_img_outline{
                 width: 350px;
                 height: 380px;
-                position: relative;
-                margin-right: 20px;
+                // position: relative;
+                // margin-right: 20px;
                 z-index: 1;
                 .cake_img{
                     width: 350px;
                     height: 380px;
                 }
-                #change_cake{
-                    width: 100px;
-                    height: 100px;
-                    left: 250px;
-                    top: 280px;
-                    z-index: 5;
-                    position: absolute;
-                    box-shadow: $shadow;
-                    cursor: pointer;
-                }
+                // #change_cake{
+                //     width: 100px;
+                //     height: 100px;
+                //     left: 250px;
+                //     top: 280px;
+                //     z-index: 5;
+                //     // position: absolute;
+                //     box-shadow: $shadow;
+                //     cursor: pointer;
+                // }
             }
             #cake_details{
                 max-width: 470px;
@@ -364,22 +265,22 @@ body{
                                 cursor: pointer;
                             }       
                         }
-                        #cake_clear{
-                            width: 100px;
-                            height: 40px;
-                            align-items: center;
-                            button{
-                                display: inline-block;
-                                width: 100px;
-                                height: 40px;
-                                font-size: 20px;
-                                border: 2px solid $darkGrey;
-                                background-color: $palePike;
-                                border-radius: 10px;
-                                box-shadow: $shadow;
-                                cursor: pointer;
-                            }
-                        }
+                        // #cake_clear{
+                        //     width: 100px;
+                        //     height: 40px;
+                        //     align-items: center;
+                        //     button{
+                        //         display: inline-block;
+                        //         width: 100px;
+                        //         height: 40px;
+                        //         font-size: 20px;
+                        //         border: 2px solid $darkGrey;
+                        //         background-color: $palePike;
+                        //         border-radius: 10px;
+                        //         box-shadow: $shadow;
+                        //         cursor: pointer;
+                        //     }
+                        // }
                     }
                     #cake_content{
                     max-width: 470px;
@@ -608,274 +509,65 @@ body{
                 }
             }
         }
-    #product_details_combination1_commit{
-        margin: 0 auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        background-color: $darkGrey;
-        width: 120px;
-        height: 40px;
-        font-size: 20px;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border-radius: 5px;
-        border: 0;
-        &:hover{
-            color: $lightYellow;
-        }
-    }
-    #product_details_combination2{
-        cursor: pointer;
-        width: 100%;
-        max-width: 1120px;
-        margin: 0 auto;
-        margin-top: 30px;
-        margin-bottom: 30px;
+    .product_details_combination1_button{
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        height: 150px;
-        background-color: #EBDCD8;
-        .new_combination{
-            max-width: 1120px;
-            width: 93.5%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            @media screen and (max-width:767.98px){ 
-                width: 90%;
-            }
-            .new_combination_title{
-                // margin-left: 60px;
-                font-size: $h2;
-            }
-            img{
-                width: 40px;
-                height: 40px;
-            }
-        }
-    }
-    #product_details_combination3{
-        margin: 0 auto;
-        width: 100%;
-        max-width: 1120px;
-        height: 350px;
-        background-color: #EBDCD8;
-        display: flex;
         justify-content: space-between;
-        @media screen and (max-width:767.98px){ 
-            display: flex;
-            max-width: 700px;
-            width: 100%;
-            height: 450px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-        }
-        #combination3_contentoutline{
-        max-width: 760px;
+        max-width: 120px;
+        height: 50px; 
+        align-items: flex-end;
         width: 100%;
-            @media screen and (max-width:767.98px){ 
-                height: 500px;
-            }
-            #product_details_total{
-                width: 90%; 
-                max-width: 700px;
-                height: 250px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                margin: 0 auto;
-                margin-top: 50px;
-                @media screen and (max-width:767.98px){ 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                }
-                #combination_titlebar{
-                    margin-bottom: 40px;
-                    #combination_title{
-                        font-size: $h2;
-                        max-width: 470px;
-                        width: 100%;
-                        @media screecombination_titlen and (max-width:767.98px){ 
-                            margin-top: 50px;
-                        }   
-                    }
-                }
-                .combination_contentbar{
-                    max-width: 700px;
-                    display: flex;
-                    justify-content: space-between;
-                    width: 100%;
-                    font-size: $h4;
-                    @media screen and (max-width:767.98px){ 
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                    }
-                    .product_contentbar{
-                        display: flex;
-                        justify-content: space-between;
-                        max-width: 315px;
-                        width: 100%;
-                        align-items: center;
-                        @media screen and (max-width:767.98px){ 
-                            display: flex;
-                            max-width: 470px;
-                            width: 90%;
-                            justify-content: flex-start;
-                        }
-                        // 另外設的scss是正確的
-                        .product_speical_fontsize{
-                            font-size: $h3;
-                        }
-                        .product{
-                            display: flex;
-                            max-width: 280px;
-                            width: 100%;
-                            font-size: $h4;
-                            @media screen and (max-width:767.98px){ 
-                                display: flex;
-                                justify-content: left;
-                            }       
-                        }
-                        .product_priceandamount{
-                            display: flex;
-                            justify-content: space-between;
-                            max-width: 50px;
-                            width: 100%;
-                            .proudct_amount_x{
-                                max-width: 20px;
-                                width: 100%;
-                                display: flex;
-                                justify-content: center;
-                            }
-                            .proudct_amount_number{
-                                display: flex;
-                                margin-left: 5px;
-                                width: 100%;
-                                max-width: 30px;
-                            }
-                        }
-                    }
-                    .product_twandprice{
-                        display: flex;
-                        justify-content: space-between;
-                        max-width: 150px;
-                        width: 100%;
-                        @media screen and (max-width:767.98px){ 
-                            display: flex;
-                            justify-content: right;
-                            width: 100%;
-                            max-width: 500px;
-                        }
-                        .product_price_tw{
-                            display: flex;
-                            justify-content: space-between;
-                            max-width: 50px;
-                            width: 100%;
-                        }
-                        .product_price{
-                            margin-left: 5px;
-                            margin-right: 5px;
-                            display: inline-block;
-                            max-width: 100px;
-                            width: 100%;
-                            text-align: right;
-                        }
-                        // 另外設的SCSS正確的
-                        .product_speical_color{
-                            color: #9F746B;
-                            font-size: $h4;
-                        }
-                    }
-                }
-                .addnew_product_hr2{
-                    max-width: 700px;
-                    margin: 0 auto;
-                    border-top: 1px solid $darkGrey;
-                    width: 100%;
-                    display: block;
-                    margin-top: 25px;
-                    margin-bottom: 25px;
-                    @media screen and (max-width:767.98px){ 
-                        max-width: 768px;
-                        margin: 0 auto;
-                        width: 100%;
-                        display: block;
-                        margin-top: 25px;
-                        margin-bottom: 25px;
-                    }
-                }
-            }
-        }
-        #product_logo_img{
-        max-width: 360px;
-        width: 70%;
-        position: relative;
-            @media screen and (max-width:767.98px){ 
-                display: none;
-            }
-            img{
-                width: 250px;
-                position: absolute;
-                top: 0;             
-                bottom: 0;           
-                left: 0;        
-                right: 0;
-                margin: auto;  
-                height: 190px;
-            }
-        }
-    }
-    #product_details_combination4{
-        max-width: 1120px;
-        width: 90%;
-        display: flex;
-        justify-content: space-between;
-        margin: 0 auto;
-        margin-top: 100px;
-        margin-bottom: 100px;
-        border: 0;
-        #product_details_combination_router{
+        #product_details_combination1_commit{
+            margin: 0 auto;
+            // margin-top: 20px;
+            // margin-bottom: 50px;
+            background-color: $darkGrey;
+            width: 120px;
+            height: 40px;
+            font-size: 20px;
+            color: white;
             display: flex;
+            align-items: center;
             justify-content: center;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 0;
+            &:hover{
+                color: $lightYellow;
+            }
+        }
+        #product_details_combination1_buy{
+            margin: 0 auto;
+            margin-top: 20px;
+            // margin-bottom: 50px;
+            background-color: $darkGrey;
+            width: 120px;
+            height: 40px;
+            font-size: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 0;
+            &:hover{
+                color: $lightYellow;
+            }
+        router-link{
             text-decoration: none;
-            width: 100%;
-            #product_details_combination_checkout{
-                background-color: #F7EDD4;
-                // max-width: 1120px;
-                width: 100%;
-                height: 70px;
-                font-size: 24px;
-                border: 0;
-                border-radius: 5px;
-                box-shadow: $shadow;
-                color: $darkGrey;
-                cursor: pointer;
-                &:hover{
-                    color: #9F746B;
-                }
-                .product_details_combination_checkout_text{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    max-width: 1120px;
-                    width: 100%;
-                }
-            }
+        }
+
         }
     }
 }
 
 
-
+.productDetailAddenda_block{
+    display: none;
+    max-width: 1120px;
+    width: 100%;
+}
 
 
 

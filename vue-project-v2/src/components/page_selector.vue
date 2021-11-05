@@ -1,18 +1,17 @@
 <template>
 	<ul class="page_select">
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-angles-left" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-angle-left" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-1" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-2" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-3" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-4" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-5" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-angle-right" class="number" /></a></li>
-        <li><a href="#"><font-awesome-icon icon="fa-solid fa-angles-right" class="number" /></a></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-angles-left" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-angle-left" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-1" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-2" class="number" /><font-awesome-icon icon="fa-solid fa-2" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-3" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-4" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-5" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-angle-right" class="number" /></span></li>
+        <li><span><font-awesome-icon icon="fa-solid fa-angles-right" class="number" /></span></li>
     </ul>
 </template>
 <script>
-import $ from 'jquery'
 export default {
   name:"page_selector",
   props:["title"],
@@ -30,9 +29,10 @@ export default {
     justify-content: center;
     align-items: center;
     width:100%;
+    padding:0;
     li{
         margin:0 8px;
-        a{  
+        span{  
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,6 +43,7 @@ export default {
             color:#515151;
             background-color: white;
             border-radius: 50%;
+            cursor: pointer;
             &:hover{
                 background-color: black;
                 color:white;
@@ -55,6 +56,16 @@ export default {
         justify-content: space-between;
         li{
             margin:auto;
+        }
+    }
+}
+@media (max-width:414px){
+    .page_select{
+        li{
+            span{
+                width:30px;
+                height:30px;
+            }
         }
     }
 }

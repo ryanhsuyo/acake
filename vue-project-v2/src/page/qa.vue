@@ -1,6 +1,6 @@
 <template>
     <div>
-        <headercom></headercom>
+        <headercom openWhat="qa"></headercom>
         <div id="main-bar-img300"></div>
         <main class="shopping_cart_main">
             <titleh1 class="titleh1rwd" title="QA問答"></titleh1>

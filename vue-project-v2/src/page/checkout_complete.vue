@@ -119,6 +119,7 @@ body{
         justify-content: space-around;
         display: flex;
         margin: 0 auto;
+        max-width: 1120px;
         font-size: $h1;
         margin-top: 200px;
         margin-bottom: 50px;
@@ -138,6 +139,10 @@ body{
             @media screen and (max-width:767.98px){ 
                 font-size: $h4;
             }
+        }
+        .shopping_cart_page,.prepare_checkout_page{
+            color: $darkGrey;
+            opacity: .2;
         }
         .shopping_cart_bread_arrow{
             width: 100%;

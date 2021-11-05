@@ -10,7 +10,9 @@
                 </div>
                 <img class="subtitle" src="../assets/images/subtitle.png" alt="">
                 <div class="first_screen_button">
-                    <buttontest title=" 前往設計"></buttontest>
+                    <router-link to="/cakeDesign" id="cakeDesign">
+                        <buttontest title=" 前往設計"></buttontest>
+                    </router-link>
                 </div>
                 <img class="background_img" src="../assets/images/background_img130.png" alt="">
             </div>

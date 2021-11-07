@@ -19,14 +19,14 @@
                     <input type="text" name="userName" class="data-input" v-model="userName" v-show="!edit.userName">
                     <span class="data_input_span" v-show="edit.userName">{{userName}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userName" @click="edit.userName = !edit.userName">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_nickname">
                     <span>暱稱: </span>
                     <input type="text" name="userNickname" class="data-input" v-model="userNickname" v-show="!edit.userNickname">
                     <span class="data_input_span" v-show="edit.userNickname">{{userNickname}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userNickname" @click="edit.userNickname = !edit.userNickname">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_birthday">
                     <span>生日: </span>
@@ -36,7 +36,7 @@
                     <span class="data_input_span" v-show="edit.userBirthday">{{userBirthday}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userBirthday"
                     @click="edit.userBirthday = !edit.userBirthday">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userBirthday" @click="edit.userBirthday = !edit.userBirthday; updateDataMultiple($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userBirthday" @click="edit.userBirthday = !edit.userBirthday; updateData()">
                 </div>
             </form>
         </section>
@@ -49,14 +49,14 @@
                     <span class="data_input_span" v-show="edit.userEmail">{{userEmail}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userEmail" 
                     @click="edit.userEmail = !edit.userEmail">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_address">
                     <span>地址:&nbsp;</span>
                     <input type="text" name="userAddress" class="data-input" v-model="userAddress" v-show="!edit.userAddress">
                     <span class="data_input_span" v-show="edit.userAddress">{{userAddress}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userAddress" @click="edit.userAddress = !edit.userAddress">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_phone">
                     <span>電話:&nbsp;</span>
@@ -64,14 +64,14 @@
                     <span class="data_input_span" v-show="edit.userPhone">{{userPhone}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPhone"
                     @click="edit.userPhone = !edit.userPhone">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_password">
                     <span>密碼:&nbsp;</span>
                     <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword">
                     <span class="data_input_span" v-show="edit.userPassword">{{userPassword}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPassword" @click="edit.userPassword = !edit.userPassword">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData($event); resetInputSize()">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData(); resetInputSize($event)">
                 </div>
             </form>
         </section>
@@ -270,6 +270,7 @@
     import footercomp from "../components/footercom";
     import axios from 'axios';
     import $ from 'jquery';
+    import qs from "qs";
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -283,18 +284,20 @@
         },
         data(){
             return{
+                memberId: 1,    // 測試用暫時性資料
+
                 page: "data",
                 // 會員資料
                 userName: "王大涵",
                 userNickname: "王小涵",
-                userBirthdayYear: "88",
+                userBirthdayYear: "1999",
                 userBirthdayMonth: "06",
-                userBirthdayDate: "12",
+                userBirthdayDate: "21",
                 userEmail: "mmm@gmail.com",
                 userAddress: "台北市中山區南京東路三段219號4-5F",
                 userPhone: "0912234456",
                 userPassword: "******336",
-                //會員資料修改控制
+                // 會員資料修改控制
                 edit:{
                     userName: true,
                     userNickname: true,
@@ -310,11 +313,20 @@
             };
         },
         methods: {
-            alterBoolean(val){
+            switchBoolean(val){
                 val = !val;
             },
 
-            resetInputSize(){
+            resetInputSize($event){
+
+                // 被點擊時呼叫
+                if($event){
+                    $($event.target).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
+                    $($event.target).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
+                    return null;
+                }
+
+                // mounted時呼叫
                 $("input.data-input").each(function(){
                     // console.log($(this).siblings("span.data_input_span").css("width"));
                     $(this).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
@@ -327,24 +339,46 @@
                 });
             },
 
-            updateData($event){
-                let inputValue = $($event.target).siblings("input.data-input")[0].value;
-                let columnName = $($event.target).siblings("input.data-input")[0].name.substring(4).toUpperCase();
+            updateData(){
 
-                // axios.get("http:/localhost/static").then(res => console.log(res));
-            },
+                // 第一種拼資料的寫法：
+                // let params = new URLSearchParams();
+                // params.append('memberId', this.memberId );
+                // params.append('inputValue', inputValue );
+                // 第二種拼資料的寫法：
+                // const params = {
+                //     memberId: this.memberId,
+                //     // columnName: columnName,
+                //     inputValue: inputValue,
+                // };
 
-            updateDataMultiple($event){
-                let inputValue = "";
-                let columnName = "BIRTHDAY";
-                let inputs = $($event.target).siblings("input.data-input");
-                inputs.each(function(index){
-                    inputValue += this.value;
-                    if(index !== inputs.length - 1){
-                        inputValue += "-";
+                // 先拼好生日的資料再送出
+                let birthday = "";
+                let birthdayInputs = $("div#member_birthday").find("input.data-input");
+                birthdayInputs.each(function(index){
+                    birthday += this.value;
+                    if(index !== birthdayInputs.length - 1){
+                        birthday += "-";
                     }
                 });
+                console.log(birthday);
+
+                let inputValues = {
+                    name: this.userName,
+                    nickname: this.userNickname,
+                    birthday: birthday,
+                    email: this.userEmail,
+                    address: this.userAddress,
+                    phone: this.userPhone,
+                    password: this.userPassword,
+                    memberId: this.memberId,
+                };
+
+                axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
+                    .then(res => console.log(res))
+                    .catch(error => console.log(error));
             },
+
         },
         computed: {
             userBirthday(){
@@ -352,9 +386,14 @@
             },
         },
         mounted(){
-            // axios.get("http://tfd103g2.sexfat.tw/test_echo.php").then(res => console.log(res));
 
+            // 調整會員資料輸入框大小
             this.resetInputSize();
+
+            // 載入會員資料
+            axios.post("http://localhost/A_cake/selectMemberData.php")
+                    .then(res => console.log(res))
+                    .catch(error => console.log(error));
 
         },
     }

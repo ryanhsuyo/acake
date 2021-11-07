@@ -38,7 +38,7 @@ Vue.prototype.$axios = axios;
 
 const router = new VueRouter({
   routes,
-  mode:"history",
+  // mode:"history",
 })
 
 // console.log(router)

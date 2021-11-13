@@ -25,20 +25,36 @@
 
                 <div class="folder">
                     <div class="folder_title_tag">
-                        <span class="folder_title">我的最愛</span>
-                        <button class="delete_folder">
+                        <span class="folder_title">未分類收藏</span>
+                        <!-- <button class="delete_folder">
+                            <font-awesome-icon icon="fa-solid fa-xmark" class="close_icon" />
+                        </button> -->
+                    </div>
+                    <div class="folder_img_outline">
+                        <router-link to="/member_fav_detail">
+                            <img :src="favFolder[0].categoryPic">
+                            <!-- 上面不知為何會報錯 -->
+                        </router-link>
+                    </div>
+                </div>
+
+                <div class="folder" v-for="(item, index) in favFolder" :key="index">
+                    <div class="folder_title_tag">
+                        <span class="folder_title">{{item.categoryName}}</span>
+                        <button class="delete_folder" @click="deleteFolder(index)">
                             <font-awesome-icon icon="fa-solid fa-xmark" class="close_icon" />
                         </button>
                     </div>
                     <div class="folder_img_outline">
                         <router-link to="/member_fav_detail">
-                            <img src="../assets/images/cho_cake.jpg" alt="">
+                            <img :src="item.categoryPic" v-if="!!item.categoryPic !== false">
+                            <span v-else>這個分類尚未加入蛋糕喔！</span>
                         </router-link>
                     </div>
                 </div>
 
                 <!-- 排版用重複組件開始 -->
-                <div class="folder">
+                <!-- <div class="folder">
                     <div class="folder_title_tag">
                         <span class="folder_title">我的最愛</span>
                         <button class="delete_folder">
@@ -76,13 +92,13 @@
                             <img src="../assets/images/cho_cake.jpg" alt="">
                         </router-link>
                     </div>
-                </div>
+                </div> -->
                 <!-- 排版用重複組件結束 -->
                 
 
                 <!-- 排在最後一個的add_folder按鈕 -->
                 <div id="folder_last">
-                    <button id="add_folder">
+                    <button id="add_folder" @click="addFolder">
                         <font-awesome-icon icon="fa-solid fa-plus" class="add_icon" />
                     </button>
                 </div>
@@ -107,6 +123,9 @@
 <script>
     import headercomp from "../components/headercom";
     import footercomp from "../components/footercom";
+    import axios from 'axios';
+    import $ from 'jquery';
+    import qs from "qs";
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -120,14 +139,122 @@
         },
         data(){
             return{
-                page: "fav",
+                memberId: 1,    // 測試用暫時性資料
+
+                page: "fav",    // 頁面識別用
+
+                // title_h1組件用(往下傳)
                 title: "資料夾分類",
+
+                // 最愛資料夾
+                favFolder: [],
             };
         },
         methods: {
-            test(){
-                alert("點擊事件");
-            }
+            deleteFolder(index){
+                if(confirm("確定要刪除此分類資料夾?")){
+                    // console.log(index);
+                    let categoryId = this.favFolder[index].categoryID
+                    // console.log(categoryId);
+                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryId}))
+                        .then(res => {
+                            // console.log(res);
+                            this.favFolder = [];
+                            this.selectFolder();
+                            console.log(this.favFolder);
+                        })
+                        .catch(err => cosole.log(err));
+                }
+            },
+            addFolder(){
+                let newName = prompt("請輸入資料夾名稱");
+                axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
+                        .then(res => {
+                            // console.log(res);
+                            this.favFolder = [];
+                            this.selectFolder();
+                        })
+                        .catch(err => {comsole.log(err)});
+            },
+            // addPhoto(){
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+            //         .then(res => {
+            //             // console.log(res);
+            //             let data = res["data"];
+            //             let categoryID = 1;
+            //             for(let i = 0; i < data.length; i++){
+            //                 if(categoryID === parseInt(data[i].CATEGORY_ID)){
+            //                     this.favFolder[(categoryID - 1)].categoryPic = require("../assets/images/" + data[i].IMAGE);
+            //                     categoryID++;
+            //                 }
+            //             }
+            //             console.log(this.favFolder);
+            //         })
+            //         .catch(err => {console.log(err)})
+            // },
+
+
+
+
+            selectFolder(){
+                // axios做兩次呼叫取資料合併成一個物件時，第二次取得的資料有問題，重整後不會渲染畫面，下面暫且先合併成一次axios呼叫做處理
+                axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        let categoryID = 2;  // 第一個直接指定，從第二個資料夾開始放圖片
+
+                        this.favFolder.push({
+                            categoryName: data[0].CATEGORY_NAME,
+                            categoryID: data[0].CATEGORY_ID,
+                            categoryPic: require("../assets/images/" + data[0].IMAGE),
+                        });
+
+                        let folderCounter = 0;
+                        for(let i = 1; i < data.length; i++){
+                            if(this.favFolder[folderCounter].categoryID !== data[i].CATEGORY_ID){
+                                folderCounter++;
+                                let folder = {
+                                    categoryName: data[i].CATEGORY_NAME,
+                                    categoryID: data[i].CATEGORY_ID,        
+                                };
+                            this.favFolder.push(folder);
+                            }
+
+                            if(categoryID === parseInt(data[i].CATEGORY_ID)){
+                                try{
+                                    this.favFolder[(categoryID - 1)].categoryPic = require("../assets/images/" + data[i].IMAGE);
+                                }catch(e){
+                                    this.favFolder[(categoryID - 1)].categoryPic = null;
+                                }
+                                categoryID++;
+                            }
+                        }
+                        // console.log(this.favFolder);
+                    })
+                    .catch(err => {console.log(err)})
+            },
+        },
+        mounted(){
+        //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+        //             .then(res => {
+        //                 // console.log(res);
+        //                 let data = res["data"];
+        //                 for(let i = 0; i < data.length; i++){
+        //                     let folder = {
+        //                         categoryName: data[i].CATEGORY_NAME,
+        //                         categoryID: data[i].CATEGORY_ID,
+        //                     };
+        //                     this.favFolder.push(folder);
+        //                 }
+        //                 // console.log(this.favFolder);
+        //                 this.addPhoto();
+        //             })
+        //             .catch(err => {console.log(err)})
+
+
+
+        this.selectFolder();
         },
     }
 </script>
@@ -232,14 +359,19 @@
                 }
 
                 .folder_title_tag{
-                    padding-left: 7px;
-                    padding-top: 7px;
+                    padding-left: 10px;
+                    padding-top: 10px;
                     text-align: left;
                     position: relative;
 
                     .folder_title{
                         font-size: $h4;
                         line-height: 27px;
+                        display: inline-block;
+                        width: 150px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
                     }
 
                     .delete_folder{
@@ -273,12 +405,20 @@
 
                     > a{
                         display: block;
+                        text-decoration: none;
 
                         > img{
                             width: 100%;
                             // position: relative;
                             // top: 50%;
                             // transform: translateY(-50%);
+                        }
+
+                        > span{
+                            font-size: $h4;
+                            color: #515151;
+                            position: relative;
+                            top: 100px;
                         }
 
                     }

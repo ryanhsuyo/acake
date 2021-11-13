@@ -85,17 +85,19 @@
 
             <div id="cake_design_cards">
 
-                <div class="card_outline">
+                <div class="card_outline" v-for="(item, index) in cakeDesignsShowing" :key="index">
                     <div class="img_container">
-                        <img src="../assets/images/cho_cake.jpg">
+                        <img :src="item.imgPath">
                     </div>
                     <div class="description_block">
-                        <h4 class="cake_title">無敵大蛋糕</h4>
-                        <p class="design_idea">內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文</p>
+                        <h4 class="cake_title">{{item.cakeTitle}}</h4>
+                        <p class="design_idea">{{item.cakeDescription}}</p>
                         <div class="status_area">
                             <div class="verify">
-                               <font-awesome-icon icon="fa-solid fa-circle" class="status_ball"/>
-                                <span class="status_text">人氣投票審核通過</span>
+                                <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_pass" v-show="item.voteStatus === '1'"/>
+                                <span class="status_text_pass" v-show="item.voteStatus === '1'">人氣投票審核通過</span>
+                                <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_making" v-show="item.voteStatus === '2'"/>
+                                <span class="status_text_making" v-show="item.voteStatus === '2'">蛋糕製作中</span>
                             </div>
                             <button class="checking">
                                 查看
@@ -107,7 +109,7 @@
 
                 <!-- 排版用重複組件開始 -->
 
-                <div class="card_outline">
+                <!-- <div class="card_outline">
                     <div class="img_container">
                         <img src="../assets/images/cho_cake.jpg">
                     </div>
@@ -144,14 +146,14 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- 排版用重複組件結束 -->
 
             </div>
 
             <div id="view_all_design_area">
-                <button id="view_all_design_button">查看全部</button>
+                <button id="view_all_design_button" @click="showAllDesign = true; viewDesignButton = false" v-show="viewDesignButton">查看全部</button>
             </div>
 
         </section>
@@ -165,34 +167,34 @@
 
             <div id="coupon_area">
 
-                <div class="coupon">
+                <div class="coupon" v-for="(item, index) in couponShowing" :key="index">
                     <div class="coupon_left_block">
-                        <div class="discount_amout">$<span>150</span></div>
+                        <div class="discount_amout">$<span>{{item.discount}}</span></div>
                         <div class="A_cake_text_logo">
                             <img src="http://via.placeholder.com/60x22" alt="">
                         </div>
                         <div class="coupon_left_decoration_img">
                             <img src="http://via.placeholder.com/40x0" alt="">
                         </div>
-                        <div class="use_threshold">消費滿<span>1000</span>即可折抵</div>
+                        <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
                         <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
                     </div>
                     <div class="coupon_right_block">
                         <div class="expiration">
                             <span>使用期限</span>
-                            <span class="expiration_date">2021/10/31</span>
+                            <span class="expiration_date">{{item.expiration}}</span>
                         </div>
                         <div class="coupon_right_decoration_img">
                             <img src="http://via.placeholder.com/39x39" alt="">
                         </div>
                         <div class="expiration_countdown">
-                            即將失效：剩下<span>10</span>天
+                            即將失效：剩下&nbsp;<span>10</span>&nbsp;天
                         </div>
                     </div>
                 </div>
 
                 <!-- 排版用重複組件開始 -->
-                <div class="coupon">
+                <!-- <div class="coupon">
                     <div class="coupon_left_block">
                         <div class="discount_amout">$<span>150</span></div>
                         <div class="A_cake_text_logo">
@@ -241,12 +243,12 @@
                             即將失效：剩下<span>10</span>天
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- 排版用重複組件結束 -->
 
             </div>
 
-            <button id="view_all_coupon">
+            <button id="view_all_coupon" @click="showAllCoupons = true; viewCouponButton = false" v-show="viewCouponButton">
                 <font-awesome-icon icon="fa-solid fa-angles-down" id="arrow_down_icon" />
             </button>
 
@@ -286,17 +288,23 @@
             return{
                 memberId: 1,    // 測試用暫時性資料
 
-                page: "data",
+                page: "data",   // 頁面識別用
+
+                // title_h1組件用(往下傳)
+                titleDesign: "蛋糕庫設計",
+                titleCoupon: "折價券",
+
                 // 會員資料
-                userName: "王大涵",
-                userNickname: "王小涵",
-                userBirthdayYear: "1999",
-                userBirthdayMonth: "06",
-                userBirthdayDate: "21",
-                userEmail: "mmm@gmail.com",
-                userAddress: "台北市中山區南京東路三段219號4-5F",
-                userPhone: "0912234456",
-                userPassword: "******336",
+                userName: "",
+                userNickname: "",
+                userBirthdayYear: "",
+                userBirthdayMonth: "",
+                userBirthdayDate: "",
+                userEmail: "",
+                userAddress: "",
+                userPhone: "",
+                userPassword: "",
+
                 // 會員資料修改控制
                 edit:{
                     userName: true,
@@ -307,9 +315,17 @@
                     userPhone: true,
                     userPassword: true,
                 },
+
+                // 蛋糕設計資料
+                cakeDesigns: [],
+                showAllDesign: false,
+                viewDesignButton: true,
+
                 // 折價券資料
-                titleDesign: "蛋糕庫設計",
-                titleCoupon: "折價券",
+                couponData: [],
+                showAllCoupons: false,
+                viewCouponButton: true,
+                
             };
         },
         methods: {
@@ -321,8 +337,10 @@
 
                 // 被點擊時呼叫
                 if($event){
-                    $($event.target).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
-                    $($event.target).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
+
+                    $($event.target).siblings("input.data-input").css("width", parseInt($($event.target).siblings("span.data_input_span").css("width")) + 5);
+                    $($event.target).siblings("input.data-input").css("height", parseInt($($event.target).siblings("span.data_input_span").css("height")) - 2);
+
                     return null;
                 }
 
@@ -339,7 +357,7 @@
                 });
             },
 
-            updateData(){
+            updateData($event){
 
                 // 第一種拼資料的寫法：
                 // let params = new URLSearchParams();
@@ -348,7 +366,6 @@
                 // 第二種拼資料的寫法：
                 // const params = {
                 //     memberId: this.memberId,
-                //     // columnName: columnName,
                 //     inputValue: inputValue,
                 // };
 
@@ -361,7 +378,7 @@
                         birthday += "-";
                     }
                 });
-                console.log(birthday);
+                // console.log(birthday);
 
                 let inputValues = {
                     name: this.userName,
@@ -375,7 +392,7 @@
                 };
 
                 axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
-                    .then(res => console.log(res))
+                    // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
             },
 
@@ -384,17 +401,85 @@
             userBirthday(){
                 return this.userBirthdayYear + "/" + this.userBirthdayMonth + "/" + this.userBirthdayDate;
             },
+
+            cakeDesignsShowing(){
+                return this.showAllDesign ? this.cakeDesigns : this.cakeDesigns.slice(0, 3) ;
+            },
+
+            couponShowing(){
+                return this.showAllCoupons ? this.couponData : this.couponData.slice(0, 2) ;
+            },
+
         },
         mounted(){
 
-            // 調整會員資料輸入框大小
-            this.resetInputSize();
-
             // 載入會員資料
-            axios.post("http://localhost/A_cake/selectMemberData.php")
-                    .then(res => console.log(res))
+            // 上傳filezilla用的路徑：./static/php/selectMemberData.php
+            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res.data[0];
+                        this.userName = data["NAME"];
+                        this.userNickname = data["NICKNAME"];
+                        this.userBirthdayYear = data["BIRTHDAY"].split("-")[0];
+                        this.userBirthdayMonth = data["BIRTHDAY"].split("-")[1];
+                        this.userBirthdayDate = data["BIRTHDAY"].split("-")[2].split(" ")[0];
+                        this.userEmail = data["EMAIL"];
+                        this.userAddress = data["ADDRESS"];
+                        this.userPhone = data["PHONE"];
+                        this.userPassword = data["PASSWORD"];
+
+
+                        // 調整會員資料輸入框大小
+                        this.$nextTick(()=>{
+                            this.resetInputSize();
+                        });
+                        
+                    })
                     .catch(error => console.log(error));
 
+            // 載入蛋糕設計資料
+            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        for(let i = 0; i < data.length; i++){
+                            let cakeInfo = {
+                                imgPath: require("../assets/images/" + data[i].IMAGE),
+                                cakeTitle: data[i].CAKE_NAME,
+                                cakeDescription: data[i].DESCRIPTION,
+                                voteStatus: data[i].AVAILABLE,
+                                };
+
+                            this.cakeDesigns.push(cakeInfo);
+
+                            // 顯示所有蛋糕設計的按鈕
+                            this.viewDesignButton = (this.cakeDesigns.length > 3 ? true : false);
+                        }
+                    })
+                    .catch(err => {console.log(err)});
+
+
+            // 載入折價券資料
+            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        console.log(res);
+                        let data = res["data"];
+                        for(let i = 0; i < data.length; i++){
+                            let couponInfo = {
+                                discount: data[i].DISCOUNT_AMOUNT,
+                                threshold: data[i].USE_THRESHOLD,
+                                expiration: data[i].EXPIRATION_DATE.split(" ")[0].replace(/-/g, "/"),
+                            };
+
+                            this.couponData.push(couponInfo);
+
+                            // 顯示所有折價券的按鈕
+                            this.viewCouponButton = (this.couponData.length > 2 ? true : false);
+                        }
+                    })
+                    .catch(err => console.log(err));
+                        
         },
     }
 // span套用字體後寬度似乎會變，jQuery抓到的是使用預設字體的寬度。
@@ -555,11 +640,12 @@
         #cake_design_cards{
             text-align: left;
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: 350px 350px 350px;
             grid-auto-rows: auto;
 
             @media (min-width: 1200px){
                 grid-column-gap: 35px;
+                grid-row-gap: 50px; // 要看XD再確認一下
             }            
 
             @media (max-width: 1199.98px){
@@ -606,18 +692,32 @@
 
                         .verify{
                             margin-top: 35px;
-                            color: #5A9308;
                             font-size: 0px;
 
-                            .status_ball{
+                            .status_ball_pass{
                                 vertical-align: middle;
                                 font-size: $p;
                                 margin-right: 3px;
+                                color: #5A9308;
                             }
 
-                            .status_text{
+                            .status_text_pass{
                                 font-size: 12px;
                                 vertical-align: middle;
+                                color: #5A9308;
+                            }
+
+                            .status_ball_making{
+                                vertical-align: middle;
+                                font-size: $p;
+                                margin-right: 3px;
+                                color: #5975B2;
+                            }
+
+                            .status_text_making{
+                                font-size: 12px;
+                                vertical-align: middle;
+                                color: #5975B2;
                             }
 
                         }
@@ -656,6 +756,7 @@
         }
 
         #view_all_design_area{
+            padding: 50px 0;
 
             @media (max-width: 1198.98px){
                 height: 75px;
@@ -670,7 +771,6 @@
                 outline: none;
                 cursor: pointer;
                 border-radius: 5px;
-                margin: 50px 0;
                 font-size: $h3;
                 box-shadow: $shadow;
                 &:hover{
@@ -692,6 +792,7 @@
         background-color: $palePike;
         border-radius: 5px;
         text-align: center;
+        padding-bottom: 20px;
 
         @media (max-width: 474.98px){
             margin: 0 15px 32px;
@@ -906,7 +1007,7 @@
             font-size: 0;
             text-align: center;
             cursor: pointer;
-            margin: 15px 0 20px;
+            margin-top: 15px;
 
             #arrow_down_icon{
                 display: inline-block;

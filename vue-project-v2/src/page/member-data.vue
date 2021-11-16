@@ -99,7 +99,7 @@
                                 <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_making" v-show="item.voteStatus === '2'"/>
                                 <span class="status_text_making" v-show="item.voteStatus === '2'">蛋糕製作中</span>
                             </div>
-                            <button class="checking">
+                            <button class="checking" @click="showDesignDetail(item)">
                                 查看
                                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="scope_icon" />
                             </button>
@@ -156,6 +156,11 @@
                 <button id="view_all_design_button" @click="showAllDesign = true; viewDesignButton = false" v-show="viewDesignButton">查看全部</button>
             </div>
 
+            <!-- 卡片詳細頁的light box -->
+            <div class="card_light_box" v-show="detailLightBox" @click="closeDesignDetail(false)">
+                <card_design_detail @close="closeDesignDetail" :designDetail="designDetail" @cakeDesign="changeDesignContent"></card_design_detail>
+            </div>
+
         </section>
 
         <section id="coupon_block">
@@ -188,7 +193,7 @@
                             <img src="http://via.placeholder.com/39x39" alt="">
                         </div>
                         <div class="expiration_countdown">
-                            即將失效：剩下&nbsp;<span>10</span>&nbsp;天
+                            即將失效：剩下&nbsp;<span>{{countDays(item.expirationForCal)}}</span>&nbsp;天
                         </div>
                     </div>
                 </div>
@@ -276,6 +281,7 @@
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
+    import card_design_detail from "../components/card_design_detail";
 
     export default {
         components: {
@@ -283,6 +289,7 @@
             footercomp,
             member_main_bar,
             title_h1,
+            card_design_detail,
         },
         data(){
             return{
@@ -321,6 +328,9 @@
                 showAllDesign: false,
                 viewDesignButton: true,
 
+                detailLightBox: false,
+                designDetail: {},
+
                 // 折價券資料
                 couponData: [],
                 showAllCoupons: false,
@@ -332,7 +342,6 @@
             switchBoolean(val){
                 val = !val;
             },
-
             resetInputSize($event){
 
                 // 被點擊時呼叫
@@ -356,7 +365,6 @@
                     $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
                 });
             },
-
             updateData($event){
 
                 // 第一種拼資料的寫法：
@@ -395,7 +403,54 @@
                     // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
             },
+            showDesignDetail(cake){
+                this.detailLightBox = true;
+                $("body").css("overflow-y", "hidden");
 
+                this.designDetail = {};
+                axios.post("http://localhost/A_cake/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
+                    .then(res => {
+                        console.log(res);
+                        let data = res["data"];
+                        this.designDetail = {
+                            cakeImg: require("../assets/images/" + data[0].IMAGE),
+                            cakeName: data[0].CAKE_NAME,
+                            cakeDescription: data[0].CAKE_DESCRIPTION,
+                            cakeAvailable: data[0].CAKE_AVAILABLE,
+                            cakeID: data[0].CAKE_ID,
+                            cakeIngredients: [],
+                        };
+                        for(let i = 0; i < data.length; i++){
+                            let ingredients = {};
+                            ingredients.ingredientName = data[i].INGREDIENT_NAME;
+                            ingredients.ingredientDescription = data[i].INGREDIENT_DESCRIPTION;
+                            ingredients.ingredientQuantity = data[i].QUANTITY
+                            this.designDetail.cakeIngredients.push(ingredients);
+                        }
+                        // console.log(this.designDetail);
+                    })
+                    .catch(err => console.log(err));
+
+            },
+            closeDesignDetail(val){
+                this.detailLightBox = val;
+                $("body").css("overflow-y", "auto");
+            },
+            changeDesignContent(val, name){
+                let index = this.cakeDesigns.map(item => item.cakeTitle).indexOf(name);
+                this.cakeDesigns[index].cakeDescription = val;
+            },
+            countDays(expiration){
+                let future = new Date(...expiration).getTime() / 1000;
+                let now = new Date().getTime() / 1000;
+                return Math.ceil((future - now) / 86400);
+            },
+            mobileCakeShowing(){
+                if(window.innerWidth < 1200){
+                    this.showAllDesign = true;
+                    this.viewDesignButton = false;
+                }
+            },
         },
         computed: {
             userBirthday(){
@@ -447,8 +502,9 @@
                             let cakeInfo = {
                                 imgPath: require("../assets/images/" + data[i].IMAGE),
                                 cakeTitle: data[i].CAKE_NAME,
-                                cakeDescription: data[i].DESCRIPTION,
-                                voteStatus: data[i].AVAILABLE,
+                                cakeDescription: data[i].CAKE_DESCRIPTION,
+                                voteStatus: data[i].CAKE_AVAILABLE,
+                                cakeID: data[i].CAKE_ID,
                                 };
 
                             this.cakeDesigns.push(cakeInfo);
@@ -456,6 +512,7 @@
                             // 顯示所有蛋糕設計的按鈕
                             this.viewDesignButton = (this.cakeDesigns.length > 3 ? true : false);
                         }
+
                     })
                     .catch(err => {console.log(err)});
 
@@ -463,12 +520,13 @@
             // 載入折價券資料
             axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let couponInfo = {
                                 discount: data[i].DISCOUNT_AMOUNT,
                                 threshold: data[i].USE_THRESHOLD,
+                                expirationForCal: data[i].EXPIRATION_DATE.split(" ")[0].split("-"),
                                 expiration: data[i].EXPIRATION_DATE.split(" ")[0].replace(/-/g, "/"),
                             };
 
@@ -479,7 +537,12 @@
                         }
                     })
                     .catch(err => console.log(err));
-                        
+            
+            // 監聽視窗大小以控制顯示按鈕、蛋糕資料的出現或隱藏
+            window.addEventListener("resize", this.mobileCakeShowing);
+            // 載入時先執行一次檢查視窗寬度
+            this.mobileCakeShowing();
+
         },
     }
 // span套用字體後寬度似乎會變，jQuery抓到的是使用預設字體的寬度。
@@ -753,6 +816,19 @@
             
             }
 
+        }
+
+        .card_light_box{
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .5);
+            overflow-y: scroll;
         }
 
         #view_all_design_area{
@@ -1042,7 +1118,7 @@
 
 
 
-// ===== 組件card_voting的scss開始 =====
+// ===== card_voting的scss開始 =====
 .card_outline{
     box-sizing: border-box;
 
@@ -1083,6 +1159,7 @@
             font-size: 16px;
             line-height: 16px;
             color: #515151;
+
         }
         .voting_area{
             display: flex;
@@ -1162,6 +1239,6 @@ section#vote{
     }
     
 }
-// ===== 組件card_voting的scss結束 =====
+// ===== card_voting的scss結束 =====
 
 </style>

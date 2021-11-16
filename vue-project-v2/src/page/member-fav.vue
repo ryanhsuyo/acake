@@ -40,9 +40,13 @@
 
                 <div class="folder" v-for="(item, index) in favFolder" :key="index">
                     <div class="folder_title_tag">
-                        <span class="folder_title">{{item.categoryName}}</span>
-                        <button class="delete_folder" @click="deleteFolder(index)">
+                        <span class="folder_title" v-show="!editTitle[index]" @click="editTitleContent(index, true)">{{item.categoryName}}</span>
+                        <input type="text" v-model.lazy="item.categoryName" v-show="editTitle[index]">
+                        <button class="delete_folder" @click="deleteFolder(index)" v-show="!editTitle[index]">
                             <font-awesome-icon icon="fa-solid fa-xmark" class="close_icon" />
+                        </button>
+                        <button class="change_name" @click="editTitle[index] = false; editTitleContent(index, false); updateTitle(index)" v-show="editTitle[index]">
+                            <font-awesome-icon icon="fa-solid fa-check" class="check_icon" />
                         </button>
                     </div>
                     <div class="folder_img_outline">
@@ -148,10 +152,14 @@
 
                 // 最愛資料夾
                 favFolder: [],
+
+                //資料夾改名輸入框啓閉
+                editTitle: [],
             };
         },
         methods: {
             deleteFolder(index){
+                this.editTitle = Array(this.favFolder.length).fill(false);
                 if(confirm("確定要刪除此分類資料夾?")){
                     // console.log(index);
                     let categoryId = this.favFolder[index].categoryID
@@ -161,7 +169,9 @@
                             // console.log(res);
                             this.favFolder = [];
                             this.selectFolder();
-                            console.log(this.favFolder);
+                            this.editTitle.pop();
+                            console.log(this.editTitle);
+                            // console.log(this.favFolder);
                         })
                         .catch(err => cosole.log(err));
                 }
@@ -173,8 +183,20 @@
                             // console.log(res);
                             this.favFolder = [];
                             this.selectFolder();
+                            this.editTitle.push(false);
+                            // console.log(this.editTitle);
                         })
-                        .catch(err => {comsole.log(err)});
+                        .catch(err => {console.log(err)});
+            },
+            editTitleContent(index, boo){
+                this.$set(this.editTitle, index, boo);
+            },
+            updateTitle(index){
+                axios.post("http://localhost/A_cake/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
+                    .then(res => {
+                        // console.log(res);
+                    })
+                    .catch(err => console.log(err));
             },
             // addPhoto(){
             //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
@@ -229,10 +251,13 @@
                                 }
                                 categoryID++;
                             }
+
                         }
+                        this.editTitle = Array(this.favFolder.length).fill(false);
+                        // console.log(this.editTitle);
                         // console.log(this.favFolder);
                     })
-                    .catch(err => {console.log(err)})
+                    .catch(err => {console.log(err)});
             },
         },
         mounted(){
@@ -357,12 +382,23 @@
                     border-radius: 5px;
                     z-index: -1;
                 }
+                &:first-child{
+                    .folder_title{
+                        cursor: default !important;
+                    }
+                }
 
                 .folder_title_tag{
                     padding-left: 10px;
                     padding-top: 10px;
                     text-align: left;
                     position: relative;
+
+                    > input {
+                        width: 120px;
+                        height: 27px;
+                        font-size: 20px;
+                    }
 
                     .folder_title{
                         font-size: $h4;
@@ -372,6 +408,8 @@
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         overflow: hidden;
+                        cursor: pointer;
+
                     }
 
                     .delete_folder{
@@ -392,6 +430,25 @@
                             line-height: 20px;
                         }
                         
+                    }
+
+                    .change_name{
+                        background-color: transparent;
+                        width: 20px;
+                        height: 20px;
+                        padding: 0;
+                        font-size: 0;
+                        border: 0;
+                        outline: 0;
+                        cursor: pointer;
+                        position: absolute;
+                        top: 10px;
+                        right: 123px;
+
+                        .check_icon{
+                            font-size: 30px;
+                            line-height: 20px;
+                        }
                     }
 
                 }

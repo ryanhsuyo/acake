@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div id="chat_icon_block" >
+            <img id="chat_icon" src="../assets/images/message_icon.png" alt=" " @click="qaChatOpen ?　qaChatOpen = false : qaChatOpen = true">
+            <qaChat class="qaChatPosition" v-show="qaChatOpen" ></qaChat>
+        </div>
+
         <headercom openWhat="qa"></headercom>
         <div id="main-bar-img300"></div>
         <main class="shopping_cart_main">
@@ -79,6 +84,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import search_bar from "../components/search_bar.vue"
+import qaChat from "../components/qaChat.vue";
 export default {
     name:'shopping_cart',
     components:{
@@ -86,10 +92,14 @@ export default {
         headercom,
         footercom,
         search_bar,
+        qaChat,
     },
     data(){
         return{
-            asd:123546
+            asd:123546,
+            qaChatOpen : true,
+            a: true,
+            b: false,
         }
     },
     methods:{
@@ -115,8 +125,33 @@ export default {
 }
 body{
     background-color: $bg;
+    position: relative;
+}
+#chat_icon_block{
+    position:fixed;
+    bottom: 50px;
+    right: 50px;
+    #chat_icon{
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+    }
+    .qaChatPosition{
+        position: absolbute;
+        // bottom: 70px;
+        top: -340px;
+        right: 45px;
+        display: block;
+    }
 }
 
+
+.qaChatPosition{
+    position: absolute;
+    top: 300px;
+    right: 100px;
+    z-index: 5;
+}
 #main-bar-img300{
     margin-top: 50px;
     height: 300px;

@@ -140,6 +140,8 @@ input {
 }
 .select span {
   font-size: 18px;
+  display:flex;
+  align-items: center;
 }
 .select>span:first-child {
   position: relative;

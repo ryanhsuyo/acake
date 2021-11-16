@@ -32,6 +32,7 @@ module.exports = {
   },
   externals:{
     'gsap':'gsap',
+    'fullpage':'vue-fullpage',
   },
 
   output: {

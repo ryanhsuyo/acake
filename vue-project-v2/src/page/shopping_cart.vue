@@ -48,7 +48,7 @@
                                 <img src="../assets/images/cho_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content">
-                                <div class="addenda_block_cake_title">普通包裝</div>
+                                <div class="addenda_block_cake_title">{{packdata}}</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -64,18 +64,16 @@
                             </div>
                         </div>
                         <div class="addenda_block_package_select_block">  
-                            <select name="" id="addenda_block_package_select">
-                                <option>普通包裝</option>
-                                <option>高級包裝</option>
-                                <option>特殊包裝</option>
+                            <select v-model="packdata" name="" id="addenda_block_package_select">
+                                <option v-for="(pack, index) in packs" :key='index' :value="pack">{{pack}}</option>
                             </select>
                         </div>
-                        <div class="addenda_cancel_button_block">
+                        <div class="addenda_cancel_button_block" >
                             
                         </div>
                     </div>
                     <div class="addenda_hr"></div>
-                    <div class="addenda_block_list2">
+                    <!-- <div class="addenda_block_list2">
                         <div class="addenda_item_block_cardorcandle">
                             <div class="addenda_block_cake_img_block_cardorcandle">
                                 <img src="../assets/images/cho_cake.jpg" alt="">
@@ -112,23 +110,19 @@
                             </select>
                         </div>
 
-                        <!-- <div class="addenda_item_detail">
-
-                        </div>
-                        <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
                             <div class="addenda_item_cancel">
                                 <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
-                    </div>
-                    <div class="addenda_block_list2">
+                    </div> -->
+                    <div class="addenda_block_list2" v-for="(list,index) in lists" :key='index' >
                         <div class="addenda_item_block_cardorcandle">
                             <div class="addenda_block_cake_img_block_cardorcandle">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
+                                <img src="../assets/images/bit_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">吵架王的蠟燭</div>
+                                <div class="addenda_block_cake_title_cardorcandle">{{list.idname}}</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -139,23 +133,18 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice_cardorcandle">
                                     <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">0</div>
+                                    <div class="addenda_block_cake_price_cardorcandle">{{list.price}}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="addenda_block_cake_item_cardorcandle_select">
-                            <select name="" id="addenda_block_cake_item_select">
-                                <option value="">超大張卡片</option>
-                                <option value="">情人節卡片</option>
-                                <option value="">聖誕節卡片</option>
-                                <option value="">七夕浪漫卡片</option>
+                            <select v-model="list.idname" name="" id="addenda_block_cake_item_select">
+                                <option  v-for="(item, index) in items" :key='index'>{{item}}</option>
                             </select>
                         </div>
                         <div class="addenda_block_cake_item_cardorcandle_select_other">
                             <select name="" id="addenda_block_cake_item_select_other">
-                                <option value="">1個</option>
-                                <option value="">2個</option>
-                                <option value="">3個</option>
+                                <option v-for="(amount, index) in 10 " :key='index'>{{amount}}</option>
                             </select>
                         </div>
 
@@ -164,7 +153,7 @@
                         </div>
                         <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
-                            <div class="addenda_item_cancel">
+                            <div class="addenda_item_cancel"  @click="deladdenda(index)">
                                 <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
@@ -195,7 +184,7 @@
                     <!-- </div> -->
                     <div class="addenda_block_list4">
                         <div class="new_addenda_block_outline">
-                            <div class="new_addenda_block_square">
+                            <div class="new_addenda_block_square" @click="addaddenda()" >
                                 <img src="../assets/images/add_purchase_icon.png" alt="">
                             </div>
                         </div>
@@ -259,6 +248,7 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
+import Vue from 'vue'
 export default {
     name:'shopping_cart',
     components:{
@@ -268,22 +258,58 @@ export default {
     },
     data(){
         return{
-            asd:123546
+            packs:['普通包裝','高級包裝','特殊包裝'],
+            asd:123546,
+            lists:[{
+                idname: '一般卡片',
+                price: 0,
+                items:{
+                },
+            },{
+                idname: '一般蠟燭',
+                price: 0,
+                items:{
+                },
+
+            }],
+            items:['一般蠟燭','特殊蠟燭','一般卡片','特殊卡片'],
+            packdata:'',
+            // amount:'',
+            // listother:{},
         }
     },
     methods:{
+        addaddenda(){
+            this.lists.push(
+                {
+                    idname: '一般蠟燭',
+                    price: 0,
+                    items:['一般蠟燭'
+                    ],
+                items:['一般蠟燭','特殊蠟燭','一般卡片','特殊卡片'],
+            })
+        },
+        deladdenda(index){
+            console.log(index)
+                if(index !==1 && index !== 0){
+                this.lists.splice(index,1);
+            }
+        },
     },
-    watch:{
-        
+    watch: {                  // 2 宣告成物件
     },
     computed:{
         
-
     },
     mounted(){
     },
-
-    
+    updated() {
+        // console.log(`updated() pack: ---> ${this.packdata}`)
+    },
+    created(){
+        this.packdata = this.packs[0];
+        document.querySelector('body').style.overflow='auto'
+    }
 }
 
 </script>
@@ -377,7 +403,7 @@ body{
         position: relative;
         max-width: 1120px;
         width: 100%;
-        height: 650px;
+        // height: 650px;
         background-color: $palePike;
         border-radius: 5px;
         display: flex;
@@ -411,6 +437,7 @@ body{
             margin-bottom: 50px;
             .addenda_block_list1{
                 max-width: 1060px;
+                margin-top: 30px;
                 max-width: 100%;
                 display: flex;
                 .addenda_block_cake{
@@ -677,7 +704,7 @@ body{
                     .new_addenda_block_square{
                         width: 75px;
                         height: 75px;
-                        
+                        cursor: pointer;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-around;

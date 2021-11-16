@@ -7,7 +7,7 @@
       </router-link>
       <ul class="header_nav">
         <div id="header_div_one">
-          <li class="nav_item"><router-link to="/employee" id="employee">員工管理</router-link></li>
+          <li class="nav_item"><router-link to="/employee/1" id="employee">員工管理</router-link></li>
           <li class="nav_item"><router-link to="/memberManager" id="member">會員資料管理</router-link></li>
           <li class="nav_item"><router-link to="/cakeMakeManager" id="cake">蛋糕製作管理</router-link></li>
           <li class="nav_item"><router-link to="/voteManager" id="vote">投票系統管理</router-link></li>

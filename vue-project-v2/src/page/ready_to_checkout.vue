@@ -27,23 +27,23 @@
                             <div class="bill_individual_title">帳單資訊</div>
                             <div class="recipient">
                                 <label class="bill_individual_title_short">收件人</label>
-                                <input class="bill_individual_short" type="text" name="" id="" placeholder="請輸入收件人名稱">
+                                <input class="bill_individual_short" type="text" name="catchperson" id="" placeholder="請輸入收件人名稱" v-model="recipient">
                             </div>
                             <div class="phone">
                                 <label class="bill_individual_title_short">連絡電話</label>
-                                <input class="bill_individual_short" type="tel" name="" id="" placeholder="請輸入能與您聯繫的電話">
+                                <input class="bill_individual_short" type="tel" name="" id="" placeholder="請輸入能與您聯繫的電話" v-model="phone">
                             </div>
                             <div class="preset_address">
                                 <div class="address_inline">
                                     <input type="radio"  name= "address" id="" checked>運送到預設地址
                                 </div>
-                                <input class="bill_individual_address" type="textarea" value="本來的地址本來的地址本來的地址本來的地址本來的地址">
+                                <input class="bill_individual_address" type="textarea" value="本來的地址本來的地址本來的地址本來的地址本來的地址"  v-model="address">
                             </div>
                             <div class="new_address">
                                 <div class="address_inline">
                                 <input type="radio" name="address" id="">運送到不同地址
                                 </div>
-                                <input class="bill_individual_address"  type="textarea" >
+                                <input class="bill_individual_address"  type="textarea" v-model="otheraddress">
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
@@ -251,6 +251,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import coupon from "../components/coupon.vue"
+import axios from "axios"
 export default {
     name:'shopping_cart',
     components:{
@@ -261,10 +262,32 @@ export default {
     },
     data(){
         return{
-            asd:123546
+            asd:123546,
+            name: 123,
+            memberId: 1,    // 暫時性資料
+            recipient: '',
+            phone: '',
+            address: '',
+            otheraddress: '',
         }
     },
     methods:{
+        submitorder(){
+            let memberId = new URLSearchParams;
+            memberId.append("memberId", this.memberId);
+            axios.post("http://localhost/acake/submitorder.php", memberId)
+                .then(res => {
+                    // console.log(res);
+                    let data = res.data;
+                    // console.log(data[0].ADDRESS);
+                    this.recipient = data[0].RECEIVER;
+                    this.phone = data[0].PHONE;
+                    this.address = data[0].ADDRESS;
+    
+                })
+                .catch( err => cosole.log(err));
+
+        }
     },
     watch:{
         
@@ -274,6 +297,19 @@ export default {
 
     },
     mounted(){
+        let memberId = new URLSearchParams;
+        memberId.append("memberId", this.memberId);
+        axios.post("http://localhost/acake/redayToCheckoutSelectReceiver.php", memberId)
+            .then(res => {
+                // console.log(res);
+                let data = res.data;
+                // console.log(data[0].ADDRESS);
+                this.recipient = data[0].RECEIVER;
+                this.phone = data[0].PHONE;
+                this.address = data[0].ADDRESS;
+
+            })
+            .catch( err => cosole.log(err));
     },
 
     

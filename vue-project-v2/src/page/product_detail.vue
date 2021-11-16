@@ -3,7 +3,9 @@
         <headercom></headercom>
         <main id="product_details">
             <section class="shopping_cart_bread">
-                <span class="shopping_cart_page">主廚蛋糕</span>
+                <router-link to="product">
+                    <span class="shopping_cart_page">主廚蛋糕</span>
+                </router-link>
                 <div class="shopping_cart_bread_arrow">
                     <img class="shopping_cart_bread_arrow_img" src="../assets/images/process_icon.svg" alt="">
                 </div>
@@ -30,13 +32,11 @@
                                     <!-- <router-link to="shopping_cart"> -->
                                         <button id="product_details_combination1_commit">加入購物車</button>
                                     <!-- </router-link> -->
-                                    <router-link to="shopping_cart">
+                                    <!-- <router-link to="shopping_cart"> -->
 
                                         <button id="product_details_combination1_buy" @click="open">直接購買</button>
-                                    </router-link>
-                                        <!-- <div class="productDetailAddenda_block ㄌ">
-                                            <productDetailAddenda></productDetailAddenda>
-                                        </div> -->
+                                    <!-- </router-link> -->
+                                        
                                 </div>
 
 
@@ -65,7 +65,9 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="productDetailAddenda_block" v-show="showpage">
+                    <productDetailAddenda class="heyBro" v-show="showpage" @closepage="nnn" :show="showpage"></productDetailAddenda>
+                </div>
             </section>
         </main>
         <footercom></footercom>
@@ -77,19 +79,21 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
-// import productDetailAddenda from "../components/productDetailAddenda"
+import productDetailAddenda from "../components/productDetailAddenda"
 
 export default {
+    
     name:'product_detail',
     components:{
         titleh1,
         headercom,
         footercom,
-        // productDetailAddenda,
+        productDetailAddenda,
     },
     data(){
         return{
             counter: 1,
+            showpage: false,
         }
     },
     methods:{
@@ -102,8 +106,15 @@ export default {
             }
         },
         open(){
-            true;
+            this.showpage = !this.showpage;
+            document.querySelector('body').style.overflow='hidden'
+            
         },
+        nnn(ev){
+            // console.log(ev)
+            // this.qqq = ev;
+            this.showpage = ev;
+        }
     },
     watch:{
         
@@ -127,56 +138,6 @@ export default {
 body{
     background-color: $bg;
 }
-// 購物車麵包屑
-.shopping_cart_bread{
-    width: 95%;
-    max-width: 950px;
-    justify-content: flex-start;
-    display: flex;
-    font-size: $h4;
-    margin-top: 120px;
-    // margin-bottom: 50px;
-    @media screen and (max-width:767.98px){ 
-        display: flex;
-        margin-top: 120px;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        height: 120px;
-    }
-    .shopping_cart_page,.prepare_checkout_page,.checkout_page{
-        font-size: $p;
-        max-width: 80px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        @media screen and (max-width:767.98px){ 
-            font-size: $h4;
-            max-width: 100px;
-            width: 100%;
-        }
-    }
-    .shopping_cart_bread_arrow{
-        width: 100%;
-        max-width: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .shopping_cart_bread_arrow_img{
-            width: 16px;
-            height: 16px;
-            object-fit: fill;
-            @media screen and (max-width:767.98px){ 
-                width: 16px;
-                height: 16px;
-                object-fit: fill;
-                transform: rotate(90deg);
-            }
-        }
-    }
-}
-     // 購物車麵包屑結束
 #product_details{
     background-color: $lightPike;
     box-sizing: border-box;
@@ -184,6 +145,66 @@ body{
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
+
+    // 購物車麵包屑
+    .shopping_cart_bread{
+        width: 95%;
+        max-width: 950px;
+        justify-content: flex-start;
+        display: flex;
+        font-size: $h4;
+        margin-top: 120px;
+        // margin-bottom: 50px;
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        @media screen and (max-width:767.98px){ 
+            display: flex;
+            margin-top: 120px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 120px;
+        }
+        // .shopping_cart_page{
+        //     text-decoration: none;
+        //     color: black;
+        // }
+        .shopping_cart_page,.prepare_checkout_page,.checkout_page{
+            font-size: $p;
+            max-width: 80px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @media screen and (max-width:767.98px){ 
+                font-size: $h4;
+                max-width: 100px;
+                width: 100%;
+            }
+        }
+        .shopping_cart_bread_arrow{
+            width: 100%;
+            max-width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .shopping_cart_bread_arrow_img{
+                width: 16px;
+                height: 16px;
+                object-fit: fill;
+                @media screen and (max-width:767.98px){ 
+                    width: 16px;
+                    height: 16px;
+                    object-fit: fill;
+                    transform: rotate(90deg);
+            }
+        }
+    }
+}
+     // 購物車麵包屑結束
+
     #product_details_combination1{
         max-width: 1120px;
         width:100%;
@@ -192,7 +213,6 @@ body{
         margin-bottom: 100px;
         background-color: $palePike;
         @media screen and (max-width:767.98px){ 
-            
             margin-bottom: 50px;
         }
         #cake_information{
@@ -571,11 +591,23 @@ body{
 
 
 .productDetailAddenda_block{
-    display: none;
-    max-width: 1120px;
+    // overflow:scroll ;
     width: 100%;
-}
+    height: 100%;
+    // overflow: hidden;
+    background-color: rgba(0,0,0,.35);
+    margin: auto;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    z-index: 99999999;
+    // transform: scale(0.5);
 
+    .heyBro{
+        margin: 100px auto;
+    }
+
+}
 
 
 

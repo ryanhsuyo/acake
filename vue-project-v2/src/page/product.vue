@@ -1,10 +1,10 @@
 <template>
     <div>
-        <headercom openWhat="product"></headercom>
+        <headercom></headercom>
         <!-- 主廚/創意頁面切換 -->
         <div class="product_page_main_bar">
             <div class="change_page">
-                <switchTab></switchTab>   
+                <switchTab @receive="abc"></switchTab>   
             </div>
             <!-- 搜尋欄 -->
             <div class="searchbar_titlebar">
@@ -14,8 +14,8 @@
             <!-- <div id="select_test"></div> -->
         </div>
 
-        <main class="product_page_main">
-            <titleh1 class="titleh1rwd" title="主廚蛋糕"></titleh1>
+        <main class="product_page_main" v-show="bbb">
+            <titleh1 class="titleh1rwd" title="主廚蛋糕" ></titleh1>
                 <div id="product_cakecard" >
                     <router-link to="product_detail"  v-for="(card, index) in 12" :key="index">
                         <div class="product_card_outline"> 
@@ -36,12 +36,12 @@
                     </router-link>
                 </div>
         </main>
-        <main class="product_page_main">
-            <titleh1 class="titleh1rwd" title="私廚蛋糕"></titleh1>
+        <main class="product_page_main" v-show="!bbb">
+            <titleh1 class="titleh1rwd" title="私廚蛋糕" ></titleh1>
                 <div id="product_cakecard" >
                     <div class="product_card_outline" v-for="(card, index) in 12" :key="index"> 
                         <div class="product_img_container">
-                            <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                            <img class="product_img_container_img" src="../assets/images/bit_cake.jpg" />
                         </div>
                         <div class="product_introduce">
                             <div class="product_detail">
@@ -78,9 +78,23 @@ export default {
     data(){
         return{
             asd:123546,
+            receive: '',
+            bbb : true,
         }
     },
+    // props:{
+        
+    // },
     methods:{
+        // changeblock: changeblock? 
+        // getValFormChild(val){
+        //     this.receive = 
+        // }
+        abc(ev){
+            console.log(ev)
+            console.log(typeof ev)
+            this.bbb = ev;
+        },   
     },
     watch:{
         

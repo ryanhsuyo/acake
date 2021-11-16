@@ -1,7 +1,8 @@
 <template>
     <div>
         <headercom></headercom>
-        <div id="first_box">
+        <!-- <full-page ref="fullpage" :options="options" id="fullpage"> -->
+        <div id="first_box show_content section">
             <div class="first_screen">
                 <div class="banner_box">
                     <img data-offset="20" class="banner_layer3 parallax_reverse" src="../assets/images/banner_layer3.png" alt="">
@@ -17,10 +18,33 @@
                 <img class="background_img" src="../assets/images/background_img130.png" alt="">
             </div>
         </div>
-        <div class="second_screen">
+        <div class="second_screen section">
+            <!-- 第二屏裝飾文字 -->
+            <div class="decoration_text_left">
+                A piece of cake.
+            </div>
+            <div class="decoration_text_left_two">
+                Happy Cheatday !
+            </div>
+            <div class="decoration_img_left">
+                <img src="../assets/images/cake_design/decoration4.png" alt="">
+            </div>
+            <div class="decoration_img_left_two">
+                <img src="../assets/images/cake_design/decoration2.png" alt="">
+            </div>
+            <div class="decoration_text_right">
+                Give me a piece of chocolate cake.
+            </div>
+            <div class="decoration_img_right">
+                <img src="../assets/images/cake_design/decoration4.png" alt="">
+            </div>
+            <div class="decoration_img_right_two">
+                <img src="../assets/images/cake_design/fruit2.png" alt="">
+            </div>
+            <!-- 第二屏裝飾文字 -->
             <div id="second_box">
                 <!-- 往下箭頭 -->
-                <div class="downarrow">
+                <div class="downarrow" @click="scrolldown">
                     <span class="arrow"></span>
                     <span class="arrow"></span>
                     <span class="arrow"></span>
@@ -50,28 +74,71 @@
                         讓我們在每一次選蛋糕時，不必再有任何的妥協
                         邀請你來設計，專屬於你的蛋糕。
                         <br>
+                        <h2><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg);">About Cake</h2>
+                        <!-- 蛋糕是甜蜜的 快樂的 幸福的，不同的蛋糕代表著不同的心情和意義。 -->
+                        「 櫻桃酒味從巧克力卷的縫隙飄出 嚮往極北的黑森林 紛飛的雪花里有精靈的歌詠 」＿麥卡倫威士忌覆盆子巧克力蛋糕
+                        <br>
+                        「 夏日溫暖的午後 細細品味療癒的美好 沈入鬆軟的甜蜜 果香在齒間肆意流淌 」＿白葡萄雙餡蛋糕
+                        <br>
+                        「 日式傳統的風雅 為現代簡約主義掀起漣漪 茶與奶香 剛柔並濟 進退間 譜出一段怡然自得的圓舞 」＿日本小山園抹茶拿鐵蛋糕
+                        <br>
+                        <br>
+                        鬆軟的午後 給特別的你 一起來場忘憂之旅 給自己來場專屬的療癒吧！
+                        <!-- 為自己創造專屬的療癒吧！ -->
+
                         <h2><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg);">A piece of cake</h2>
-                        蛋糕是甜蜜的，蛋糕是快樂的，蛋糕也是幸福的，不同的蛋糕，代表著不同的心情和意義。生日、戀愛、婚禮，在人生重要的時刻，當然要與身邊親朋好友或是情人知己、乃至同學同事共同分享，成為記憶中的難忘的生活歡聚時刻。生日，成為有“ 脆 ” 時刻誕生日，是每一個人每年最值得慶祝的大日子。擔當主角的無論男或女，老或少，生日收到蛋糕總是一樂也。 “ 有 ‘ 脆 ’ 時刻 ” 是一種專門為生日設計的 “ 脆脆 ” 蛋糕。其脆是朱古力脆米，是果仁脆，連芒果、啤梨、楊梅等鮮果都是爽脆的，配上軟滑慕思，發不同脆味。告白，簡單中藏 “ 新鮮感 ” 對愛情的要求很簡單：外表平凡，內里雋永。為情侶們打造的三款蛋糕，不僅養眼，鮮果分量多，而且有不同營養功效，把人間溫馨的愛意融入其中。
+                        「辛苦了」一句簡單的話語 可以溫暖人心<br>
+                        <!-- 我們都在期盼 那個他，如此述說。<br> -->
+                        <!-- 一  屬於你的蛋糕  是療傷最好的選擇<br> -->
+                        品，一口下午 ｜ 飲，一抹晚霞<br>
+                        給特別的你 融化你的不開心 讓整天的困頓一瞬間 「A piece of cake！」
+                        <!-- 一個<br> -->
+                        <!-- 特別的 鬆軟的 酥脆的<br>
+                        休憩 -->
+                        
+                        <!-- 鬆軟的午後
+                        給特別的你。 -->
+                        
                     </div>
                 </div>
             </div>
         </div>
-            <div class="third_screen">
+            <div class="third_screen section">
                 <div class="vote_box">
-
+                    <div class="vote_inside">
+                        <div class="vote_topthree" v-for="(three,index) in 3" :key="index">
+                            <img
+                                :src="require('@/assets/images/chefHatNo'+(index+1)+'.png')"
+                                alt=""
+                                class="topthree_hat"
+                            />
+                            <img src="../assets/images/cho_cake.jpg" alt="" class="pic_cake" />
+                            <div>
+                                <p class="title">巧克力蛋糕<p/>
+                                <p>Chocolate cake</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="third_screen_button">
+                    <router-link to="/cakeDesign" id="cakeDesign">
+                        <buttontest title=" 進入投票" style=""></buttontest>
+                    </router-link>
+                </div>
                 </div>
             </div>
-            <div class="fourth_screen">
+            <div class="fourth_screen section">
                 <div class="fourth_box">
                     <div class="fourth_title">
                         <titleh1 title="主廚推薦"></titleh1>
                     </div>
                     <div class="fourth_card">
-                        <card-voting v-for="(cake_name,index) in 6" :key="index"></card-voting>
+                        <cardProduct v-for="(cake_name,index) in 6" :key="index"></cardProduct>
+                        <!-- <cardVoting></cardVoting> -->
+                        <!-- <card-voting v-for="(cake_name,index) in 6" :key="index"></card-voting> -->
                     </div>
                 </div>
             </div>
-            <div class="fifth_screen">
+            <div class="fifth_screen section">
                 <div id="fifth_box">
                     <div class="fifth_title">
                         <titleh1 title="關於蛋糕的小知識"></titleh1>
@@ -114,22 +181,31 @@
                         </div>
                     </div>
                 </div>
+        <!-- </full-page> -->
         <footercom></footercom>
     </div>
 </template>
-<!-- gsap套件 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+
 <!-- jQ套件 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 import $ from 'jquery'
+import Vue from 'vue'
+// import VueFullPage from 'vue-fullpage.js'
+// Vue.use(VueFullPage)
 import headercom from '../components/headercom'
 import titleh1 from '../components/title_h1.vue'
 import cardVoting from '../components/card_voting.vue'
 import buttontest from '../components/button_h1.vue'
+import cardTopthree from '../components/card_topthree.vue'
+// import cardProduct from '../components/card_product.vue'
+import cardProduct from '../components/card_product_index.vue'
 import footercom from '../components/footercom'
-// import {gsap} from "gsap"
 
+// import {gsap} from "gsap"
+// new fullpage('#fullpage', {
+//     licenseKey: 'YOUR_KEY_HERE',
+// })
 export default {
     name:"index",
     components:{
@@ -137,7 +213,35 @@ export default {
         titleh1,
         cardVoting,
         buttontest,
+        cardTopthree,
+        cardProduct,
         footercom,
+        // fullPage,
+    },
+    
+    // data() {
+    //     return {
+    //         options: {
+    //             // licenseKey: 'YOUR_KEY_HEERE',
+    //             menu: '#menu',
+    //             anchors: ['page1', 'page2', 'page3'],
+    //             // sectionsColor: ['#41b883', '#ff5f45', '#0798ec']
+    //         },
+    //     }
+    // },
+    methods: {
+    // Called when your components are ready. That is up to you to decide when.
+        componentsReady() {
+            this.$refs.fullpage.init()
+        },
+
+        // 點擊往下按鈕
+        scrolldown(){
+            $('html,body').animate({ 
+            scrollTop: 700,
+        }, 700)
+
+        }
     },
     mounted() {
         // 第一屏 parallax 效果
@@ -177,7 +281,18 @@ export default {
             });
         });                         
 
-        // gsap
+        // 第三屏第三屏third_screen 螢幕寬度監聽事件
+        // $(window).resize(function(){
+        //     var windowsize = $(window).width();
+        //     if (windowsize > 768) {
+        //         // alert('10');
+        //         $('.vote_inside').animate({
+        //             marginLeft: '+=350',
+        //         }, 500);
+        //     }
+        // });
+
+        // ------------------------------------------ gsap ------------------------------------------
         TweenMax.to('#shiny1', {
 
             duration: 1,
@@ -186,11 +301,77 @@ export default {
             rotation: 50,
             transformOrigin:'center top',
         });
+
+        // 第二屏裝飾文字
+        TweenMax.to('.decoration_text_left', {
+
+            duration: 3,
+            x:350,
+            rotation: 10,
+            scale: 1.1,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_text_left_two', {
+
+            duration: 2,
+            x:120,
+            rotation: -6,
+            scale: 1.1,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_img_left', {
+
+            duration: 3,
+            x:250,
+            rotation: 30,
+            // scale: 1.2,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_img_left_two', {
+
+            duration: 2,
+            x:50,
+            rotation: -10,
+            // scale: 1.2,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_text_right', {
+
+            duration: 3,
+            x:-150,
+            rotation: 3,
+            scale: 1.2,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_img_right', {
+
+            duration: 2,
+            x:-100,
+            rotation: -10,
+            scale: 1.1,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
+        TweenMax.to('.decoration_img_right_two', {
+
+            duration: 3,
+            x:-500,
+            rotation: 10,
+            scale: 1.1,
+            transformOrigin:'center center',
+            // autoAlpha: 0,
+        });
     },
 }
 </script>
 <style scoped lang="scss">
     @import "../assets/style/var.scss";
+    @import "../assets/style/fullpage.min.css";
     body{
         margin: 0;
         position: relative;
@@ -207,6 +388,7 @@ export default {
     // 第一屏first_screen
     div.first_screen{
         height: 650px;
+        // height: 100vh;
         display: flex;
         justify-content: center;
         margin: 0;
@@ -271,11 +453,115 @@ export default {
 
     // 第二屏second_screen
     div.second_screen{
+        // height: 100vh;
         margin-top: 0px;
         background-color: #F7EDD4;
         display: flex;
         justify-content: center;
+        position: relative;
+        overflow: hidden;
     }
+    // -------------------------------------- 第二屏裝飾文字 --------------------------------------
+    div.decoration_text_left{
+        position: absolute;
+        top: 60px;
+        left: 5px;
+        color: #DFB9B0;
+        // -webkit-text-stroke: 1px #515151;
+        font-size: 24px;
+    }
+     @media all and (max-width: 768px){
+         div.decoration_text_left{
+             display: none;
+         }
+     }
+    
+    div.decoration_text_left_two{
+        position: absolute;
+        top: 10px;
+        left: 5px;
+        color: #F7EDD4;
+        -webkit-text-stroke: .5px #9F746B;
+        text-shadow: 1px 1px 0px #9F746B;
+        font-size: 30px;
+        opacity: .6;
+    }
+    @media all and (max-width: 768px){
+        div.decoration_text_left_two{
+            z-index: 10;
+            top: 3px;
+            left: 50px;
+        }
+    }
+    @media all and (max-width: 576px){
+        div.decoration_text_left_two{
+            display: none;
+        }
+    }
+    div.decoration_img_left{
+        position: absolute;
+        top: 50px;
+        left: 5px;
+        width: 50px;
+        img{
+            width: 100%;
+        }
+    }
+    div.decoration_img_left_two{
+        position: absolute;
+        top: 0px;
+        left: 5px;
+        width: 40px;
+        img{
+            width: 100%;
+        }
+    }
+    div.decoration_text_right{
+        position: absolute;
+        top: 20px;
+        right: 5px;
+        color: #F7EDD4;
+        -webkit-text-stroke: .5px #9F746B;
+        text-shadow: 1px 1px 0px #9F746B;
+        font-size: 24px;
+        opacity: .6;
+    }
+    div.decoration_img_right{
+        position: absolute;
+        top: -10px;
+        right: 5px;
+        width: 40px;
+        img{
+            width: 100%;
+        }
+    }
+    div.decoration_img_right_two{
+        position: absolute;
+        top: 30px;
+        right: 5px;
+        width: 45px;
+        img{
+            width: 100%;
+        }
+    }
+    @media all and (max-width: 864px){
+         div.decoration_text_right{
+             display: none;
+         }
+         div.decoration_img_left{
+             display: none;
+         }
+         div.decoration_img_left_two{
+             display: none;
+         }
+         div.decoration_img_right{
+             display: none;
+         }
+         div.decoration_img_right_two{
+             display: none;
+         }
+     }
+     // -------------------------------------- 第二屏裝飾文字 --------------------------------------
     div#second_box{
         max-width: 1200px;
         display: flex;
@@ -296,6 +582,7 @@ export default {
             height: 100px;
             margin: auto 0;
             margin-bottom: 60px;
+            cursor: pointer;
             span.arrow{
                 display: block;
                 width: 18px;
@@ -320,10 +607,11 @@ export default {
             justify-content: center;
             align-items: center;
             margin-top: 30px;
-            position: relative;
+            // position: relative;
             div.about_img{
                 height: 300px;
                 margin-right: 50px;
+                position: relative;
                 img#logo{
                     height: 100%;
                 }
@@ -390,14 +678,29 @@ export default {
             }
         }
     }
-
+    @media all and (max-width: 1199.98px){
+        div#second_box{
+            div.second_content{
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
+    }
     @media all and (max-width: 768px){
 
         div#second_box{
+            div.downarrow{
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
             div.second_content{
+                display: flex;
                 margin-left: 40px;
                 margin-right: 40px;
                 flex-direction: column;
+                div.about_img{
+                    margin-right: 0px;
+                }
             }
         }
     }
@@ -410,14 +713,125 @@ export default {
         align-content: center;
         padding: 80px 0px;
         div.vote_box{
-            width: 1120px;
+            max-width: 1120px;
             height: 520px;
+            // padding: auto;
             border-radius: 5px;
             background-image: url("../assets/images/index_kitchen_img.png");
-            background-size: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
             box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            div.vote_inside{
+                width: 1120px;
+                height: 520px;
+                padding-top: 40px;
+                display: grid;
+                gap: 35px;
+                grid-template-columns: 1fr 1fr 1fr;
+                // align-items: center;
+                align-items: start;
+                // grid-template-areas: "one one" "second third";
+            }
         }
     }
+
+    div.third_screen_button{
+            position: absolute;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+            z-index: 5;
+            // a{
+            //     background-color: #EFE6E4;
+            // }
+        }
+
+    div.vote_topthree {
+        margin: 0 auto;
+        display: inline-block;
+        position: relative;
+        background-color: #f7edd4;
+        color: #515151;
+        border-radius: 5px;
+        height: 340px;
+        box-shadow: $shadow;
+        .topthree_hat {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            // border: 1px solid red;
+            left: -20px;
+            top: -50px;
+            transform: rotate(-15deg);
+        }
+        .pic_cake {
+            height: 260px;
+            border-radius: 5px 5px 0px 0px;
+        }
+        > div {
+            padding: 10px;
+            p.title {
+            margin: 0;
+            font-size: 24px;
+            }
+            p {
+            margin: 0;
+            }
+        }
+    }
+    @media all and (max-width: 1199.98px){
+        div.third_screen{
+             div.vote_box{
+                 width: 98%;
+                 overflow: hidden;
+                 div.vote_inside{
+                    width: 100%;
+                    overflow-x: scroll;
+                    overflow-y: hidden;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                 }
+             }
+         }
+    }
+     @media all and (max-width: 768px){
+         div.third_screen{
+             div.vote_box{
+                 width: 575px;
+                 overflow: hidden;
+                 div.vote_inside{
+                    width: 575px;
+                    gap: 20px;
+                    overflow-x: scroll;
+                    overflow-y: hidden;
+                    margin-left: 11px;
+                    margin-right: 11px;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                 }
+             }
+         }
+     }
+     @media all and (max-width: 576px){
+         div.third_screen{
+             div.vote_box{
+                 width: 320px;
+                 div.vote_inside{
+                     width: 280px;
+                     overflow-x: scroll;
+                     overflow-y: hidden;
+                     padding-left: 10px;
+                     padding-right: 10px;
+                 }
+             }
+         }
+     }
 
     // 第四屏fourth_scree
     div.fourth_screen{
@@ -437,9 +851,29 @@ export default {
         }
         div.fourth_card{
             display:grid;
-            gap: 80px 35px;
-            // grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+            // grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            // gap: 60px 25px;
+            // justify-content: space-between;
+            gap: 60px 25px;
+            grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
             grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 1199.98px) {
+        div.fourth_box{
+            div.fourth_card{
+                gap: 35px;
+                grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+            }
+        }
+    }
+    @media all and (max-width: 780px){
+        div.fourth_box{
+            div.fourth_card{
+                gap: 35px;
+                grid-template: repeat(6, 1fr) / repeat(1, 1fr);
+            }
         }
     }
 
@@ -605,11 +1039,43 @@ export default {
             }
         }
     }
-
-    @media all and (max-width: 768px){
+    @media (min-width: 1060px) and (max-width: 1199.98px){
         div#fifth_box{
+            gap: 100px 30px;
             margin-left: 40px;
             margin-right: 40px;
+        }
+    }
+    @media (min-width: 768px) and (max-width: 1059.98px){
+        div#fifth_box{
+            gap: 100px 20px;
+            margin-left: 40px;
+            margin-right: 40px;
+            div.first_knowledge_img{
+                max-width: 400px;
+                max-height: 400px;
+            }
+            // div.second_knowledge_img{
+                // max-height: 500px;
+                // max-width: 500px;
+                // img{
+                //     max-width: 700px;
+                // }
+            // }
+            div.third_knowledge_img{
+                max-width: 400px;
+                max-height: 400px;
+            }
+        }
+    }
+    @media all and (max-width: 768px){
+        div#fifth_box{
+            max-width: 768px;
+            margin-left: 40px;
+            margin-right: 40px;
+            justify-items: center;
+            gap: 30px;
+            // overflow: hidden;
             div.first_knowledge_img{
                 grid-column: 1/5;
                 order:1;
@@ -621,6 +1087,12 @@ export default {
             div.second_knowledge_img{
                 grid-column: 1/5;
                 order:3;
+                max-height: 500px;
+                max-width: 500px;
+                img{
+                    max-width: 700px;
+                    max-height: 398px;
+                }
             }
             div.second_knowledge_text{
                 grid-column: 1/5;
@@ -633,6 +1105,35 @@ export default {
             div.third_knowledge_text{
                 grid-column: 1/5;
                 order:6;
+            }
+        }
+    }
+    @media all and (max-width: 575.98px){
+        div#fifth_box{
+            max-width: 575px;
+            div.first_knowledge_img{
+                max-width: 365px;
+                max-height: 365px;
+                img{
+                    width: 365px;
+                    height: 365px;
+                }
+            }
+            div.second_knowledge_img{
+                max-height: 365px;
+                max-width: 365px;
+                img{
+                    height: 365px;
+                    width: 642px;
+                }
+            }
+            div.third_knowledge_img{
+                max-width: 365px;
+                max-height: 365px;
+                img{
+                    width: 365px;
+                    height: 365px;
+                }
             }
         }
     }

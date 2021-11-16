@@ -8,12 +8,12 @@
             <div id="qa_chatbox">
                 <div id="qa_chatbox_bg">
                     <div class="textarea">
-                        <p>我的訂單有問題，我要湊齊三個</p>
                         <img src="../assets/images/cho_cake.jpg" alt="">
+                        <p>我的訂單有問題，我要湊齊三個</p>
                     </div>
                     <div class="textarea2">
-                        <img src="../assets/images/cho_cake.jpg" alt="">
                         <p>哪裡有問題呢?</p>
+                        <img src="../assets/images/cho_cake.jpg" alt="">
                     </div>
                 </div>
             </div>
@@ -28,10 +28,10 @@
 import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
-import titleh1 from "../components/title_h1.vue"
-import search_bar from "../components/search_bar.vue"
+import titleh1 from "./title_h1.vue"
+import search_bar from "./search_bar.vue"
 export default {
-    name:'shopping_cart',
+    name:'qaChat',
     components:{
         titleh1,
         headercom,
@@ -71,7 +71,8 @@ body{
     background-color: $lightYellow;
     max-width: 400px;
     width: 100%;
-    height: 500px;
+    height: 350px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     // justify-content: center;
@@ -84,6 +85,7 @@ body{
         align-items: center;
         // margin-top:  20px;
         img{
+            margin-left: 20px;
             width: 30px;
             height: 30px;
             object-fit: cover;
@@ -97,13 +99,16 @@ body{
         display: flex;
         background-color: white;
         width: 90%;
+        max-width: 350px;
         height: 350px;
         margin: auto;
         justify-content: center;
+        border-radius: 10px;
         p{
             font-size: $p;
         }
         img{
+            margin-left: 20px;
             width: 20px;
             height: 20px;
             object-fit: cover;
@@ -111,15 +116,16 @@ body{
         #qa_chatbox_bg{
             display: flex;
             flex-direction: column;
+            // justify-content: flex-start;
+            align-items: center;
             width: 100%;
             .textarea{
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                max-width: 400px;
-                width: 100%;
+                width: 95%;
                 p{
-                    margin-right: 30px;
+                    // margin-right: 30px;
                 }
                 img{
                     margin-right: 20px;
@@ -134,9 +140,10 @@ body{
                 justify-content: flex-start;
                 align-items: center;
                 max-width: 400px;
-                width: 100%;
+                width: 95%;
+                // margin: auto;
                 p{
-                    margin-left: 30px;
+                    // margin-left: 30px;
                 }
                 img{
                     margin-left: 20px;
@@ -151,14 +158,17 @@ body{
         max-width: 500px;
         width: 90%;
         height: 40px;
+        margin-top: 20px;
         display: flex;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         #qa_answer_input{
+            border: 0;
             height: 40px;
             background-color: white;
+            border-radius: 5px 0 0 5px;
             width: 250px;
             &:focus{
-                border: 3px solid $darkGrey;
+                border: 1px solid $darkGrey;
             }
         }
         #qa_answer_input_button{
@@ -166,7 +176,8 @@ body{
             height: 40px;
             background-color: $palePike;
             font-size: $h4;
-            border-radius: 5px;
+            border: 0;
+            border-radius: 0 5px 5px 0;
             cursor: pointer;
             &:hover{
                 color: $lightYellow;

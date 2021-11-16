@@ -1,7 +1,7 @@
 <template>
-    <div class="change_page">
-        <div class="chef_cake" :class="{'-on' : switchClass}" @click="add" >主廚推薦</div>         
-        <div class="designer_cake" @click="add2" :class="{'-on' : !switchClass}">創意點子</div>         
+    <div class="change_page" @click="switchLite">
+        <div class="chef_cake" :class="{'-on':Case}" @click="switch_tab = true" is="chefpage">主廚推薦</div>         
+        <div class="designer_cake" :class="{'-on':!Case}" @click="switch_tab = false" is="designerpage">創意點子</div>         
     </div>
 </template>
 <script>
@@ -10,19 +10,18 @@ export default {
 name: "switchTab",
     data(){
         return{
-            switchClass: true,
+            switch_tab: true,
         }
     },
-    props:[],
     methods: {
-        add(){
-            this.switchClass = true;
-        },
-        add2(){
-            this.switchClass = false;
+        switchLite(){
+            this.$emit("receive",this.switch_tab);
         }
     },
     computed:{
+        Case(){
+            return this.switch_tab? true:false;
+        }
     },
     mounted(){
     },

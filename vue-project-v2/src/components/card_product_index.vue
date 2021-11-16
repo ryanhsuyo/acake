@@ -4,15 +4,13 @@
             <img src="../assets/images/cho_cake.jpg">
         </div>
         <div class="down_block">
-            <h4 class="cake_title">無敵大蛋糕</h4>
-            <p class="design_idea">好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的</p>
             <div class="voting_area">
                 <div class="voting_num">
-                    <span class="heart_icon"></span>
-                    <span class="num">{{vote}}</span>
+                    <h4 class="cake_title">無敵大蛋糕</h4>
+                    <p class="price">NT $500</p>
                 </div>
-                <button class="voting" @click="[choose=choose?0:1,votePlus()]" :class="{'check':choose}">
-                    投票
+                <button class="voting">
+                    加入我的最愛
                     <span></span>
                 </button>
             </div>
@@ -21,21 +19,21 @@
 </template>
 <script>
 export default {
-    name:"card_voting",
+    name:"card_voting_index",
     data(){
         return{
-            choose:0,
-            vote:310,
+            // choose:0,
+            // vote:310,
         }
     },
     methods:{
-        votePlus(){
-            if(this.choose == 0){
-                this.vote--
-            }else{
-                this.vote++
-            }
-        }
+        // votePlus(){
+        //     if(this.choose == 0){
+        //         this.vote++
+        //     }else{
+        //         this.vote--
+        //     }
+        // }
     }
 }
 </script>
@@ -52,6 +50,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     height: 480px;
     padding: 25px;
     border-radius: 7px;
+    box-shadow: $shadow;
     .img_container{
         overflow: hidden;
         width: 300px;
@@ -63,32 +62,28 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
         }
     }
     .down_block{
-        .cake_title{
-            margin: 15px 0;
-            text-align: left;
-            font-size: 20px;
-            line-height: 20px;
-            color: #515151;
-            font-weight: 400;
-        }
-        .design_idea{
-            margin: 0;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            font-size: 16px;
-            line-height: 16px;
-            color: #515151;
-        }
         .voting_area{
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             .voting_num{
                 margin-top: 35px;
-                .heart_icon{
-                    @extend %heart_icon;
-                }
+                    .cake_title{
+                        margin: 15px 0;
+                        text-align: left;
+                        font-size: 20px;
+                        line-height: 20px;
+                        color: #515151;
+                        font-weight: 400;
+                    }
+                    p.price{
+                        font-size: 20px;
+                        color: #515151;
+                        margin-top: 0px;
+                    }
+                // .heart_icon{
+                //     @extend %heart_icon;
+                // }
                 .num{
                     font-size: 20px;
                     vertical-align: top;
@@ -100,6 +95,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
                 margin-top: 15px;
                 width: 180px;
                 height: 60px;
+                padding-right: 25px;
                 border-radius: 100px;
                 border: 0;
                 box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);

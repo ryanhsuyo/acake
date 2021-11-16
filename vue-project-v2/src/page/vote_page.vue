@@ -69,6 +69,13 @@ import cardVoting from "../components/card_voting.vue";
 import card_topthree from "../components/card_topthree.vue";
 export default {
   name: "votePage",
+  data(){
+    return{
+      total_decorations:["巧克力蛋糕",'水果蛋糕','奶油蛋糕'],
+total_ingredients:["草莓","巧克力","葡萄","櫻桃",],
+total_cakebodys:["葉子","生日牌"],
+    }
+  },
   components: {
     titleh1,
     headercom,

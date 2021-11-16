@@ -4,9 +4,9 @@
   header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
   function getPDO(){
 
-    $db_host = "127.0.0.1";
+    $db_host = "localhost";
     $db_user = "root";
-    $db_pass = "password";
+    $db_pass = "p@ssw0rd";
     $db_select = "A_cake";
 
     $dsn = "mysql:host=".$db_host.";dbname=".$db_select;

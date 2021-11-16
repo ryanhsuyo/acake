@@ -135,6 +135,8 @@ export default {
                 display: flex;
                 align-items: center;
                 cursor: pointer;
+                // cursor: hand;
+                pointer-events: auto;
                 img{
                     height: 100%;
                     cursor: pointer;
@@ -158,7 +160,7 @@ export default {
                         a{
                             color: #515151;
                             text-decoration: none;
-                            font-size: 18px;
+                            font-size: 16px;
                             cursor: pointer;
                             &:hover{
                                 color: #9F746B;

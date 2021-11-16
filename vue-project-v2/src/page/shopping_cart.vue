@@ -43,79 +43,39 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="addenda_block_package">
-                            <div class="addenda_block_package_item_img_block">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
-                            </div>
-                            <div class="addenda_block_cake_content">
-                                <div class="addenda_block_cake_title">{{packdata}}</div>
-                                <div class="addenda_block_cake_sizeandamount">
-                                    <div class="addenda_block_cake_size">
+                        <div class="select_block">
+
+                            <div class="addenda_block_package">
+                                <div class="addenda_block_package_item_img_block">
+                                    <img src="../assets/images/cho_cake.jpg" alt="">
+                                </div>
+                                <div class="addenda_block_cake_content">
+                                    <div class="addenda_block_cake_title">{{packdata}}</div>
+                                    <div class="addenda_block_cake_sizeandamount">
+                                        <div class="addenda_block_cake_size">
+                                        </div>
+                                        <div class="addenda_block_cake_amountandunit">
+                                            <div class="addenda_block_cake_amount"></div>
+                                            <div class="addenda_block_cake_unit"></div>
+                                        </div>
                                     </div>
-                                    <div class="addenda_block_cake_amountandunit">
-                                        <div class="addenda_block_cake_amount"></div>
-                                        <div class="addenda_block_cake_unit"></div>
+                                    <div class="addenda_block_cake_twandprice">
+                                        <div class="addenda_block_cake_tw">NT$</div>
+                                        <div class="addenda_block_cake_price">0</div>
                                     </div>
                                 </div>
-                                <div class="addenda_block_cake_twandprice">
-                                    <div class="addenda_block_cake_tw">NT$</div>
-                                    <div class="addenda_block_cake_price">0</div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="addenda_block_package_select_block">  
-                            <select v-model="packdata" name="" id="addenda_block_package_select">
-                                <option v-for="(pack, index) in packs" :key='index' :value="pack">{{pack}}</option>
-                            </select>
+                            <div class="addenda_block_package_select_block">  
+                                <select v-model="packdata" name="" id="addenda_block_package_select">
+                                    <option v-for="(pack, index) in packs" :key='index' :value="pack">{{pack}}</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="addenda_cancel_button_block" >
                             
                         </div>
                     </div>
                     <div class="addenda_hr"></div>
-                    <!-- <div class="addenda_block_list2">
-                        <div class="addenda_item_block_cardorcandle">
-                            <div class="addenda_block_cake_img_block_cardorcandle">
-                                <img src="../assets/images/cho_cake.jpg" alt="">
-                            </div>
-                            <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">吵架王手寫的卡片</div>
-                                <div class="addenda_block_cake_sizeandamount">
-                                    <div class="addenda_block_cake_size">
-                                    </div>
-                                    <div class="addenda_block_cake_amountandunit">
-                                        <div class="addenda_block_cake_amount"></div>
-                                        <div class="addenda_block_cake_unit"></div>
-                                    </div>
-                                </div>
-                                <div class="addenda_block_cake_twandprice_cardorcandle">
-                                    <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="addenda_block_cake_item_cardorcandle_select">
-                            <select name="" id="addenda_block_cake_item_select">
-                                <option value="">超大張卡片</option>
-                                <option value="">情人節卡片</option>
-                                <option value="">聖誕節卡片</option>
-                                <option value="">七夕浪漫卡片</option>
-                            </select>
-                        </div>
-                        <div class="addenda_block_cake_item_cardorcandle_select_other">
-                            <select name="" id="addenda_block_cake_item_select_other">
-                                <option value="">1個</option>
-                                <option value="">2個</option>
-                                <option value="">3個</option>
-                            </select>
-                        </div>
-
-                        <div class="addenda_item_cancel_block">
-                            <div class="addenda_item_cancel">
-                                <img src="../assets/images/trash_icon.svg" alt="">
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="addenda_block_list2" v-for="(list,index) in lists" :key='index' >
                         <div class="addenda_item_block_cardorcandle">
                             <div class="addenda_block_cake_img_block_cardorcandle">
@@ -158,30 +118,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="addenda_block_list3">
-                        <div class="addenda_item_block_cardorcandle">
-                            <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">草莓奶油蛋糕草莓奶油</div>
-                                <div class="addenda_block_cake_sizeandamount">
-                                    <div class="addenda_block_cake_size">
-                                    </div>
-                                    <div class="addenda_block_cake_amountandunit">
-                                        <div class="addenda_block_cake_amount"></div>
-                                        <div class="addenda_block_cake_unit"></div>
-                                    </div>
-                                </div>
-                                <div class="addenda_block_cake_twandprice_cardorcandle">
-                                    <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">0</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                        <!-- <div class="addenda_item_detail">
-
-                        </div>
-                        <div class="addenda_item_amount"></div> -->
-                    <!-- </div> -->
                     <div class="addenda_block_list4">
                         <div class="new_addenda_block_outline">
                             <div class="new_addenda_block_square" @click="addaddenda()" >
@@ -438,13 +374,26 @@ body{
             .addenda_block_list1{
                 max-width: 1060px;
                 margin-top: 30px;
-                max-width: 100%;
+                width: 95%;
                 display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                // background-color: $lightYellow;
+                @media screen and (max-width:991.98px){ 
+                    flex-direction: column;
+                    justify-content: space-between;
+                    height: 300px;
+                    align-items: center;
+                }
                 .addenda_block_cake{
                     max-width: 345px;
                     width: 100%;
                     display: flex;
                     justify-content: space-between;
+                    @media screen and (max-width:991.98px){ 
+                        max-width: 70%;
+                        width: 95%;
+                    }
                     .addenda_block_cake_img_block{
                         width: 100px;
                         height: 100px;
@@ -513,55 +462,66 @@ body{
                         }
                     }
                 }
-                .addenda_block_package{
-                    max-width: 220px;
-                    width: 100%;
-                    display: flex;
-                    margin-left: 60px;
-                    justify-content: space-between;
-                    .addenda_block_package_item_img_block{
-                        width: 100px;
-                        height: 100px;
-                        background-color: black;
-                        img{
-                            width: 100px;
-                            height: 100px;
-                            object-fit: cover;
-                        }
-                    }
-                    .addenda_block_cake_content{
-                        max-width: 100px;
+                .select_block{
+                display: flex;
+                justify-content: space-between;
+                width: calc(100% - 400px);
+                @media screen and (max-width:991.98px){ 
+                    // display: flex;
+                    // flex-direction: column;
+                }
+                    .addenda_block_package{
+                        max-width: 220px;
                         width: 100%;
                         display: flex;
-                        flex-direction: column;
+                        // margin-left: 60px;
                         justify-content: space-between;
-                        .addenda_block_cake_title{
-                            font-size: $h4;
+                        @media screen and (max-width:991.98px){ 
+                            max-width: 70%;
+                            width: 95%;
                         }
-                        .addenda_block_cake_twandprice{
-                            max-width: 225px;
+                        .addenda_block_package_item_img_block{
+                            width: 100px;
+                            height: 100px;
+                            background-color: black;
+                            img{
+                                width: 100px;
+                                height: 100px;
+                                object-fit: cover;
+                            }
+                        }
+                        .addenda_block_cake_content{
+                            max-width: 100px;
                             width: 100%;
-                            font-size: $h3;
                             display: flex;
-                            justify-content: flex-start;
-                            .addenda_block_cake_tw{
-                                max-width: 50px;
-                                width: 100%;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            .addenda_block_cake_title{
+                                font-size: $h4;
                             }
-                            .addenda_block_cake_price{
-                                max-width: 50px;
+                            .addenda_block_cake_twandprice{
+                                max-width: 225px;
                                 width: 100%;
-                                
+                                font-size: $h3;
+                                display: flex;
+                                justify-content: flex-start;
+                                .addenda_block_cake_tw{
+                                    max-width: 50px;
+                                    width: 100%;
+                                }
+                                .addenda_block_cake_price{
+                                    max-width: 50px;
+                                    width: 100%;
+                                    
+                                }
                             }
                         }
-                        
                     }
-                }
                 .addenda_block_package_select_block{
                     max-width: 220px;
                     width: 100%;
                     display: flex;
-                    margin-left: 85px;
+                    // margin-left: 85px;
                     align-items: center;
                     text-align: center;
                     select{
@@ -571,121 +531,125 @@ body{
                         height: 30px;
                     }
                 }
-                .addenda_cancel_button_block{
-                    width: 150px;
-                    display: flex;
-                    justify-content: flex-end;
-                    
-                }
             }
-            .addenda_hr{
-                max-width: 1060px;
-                width: 100%;
-                border-top: 2px dotted $darkGrey;
-                margin-bottom: 25px;
-                margin-top: 25px;
+            .addenda_cancel_button_block{
+                width: 150px;
+                display: flex;
+                justify-content: flex-end;
                 
             }
-            .addenda_block_list2{
-                display: flex;
-                max-width: 1060px;
+
+        }
+        .addenda_hr{
+            max-width: 1060px;
+            width: 100%;
+            border-top: 2px dotted $darkGrey;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            
+        }
+        .addenda_block_list2{
+            display: flex;
+            max-width: 1060px;
+            width: 100%;
+            margin-bottom: 50px;
+            .addenda_item_block_cardorcandle{
+                max-width: 345px;
                 width: 100%;
-                margin-bottom: 50px;
-                .addenda_item_block_cardorcandle{
-                    max-width: 345px;
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    .addenda_block_cake_img_block_cardorcandle{
+                display: flex;
+                justify-content: space-between;
+                .addenda_block_cake_img_block_cardorcandle{
+                    width: 100px;
+                    height: 100px;
+                    img{
                         width: 100px;
                         height: 100px;
-                        img{
-                            width: 100px;
-                            height: 100px;
-                            object-fit: cover;
-                        }
+                        object-fit: cover;
                     }
-                    .addenda_block_cake_content_cardorcandle{
+                }
+                .addenda_block_cake_content_cardorcandle{
+                    max-width: 225px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .addenda_block_cake_title_cardorcandle{
                         max-width: 225px;
                         width: 100%;
+                        font-size: $h4;
+                    }
+                    .addenda_block_cake_twandprice_cardorcandle{
+                        max-width: 225px;
+                        width: 100%;
+                        font-size: $h3;
                         display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        .addenda_block_cake_title_cardorcandle{
-                            max-width: 225px;
+                        justify-content: flex-start;
+                        .addenda_block_cake_tw_cardorcandle{
+                            max-width: 50px;
                             width: 100%;
-                            font-size: $h4;
                         }
-                        .addenda_block_cake_twandprice_cardorcandle{
-                            max-width: 225px;
-                            width: 100%;
-                            font-size: $h3;
-                            display: flex;
-                            justify-content: flex-start;
-                            .addenda_block_cake_tw_cardorcandle{
-                                max-width: 50px;
-                                width: 100%;
-                            }
-                            .addenda_block_cake_price_cardorcandle{
-                                max-width: 150px;
-                                width: 50px;
-                            }
+                        .addenda_block_cake_price_cardorcandle{
+                            max-width: 150px;
+                            width: 50px;
                         }
                     }
                 }
-                .addenda_block_cake_item_cardorcandle_select{
-                    margin-left: 60px;
-                    max-width: 220px;
+            }
+            .addenda_block_cake_item_cardorcandle_select{
+                margin-left: 60px;
+                max-width: 220px;
+                width: 100%;
+                // height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                #addenda_block_cake_item_select{
+                    background-color: white;
                     width: 100%;
-                    // height: 30px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
-                    #addenda_block_cake_item_select{
-                        background-color: white;
-                        width: 100%;
-                        height: 30px;
-                        display: flex;
-                        justify-content: center;
-                    }
-                }
-                .addenda_block_cake_item_cardorcandle_select_other{
-                    margin-left: 85px;
-                    max-width: 220px;
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
-                    #addenda_block_cake_item_select_other{
-                        background-color: white;
-                        width: 100%;
-                        height: 30px;
-                        display: flex;
-                        justify-content: center;
-                    }
-                }
-                .addenda_item_cancel_block{
-                    width: 235px;
+                    height: 30px;
                     display: flex;
                     justify-content: center;
-                    align-items: center;
-                    .addenda_item_cancel{
-                        cursor: pointer;
+                }
+            }
+            .addenda_block_cake_item_cardorcandle_select_other{
+                margin-left: 85px;
+                max-width: 220px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                #addenda_block_cake_item_select_other{
+                    background-color: white;
+                    width: 100%;
+                    height: 30px;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+            .addenda_item_cancel_block{
+                width: 235px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .addenda_item_cancel{
+                    cursor: pointer;
+                    width: 30px;
+                    height: 30px;
+                    transform:scale(1,1);
+                        transition:all .3s ease-out;
+                        &:hover{
+                            transform: scale(1.2,1.2);
+                        }
+                    img{
                         width: 30px;
                         height: 30px;
-                        transform:scale(1,1);
-                            transition:all .3s ease-out;
-                            &:hover{
-                                transform: scale(1.2,1.2);
-                            }
-                        img{
-                            width: 30px;
-                            height: 30px;
-                        }
                     }
+                }
 
                 }
             }
+        
+            
             .addenda_block_list4{
                 display: flex;
                 max-width: 1120px;

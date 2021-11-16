@@ -35,8 +35,8 @@
     </div>
     <div class="addenda_block">
       <div class="addenda_titlebar" v-for="(checkAdditional, additionalIndex) in checkAdditionals" :key="additionalIndex" :value="additionalIndex">
-        <div class="addenda_title">{{checkAdditional.NAME}}
-          <div class="addenda_cancel_icon" @click="delAdditional(additionalIndex)" v-show="checkAdditional.NAME !== '一般卡片' && checkAdditional.NAME !== '一般蠟燭'">
+        <div class="addenda_title">{{checkAdditionals[melodyIndex].NAME}}
+          <div class="addenda_cancel_icon" @click="delAdditional(checkAdditional)" v-show="checkAdditional.NAME !== '一般卡片' && checkAdditional.NAME !== '一般蠟燭'">
             <img src="" alt="" />
           </div>
         </div>
@@ -53,9 +53,9 @@
           <div class="addenda_detail_outline">
             <div class="addenda_amount">
               <label for="">
-                <select name="additionalName" @change="changeName(additionalNameIndex)" >
+                <select name="additionalName" v-model="additionals[additionalNameIndex]" @change="changeName(additionalNameIndex)" >
                   <option>替換其他商品</option >
-                  <option v-for="(checkAdditionalName, additionalNameIndex) in additionals" :key="additionalNameIndex" :value="additionalNameIndex" >{{checkAdditionalName.NAME}}{{checkAdditionalName.ID}}
+                  <option v-for="(checkAdditionalName, additionalNameIndex) in additionalsMelody" :key="additionalNameIndex" :value="additionalNameIndex" >{{checkAdditionalName.NAME}}{{checkAdditionalName.ID}}
                   </option>
                 </select>
               </label>
@@ -124,6 +124,7 @@ export default {
       additionals : [],
       checkAdditionals: [],
       checkAdditionalNames: [],
+      melodyIndex: 0,
       // additionalNameIndex: 0,
       // dude: Array(choices.length)
       //   .fill(null)
@@ -135,6 +136,8 @@ export default {
   methods: {
     changeName(additionalNameIndex){
       console.log(additionalNameIndex)
+      let melodyIndex = additionalNameIndex
+      
       // checkAdditional.NAME = this.checkAdditionals[additionalIndex].NAME
     },
    // changeCheckPackageDatas(packageIndex){
@@ -156,20 +159,24 @@ export default {
     },
     checkChoice() {},
     addNewAdditional(){
-      console.log(this.additionals[0]);
-      if(this.additionals[0]){
-        this.checkAdditionals.push(this.additionals[0])
-        this.additionals.shift();
-        // console.log('全部商品', this.additionals)
-        // console.log('選取商品',this.checkAdditionals)
-      }
-    },
-    delAdditional(additionalIndex){
-      // if(this.checkAdditionals[0] && this.checkAdditionals[1]){
+      // console.log(this.additionals[0]);
+      if(this.checkAdditionals.length < this.additionals.length){
 
-        console.log('處理前', this.additionals)
-        this.additionals.push(...this.checkAdditionals.splice(additionalIndex,1));
-        console.log('處理後', this.additionals)
+        this.checkAdditionals.push(this.additionals[this.checkAdditionals.length]);
+      }
+      // console.log(this.additionalsMelody.map(item => item.DESCRIPTION));
+      // console.log(this.additionals[this.checkAdditionals.length]);
+    },
+    delAdditional(item){
+      // if(this.checkAdditionals[0] && this.checkAdditionals[1]){
+        let index = this.additionals.map(item => item.ID).indexOf(item.ID);
+        this.checkAdditionals.splice(index,1);
+        let melody060201 = this.additionals.splice(index, 1);
+        console.log(melody060201);
+        this.additionals.push(...melody060201);
+        // console.log('處理前', this.additionals)
+        // this.additionals.push(...this.checkAdditionals.splice(additionalIndex,1));
+        // console.log('處理後', this.additionals)
       // }
     },
     // deladdenda(index) {
@@ -193,7 +200,7 @@ export default {
                 this.packageDatas = res.data
                 this.checkPackageDatas = this.packageDatas 
                 // console.log(this.packageDatas[0].NAME)
-                this.checkPackageDatas.push(this.packageDatas[0])
+                // this.checkPackageDatas.push(this.packageDatas[0])
                 // console.log(this.checkPackageDatas[0].NAME)
                 
             })
@@ -201,14 +208,13 @@ export default {
         axios.post("http://localhost/acake/productDetailSelectAdditional.php")
             .then(res => {
               // console.log(res.data);
-              this.additionals = res.data 
-              // console.log(this.additionals)
+              this.additionals = res.data;
+              this.additionalsMelody = JSON.parse(JSON.stringify(res.data)); 
               this.checkAdditionals.push(this.additionals[0])
-              this.additionals.splice(0, 1)
-              this.checkAdditionals.push(this.additionals[0])
-              this.additionals.splice(0, 1)
+              this.checkAdditionals.push(this.additionals[1])
               console.log(this.additionals)
               console.log(this.checkAdditionals)  
+              
               // console.log(this.checkAdditionals)
               // this.checkAdditionals.push(this.additionals[1])
               // console.log(this.checkAdditionals)
@@ -221,7 +227,6 @@ export default {
             
   },
   beforeDestroy() {
-   
   },
   created() {
   }

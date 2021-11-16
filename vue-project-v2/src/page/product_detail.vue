@@ -65,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="productDetailAddenda_block" v-show="showpage">
+                <div class="productDetailAddenda_block" v-show="showpage" >
                     <productDetailAddenda class="heyBro" v-show="showpage" @closepage="nnn" :show="showpage"></productDetailAddenda>
                 </div>
             </section>
@@ -109,6 +109,10 @@ export default {
             this.showpage = !this.showpage;
             document.querySelector('body').style.overflow='hidden'
             
+        },
+        outlineclose(){
+            this.showpage = !this.showpage;
+            document.querySelector('body').style.overflow='auto'
         },
         nnn(ev){
             // console.log(ev)
@@ -214,6 +218,9 @@ body{
         background-color: $palePike;
         @media screen and (max-width:767.98px){ 
             margin-bottom: 50px;
+            max-width: 100%;
+            width: 100%;
+            transform: scale(0.95);
         }
         #cake_information{
             margin: 0 auto;
@@ -260,6 +267,9 @@ body{
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                @media screen and (max-width:767.98px){ 
+                    width: 95%;
+                }
                 .cake_titlebar_content{
                     display: flex;
                     flex-direction: column;

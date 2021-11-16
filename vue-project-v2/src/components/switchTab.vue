@@ -35,14 +35,11 @@ name: "switchTab",
 box-sizing: border-box;
 }
 .change_page{
-        margin-top: 150px;
-        max-width: 1120px;
         width: 100%;
         height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 50px;
         @media screen and (max-width:767.98px){ 
             max-width: 400px;
             width: 95%;

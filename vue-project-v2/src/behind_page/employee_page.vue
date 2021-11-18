@@ -267,7 +267,7 @@ export default {
     // 產生頁數寫入pages[]
     this.$axios({
       method: "get",
-      url: "http://localhost/static/quire_member_total.php",
+      url: "http://localhost/static/quire_employee_total.php",
     }).then((res) => {
       let pages = Math.ceil(res.data / 10);
       for (let i = 1; i <= pages; i++) {

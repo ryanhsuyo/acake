@@ -175,7 +175,7 @@ const packages = [{
 },{
   name: "高級包裝",
   price:60,
-  description:          "高級包裝就是高級包裝",
+  description:"高級包裝就是高級包裝",
 },{
   name: "特殊包裝",
   price:120,

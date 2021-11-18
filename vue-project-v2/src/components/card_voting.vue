@@ -4,14 +4,14 @@
             <img src="../assets/images/cho_cake.jpg">
         </div>
         <div class="down_block">
-            <h4 class="cake_title">無敵大蛋糕</h4>
-            <p class="design_idea">好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的蛋糕好吃的</p>
+            <h4 class="cake_title">{{cake_name}}</h4>
+            <p class="design_idea">{{cake_description}}</p>
             <div class="voting_area">
                 <div class="voting_num">
                     <span class="heart_icon"></span>
                     <span class="num">{{vote}}</span>
                 </div>
-                <button class="voting" @click="[choose=choose?0:1,votePlus()]" :class="{'check':choose}">
+                <button class="voting" @click="votePlus()" :class="{'check':choose}">
                     投票
                     <span></span>
                 </button>
@@ -20,20 +20,94 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     name:"card_voting",
+    props:['cake_name','cake_description','cake_vote_num','cake_id'],
     data(){
         return{
             choose:0,
-            vote:310,
+            vote:this.cake_vote_num,
         }
     },
     methods:{
+        // 讀取cookies決定還有幾票可投
         votePlus(){
-            if(this.choose == 0){
-                this.vote--
+            if(this.$store.state.member_id==0){
+                alert('您尚未登入')
             }else{
-                this.vote++
+                //先判定是否是會員才進行投票判定
+            if(this.choose == 0){
+                //加一票
+                        //如果投過三票
+                    if(document.cookie.indexOf(`${this.$store.state.member_id}-3`)!=-1){
+                        alert('你今天已經投過三票瞜')
+                    }
+                
+                    //如果投過兩票
+                    if(document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&(document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1)){
+                            document.cookie = `${this.$store.state.member_id}-3=Mike222; max-age=60`;
+                        this.choose = 1;
+                        this.vote++;
+                        alert('第三票')
+                    }
+                //如果投過一票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&(document.cookie.indexOf(`${this.$store.state.member_id}-2`)==-1)){
+                    document.cookie = `${this.$store.state.member_id}-2=Mike222; max-age=60;`
+                    this.choose = 1;
+                    this.vote++;
+                    alert('第二票')
+                }
+                    //如果都沒投票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)==-1){
+                document.cookie = `${this.$store.state.member_id}-1=Mike222; max-age=60;`
+                this.choose = 1;
+                this.vote++;
+                alert('第一票')
+                }
+            }else{
+                //減一票
+                //收回第一票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)==-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1){
+                    document.cookie = `${this.$store.state.member_id}-1=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    this.choose = 0;
+                    this.vote--
+                    alert('取消第三票')
+                }
+                //收回第二票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1){
+                    document.cookie = `${this.$store.state.member_id}-2=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    this.choose = 0;
+                    this.vote--
+                    alert('取消第二票')
+                }
+                //收回第三票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)!=-1){
+                    document.cookie = `${this.$store.state.member_id}-3=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    this.choose = 0;
+                    this.vote--
+                    alert('取消第三票')
+                }
+                
+            }
+            // 將投票資訊送出
+            let data = new URLSearchParams();
+            data.append('id',this.cake_id)
+            data.append('vote',this.vote)
+            axios({
+        method: "post",
+        url: "http://localhost/static/update_card_vote_num.php",
+        // headers: {
+        //   "Content-Type": "application/x-www-form-urlencoded",
+        // },
+        data: data,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
             }
         }
     }

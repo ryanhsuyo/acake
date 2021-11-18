@@ -12,7 +12,7 @@
               <span >
                 <input
                   type="checkbox"
-                  v-model="choose_total"
+                  v-model="choose_total_flavor"
                   :value="cakebody"
                   :id="cakebody"
                 />{{ cakebody }}
@@ -24,7 +24,7 @@
         <div class="select">
           <span>水果：</span>
           <div class="selected">
-            <div class="checkbox" v-for="(ingredient, index) in total_ingredients" :key="index">
+            <div class="checkbox" v-for="(ingredient, test) in total_ingredients" :key="test">
               <span >
                 <input
                   type="checkbox"
@@ -40,7 +40,7 @@
         <div class="select">
           <span>裝飾：</span>
           <div class="selected">
-            <div class="checkbox" v-for="(decoration, index) in total_decorations" :key="index">
+            <div class="checkbox" v-for="(decoration, asd) in total_decorations" :key="asd">
               <span >
                 <input
                   type="checkbox"
@@ -56,13 +56,18 @@
       <br />
       <div id="choose_label">
         <label
-          v-for="(choose, index) in choose_total"
-          :key="index"
+          v-for="(choose, zzz) in choose_total"
+          :key="zzz"
+          :for="choose"
+          ><span>{{ choose }} <font-awesome-icon icon="fa-solid fa-xmark" /></span></label>
+        <label
+          v-for="(choose, xxx) in choose_total_flavor"
+          :key="xxx"
           :for="choose"
           ><span>{{ choose }} <font-awesome-icon icon="fa-solid fa-xmark" /></span></label>
       </div>
       <button class="clearall" id='send' @click="overflowReverse()">確認送出</button>
-      <button class="clearall" id='clear' @click="choose_total=[]">清空選項</button>
+      <button class="clearall" id='clear' @click="choose_total=[],choose_total_two=[]">清空選項</button>
     </div>
   </div>
 </div>
@@ -75,6 +80,7 @@ export default {
   data() {
     return {
       choose_total: [],
+      choose_total_flavor:[],
       openSelector:false,
     };
   },
@@ -85,6 +91,7 @@ export default {
     overflowReverse(){
       document.querySelector('body').style.overflow='auto';
       this.openSelector=false
+      this.$emit('selector',this.choose_total,this.choose_total_flavor)
 
     }
   }

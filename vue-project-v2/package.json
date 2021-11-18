@@ -27,7 +27,8 @@
     "vue-axios": "^3.3.7",
     "vue-fabric": "^0.1.42",
     "vue-router": "^3.5.3",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "three": "^0.128.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

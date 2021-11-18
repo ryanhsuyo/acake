@@ -3,7 +3,7 @@
     <behind-header thistitle="員工管理"></behind-header>
     <div id="top_bar">
       <h1>員工資料第{{ sn }}頁</h1>
-      <search-bar></search-bar>
+      <search-bar @selectData="selectData"></search-bar>
     </div>
 
     <div id="new_employee" v-if="create">
@@ -14,13 +14,19 @@
       />
     </div>
     <div id="new_employee" v-else>
-      <form @submit.prevent="sendData">
+      
         <section class="first_site">
           <div id="employee">
             <div class="manager_list">
               <div class="manager_img_outline">
-                <img src="" alt="" />
-                <button>修改照片</button>
+                <img src="../assets/images/add_icon.svg" alt="" id="new_employee_img"/>
+                <button @click="newClickInput($event)">上傳照片</button>
+                <input
+                  type="file"
+                  style="display: none"
+                  class="imageButton"
+                  @click="setNewImage()"
+                />
               </div>
               <div class="manager_list_content">
                 <div class="manager_details">
@@ -87,12 +93,11 @@
                 </span>
                 <span></span>
 
-                <button>確認送出</button>
+                <button @click="sendData()">確認送出</button>
               </div>
             </div>
           </div>
         </section>
-      </form>
     </div>
     <!-- 以上為新建員工 -->
 
@@ -125,7 +130,12 @@
                 </div>
               </span>
               <div class="manager_img_outline">
-                <img src="" alt="" class="employee_image" />
+                <!-- 上線前把圖片路徑改成相對路徑 -->
+                <img
+                  :src="data.IMG"
+                  alt=""
+                  class="employee_image"
+                />
                 <button @click="clickInput(index, $event)">修改照片</button>
                 <input
                   type="file"
@@ -232,11 +242,10 @@ export default {
       },
       theIndex: 0,
       pages: [],
-      imgData:{},
+      imgData: {},
     };
   },
   mounted() {
-    console.log(this.sn);
     $("#employee").siblings().removeClass("target");
     $("#employee").addClass("target");
     // 開始請求資料
@@ -248,6 +257,7 @@ export default {
       url: "http://localhost/static/quire_member.php",
       data: params,
     }).then((res) => {
+      console.log(res.data);
       this.data = res.data;
       for (let i = 0; i < this.data.length; i++) {
         this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
@@ -257,7 +267,7 @@ export default {
     // 產生頁數寫入pages[]
     this.$axios({
       method: "get",
-      url: "http://localhost/static/quire_member_total.php",
+      url: "http://localhost/static/quire_employee_total.php",
     }).then((res) => {
       let pages = Math.ceil(res.data / 10);
       for (let i = 1; i <= pages; i++) {
@@ -281,6 +291,54 @@ export default {
         .children()
         .children(".manager_list")
         .toggleClass("close");
+    },
+    selectData(newValue) {
+      if(newValue!=''){
+      const params = new URLSearchParams();
+      params.append("name", newValue);
+      axios({
+        method: "post",
+        url: "http://localhost/static/select_member.php",
+
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: params,
+      })
+        .then((response) => {
+          if (response.data == "") {
+            const params = new URLSearchParams();
+            params.append("page", this.sn - 1);
+            this.$axios({
+              method: "POST",
+              url: "http://localhost/static/quire_member.php",
+              data: params,
+            }).then((response) => {
+              this.data = response.data;
+              for (let i = 0; i < this.data.length; i++) {
+                this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
+              }
+            });
+          } else {
+            this.data = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });}else{
+          const params = new URLSearchParams();
+          params.append("page", this.sn - 1);
+          this.$axios({
+              method: "POST",
+              url: "http://localhost/static/quire_member.php",
+              data: params,
+            }).then((response) => {
+              this.data = response.data;
+              for (let i = 0; i < this.data.length; i++) {
+                this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
+              }
+            })
+        }
     },
     change(index) {
       let i = this.data[index].ACTIVE;
@@ -307,7 +365,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
     sendData() {
@@ -318,6 +376,7 @@ export default {
       let create_date = this.new_employee.create_date;
       let authority = this.new_employee.authority;
       let data = this.new_employee;
+      let img = this.new_employee.img;
       const params = new URLSearchParams();
       params.append("number", number);
       params.append("password", password);
@@ -325,6 +384,7 @@ export default {
       params.append("biulder", biulder);
       params.append("create_date", create_date);
       params.append("authority", authority);
+      params.append("img", img);
       params.append("data", data);
       // const json = encodeURI(JSON.stringify(data),'utf-8')
       axios({
@@ -337,10 +397,10 @@ export default {
         data: params,
       })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
       this.create = 1;
       this.new_employee.number = "";
@@ -370,12 +430,36 @@ export default {
         data: params,
       })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
+    newClickInput($event){
+      let file = $event.target.nextSibling.nextSibling;
+      file.click();
+    },
+    setNewImage(){
+      let button =
+        document.querySelectorAll("input[type='file']")[0];
+      button.onchange = this.pushNewImage;
+    },
+    pushNewImage(){
+      let that = this;
+      let file = document.querySelectorAll("input[type='file']")[0].files[0];
+      
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementById("new_employee_img");
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        that.new_employee.img = readFile.result;
+      })
+    },
+    // 更新照片
     clickInput(index, $event) {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
@@ -391,15 +475,35 @@ export default {
       let index = this.theIndex;
       let file =
         document.querySelectorAll("input[type='file']")[this.theIndex].files[0];
-        // this.imgData = file
-      this.new_employee.img = file.name;
+      this.imgData = file;
       let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
       readFile.readAsDataURL(file);
       readFile.addEventListener("load", function () {
         let image = document.getElementsByClassName("employee_image")[index];
+        // console.log(readFile.result);
         image.src = readFile.result;
-        
+        const params = new FormData();
+        params.append("img", that.imgData);
+        params.append("test", readFile.result);
+        params.append("index", that.theIndex);
+        axios({
+          method: "post",
+          url: "http://localhost/static/img.php",
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
+      // 寫進資料庫
     },
   },
   watch: {

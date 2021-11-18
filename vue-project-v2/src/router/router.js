@@ -11,8 +11,9 @@ export default[{
     children:[
         // {path:'dm', component: r => require.ensure([], () => r(require('../behind_page/employee_page')), 'employee_pages')},
 
+        {path:'', component: r => require.ensure([], () => r(require('../page/front_behind_choose_page')), 'front_behind_choose_page')},
         {path:'assign', component: r => require.ensure([], () => r(require('../page/assign')), 'assign_page')},
-        {path:'vote', component: r => require.ensure([], () => r(require('../page/vote_page')), 'vote_page')},
+        {path:'vote/:sn?', component: r => require.ensure([], () => r(require('../page/vote_page')), 'vote_page')},
         // {path:'', component: r => require.ensure([], () => r(require('../behind_page/employee_page')), 'employee_page')},
         {path:'employee/:sn?', component: r => require.ensure([], () => r(require('../behind_page/employee_page')), 'employee_page')},
         {path:'memberManager', component: r => require.ensure([], () => r(require('../behind_page/member_manager')), 'member_manager')},
@@ -40,8 +41,8 @@ export default[{
         // {path:'member_order', component: member_order},   // 會員訂單查詢頁
         // {path:'member_fav', component: member_fav},   // 會員最愛分類頁
         // {path:'member_fav_detail', component: member_fav_detail},   // 會員最愛詳細頁
-        {path:'/', component: r => require.ensure([], () => r(require('../page/index')), 'index')},//首頁
-        {path:'', component: r => require.ensure([], () => r(require('../page/index')), 'index')},//首頁
+        {path:'index', component: r => require.ensure([], () => r(require('../page/index')), 'index')},//首頁
+        // {path:'', component: r => require.ensure([], () => r(require('../page/index')), 'index')},//首頁
         {path:'cakeDesign', component: r => require.ensure([], () => r(require('../page/cake_design')), 'cakeDesign')},//蛋糕設計
         // {path:'productDetailAddenda', component: r => require.ensure([], () => r(require('../page/productDetailAddenda')), 'productDetailAddenda')},//蛋糕設計
         {path:'swiperTest', component: r => require.ensure([], () => r(require('../page/swiper_test')), 'swiperTest')},//蛋糕設計 測試區

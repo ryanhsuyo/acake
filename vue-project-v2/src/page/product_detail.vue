@@ -238,6 +238,7 @@ body{
                 align-items: center;
                 margin-top: 50px;
                 margin-bottom: 50px;
+                height: 760px;
             }
             #cake_img_outline{
                 width: 350px;
@@ -601,10 +602,8 @@ body{
 
 
 .productDetailAddenda_block{
-    // overflow:scroll ;
     width: 100%;
     height: 100%;
-    // overflow: hidden;
     background-color: rgba(0,0,0,.35);
     margin: auto;
     position: fixed;
@@ -612,9 +611,15 @@ body{
     left: 0;
     z-index: 99999999;
     // transform: scale(0.5);
-
+    @media screen and (max-width:767.98px){ 
+        
+        // margin-top: 200px;
+    }
     .heyBro{
         margin: 100px auto;
+        @media screen and (max-width:767.98px){ 
+            // margin: 20px auto;
+        }
     }
 
 }

@@ -97,15 +97,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="addenda_block_cake_item_cardorcandle_select">
-                            <select v-model="list.idname" name="" id="addenda_block_cake_item_select">
-                                <option  v-for="(item, index) in items" :key='index'>{{item}}</option>
-                            </select>
-                        </div>
-                        <div class="addenda_block_cake_item_cardorcandle_select_other">
-                            <select name="" id="addenda_block_cake_item_select_other">
-                                <option v-for="(amount, index) in 10 " :key='index'>{{amount}}</option>
-                            </select>
+                        <div class="addenda_block_cake_item_cardorcandle_select_block">
+
+                            <div class="addenda_block_cake_item_cardorcandle_select">
+                                <select v-model="list.idname" name="" id="addenda_block_cake_item_select">
+                                    <option  v-for="(item, index) in items" :key='index'>{{item}}</option>
+                                </select>
+                            </div>
+                            <div class="addenda_block_cake_item_cardorcandle_select_other">
+                                <select name="" id="addenda_block_cake_item_select_other">
+                                    <option v-for="(amount, index) in 10 " :key='index'>{{amount}}</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- <div class="addenda_item_detail">
@@ -238,6 +241,11 @@ export default {
         
     },
     mounted(){
+        // 會員認證，非會員跳轉到登入頁面
+            // if(this.$store.state.member_id==0){
+            //     alert("您尚未登入，將跳轉到登入頁面");
+            //     this.$router.push('/assign')
+            // }
     },
     updated() {
         // console.log(`updated() pack: ---> ${this.packdata}`)
@@ -372,9 +380,9 @@ body{
             margin: auto;
             margin-bottom: 50px;
             .addenda_block_list1{
-                max-width: 1060px;
+                max-width: 845px;
                 margin-top: 30px;
-                width: 95%;
+                width: 100%;
                 display: flex;
                 justify-content: space-between;
                 flex-wrap: wrap;
@@ -384,15 +392,18 @@ body{
                     justify-content: space-between;
                     height: 300px;
                     align-items: center;
+                    margin: auto;
+                    margin-top: 50px;
                 }
                 .addenda_block_cake{
                     max-width: 345px;
                     width: 100%;
                     display: flex;
-                    justify-content: space-between;
+                    // justify-content: space-between;
+                    justify-content: flex-start;
                     @media screen and (max-width:991.98px){ 
-                        max-width: 70%;
-                        width: 95%;
+                        max-width: 576px;
+                        width: 100%;
                     }
                     .addenda_block_cake_img_block{
                         width: 100px;
@@ -406,6 +417,7 @@ body{
                     .addenda_block_package_item_img_block{
                         width: 100px;
                         height: 100px;
+                        // margin-left: 60px;
                         img{
                             width: 100px;
                             height: 100px;
@@ -419,10 +431,23 @@ body{
                         justify-content: space-between;
                         width: 100%;
                         height: 100px;
+                        margin-left: 18px;
+                        @media screen and (max-width:991.98px){
+                            justify-content: flex-start;
+                            max-width: 225px;
+                            width: 100%;
+                        }
+                        @media screen and (max-width:575.98px){
+                            max-width: 225px;
+                            width: 100%;
+                        }
                         .addenda_block_cake_title{
                             max-width: 225px;
                             width: 100%;
                             font-size: $h4;
+                            @media screen and (max-width:575.98px){
+                                // width: 225px;
+                            }
                         }
                         .addenda_block_cake_sizeandamount{
                             display: flex;
@@ -431,71 +456,91 @@ body{
                             .addenda_block_cake_size{
                                 font-size: $p;
                             }
+                            .addenda_block_cake_amountandunit{
+                                max-width: 60px;
+                                display: flex;
+                                width: 100%;
+                                .addenda_block_cake_amount{
+                                    max-width: 35px;
+                                    width: 100%;
+                                }
+                                .addenda_block_cake_unit{
+                                    max-width: 25px;
+                                    width: 100%;
+                                }
+                            }
                         }
-                        .addenda_block_cake_amountandunit{
-                            max-width: 60px;
+
+                        .addenda_block_cake_twandprice{
+                            max-width: 225px;
+                            width: 100%;
+                            font-size: $h3;
                             display: flex;
-                            width: 100%;
-                            .addenda_block_cake_amount{
-                                max-width: 35px;
+                            justify-content: flex-start;
+                            .addenda_block_cake_tw{
+                                max-width: 50px;
                                 width: 100%;
                             }
-                            .addenda_block_cake_unit{
-                                max-width: 25px;
-                                width: 100%;
+                            .addenda_block_cake_price{
+                                max-width: 150px;
+                                width: 50px;
                             }
-                        }
-                    }
-                    .addenda_block_cake_twandprice{
-                        max-width: 225px;
-                        width: 100%;
-                        font-size: $h3;
-                        display: flex;
-                        justify-content: flex-start;
-                        .addenda_block_cake_tw{
-                            max-width: 50px;
-                            width: 100%;
-                        }
-                        .addenda_block_cake_price{
-                            max-width: 150px;
-                            width: 50px;
                         }
                     }
                 }
                 .select_block{
                 display: flex;
                 justify-content: space-between;
-                width: calc(100% - 400px);
+                // width: calc(100% - 400px);
+                width: 500px;
                 @media screen and (max-width:991.98px){ 
-                    // display: flex;
+                    max-width: 576px;
+                    width: 100%;
+                    display: flex;
                     // flex-direction: column;
+                    justify-content: start;
                 }
                     .addenda_block_package{
                         max-width: 220px;
                         width: 100%;
                         display: flex;
-                        // margin-left: 60px;
-                        justify-content: space-between;
+                        margin-left: 60px;
+                        // justify-content: space-between;
                         @media screen and (max-width:991.98px){ 
-                            max-width: 70%;
-                            width: 95%;
+                            max-width: 345px;
+                            // width: 100%;
+                            // max-width: 220px;
+                            //   width: 100%;
+                            margin: 0px;
+                        }
+                        @media screen and (max-width:575.98px){ 
+                            max-width: 345px;
+                            width: 100%;
                         }
                         .addenda_block_package_item_img_block{
                             width: 100px;
                             height: 100px;
-                            background-color: black;
                             img{
                                 width: 100px;
                                 height: 100px;
                                 object-fit: cover;
                             }
                         }
+                        
                         .addenda_block_cake_content{
-                            max-width: 100px;
+                            // max-width: 100px;
                             width: 100%;
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
+                            // margin: 0px;
+                            @media screen and (max-width:991.98px){ 
+                                margin-left: 18px;
+                                width: 225px;
+                            }
+                            @media screen and (max-width:575.98px){ 
+                                width: 100%
+                            }
                             .addenda_block_cake_title{
                                 font-size: $h4;
                             }
@@ -518,12 +563,20 @@ body{
                         }
                     }
                 .addenda_block_package_select_block{
-                    max-width: 220px;
+                    max-width: 177.5px;
                     width: 100%;
                     display: flex;
-                    // margin-left: 85px;
                     align-items: center;
                     text-align: center;
+                    margin-left: 0px;
+                    @media screen and (max-width:991.98px){ 
+                        max-width: 120px;
+                        width: 100%;
+                        margin-left: 37px;
+                        @media screen and (max-width:575.98px){ 
+                            margin-left: 0px;
+                        }
+                    }
                     select{
                         max-width: 220px;
                         background-color: white;
@@ -553,6 +606,14 @@ body{
             max-width: 1060px;
             width: 100%;
             margin-bottom: 50px;
+            @media screen and (max-width:991.98px){ 
+                display: flex;
+                max-width: 576px;
+                width: 100%;
+                margin: auto;
+                justify-content: space-between;
+                margin-bottom: 30px;
+            }
             .addenda_item_block_cardorcandle{
                 max-width: 345px;
                 width: 100%;
@@ -573,6 +634,9 @@ body{
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
+                    @media screen and (max-width:575.98px){ 
+                        margin-left: 18px;
+                    }
                     .addenda_block_cake_title_cardorcandle{
                         max-width: 225px;
                         width: 100%;
@@ -595,7 +659,18 @@ body{
                     }
                 }
             }
-            .addenda_block_cake_item_cardorcandle_select{
+            .addenda_block_cake_item_cardorcandle_select_block{
+                max-width: 500px;
+                width: 100%;
+                display: flex;
+                @media screen and (max-width:991.98px){ 
+                    display: flex;
+                    flex-direction: column;
+                    max-width: 150px;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+                .addenda_block_cake_item_cardorcandle_select{
                 margin-left: 60px;
                 max-width: 220px;
                 width: 100%;
@@ -603,12 +678,25 @@ body{
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
+                @media screen and (max-width:991.98px){
+                    margin: 0;
+                    max-width: 150px;
+                    width: 100%;
+                }
                 #addenda_block_cake_item_select{
                     background-color: white;
                     width: 100%;
                     height: 30px;
                     display: flex;
                     justify-content: center;
+                    @media screen and (max-width:991.98px){
+                        max-width: 150px;
+                        width: 80%;
+                        margin: auto;
+                    }
+                    @media screen and (max-width:575.98px){
+                        width: 90%;
+                    }
                 }
             }
             .addenda_block_cake_item_cardorcandle_select_other{
@@ -618,19 +706,37 @@ body{
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
+                @media screen and (max-width:991.98px){
+                    max-width: 150px;
+                    width: 100%;
+                    margin: 0;
+                }
                 #addenda_block_cake_item_select_other{
                     background-color: white;
                     width: 100%;
                     height: 30px;
                     display: flex;
                     justify-content: center;
+                    @media screen and (max-width:991.98px){
+                        width: 80%;
+                        margin: auto;
+                    }
+                    @media screen and (max-width:575.98px){
+                        width: 90%;
+                    }
                 }
+            }
             }
             .addenda_item_cancel_block{
                 width: 235px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                 @media screen and (max-width:991.98px){
+                    max-width: 30px;
+                    width: 100%;
+                    margin: 0;
+                }
                 .addenda_item_cancel{
                     cursor: pointer;
                     width: 30px;

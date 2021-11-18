@@ -2,13 +2,13 @@
     <div>
         <headercom voteon=1 qaon=0 saleon=0 cakeon=0></headercom>
         <div id="vote_page_main_bar">
-            <titleh1 title="主廚推薦"></titleh1>
+            <titleh1 title="人氣投票"></titleh1>
             <p>
-                <span>「老母辛苦了！！」母親節檔期活動</span>
+                <span>{{vote_info.EVENT_NAME}}</span>
 
-        對媽媽的愛要大聲說，一份專屬於媽媽特別的愛，快來秀出你的創意讓大家看到
+        {{vote_info.EVENT_DESCRIPTION}}
 
-        <span>活動期間：2021/4/16~2021/6/15</span>
+        <span>活動期間：{{vote_info.START_DATE}}~{{vote_info.END_DATE}}</span>
       </p>
     </div>
     <main id="vote_page_main">
@@ -16,16 +16,17 @@
         <img src="../assets/images/jellyfish_single.svg" alt="" />現在排名
       </h1>
       <section id="topthree">
-        <div class="vote_topthree" v-for="(three,index) in 3" :key="index">
+        <div class="vote_topthree" v-for="(three,index) in topthree" :key="index">
           <img
             :src="require('@/assets/images/chefHatNo'+(index+1)+'.png')"
             alt=""
             class="topthree_hat"
           />
-          <img src="../assets/images/cho_cake.jpg" alt="" class="pic_cake" />
+          <img :src="three.IMAGE" alt="" class="pic_cake" />
           <div>
-            <h1>巧克力蛋糕</h1>
-            <p>Chocolate cake</p>
+            <h1>{{three.CAKE_NAME}}</h1>
+            <p>{{three.CAKE_ENGLISH_NAME}}</p>
+            <!-- 資料庫給副標題 -->
           </div>
         </div>
         
@@ -34,7 +35,7 @@
         :total_decorations="total_decorations"
         :total_ingredients="total_ingredients"
         :total_cakebodys="total_cakebodys"
-        
+        @selector="changeItem"
       ></cake-selector>
       <!-- <div id="select_test"></div> -->
       <h1 class="vote_title">
@@ -47,9 +48,20 @@
         <search-bar></search-bar>
       </h1>
       <section id="vote">
-        <card-voting v-for="(cake_name, index) in 9" :key="index"></card-voting>
+        <card-voting v-for="(cake, index) in vote_cake" :key="index"
+        :cake_name="cake.CAKE_NAME" :cake_description="cake.DESCRIPTION" :cake_vote_num="cake.VOTING_NUM"
+        :cake_id="cake.ID"
+        ></card-voting>
       </section>
-      <pageSelect style="margin-bottom: 70px"></pageSelect>
+      <ul>
+      <li
+        v-for="(number, index) in pages"
+        :key="index"
+        @click="getDataNumber(index)"
+      >
+        <router-link :to="'/vote/' + (index + 1)">{{ number }}</router-link>
+      </li>
+    </ul>
     </main>
 
     <footercom></footercom>
@@ -67,13 +79,18 @@ import Search_bar from "../components/search_bar.vue";
 import cakeSelector from "../components/cake_selector.vue";
 import cardVoting from "../components/card_voting.vue";
 import card_topthree from "../components/card_topthree.vue";
+import axios from 'axios'
 export default {
   name: "votePage",
   data(){
     return{
-      total_decorations:["巧克力蛋糕",'水果蛋糕','奶油蛋糕'],
-total_ingredients:["草莓","巧克力","葡萄","櫻桃",],
-total_cakebodys:["葉子","生日牌"],
+      total_decorations:["圓形立牌",'生日立牌','奶油','葉子','迷迭香'],
+total_ingredients:["草莓","藍莓","芒果","橘子","檸檬"],
+total_cakebodys:["巧克力夾心","巧克力奶油","水果鮮奶油","綜合口味"],
+topthree:[],
+vote_info:{},
+pages:[],
+vote_cake:[],
     }
   },
   components: {
@@ -89,17 +106,98 @@ total_cakebodys:["葉子","生日牌"],
     card_topthree,
   },
     methods:{
-        
+        getDataNumber(index) {
+      window.scrollTo(0, 0);
+      const params = new URLSearchParams();
+      params.append("page", index);
+      axios({
+        method: "post",
+        url: "http://localhost/static/quire_vote_cake.php",
+
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: params,
+      })
+        .then((res) => {
+          // console.log(res.data);
+          this.vote_cake = res.data
+        })
+        .catch((error) => {
+          // console.log(error);
+        });
+    },
+    changeItem(choose,choose_flavor){
+      // let choose_el = choose.join("','");
+      // let choose_flavor_el = choose_flavor.join("','");
+      
+      const data = new URLSearchParams();
+      data.append('ingredient',choose)
+      data.append('flavor',choose_flavor)
+      axios({
+        method:"POST",
+        url:"http://localhost/static/select_cake.php",
+        data,
+      }).then((res)=>{
+        // console.log(res.data);
+      }).catch((error)=>{
+        // console.log(error);
+      })
+    }
     },
     watch:{
         
     },
     computed:{
-        
+        sn() {
+      return this.$route.params.sn;
+    },
 
     },
     mounted(){
-        
+      // 取得前三名
+        axios({
+          method:"GET",
+          url:'http://localhost/static/quire_topThree.php',
+
+        }).then((res)=>{
+          // console.log(res);
+          this.topthree = res.data
+        }).catch((res)=>{
+          // console.log(res);
+        });
+      // 取得活動資訊
+      axios({
+        method:"GET",
+        url:'http://localhost/static/quire_vote_information.php'
+      }).then((res)=>{
+        // console.log(res);
+        this.vote_info = res.data[0]
+      }).catch((error)=>{
+        // console.log(error);
+      });
+      // 生成頁數
+      axios({
+      method: "get",
+      url: "http://localhost/static/quire_num_vote_cake.php",
+    }).then((res) => {
+      // console.log(res.data);
+      let pages = Math.ceil(res.data / 10);
+      for (let i = 1; i <= pages; i++) {
+        this.pages.push(i);
+      }
+    });
+    // 請求當頁資料
+    const params = new URLSearchParams();
+    params.append("page", this.sn - 1);
+    this.$axios({
+      method: "POST",
+      url: "http://localhost/static/quire_vote_cake.php",
+      data: params,
+    }).then((res) => {
+      // console.log(res.data);
+      this.vote_cake = res.data
+    });
     },
 
     
@@ -233,7 +331,6 @@ div.vote_topthree {
     position: absolute;
     width: 110px;
     height: 110px;
-    border: 1px solid red;
     left: -20px;
     top: -50px;
     transform: rotate(-15deg);
@@ -251,7 +348,33 @@ div.vote_topthree {
     }
   }
 }
-
+ul {
+  margin: 0;
+  margin-bottom: 50px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #515151;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: white;
+    &:hover {
+      background: black;
+      color: white;
+    }
+  }
+}
 
 
 </style>

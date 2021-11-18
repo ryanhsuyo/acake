@@ -4,7 +4,7 @@
             <!-- <a href="" id="logo">
                 <img src="../assets/images/logo.png">
             </a> -->
-            <router-link to="/" id="logo"><img src="../assets/images/logo.png"></router-link>
+            <router-link to="index" id="logo"><img src="../assets/images/logo.png"></router-link>
             <ul id="header_nav">
                 <div id="header_div_one">
                     <!-- RWD漢堡選單 才會出現的背景圖 -->
@@ -14,7 +14,7 @@
                         <router-link to="/cakeDesign" id="cakeDesign"  class="headerIcon" :class="{'open':openWhat == 'cakeDesign'}" >蛋糕設計</router-link>
                     </li>
                     <li class="nav_item" >
-                        <router-link to="/vote" id="vote" class="headerIcon" :class="{'open':openWhat == 'vote'}">人氣票選</router-link>
+                        <router-link to="/vote/1" id="vote" class="headerIcon" :class="{'open':openWhat == 'vote'}">人氣票選</router-link>
                     </li>
                     <li class="nav_item" >
                         <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}">商城</router-link>

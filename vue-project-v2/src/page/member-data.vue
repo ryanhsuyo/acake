@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        
 
     <div id="main-bar-img"></div>
 
@@ -468,6 +468,11 @@
         },
         mounted(){
 
+            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign')
+            }
+
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
             axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.memberId}))
@@ -520,7 +525,7 @@
             // 載入折價券資料
             axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let couponInfo = {

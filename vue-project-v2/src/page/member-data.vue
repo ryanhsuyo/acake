@@ -157,7 +157,7 @@
             </div>
 
             <!-- 卡片詳細頁的light box -->
-            <div class="card_light_box" v-show="detailLightBox" @click="closeDesignDetail(false)">
+            <div class="card_light_box" v-show="detailLightBox" @click.self="closeDesignDetail(false)">
                 <card_design_detail @close="closeDesignDetail" :designDetail="designDetail" @cakeDesign="changeDesignContent"></card_design_detail>
             </div>
 
@@ -413,7 +413,7 @@
                         console.log(res);
                         let data = res["data"];
                         this.designDetail = {
-                            cakeImg: require("../assets/images/" + data[0].IMAGE),
+                            cakeImg: require("../assets/images/" + data[0].CAKE_IMAGE),
                             cakeName: data[0].CAKE_NAME,
                             cakeDescription: data[0].CAKE_DESCRIPTION,
                             cakeAvailable: data[0].CAKE_AVAILABLE,
@@ -500,7 +500,7 @@
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let cakeInfo = {
-                                imgPath: require("../assets/images/" + data[i].IMAGE),
+                                imgPath: require("../assets/images/" + data[i].CAKE_IMAGE),
                                 cakeTitle: data[i].CAKE_NAME,
                                 cakeDescription: data[i].CAKE_DESCRIPTION,
                                 voteStatus: data[i].CAKE_AVAILABLE,
@@ -520,7 +520,7 @@
             // 載入折價券資料
             axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        // console.log(res);
+                        console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let couponInfo = {

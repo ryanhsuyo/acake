@@ -178,15 +178,18 @@
             },
             addFolder(){
                 let newName = prompt("請輸入資料夾名稱");
-                axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
-                        .then(res => {
-                            // console.log(res);
-                            this.favFolder = [];
-                            this.selectFolder();
-                            this.editTitle.push(false);
-                            // console.log(this.editTitle);
-                        })
-                        .catch(err => {console.log(err)});
+                if(newName === "") alert("資料夾名稱未輸入！")
+                if(newName === true){
+                    axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
+                            .then(res => {
+                                // console.log(res);
+                                this.favFolder = [];
+                                this.selectFolder();
+                                this.editTitle.push(false);
+                                // console.log(this.editTitle);
+                            })
+                            .catch(err => {console.log(err)});
+                }
             },
             editTitleContent(index, boo){
                 this.$set(this.editTitle, index, boo);
@@ -224,12 +227,13 @@
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
+                        // console.log(data);
                         let categoryID = 2;  // 第一個直接指定，從第二個資料夾開始放圖片
 
                         this.favFolder.push({
                             categoryName: data[0].CATEGORY_NAME,
                             categoryID: data[0].CATEGORY_ID,
-                            categoryPic: require("../assets/images/" + data[0].IMAGE),
+                            categoryPic: require("../assets/images/" + data[0].CAKE_IMAGE),
                         });
 
                         let folderCounter = 0;
@@ -245,7 +249,7 @@
 
                             if(categoryID === parseInt(data[i].CATEGORY_ID)){
                                 try{
-                                    this.favFolder[(categoryID - 1)].categoryPic = require("../assets/images/" + data[i].IMAGE);
+                                    this.favFolder[(categoryID - 1)].categoryPic = require("../assets/images/" + data[i].CAKE_IMAGE);
                                 }catch(e){
                                     this.favFolder[(categoryID - 1)].categoryPic = null;
                                 }

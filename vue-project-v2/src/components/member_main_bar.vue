@@ -77,7 +77,7 @@ export default {
         axios.post("http://localhost/A_cake/selectAvatar.php",qs.stringify({memberId: this.memberId}))
             .then(res => {
                 // console.log(res);
-                document.getElementById("avatar_pic").src = res["data"][0].IMG_BLOB;
+                document.getElementById("avatar_pic").src = res["data"][0].MEMBER_IMG_BLOB;
             })
             .catch(err => console.log(err));
     },
@@ -106,8 +106,6 @@ export default {
             margin: 0px auto 50px;
             position: relative;
 
-            border: 3px solid black;
-
             &:hover{
 
                 #avatar_update{
@@ -128,7 +126,7 @@ export default {
             #avatar_update{
                 position: absolute;
                 top: 51px;
-                right: 7px;
+                right: 9px;
                 z-index: 100;
                 font-size: 25px;
                 color: #515151;

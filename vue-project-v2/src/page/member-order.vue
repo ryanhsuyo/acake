@@ -20,61 +20,63 @@
         </section>
 
         <section id="switch_tab_block">
-            <!-- 等組件 -->
+            <switch_tab @switchTo="switchTo"></switch_tab>
         </section>
 
         <section id="filter_block">
             <form action="" method="post">
                 <div id="select_block">
-                    <select name="year" id="year" class="choose_date">
-                        <option value="" disabled selected>年份</option>
-                        <option value="1">2021</option>
-                        <option value="2">2020</option>
+                    <select name="year" id="year" class="choose_date" v-model="yearSelected" @change="selectByDate">
+                        <option value="-1" disabled selected>選擇年份</option>
+                        <option value="0">不限年份</option>
+                        <option :value="index" v-for="index in yearAvailable" :key="index">{{index}}年</option>
                     </select>
-                    <select name="month" id="month" class="choose_date">
-                        <option value="" disabled selected>月份</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                    <select class="choose_date disabled_select" disabled v-show="yearSelected === -1">
+                        <option>選擇月份</option>
+                    </select>
+                    <select name="month" id="month" class="choose_date" v-model="monthSelected" @change="selectByDate" v-show="yearSelected !== -1">
+                        <option value="-1" disabled selected>選擇月份</option>
+                        <option value="0">不限月份</option>
+                        <option :value="index" v-for="index in 12" :key="index">{{index}}月</option>
                     </select>
                 </div>
                 <!-- searchbar組件 -->
-                <input type="text" placeholder="搜尋..." class="search">
+                <input type="text" placeholder="輸入訂單編號或蛋糕名稱..." class="search" @input="searchCake" v-model="searchValue">
             </form>
         </section>
 
         <section id="order_block">
 
-            <div class="order">
+            <div class="order" v-for="(item, index) in orderChoose" :key="index">
                 <div class="order_title">
                     <div class="title_main">
-                        <div class="order_number">TG180605N00565</div>
-                        <div class="order_status">
-                            已完成
-                        </div>
+                        <div class="order_number">{{item.orderID}}</div>
+                        <div class="order_status" v-show="item.finished === '0'">進行中</div>
+                        <div class="order_status" v-show="item.finished === '1'">已完成</div>
                         <div class="order_date">
-                            訂購日期:
-                            <span>110/09/03</span>
+                            訂購日期:&nbsp;
+                            <span>{{item.createDate}}</span>
                         </div>
                     </div>
-                    <button class="unfold_order">
-                        <!-- <font-awesome-icon icon="fa-solid fa-plus" class="plus_icon" /> -->
-                        <font-awesome-icon icon="fa-solid fa-minus" class="minus_icon" />
+                    <button class="show_detail">
+                        <font-awesome-icon icon="fa-solid fa-plus" class="plus_icon" v-show="!orderShow[index]" @click="foldOrderDetail(index)"/>
+                        <font-awesome-icon icon="fa-solid fa-minus" class="minus_icon" v-show="orderShow[index]" @click="unfoldOrderDetail(index)"/>
                     </button>
                 </div>
-                <div class="order_detail">
-                    <div class="order_item">
+                <div class="order_detail" v-show="orderShow[index]">
+                    <div class="order_item" v-for="(item, index) in item.cakeData" :key="index">
                         <div class="product_image">
-                            <img src="../assets/images/cho_cake.jpg">
+                            <img :src="item.cakeImage">
                         </div>
                         <div class="product_description_block">
-                            <div class="product_title">巧克力大蛋糕</div>
-                            <div class="product_description">超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕</div>
+                            <div class="product_title">{{item.cakeName}}</div>
+                            <div class="product_description">{{item.cakeDescription}}</div>
                         </div>
-                        <div class="item_number"><span>1</span>個</div>
-                        <div class="item_total">$<span>180</span></div>
+                        <div class="item_number"><span>{{item.quantity}}</span>個</div>
+                        <div class="item_total">$<span>{{item.price}}</span></div>
                     </div>
                     <!-- 重複排版用組件開始 -->
-                    <div class="order_item">
+                    <!-- <div class="order_item">
                         <div class="product_image">
                             <img src="../assets/images/cho_cake.jpg">
                         </div>
@@ -95,75 +97,36 @@
                         </div>
                         <div class="item_number"><span>1</span>個</div>
                         <div class="item_total">$<span>180</span></div>
-                    </div>
+                    </div> -->
                     <!-- 重複排版用組件結束 -->
                     <div class="information_block">
                         <div class="information_left">
                             <div class="payment_method">
                                 付款方式:
-                                <span>超商取貨付款</span>
+                                <span>{{item.paymentMethod}}</span>
                             </div>
                             <div class="pickup_store">
-                                配送門市:
-                                <span>緯育門市</span>
+                                地址:
+                                <span>{{item.address}}</span>
                             </div>
                         </div>
                         <div class="information_right">
                             <div class="deliver_fee">
                                 <span>運費: $&nbsp;</span>
-                                <span>60</span>
+                                <span>{{item.deliverFee}}</span>
                             </div>
                             <div class="discount">
                                 <span>折扣: $&nbsp;</span>
-                                <span>100</span>
+                                <span>{{item.discount}}</span>
                             </div>
                             <div class="order_total">
                                 <span>總計: $&nbsp;</span>
-                                <span>580</span>
+                                <span>{{item.totalPrice}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 重複排版用組件開始 -->
-            <div class="order">
-                <div class="order_title">
-                    <div class="title_main">
-                        <div class="order_number">TG180605N00565</div>
-                        <div class="order_status">
-                            已完成
-                        </div>
-                        <div class="order_date">
-                            訂購日期:
-                            <span>110/09/03</span>
-                        </div>
-                    </div>
-                    <button class="unfold_order">
-                        <font-awesome-icon icon="fa-solid fa-plus" class="plus_icon" />
-                        <!-- <font-awesome-icon icon="fa-solid fa-minus" class="minus_icon" /> -->
-                    </button>
-                </div>
-            </div>
-            <div class="order">
-                <div class="order_title">
-                    <div class="title_main">
-                        <div class="order_number">TG180605N00565</div>
-                        <div class="order_status">
-                            已完成
-                        </div>
-                        <div class="order_date">
-                            訂購日期:
-                            <span>110/09/03</span>
-                        </div>
-                    </div>
-                    <button class="unfold_order">
-                        <font-awesome-icon icon="fa-solid fa-plus" class="plus_icon" />
-                        <!-- <font-awesome-icon icon="fa-solid fa-minus" class="minus_icon" /> -->
-                    </button>
-                </div>
-            </div>
-            <!-- 重複排版用組件結束 -->
             
         </section>
 
@@ -183,7 +146,11 @@
 <script>
     import headercomp from "../components/headercom";
     import footercomp from "../components/footercom";
+    import axios from 'axios';
+    import $ from 'jquery';
+    import qs from "qs";
     
+    import switch_tab from "../components/switchTabMember"
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
 
@@ -193,12 +160,120 @@
             footercomp,
             member_main_bar,
             title_h1,
+            switch_tab
         },
         data(){
             return{
                 page: "order",
                 title: "我的訂單",
+
+                memberId: 1,
+
+                order: [],
+                orderChoose: [],
+                orderChooseTemp: [],  // orderChoose進行篩選時會將未篩選資料存在此處
+                orderShow: [],
+
+                yearSelected: -1,
+                monthSelected: -1,
+
+                searchValue: "",
             };
+        },
+        methods: {
+            unfoldOrderDetail(index){
+                console.log(index)
+                this.$set(this.orderShow, index, false);
+            },
+            foldOrderDetail(index){
+                console.log(index)
+                this.$set(this.orderShow, index, true);
+            },
+            chooseOrderType(state){
+                return state === "進行中" ? this.orderChooseTemp = this.order.filter(item => item.finished === "0") : state === "已完成" ? this.orderChooseTemp =  this.order.filter(item => item.finished === "1") : this.orderChooseTemp = this.order;
+            },
+            switchTo(state){
+                this.orderChoose = this.chooseOrderType(state);
+            },
+            selectByDate(){
+                this.searchValue = "";
+                this.orderChoose = this.orderChooseTemp.concat();
+                if(this.yearSelected !== "0"){
+                    this.orderChoose = this.orderChoose.filter(item => parseInt(item.createDate.split("/")[0]) === this.yearSelected);
+                }
+                if(this.monthSelected !== "0" && this.monthSelected !== -1){
+                    this.orderChoose = this.orderChoose.filter(item => parseInt(item.createDate.split("/")[1]) === this.monthSelected);
+                }
+            },
+            searchCake(){
+                this.yearSelected = -1;
+                this.monthSelected = -1;
+                this.orderChoose = this.orderChooseTemp.concat();
+                let searchVal = new RegExp(this.searchValue);
+                this.orderChoose = this.orderChoose.filter(item => {
+                    return searchVal.test(item.orderID);
+                });
+            },
+        },
+        computed: {
+            yearAvailable(){
+                let years = [];
+                let thisYear = new Date().getFullYear();
+                for(let i = 2016; i < thisYear + 1; i++){
+                    years.push(i);
+                }
+                return years;
+            },
+        },
+        mounted(){
+            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        let orderID = null;   // orderID控制要不要加入同筆訂單共用資料，第一筆資料會判定加入
+                        let ongoingCakeCount = -1;  // 控制加入蛋糕配料的位置
+                        let totalPrice; // 計算各筆訂單總金額
+
+                        for(let i = 0; i < data.length; i++){
+                            
+                            if(orderID !== data[i].ORDER_ID){
+                                let order = {
+                                    orderID: data[i].ORDER_ID,
+                                    createDate: data[i].CREATE_DATE.split(" ")[0].replace(/-/g, "/"),
+                                    // finished: data[i].FINISHED === "0" ? "進行中" : data[i].FINISHED === "1" ? "已完成" : "資料錯誤",
+                                    finished: data[i].FINISHED,
+                                    paymentMethod: data[i].PAYMENT_METHOD === "0" ? "信用卡付款" : data[i].PAYMENT_METHOD === "1" ? "行動支付付款" : data[i].PAYMENT_METHOD === "2" ? "轉帳付款" : "資料錯誤",
+                                    address: data[i].ADDRESS,
+                                    deliverFee: data[i].DELIVER_FEE,
+                                    discount: data[i].DISCOUNT === undefined ? "0" : data[i].DISCOUNT,
+                                    cakeData: [],
+                                };
+                                orderID = data[i].ORDER_ID;
+                                this.order.push(order);
+                                ongoingCakeCount++;
+                                totalPrice = 0;
+                                this.orderShow.push(false);
+                            }
+
+                            // 加入單筆訂單中不同的蛋糕資料
+                            let cakeData = {
+                                cakeImage: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                cakeName: data[i].CAKE_NAME,
+                                cakeDescription: data[i].CAKE_DESCRIPTION,
+                                quantity: data[i].QUANTITY,
+                                price: data[i].PRICE,
+                            };
+                            this.order[ongoingCakeCount].cakeData.push(cakeData);
+
+                            totalPrice += parseInt(cakeData.quantity) * parseInt(cakeData.price);
+                            this.order[ongoingCakeCount].totalPrice = totalPrice;
+
+                        }
+                        this.orderShow.splice(0, 1, true);
+                        this.orderChoose = this.chooseOrderType("進行中");
+                        // console.log(this.order);
+                    })
+                    .catch(err => console.log(err));
         },
     }
 </script>
@@ -277,6 +352,10 @@
 
                 }
 
+                .disabled_select{
+                    cursor: not-allowed;
+                }
+
                 input.search{
                     display: inline-block;
                     vertical-align: top;
@@ -348,7 +427,7 @@
 
                 }
 
-                .unfold_order{
+                .show_detail{
                     width: 40px;
                     height: 40px;
                     border: 0;
@@ -422,6 +501,7 @@
                         font-size: $p;
                         color: #979797;
                         width: auto;
+                        flex-grow: 1;
                         display: flex;
                         flex-direction: column;
                         justify-content: center;

@@ -128,19 +128,20 @@ vote_cake:[],
         });
     },
     changeItem(choose,choose_flavor){
-      let choose_el = choose.join("','");
-      let choose_flavor_el = choose_flavor.join("','");
+      // let choose_el = choose.join("','");
+      // let choose_flavor_el = choose_flavor.join("','");
+      
       const data = new URLSearchParams();
-      data.append('ingredient',choose_el)
-      data.append('flavor',choose_flavor_el)
+      data.append('ingredient',choose)
+      data.append('flavor',choose_flavor)
       axios({
         method:"POST",
         url:"http://localhost/static/select_cake.php",
         data,
       }).then((res)=>{
-        console.log(res.data);
+        // console.log(res.data);
       }).catch((error)=>{
-        console.log(error);
+        // console.log(error);
       })
     }
     },

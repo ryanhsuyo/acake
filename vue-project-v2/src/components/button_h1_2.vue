@@ -16,7 +16,7 @@
 // import "../font/fff.less";
 import $ from 'jquery'
 export default {
-  name:"button_h1",
+  name:"button_h1_2",
   props:["title"],
 }
 </script>
@@ -36,7 +36,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     width: 250px;
     height: 75px;
     border-radius: 5px;
-    background-color: #dfb9b0;
+    background-color: #f4e9c9;
     color: #515151;
     font-size: 20px;
     border: none;
@@ -55,7 +55,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
         font-size: 12px;
     }
     &:hover {
-        background-color: #f4e9c9;
+        background-color: #DFB9B0;
         cursor: pointer;
         transform: translateY(-5px);
     }

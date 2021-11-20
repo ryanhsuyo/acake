@@ -21,16 +21,16 @@
 
             <div id="fav_area">
 
-                <div class="card_outline">
+                <div class="card_outline" v-for="(item, index) in favCategory" :key="index">
                     <div class="img_container">
-                        <img src="../assets/images/cho_cake.jpg">
+                        <img :src="item.cakeImg">
                     </div>
                     <div class="description_block">
-                        <h4 class="cake_title">無敵大蛋糕</h4>
-                        <p class="design_idea">內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文</p>
+                        <h4 class="cake_title">{{item.cakeName}}</h4>
+                        <p class="design_idea">{{item.cakeDescription}}</p>
                         <div class="interact_area">
                             <button class="go_shopping">進入商品頁面</button>
-                            <div class="delete">
+                            <div class="delete" @click="deleteFav(item.cakeID, index)">
                                 <font-awesome-icon icon="fa-solid fa-trash-can" class="trash_can_icon" />
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- 排版用重複組件開始 -->
-                <div class="card_outline">
+                <!-- <div class="card_outline">
                     <div class="img_container">
                         <img src="../assets/images/cho_cake.jpg">
                     </div>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- 排版用重複組件結束 -->
 
             </div>
@@ -120,6 +120,9 @@
 <script>
     import headercomp from "../components/headercom";
     import footercomp from "../components/footercom";
+    import axios from 'axios';
+    import $ from 'jquery';
+    import qs from "qs";
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -135,7 +138,43 @@
             return{
                 page: "fav",
                 title: "我的最愛",
+
+                memberID: 2,
+                favCategoryID: 28,
+
+                favCategory: [],
             };
+        },
+        methods:{
+            deleteFav(cakeID, index){
+                if(confirm("確定要將此蛋糕從收藏中刪除嗎?")){
+                    axios.post("http://localhost/A_cake/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.favCategoryID, cakeID: parseInt(cakeID)}))
+                    .then(res => console.log(res))
+                    .catch((err) => console.log(err));
+
+                    this.favCategory.splice(index, 1);
+                }
+            },
+        },
+        mounted(){
+            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.favCategoryID}))
+                    .then(res => {
+                        let data = res["data"];
+                        // console.log(data);
+
+                        for(let i = 0; i < data.length; i++){
+                            let cake = {
+                                cakeID: data[i].CAKE_ID,
+                                cakeName: data[i].CAKE_NAME,
+                                cakeDescription: data[i].CAKE_DESCRIPTION,
+                                cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                cakeImgBlob: data[i].CAKE_IMG_BLOB,
+                            }
+                            this.favCategory.push(cake);
+                        }
+
+                    })
+                    .catch(err => console.log(err));
         },
     }
 </script>
@@ -176,7 +215,7 @@
         #fav_area{
             margin: 0 25px 5px;
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: 1fr 1fr 1fr;
             grid-auto-rows: auto;
             grid-gap: 70px 50px;
             width: auto;
@@ -218,6 +257,7 @@
                         font-size: $p;
                         line-height: 16px;
                         color: #515151;
+                        text-align: left;
                     }
 
                     .interact_area{

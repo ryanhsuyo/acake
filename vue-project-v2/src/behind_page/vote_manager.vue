@@ -11,13 +11,6 @@
         >
           <h1>舉辦或取消票選活動</h1>
         </div>
-        <div
-          id="modifyVoteCake"
-          class="select_option"
-          @click="showWhat = 'modifyVoteCake'"
-        >
-          <h1>修改人氣票選的貼文</h1>
-        </div>
         
       </section>
       <diV id="content">
@@ -34,7 +27,6 @@ import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import runOrStop from './behind_component_runOrStop_page';
-import modifyVoteCake from './behind_component_modify_vote_cake_page';
 import newEvent from './behind_component_newEvent_page';
 
 export default {
@@ -43,7 +35,6 @@ export default {
     behindHeader,
     searchBar,
     runOrStop,
-    modifyVoteCake,
   },
   data() {
     return {

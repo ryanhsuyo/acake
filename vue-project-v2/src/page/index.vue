@@ -121,7 +121,7 @@
                     </div>
                     <div class="third_screen_button">
                     <router-link to="/cakeDesign" id="cakeDesign">
-                        <buttontest title=" 進入投票" style=""></buttontest>
+                        <buttontest3 title=" 進入投票" style=""></buttontest3>
                     </router-link>
                 </div>
                 </div>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="first_knowledge_img">
                         <img src="../assets/images/int_cho_cake.gif" alt="">
-                        <button class="first_knowledge_button">By New</button>
+                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="first_knowledge_button">Buy New</button></router-link>
                     </div>
                     <div class="first_knowledge_text">
                         <h2>維也納朱古力杏仁蛋糕的由來</h2>
@@ -166,7 +166,7 @@
                     </div>
                     <div class="third_knowledge_img">
                         <img src="../assets/images/int_sch_cake.gif" alt="">
-                        <button class="third_knowledge_button">By New</button>
+                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="third_knowledge_button">Buy New</button></router-link>
                     </div>
                     <div class="third_knowledge_text">
                         <h2>黑森林蛋糕由來</h2>
@@ -197,6 +197,7 @@ import headercom from '../components/headercom'
 import titleh1 from '../components/title_h1.vue'
 import cardVoting from '../components/card_voting.vue'
 import buttontest from '../components/button_h1.vue'
+import buttontest3 from '../components/button_h1_3.vue'
 import cardTopthree from '../components/card_topthree.vue'
 // import cardProduct from '../components/card_product.vue'
 import cardProduct from '../components/card_product_index.vue'
@@ -213,6 +214,7 @@ export default {
         titleh1,
         cardVoting,
         buttontest,
+        buttontest3,
         cardTopthree,
         cardProduct,
         footercom,

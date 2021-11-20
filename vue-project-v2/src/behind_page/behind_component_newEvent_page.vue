@@ -106,7 +106,7 @@ export default {
       params.append("img",data.img);
 axios({
         method: "post",
-        url: "http://localhost/static/new_vote_event.php",
+        url: "./static/cty_api/new_vote_event.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

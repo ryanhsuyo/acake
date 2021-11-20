@@ -2,7 +2,7 @@
 <span>
   <header class="header">
     <div class="header_box">
-      <router-link to="/vote" id="logo">
+      <router-link to="/employee/1" id="logo">
         <img src="../assets/images/logo.png" />
       </router-link>
       <ul class="header_nav">

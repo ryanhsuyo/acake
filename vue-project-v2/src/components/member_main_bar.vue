@@ -1,7 +1,11 @@
 <template>
     <div class="main_bar">
             <div id="avatar_container">
-                <img src="../assets/images/aboutus_logo.png" alt="會員大頭照">
+                <img src="" alt="會員大頭照" id="avatar_pic">
+                <span id="avatar_update"  @click="updateAvatar">
+                    <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+                </span>
+                <input type="file" id="avatar_upload">
             </div>
             <div id="member_page_nav">
 
@@ -35,11 +39,47 @@
 
 
 <script>
+import axios from 'axios';
+import qs from "qs";
+
 export default {
     name: "member_main_bar",
     props: ["page"],
-    computed: {
-        
+    data(){
+        return {
+            memberId: 1,
+        }
+    },
+    methods: {
+        updateAvatar(){
+            if(confirm("要更新個人照片嗎?")){
+                document.getElementById("avatar_upload").click();
+            }
+        },
+        uploadAvatar(){
+            let memberId = this.memberId;
+            let file = document.getElementById("avatar_upload").files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.addEventListener("load", function(){
+                document.getElementById("avatar_pic").src = reader.result;
+
+                axios.post("http://localhost/A_cake/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
+                    .then(res => {console.log(res)})
+                    .catch(err => console.log(err));
+
+            });
+        },
+    },
+    mounted(){
+        document.getElementById("avatar_upload").addEventListener("change", this.uploadAvatar);
+
+        axios.post("http://localhost/A_cake/selectAvatar.php",qs.stringify({memberId: this.memberId}))
+            .then(res => {
+                // console.log(res);
+                document.getElementById("avatar_pic").src = res["data"][0].MEMBER_IMG_BLOB;
+            })
+            .catch(err => console.log(err));
     },
 
 }
@@ -64,13 +104,38 @@ export default {
             border-radius: 50%;
             overflow: hidden;
             margin: 0px auto 50px;
+            position: relative;
 
-            > img{      // 測試用的樣式
+            &:hover{
+
+                #avatar_update{
+                    display: inline-block;
+                }
+
+            }
+
+            #avatar_pic{
                 z-index: 100;
-                width: 150px;
-                position: relative;
-                right: 30px;
-                top: 15px;
+                width: 100%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #avatar_update{
+                position: absolute;
+                top: 51px;
+                right: 9px;
+                z-index: 100;
+                font-size: 25px;
+                color: #515151;
+                cursor: pointer;
+                display: none;
+            }
+
+            #avatar_upload{
+                display: none;
             }
 
         }

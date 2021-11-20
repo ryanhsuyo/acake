@@ -4,8 +4,8 @@
     <span class="circle_two"></span>
     <span class="circle_three"></span> -->
 	<button class="button_h1">
-        <img src="../assets/images/cake_design/decoration4.png">{{title}}
-        <img src="../assets/images/cake_design/decoration4.png">
+        <img src="../assets/images/butter.png">{{title}}
+        <img src="../assets/images/butter.png">
         <span>GOOOOO !</span>
     </button>
     <!-- <span class="circle_four"></span>

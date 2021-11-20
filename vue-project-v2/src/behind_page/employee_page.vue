@@ -57,7 +57,7 @@
               <div class="manager_list_content">
                 <div class="manager_details">
                   <label for="">創建員工</label>
-                  <input
+                  <input disabled
                     class="authority"
                     type="text"
                     v-model="new_employee.biulder"
@@ -130,13 +130,12 @@
                 </div>
               </span>
               <div class="manager_img_outline">
-                <!-- 上線前把圖片路徑改成相對路徑 -->
                 <img
-                  :src="data.IMG"
+                  :src="data.IMG_BLOB"
                   alt=""
                   class="employee_image"
                 />
-                <button @click="clickInput(index, $event)">修改照片</button>
+                <button @click="clickInput(index, $event,data)">修改照片</button>
                 <input
                   type="file"
                   style="display: none"
@@ -159,7 +158,7 @@
                 </div>
                 <div class="manager_details">
                   <label for="">創建員工</label>
-                  <input class="authority" type="text" v-model="data.BIULDER" />
+                  <input disabled class="authority" type="text" v-model="data.BIULDER" />
                 </div>
               </div>
               <div class="manager_list_content">
@@ -214,9 +213,7 @@
 </template>
 <script>
 import $ from "jquery";
-import VueAxios from "vue-axios";
 import axios from "axios";
-// Vue.use(VueAxios,axios);
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import employee from "../components/employee";
@@ -237,12 +234,13 @@ export default {
         password: "",
         authority: "",
         create_date: "",
-        biulder: "",
+        biulder:this.$store.state.employee_id,
         img: "",
       },
       theIndex: 0,
       pages: [],
       imgData: {},
+      modifyData:{},
     };
   },
   mounted() {
@@ -254,10 +252,10 @@ export default {
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "http://localhost/static/quire_member.php",
+      url: "./static/cty_api/quire_member.php",
       data: params,
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.data = res.data;
       for (let i = 0; i < this.data.length; i++) {
         this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
@@ -267,7 +265,7 @@ export default {
     // 產生頁數寫入pages[]
     this.$axios({
       method: "get",
-      url: "http://localhost/static/quire_member_total.php",
+      url: "./static/cty_api/quire_employee_total.php",
     }).then((res) => {
       let pages = Math.ceil(res.data / 10);
       for (let i = 1; i <= pages; i++) {
@@ -298,7 +296,7 @@ export default {
       params.append("name", newValue);
       axios({
         method: "post",
-        url: "http://localhost/static/select_member.php",
+        url: "./static/cty_api/select_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -311,7 +309,7 @@ export default {
             params.append("page", this.sn - 1);
             this.$axios({
               method: "POST",
-              url: "http://localhost/static/quire_member.php",
+              url: "./static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -330,7 +328,7 @@ export default {
           params.append("page", this.sn - 1);
           this.$axios({
               method: "POST",
-              url: "http://localhost/static/quire_member.php",
+              url: "./static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -350,7 +348,7 @@ export default {
       params.append("page", index);
       axios({
         method: "post",
-        url: "http://localhost/static/quire_member.php",
+        url: "./static/cty_api/quire_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -385,11 +383,11 @@ export default {
       params.append("create_date", create_date);
       params.append("authority", authority);
       params.append("img", img);
-      params.append("data", data);
+      // params.append("data", data);
       // const json = encodeURI(JSON.stringify(data),'utf-8')
       axios({
         method: "post",
-        url: "http://localhost/static/join_employee.php",
+        url: "./static/cty_api/join_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -397,10 +395,10 @@ export default {
         data: params,
       })
         .then((response) => {
-          // console.log(response);
+          console.log(response);
         })
         .catch((error) => {
-          // console.log(error);
+          console.log(error);
         });
       this.create = 1;
       this.new_employee.number = "";
@@ -422,7 +420,7 @@ export default {
       const json = encodeURI(JSON.stringify(data), "utf-8");
       axios({
         method: "post",
-        url: "http://localhost/static/update_employee.php",
+        url: "./static/cty_api/update_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -460,9 +458,10 @@ export default {
       })
     },
     // 更新照片
-    clickInput(index, $event) {
+    clickInput(index, $event,data) {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
+      this.modifyData=data
       file.click();
     },
     setImage() {
@@ -486,10 +485,10 @@ export default {
         const params = new FormData();
         params.append("img", that.imgData);
         params.append("test", readFile.result);
-        params.append("index", that.theIndex);
+        params.append("index", this.modifyData.ID);
         axios({
           method: "post",
-          url: "http://localhost/static/img.php",
+          url: "./static/cty_api/img.php",
 
           headers: {
             "Content-Type": "multipart/form-data",

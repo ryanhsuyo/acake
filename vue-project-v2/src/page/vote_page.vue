@@ -22,7 +22,7 @@
             alt=""
             class="topthree_hat"
           />
-          <img :src="three.IMAGE" alt="" class="pic_cake" />
+          <img :src="three.CAKE_IMAGE_BLOB" alt="" class="pic_cake" />
           <div>
             <h1>{{three.CAKE_NAME}}</h1>
             <p>{{three.CAKE_ENGLISH_NAME}}</p>
@@ -50,7 +50,7 @@
       <section id="vote">
         <card-voting v-for="(cake, index) in vote_cake" :key="index"
         :cake_name="cake.CAKE_NAME" :cake_description="cake.DESCRIPTION" :cake_vote_num="cake.VOTING_NUM"
-        :cake_id="cake.ID"
+        :cake_id="cake.CAKE_ID" :cake_img="cake.CAKE_IMAGE_BLOB"
         ></card-voting>
       </section>
       <ul>
@@ -106,13 +106,25 @@ vote_cake:[],
     card_topthree,
   },
     methods:{
+      page(){
+        axios({
+      method: "get",
+      url: "./static/cty_api/quire_num_vote_cake.php",
+    }).then((res) => {
+      // console.log(res.data);
+      let pages = Math.ceil(res.data / 10);
+      for (let i = 1; i <= pages; i++) {
+        this.pages.push(i);
+      }
+    });
+      },
         getDataNumber(index) {
       window.scrollTo(0, 0);
       const params = new URLSearchParams();
       params.append("page", index);
       axios({
         method: "post",
-        url: "http://localhost/static/quire_vote_cake.php",
+        url: "./static/cty_api/quire_vote_cake.php",
 
         data: params,
       })
@@ -125,20 +137,35 @@ vote_cake:[],
         });
     },
     changeItem(choose,choose_flavor){
-      let choose_el = choose.join("','");
-      let choose_flavor_el = choose_flavor.join("','");
+      if(choose.length!=0||choose_flavor.length!=0){
       const data = new URLSearchParams();
-      data.append('ingredient',choose_el)
-      data.append('flavor',choose_flavor_el)
+      data.append('ingredient',choose)
+      data.append('flavor',choose_flavor)
       axios({
         method:"POST",
-        url:"http://localhost/static/select_cake.php",
+        url:"./static/cty_api/select_cake.php",
         data,
       }).then((res)=>{
         console.log(res.data);
+        this.vote_cake=res.data
+        this.pages = []
       }).catch((error)=>{
-        console.log(error);
+        // console.log(error);
       })
+      }else{
+        this.page()
+        const params = new URLSearchParams();
+    params.append("page", this.sn - 1);
+    this.$axios({
+      method: "POST",
+      url: "./static/cty_api/quire_vote_cake.php",
+      data: params,
+    }).then((res) => {
+      console.log(res.data);
+      this.vote_cake = res.data
+    });
+    
+      }
     }
     },
     watch:{
@@ -154,7 +181,7 @@ vote_cake:[],
       // 取得前三名
         axios({
           method:"GET",
-          url:'http://localhost/static/quire_topThree.php',
+          url:'./static/cty_api/quire_topThree.php',
 
         }).then((res)=>{
           // console.log(res);
@@ -165,7 +192,7 @@ vote_cake:[],
       // 取得活動資訊
       axios({
         method:"GET",
-        url:'http://localhost/static/quire_vote_information.php'
+        url:'./static/cty_api/quire_vote_information.php'
       }).then((res)=>{
         // console.log(res);
         this.vote_info = res.data[0]
@@ -173,22 +200,13 @@ vote_cake:[],
         // console.log(error);
       });
       // 生成頁數
-      axios({
-      method: "get",
-      url: "http://localhost/static/quire_num_vote_cake.php",
-    }).then((res) => {
-      // console.log(res.data);
-      let pages = Math.ceil(res.data / 10);
-      for (let i = 1; i <= pages; i++) {
-        this.pages.push(i);
-      }
-    });
+      this.page();
     // 請求當頁資料
     const params = new URLSearchParams();
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "http://localhost/static/quire_vote_cake.php",
+      url: "./static/cty_api/quire_vote_cake.php",
       data: params,
     }).then((res) => {
       // console.log(res.data);

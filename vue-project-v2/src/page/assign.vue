@@ -130,7 +130,7 @@ export default {
             data.append("password",this.password);
             axios({
                 method:"POST",
-                url: "http://localhost/static/confirm_member.php",
+                url: "./static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
@@ -139,7 +139,7 @@ export default {
                 }else{
                     console.log(res.data[0].ID);
                     this.$store.dispatch('update_memberId',res.data[0].ID)
-                    alert("登入成功，歡迎您回來，"+res.data[0].NICKNAME)
+                    alert("登入成功，歡迎您回來，"+res.data[0].NAME)
                     this.$router.push('/member_data')
                 }
             }).catch((error)=>{
@@ -167,7 +167,7 @@ export default {
                 data.append('birthday',birthday)
                 axios({
                     method:"POST",
-                    url:'http://localhost/static/join_newMember.php',
+                    url:'./static/cty_api/join_newMember.php',
                     data,
                 }).then((res)=>{
                     if(res.data=='success'){
@@ -177,15 +177,15 @@ export default {
             data.append("password",that.registPassword);
             axios({
                 method:"POST",
-                url: "http://localhost/static/confirm_member.php",
+                url: "./static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
                 if(res.data =='登入失敗'){
                     alert(res.data)
                 }else{
-                    console.log(res.data[0].ID);
-                    this.$store.dispatch('update_memberId',res.data[0].ID)
+                    console.log(res.data[0].MEMBER_ID);
+                    this.$store.dispatch('update_memberId',parseInt(res.data[0].MEMBER_ID))
                     this.$router.push('/member_data')
                 }
             }).catch((error)=>{

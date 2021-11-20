@@ -60,7 +60,7 @@ export default {
         data.append("id", this.$store.state.member_id);
         axios({
           method: "POST",
-          url: "http://localhost/static/cty_api/send_qa.php",
+          url: "./static/cty_api/send_qa.php",
           data,
         })
           .then((res) => {
@@ -69,7 +69,7 @@ export default {
             data2.append("id", this.$store.state.member_id);
             axios({ //成功送出後重新select資料
               method: "POST",
-              url: "http://localhost/static/cty_api/qa.php",
+              url: "./static/cty_api/qa.php",
               data: data2,
             })
               .then((res) => {
@@ -91,7 +91,7 @@ export default {
       data.append("open",0)
       axios({
         method:"POST",
-        url:'http://localhost/static/cty_api/openUnsolved.php',
+        url:'./static/cty_api/openUnsolved.php',
         data,
       }).then((res)=>{
         if(res.data=="success"){
@@ -99,7 +99,7 @@ export default {
             data2.append("id", this.$store.state.member_id);
             axios({ //
               method: "POST",
-              url: "http://localhost/static/cty_api/qa.php",
+              url: "./static/cty_api/qa.php",
               data: data2,
             })
               .then((res) => {
@@ -119,7 +119,7 @@ export default {
             data2.append("id", this.$store.state.member_id);
             axios({ //
               method: "POST",
-              url: "http://localhost/static/cty_api/qa.php",
+              url: "./static/cty_api/qa.php",
               data: data2,
             })
               .then((res) => {
@@ -139,7 +139,7 @@ export default {
             data2.append("id", this.$store.state.member_id);
             axios({ //
               method: "POST",
-              url: "http://localhost/static/cty_api/qa.php",
+              url: "./static/cty_api/qa.php",
               data: data2,
             })
               .then((res) => {

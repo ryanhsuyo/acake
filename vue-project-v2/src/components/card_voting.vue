@@ -1,7 +1,7 @@
 <template>
 	<div class="card_outline">
         <div class="img_container">
-            <img src="../assets/images/cho_cake.jpg">
+            <img :src="cake_image">
         </div>
         <div class="down_block">
             <h4 class="cake_title">{{cake_name}}</h4>
@@ -23,7 +23,7 @@
 import axios from 'axios'
 export default {
     name:"card_voting",
-    props:['cake_name','cake_description','cake_vote_num','cake_id'],
+    props:['cake_name','cake_description','cake_vote_num','cake_id','cake_image'],
     data(){
         return{
             choose:0,
@@ -72,7 +72,7 @@ export default {
                     document.cookie = `${this.$store.state.member_id}-1=Mike222=;expires=${(new Date(0)).toGMTString()}`;
                     this.choose = 0;
                     this.vote--
-                    alert('取消第三票')
+                    alert('取消第一票')
                 }
                 //收回第二票
                 if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1){
@@ -96,7 +96,7 @@ export default {
             data.append('vote',this.vote)
             axios({
         method: "post",
-        url: "http://localhost/static/cty_api/update_card_vote_num.php",
+        url: "./static/cty_api/update_card_vote_num.php",
         // headers: {
         //   "Content-Type": "application/x-www-form-urlencoded",
         // },

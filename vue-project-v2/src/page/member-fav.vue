@@ -50,10 +50,14 @@
                         </button>
                     </div>
                     <div class="folder_img_outline">
-                        <router-link to="/member_fav_detail">
+                        <!-- <router-link to="/member_fav_detail" @click.native="selectFavFolder(item)">
                             <img :src="item.categoryPic" v-if="!!item.categoryPic !== false">
                             <span v-else>這個分類尚未加入蛋糕喔！</span>
-                        </router-link>
+                        </router-link> -->
+                        <a @click.prevent="selectFavFolder(item)">
+                            <img :src="item.categoryPic" v-if="!!item.categoryPic !== false">
+                            <span v-else>這個分類尚未加入蛋糕喔！</span>
+                        </a>
                     </div>
                 </div>
 
@@ -130,6 +134,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from "../store/store"
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -143,7 +148,7 @@
         },
         data(){
             return{
-                memberId: 1,    // 測試用暫時性資料
+                memberId: this.$store.state.member_id,
 
                 page: "fav",    // 頁面識別用
 
@@ -200,6 +205,11 @@
                         // console.log(res);
                     })
                     .catch(err => console.log(err));
+            },
+            selectFavFolder(item){
+                this.$router.push({
+                    path: `/member_fav_detail/${item.categoryID}`
+                });
             },
             // addPhoto(){
             //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
@@ -265,13 +275,13 @@
             },
         },
         mounted(){
-        //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
-        //                 // console.log(res);
+            //                 // console.log(res);
         //                 let data = res["data"];
         //                 for(let i = 0; i < data.length; i++){
-        //                     let folder = {
-        //                         categoryName: data[i].CATEGORY_NAME,
+            //                     let folder = {
+                //                         categoryName: data[i].CATEGORY_NAME,
         //                         categoryID: data[i].CATEGORY_ID,
         //                     };
         //                     this.favFolder.push(folder);

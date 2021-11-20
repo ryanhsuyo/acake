@@ -65,7 +65,9 @@ export default {
                 document.getElementById("avatar_pic").src = reader.result;
 
                 axios.post("http://localhost/A_cake/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
-                    .then(res => {console.log(res)})
+                    .then(res => {
+                        // console.log(res);
+                    })
                     .catch(err => console.log(err));
 
             });

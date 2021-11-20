@@ -123,6 +123,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from "../store/store"
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -134,13 +135,14 @@
             member_main_bar,
             title_h1,
         },
+        props: ["categoryID"],
         data(){
             return{
                 page: "fav",
                 title: "我的最愛",
 
-                memberID: 2,
-                favCategoryID: 28,
+                memberID: this.$store.state.member_id,
+                // favCategoryID: 1,
 
                 favCategory: [],
             };
@@ -157,7 +159,7 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.favCategoryID}))
+            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data);

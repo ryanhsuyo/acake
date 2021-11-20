@@ -12,25 +12,27 @@
     </swiper> -->
 
     <!-- 把需要生成截圖的元素放在一個元素容器裡,設定一個ref -->
-    <!-- <div ref="imageTofile"> -->
+    <div ref="imageTofile">
       <!-- 這裡放需要截圖的元素,自定義元件元素也可以 -->
-      <!-- <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
-    </div> -->
+      <div>我是擷取的內容</div>
+    </div>
     <!-- 如果需要展示擷取的圖片,給一個img標籤 -->
-    <!-- <img :src="htmlUrl" v-show="isShow" /> -->
-    <!-- <button @click="toImage">擷取</button> -->
-
+    <img :src="htmlUrl" v-show="isShow" />
+    <button @click="toImage">擷取</button>
+    <img :src="htmlUrl" alt="">
     <!-- <vue-fabric id="x" ref="canvas" @selection:created="selected" :width="width" :height="height" style="background-color: cadetblue;"></vue-fabric> -->
 
     <!-- <canvas id="canvas" width="300" height="300" style="background-color: cadetblue;">
     </canvas> -->
-    <canvas id="canvas" width="300" height="300" style="background-color: cadetblue;">
-    </canvas>
-    <button @click="addimg">addimg</button>
+    <!-- <canvas id="c" width="600" height="600" style="overflow: hidden;"></canvas>
+    <div class="box">
+    <img src="../assets/images/cake_design/fruit4.png" id="my-image" style="width:200px;" @click="addimg">
+    </div> -->
+    <!-- <button @click="addimg">addimg</button> -->
 
     <!-- <div id="main"> -->
         <!-- <canvas id="canvas" width="200" height="200"></canvas>
@@ -60,8 +62,9 @@ export default {
     data(){
         
         return {
-            canvas:{},
-            rect:{},
+            
+            canvas:[],
+            rect:[],
             // swiperList :[
             //     'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
             //     'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
@@ -88,8 +91,8 @@ export default {
             //   prevEl: '.swiper-button-prev'
             // },
 
-            // htmlUrl: "",
-            // isShow: false,
+            htmlUrl: "",
+            isShow: false,
         }
     },
     methods: {
@@ -117,35 +120,20 @@ export default {
         // },
         
 
-        addimg(){
+        // addimg(number){
+        //     var imgElement = document.getElementById('my-image');
+        //     var imgInstance = new fabric.Image(imgElement,{
+        //         left: 10,
+        //         top: 10,
+        //         width: 400,
+        //         height: 400,
+        //         scaleX: .3,
+        //         scaleY: .3,
+        //     });
+        //     console.log(123);
+        //     this.canvas.add(imgInstance);
 
-            // // 在畫布添加內容
-            // const imgElement = document.getElementById('my-image');
-            // imgElement.src = '../assets/images/cake_design/decoration4.png'
-            // imgElement.onload = () => {
-            //     const image = new fabric.Image(imgElement,{
-            //         left: 100, // 圖片相對畫布的左側距離
-            //         top: 100, // 圖片相對畫布的頂部距離
-            //         angle: 30, // 圖片旋轉角度
-            //         opacity: 0.85, // 圖片透明度
-
-            //     })
-            //     canvas.add(image)
-            // }
-
-
-            // const imgInstance = new fabric.Image (imgElement, {
-            // left: 100, // 圖片相對畫布的左側距離
-            // top: 100, // 圖片相對畫布的頂部距離
-            // angle: 30, // 圖片旋轉角度
-            // opacity: 0.85, // 圖片透明度
-            // // 這裡可以通過scaleX和scaleY來設置圖片繪製後的大小，這裡為原來大小的一半
-            // scaleX: 0.5, 
-            // scaleY: 0.5
-            // });
-            // 添加對象後, 如下圖
-            // canvas.add(imgInstance);
-        },
+        // },
 
 
         // prev(){
@@ -156,27 +144,44 @@ export default {
         // },
 
         // 頁面元素轉圖片
-    // toImage() {
-    //   // 第一個引數是需要生成截圖的元素,第二個是自己需要配置的引數,寬高等
-    //   html2canvas(this.$refs.imageTofile, {
-    //     backgroundColor: null,
-    //   }).then((canvas) => {
-    //     let url = canvas.toDataURL("image/png");
-    //     this.htmlUrl = url; // 把生成的base64點陣圖片上傳到伺服器,生成線上圖片地址
-    //     if (this.htmlUrl) {
-    //       // 渲染完成之後讓圖片顯示，用v-show可以避免一些bug
-    //       this.isShow = true;
-    //     }
-    //     // this.sendUrl();
-    //   });
-    // }, // 圖片上傳伺服器
+    toImage() {
+      // 第一個引數是需要生成截圖的元素,第二個是自己需要配置的引數,寬高等
+      html2canvas(this.$refs.imageTofile, {
+        backgroundColor: null,
+      }).then((canvas) => {
+        let url = canvas.toDataURL("image/png");
+        this.htmlUrl = url; // 把生成的base64點陣圖片上傳到伺服器,生成線上圖片地址
+        if (this.htmlUrl) {
+          // 渲染完成之後讓圖片顯示，用v-show可以避免一些bug
+          this.isShow = true;
+        }
+        // this.sendUrl();
+      });
+    }, // 圖片上傳伺服器
     },
     mounted() {
-        this.canvasObj = new Fabric.Canvas('canvas',{
-            preserveObjectStacking: true //禁止選中時物件的圖層自訂至於頂部
-        });
-        this.canvasObj.setWidth(this.caWidth); //設置畫布寬度
-        this.canvasObj.setHeight(this.caHeight);//設置畫布高度
+
+        // this.canvas = new fabric.Canvas('c');
+        // var canvas = new fabric.Canvas('c');
+
+        // var imgElement = document.getElementById('my-image');
+        // var imgInstance = new fabric.Image(imgElement,{
+        //     left: 10,
+        //     top: 10,
+        //     width: 400,
+        //     height: 400,
+        //     scaleX: .5,
+        //     scaleY: .5,
+        // });
+
+        // canvas.add(imgInstance);
+
+
+        // this.canvasObj = new Fabric.Canvas('canvas',{
+        //     preserveObjectStacking: true //禁止選中時物件的圖層自訂至於頂部
+        // });
+        // this.canvasObj.setWidth(this.caWidth); //設置畫布寬度
+        // this.canvasObj.setHeight(this.caHeight);//設置畫布高度
         
         // // 設置畫布
         // const card = new fabric.Canvas('canvas')
@@ -188,28 +193,32 @@ export default {
         
         // 添加圖片
         // 方式一（通過img元素添加）
-        const imgElement = document.getElementById('my-image');
-        const imgInstance = new fabric.Image(imgElement, {
-        left: 100, // 圖片相對畫布的左側距離
-        top: 100, // 圖片相對畫布的頂部距離
-        angle: 30, // 圖片旋轉角度
-        opacity: 0.85, // 圖片透明度
-        // 這裡可以通過scaleX和scaleY來設置圖片繪製後的大小，這裡為原來大小的一半
-        scaleX: 0.5, 
-        scaleY: 0.5
-        });
-        // 添加對象後, 如下圖
-        card.add(imgInstance);
+        // const imgElement = document.getElementById('my-image');
+        // const imgInstance = new fabric.Image(imgElement, {
+        // left: 100, // 圖片相對畫布的左側距離
+        // top: 100, // 圖片相對畫布的頂部距離
+        // angle: 30, // 圖片旋轉角度
+        // opacity: 0.85, // 圖片透明度
+        // // 這裡可以通過scaleX和scaleY來設置圖片繪製後的大小，這裡為原來大小的一半
+        // scaleX: 0.5, 
+        // scaleY: 0.5
+        // });
+        // // 添加對象後, 如下圖
+        // card.add(imgInstance);
         
     },
 }
 </script>
 
 <style>
-    /* .swiper-pagination{
-        color: #000;
-        width: 20px;
-        height: 20px;
-    } */
-    
+    #c{
+        background-image: url(/static/img/cake_model1.2032bdd.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .box{
+        display: flex;
+        flex-direction: row;
+        align-items: normal;
+    }
 </style>

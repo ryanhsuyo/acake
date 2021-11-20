@@ -89,8 +89,8 @@ export default {
     sendAnswer(){
       if(this.answer!=''){
         let data = new URLSearchParams();
-        let id=this.select_member.ID
-        data.append('id',this.select_member.ID);
+        let id=this.select_member.MEMBER_ID
+        data.append('id',this.select_member.MEMBER_ID);
         data.append('message',this.answer);
         axios({
           method:"POST",
@@ -143,6 +143,8 @@ main{
 }
 .left_site{
   position:relative;
+  height:calc(100vh);
+  overflow-y: auto;
   top:-20px;
   background: #F0D5CE;
   .member_outline{

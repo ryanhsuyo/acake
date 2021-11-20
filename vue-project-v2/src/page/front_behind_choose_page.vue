@@ -1,8 +1,15 @@
 <template>
   <div>
     <div class="button">
-      <button><a href="/index"> 前台</a></button>
-      <button><a href="/employee/1"> 後台</a></button>
+      <button><router-link to="/index">前台</router-link></button>
+      <button>
+        <button @click='confirmData'>後台</button>
+        <div id='sign_in'> 
+          <input type="text" v-model="id" placeholder="請輸入員工ID">
+          <input type="text" v-model="password" placeholder="請輸入員工密碼">
+        </div>
+      
+      </button>
     </div>
     <!-- <div id="container"></div> -->
     <!-- <button>前台</button>
@@ -16,7 +23,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-
+import axios from 'axios'
 export default {
   name: "ThreeTest",
   data() {
@@ -29,6 +36,8 @@ export default {
       meshCar: null,
       plate: null,
       cylinder: null,
+      id:'',
+      password:'',
     };
   },
   methods: {
@@ -353,26 +362,6 @@ scene.add( mesh );
       const cylinder6 = new THREE.Mesh(geometry6, material6);
       cylinder6.position.set(0, 172, 0);
       this.scene.add(cylinder6);
-      // 第一顆奶油
-      // const butter_el = new THREE.TorusGeometry( 8,4, 30, 200,6.3 );
-      // const butter_el2 = new THREE.TorusGeometry( 4, 4, 30, 200,6.3 );
-      // const butter_el3 = new THREE.TorusGeometry( 1, 4, 30, 200,6.3 );
-      // const butter_material = new THREE.MeshLambertMaterial( {
-      // 	color: 0xffff00,
-      // 	emissive:0xffffff } );
-      // const butter = new THREE.Mesh( butter_el, butter_material );
-      // const butter2 = new THREE.Mesh( butter_el2, butter_material );
-      // const butter3 = new THREE.Mesh( butter_el3, butter_material );
-      // butter.position.set(0,177,0)
-      // butter.rotation.x=Math.PI*.5
-      // this.scene.add( butter );
-      // butter2.position.set(0,182,0)
-      // butter2.rotation.x=Math.PI*.5
-      // this.scene.add( butter2 );
-      // butter3.position.set(0,186,0)
-      // butter3.rotation.x=Math.PI*.5
-      // this.scene.add( butter3 );
-      // 盤子
       const plate = new THREE.CylinderGeometry(
         300,
         300,
@@ -407,21 +396,41 @@ scene.add( mesh );
       plate_inner.position.set(0, -30, 0);
       this.scene.add(plate_inner);
     },
-    text() {
-      
-    },
+    confirmData(){
+      if(this.id!=''&&this.password!=''){
+        let data = new URLSearchParams();
+        data.append('id',this.id)
+        data.append('password',this.password)
+        axios({
+          method:"POST",
+          url:'http://localhost/static/cty_api/confirm_employee.php',
+          data,
+        }).then((res)=>{
+          console.log(res.data)
+          if(res.data=="登入失敗"){
+            alert(res.data)
+          }else{
+            alert('登入成功');
+            this.$store.dispatch('update_employeeId',res.data)
+            this.$router.push('/employee/1')
+          }
+
+        }).catch((error)=>{
+          console.log(error);
+        })
+      }
+    }
   },
   mounted() {
     this.snowSplite();
     this.cake();
-    // this.text();
   },
+  beforeDestroy(){
+    document.querySelector('canvas').remove()
+  }
 };
 </script>
 <style scoped lang="scss">
-#container {
-  /* height: 400px; */
-}
 .button{
   display: flex;
   width:50%;
@@ -449,6 +458,15 @@ scene.add( mesh );
       color:#515151;
       padding:10px 70px;
     }
+  }
+}
+#sign_in{
+  margin-top:20px;
+  input{
+    width:100%;
+    border-radius: 3px;
+    border:none;
+    padding:5px;
   }
 }
 </style>

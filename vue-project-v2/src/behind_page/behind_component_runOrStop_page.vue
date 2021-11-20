@@ -99,7 +99,7 @@ export default {
       params.append("id", data.ID);
       axios({
         method: "post",
-        url: "http://localhost/static/update_vote_event.php",
+        url: "http://localhost/static/cty_api/update_vote_event.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -123,7 +123,7 @@ export default {
 // 要求最近五筆活動資料照日期排
     this.$axios({
       method: "GET",
-      url: "http://localhost/static/quire_vote_activity.php",
+      url: "http://localhost/static/cty_api/quire_vote_activity.php",
     }).then((res) => {
       this.voteData = res.data;
     });

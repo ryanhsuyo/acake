@@ -57,7 +57,7 @@
               <div class="manager_list_content">
                 <div class="manager_details">
                   <label for="">創建員工</label>
-                  <input
+                  <input disabled
                     class="authority"
                     type="text"
                     v-model="new_employee.biulder"
@@ -159,7 +159,7 @@
                 </div>
                 <div class="manager_details">
                   <label for="">創建員工</label>
-                  <input class="authority" type="text" v-model="data.BIULDER" />
+                  <input disabled class="authority" type="text" v-model="data.BIULDER" />
                 </div>
               </div>
               <div class="manager_list_content">
@@ -237,7 +237,7 @@ export default {
         password: "",
         authority: "",
         create_date: "",
-        biulder: "",
+        biulder:this.$store.state.employee_id,
         img: "",
       },
       theIndex: 0,
@@ -254,10 +254,10 @@ export default {
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "http://localhost/static/quire_member.php",
+      url: "http://localhost/static/cty_api/quire_member.php",
       data: params,
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.data = res.data;
       for (let i = 0; i < this.data.length; i++) {
         this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
@@ -267,7 +267,7 @@ export default {
     // 產生頁數寫入pages[]
     this.$axios({
       method: "get",
-      url: "http://localhost/static/quire_employee_total.php",
+      url: "http://localhost/static/cty_api/quire_employee_total.php",
     }).then((res) => {
       let pages = Math.ceil(res.data / 10);
       for (let i = 1; i <= pages; i++) {
@@ -298,7 +298,7 @@ export default {
       params.append("name", newValue);
       axios({
         method: "post",
-        url: "http://localhost/static/select_member.php",
+        url: "http://localhost/static/cty_api/select_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -311,7 +311,7 @@ export default {
             params.append("page", this.sn - 1);
             this.$axios({
               method: "POST",
-              url: "http://localhost/static/quire_member.php",
+              url: "http://localhost/static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -330,7 +330,7 @@ export default {
           params.append("page", this.sn - 1);
           this.$axios({
               method: "POST",
-              url: "http://localhost/static/quire_member.php",
+              url: "http://localhost/static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -350,7 +350,7 @@ export default {
       params.append("page", index);
       axios({
         method: "post",
-        url: "http://localhost/static/quire_member.php",
+        url: "http://localhost/static/cty_api/quire_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -389,7 +389,7 @@ export default {
       // const json = encodeURI(JSON.stringify(data),'utf-8')
       axios({
         method: "post",
-        url: "http://localhost/static/join_employee.php",
+        url: "http://localhost/static/cty_api/join_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -397,10 +397,10 @@ export default {
         data: params,
       })
         .then((response) => {
-          // console.log(response);
+          console.log(response);
         })
         .catch((error) => {
-          // console.log(error);
+          console.log(error);
         });
       this.create = 1;
       this.new_employee.number = "";
@@ -422,7 +422,7 @@ export default {
       const json = encodeURI(JSON.stringify(data), "utf-8");
       axios({
         method: "post",
-        url: "http://localhost/static/update_employee.php",
+        url: "http://localhost/static/cty_api/update_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -489,7 +489,7 @@ export default {
         params.append("index", that.theIndex);
         axios({
           method: "post",
-          url: "http://localhost/static/img.php",
+          url: "http://localhost/static/cty_api/img.php",
 
           headers: {
             "Content-Type": "multipart/form-data",

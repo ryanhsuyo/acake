@@ -130,7 +130,7 @@ export default {
             data.append("password",this.password);
             axios({
                 method:"POST",
-                url: "http://localhost/static/confirm_member.php",
+                url: "http://localhost/static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
@@ -167,7 +167,7 @@ export default {
                 data.append('birthday',birthday)
                 axios({
                     method:"POST",
-                    url:'http://localhost/static/join_newMember.php',
+                    url:'http://localhost/static/cty_api/join_newMember.php',
                     data,
                 }).then((res)=>{
                     if(res.data=='success'){
@@ -177,7 +177,7 @@ export default {
             data.append("password",that.registPassword);
             axios({
                 method:"POST",
-                url: "http://localhost/static/confirm_member.php",
+                url: "http://localhost/static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);

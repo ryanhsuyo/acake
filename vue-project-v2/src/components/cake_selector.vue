@@ -67,7 +67,7 @@
           ><span>{{ choose }} <font-awesome-icon icon="fa-solid fa-xmark" /></span></label>
       </div>
       <button class="clearall" id='send' @click="overflowReverse()">確認送出</button>
-      <button class="clearall" id='clear' @click="choose_total=[],choose_total_two=[]">清空選項</button>
+      <button class="clearall" id='clear' @click="choose_total=[],choose_total_flavor=[]">清空選項</button>
     </div>
   </div>
 </div>

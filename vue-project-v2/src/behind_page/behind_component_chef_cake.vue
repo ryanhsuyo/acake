@@ -4,67 +4,77 @@
       <h1>主廚推薦蛋糕</h1>
       <searchBar></searchBar>
     </div>
-    <div class="cake" >
-      <div class="outline close" v-for="(data,index) in data" :key="index">
-            <div class="img_outline">
-                <img src="../assets/images/cho_cake.jpg" alt="">
-                <button>修改照片</button>
-            </div>
-            <div class="text_outline">
-                <div class="infor">
-                    <div class="left_infor">
-                        <div class="first">
-                            <p>蛋糕ID：</p>
-                            <p>{{data.id}}</p>
-                        </div>
-                        <div class="second">
-                            <p>蛋糕名稱：</p>
-                            <p>{{data.name}}</p>
-                        </div>
-                        <div class="third">
-                            <p>8吋價格：</p>
-                            <p>{{data.eight}}</p>
-                        </div>
-                        <div class="forth">
-                            <p>糕體口味：</p>
-                            <p>{{data.test}}</p>
-                        </div>
-                    </div>
-                    <div class="right_infor">
-                        <div class="first">
-                            <p>製作者：</p>
-                            <p>{{data.author}}</p>
-                        </div>
-                        <div class="second">
-                            <p>6吋價格：</p>
-                            <p>{{data.six}}</p>
-                        </div>
-                        <div class="third">
-                            <p>10吋價格：</p>
-                            <p>{{data.ten}}</p>
-                        </div>
-                        <div class="forth">
-                            <p>狀態</p>
-                            <select name="" id="">
-                                <option value="" :selected="data.status==1">上架</option>
-                                <option value="" :selected="data.status==2">下架</option>
-                                </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="descript">
-                    <p>描述：</p>
-                    <textarea name="" id="" cols="30" rows="7" v-model="data.description"></textarea>
-                </div>
-            </div>   
-            <div class="button_outline" >
-                <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
-                <div class="button_position">
-                    <button>修改</button>
-                    <button>確認</button>
-                </div>
-            </div>
+    <div class="cake">
+      <div class="outline close" v-for="(data, index) in data" :key="index">
+        <div class="img_outline">
+          <img src="../assets/images/cho_cake.jpg" alt="" />
+          <button>修改照片</button>
         </div>
+        <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+                <p>蛋糕ID：</p>
+                <p>{{ data.id }}</p>
+              </div>
+              <div class="second">
+                <p>蛋糕名稱：</p>
+                <p>{{ data.name }}</p>
+              </div>
+              <div class="third">
+                <p>8吋價格：</p>
+                <p>{{ data.eight }}</p>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <p>{{ data.test }}</p>
+              </div>
+            </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>製作者：</p>
+                <p>{{ data.author }}</p>
+              </div>
+              <div class="second">
+                <p>6吋價格：</p>
+                <p>{{ data.six }}</p>
+              </div>
+              <div class="third">
+                <p>10吋價格：</p>
+                <p>{{ data.ten }}</p>
+              </div>
+              <div class="forth">
+                <p>狀態</p>
+                <select name="" id="">
+                  <option value="" :selected="data.status == 1">上架</option>
+                  <option value="" :selected="data.status == 2">下架</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="descript">
+            <p>描述：</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="7"
+              v-model="data.description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="button_outline">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            id="toggle"
+            @click="open"
+          />
+          <div class="button_position">
+            <button>修改</button>
+            <button>確認</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -79,29 +89,36 @@ export default {
   components: {
     behindHeader,
     searchBar,
-    cakeData,
+    cakeData
   },
   data() {
     return {
-      showWhat: [],
+      showWhat: []
     };
   },
   methods: {
-    open:　function(e){
-        // console.log($(e.target).parents('.outline').siblings())
-        $(e.target).parents('.outline').siblings().addClass('close');
-        $(e.target).parents('.outline').toggleClass('close');
-    },
+    open: function(e) {
+      // console.log($(e.target).parents('.outline').siblings())
+      $(e.target)
+        .parents(".outline")
+        .siblings()
+        .addClass("close");
+      $(e.target)
+        .parents(".outline")
+        .toggleClass("close");
+    }
   },
-  computed:{
-      data(){
-          return this.$store.state.chef_cake
-      }
+  computed: {
+    data() {
+      return this.$store.state.chef_cake;
+    }
   },
   mounted() {
-    $("#chefCake").siblings().removeClass("target");
+    $("#chefCake")
+      .siblings()
+      .removeClass("target");
     $("#chefCake").addClass("target");
-  },
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -122,7 +139,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     justify-content: space-between;
     align-items: center;
     h1 {
-        margin:0;
+      margin: 0;
       font-size: 36px;
       font-weight: 400;
     }
@@ -133,131 +150,131 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     gap: 30px;
   }
 }
-.outline{
-    display:flex;
-    width:1025px;
-    height:300px; /*展開300px*/
-    padding:20px;
-    background: #F7DCDC;
-    border-radius:5px;
-    transition:.3s;
-    .img_outline{
-        position:relative;
-        flex:1;
-        img{
-            width:100%;
-            height:100%;
-            object-fit: cover;
-        }
-        button{
-            position:absolute;
-      right:0;
-      bottom:0;
-      width:100px;
-      height:40px;
+.outline {
+  display: flex;
+  width: 1025px;
+  height: 300px; /*展開300px*/
+  padding: 20px;
+  background: #f7dcdc;
+  border-radius: 5px;
+  transition: 0.3s;
+  .img_outline {
+    position: relative;
+    flex: 1;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    button {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100px;
+      height: 40px;
       font-size: 20px;
       box-shadow: $shadow;
-      cursor:pointer;
+      cursor: pointer;
       background: #515151;
-      color:white;
-      border-radius:5px;
-      &:active{
+      color: white;
+      border-radius: 5px;
+      &:active {
         box-shadow: inset $shadow;
       }
-        }
-        
     }
-    .text_outline{
-        // flex:1;
-        display:flex;
-        flex-direction: column;
-        justify-content: space-between;  
-    }
-}
-.infor{
-    display:flex;
-    // flex-direction: column;
-    justify-content: space-between;
-    .left_infor,.right_infor{
-        display:flex;
-        flex-direction: column;
-        // justify-content: space-between;
-        >div{
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            padding:0 3px;
-            margin-bottom:5px;
-            p{
-                margin:0;
-            }
-        }
-    }
-}
-.descript{
-    margin-top:20px;
-    display:grid;
-    grid-template-columns: 1fr 7fr;
-    textarea{
-        width:100%;
-        resize: none;
-    }
-    p{
-        white-space: nowrap;
-        margin:0;
-    }
-}
-.button_outline{
-    display:flex;
+  }
+  .text_outline {
+    // flex:1;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
-    #toggle{
-        cursor:pointer;
-        font-size:24px;
-        transform: rotate(0deg);
-        transition:.5s;
-    }
-    .button_position{
-        display:flex;
-        flex-direction: column;
-        button{
-            width:100px;
-            height:24px;
-            margin-top:10px;
-            background: #454545;
-            color:white;
-            border-radius: 20px;
-            border:none;
-            margin-left:5px;
-            cursor: pointer;
-            &:active{
-                box-shadow: inset $shadow;
-            }
-        }
-    }
+  }
 }
-.outline.close{
-    height:50px;
-    overflow: hidden;
-    line-height:54px;
-    padding:0 20px;
-    .img_outline{
-        display:none;
+.infor {
+  display: flex;
+  // flex-direction: column;
+  justify-content: space-between;
+  .left_infor,
+  .right_infor {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    > div {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      padding: 0 3px;
+      margin-bottom: 5px;
+      p {
+        margin: 0;
+      }
     }
-    .text_outline{
-        flex:1;
+  }
+}
+.descript {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  textarea {
+    width: 100%;
+    resize: none;
+  }
+  p {
+    white-space: nowrap;
+    margin: 0;
+  }
+}
+.button_outline {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  #toggle {
+    cursor: pointer;
+    font-size: 24px;
+    transform: rotate(0deg);
+    transition: 0.5s;
+  }
+  .button_position {
+    display: flex;
+    flex-direction: column;
+    button {
+      width: 100px;
+      height: 24px;
+      margin-top: 10px;
+      background: #454545;
+      color: white;
+      border-radius: 20px;
+      border: none;
+      margin-left: 5px;
+      cursor: pointer;
+      &:active {
+        box-shadow: inset $shadow;
+      }
     }
-    .button_outline{
-        flex-shrink:1;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        #toggle{
-            transform: rotate(45deg);
-        }
-        .button_position{
-            display:none;
-        }
+  }
+}
+.outline.close {
+  height: 50px;
+  overflow: hidden;
+  line-height: 54px;
+  padding: 0 20px;
+  .img_outline {
+    display: none;
+  }
+  .text_outline {
+    flex: 1;
+  }
+  .button_outline {
+    flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #toggle {
+      transform: rotate(45deg);
     }
+    .button_position {
+      display: none;
+    }
+  }
 }
 </style>

@@ -27,10 +27,10 @@
                                 <img src="../assets/images/bit_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content">
-                                <div class="addenda_block_cake_title">草莓奶油蛋糕草莓奶油</div>
+                                <div class="addenda_block_cake_title">{{cake.CAKE_NAME}}</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
-                                        8吋
+                                        {{cake.SIZE}} 吋
                                     </div>
                                     <div class="addenda_block_cake_amountandunit">
                                         <div class="addenda_block_cake_amount">1</div>
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice">
                                     <div class="addenda_block_cake_tw">NT$</div>
-                                    <div class="addenda_block_cake_price">500</div>
+                                    <div class="addenda_block_cake_price">{{cake.PRICE}}</div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                     <img src="../assets/images/cho_cake.jpg" alt="">
                                 </div>
                                 <div class="addenda_block_cake_content">
-                                    <div class="addenda_block_cake_title">{{packdata}}</div>
+                                    <div class="addenda_block_cake_title">{{packageSelected.name}}</div>
                                     <div class="addenda_block_cake_sizeandamount">
                                         <div class="addenda_block_cake_size">
                                         </div>
@@ -61,13 +61,13 @@
                                     </div>
                                     <div class="addenda_block_cake_twandprice">
                                         <div class="addenda_block_cake_tw">NT$</div>
-                                        <div class="addenda_block_cake_price">0</div>
+                                        <div class="addenda_block_cake_price">{{packageSelected.price}}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="addenda_block_package_select_block">  
-                                <select v-model="packdata" name="" id="addenda_block_package_select">
-                                    <option v-for="(pack, index) in packs" :key='index' :value="pack">{{pack}}</option>
+                                <select v-model="packageSelected" name="" id="addenda_block_package_select">
+                                    <option v-for="(pack, index) in packages" :key='index' :value="pack">{{pack.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -76,13 +76,13 @@
                         </div>
                     </div>
                     <div class="addenda_hr"></div>
-                    <div class="addenda_block_list2" v-for="(list,index) in lists" :key='index' >
+                    <div class="addenda_block_list2" v-for="(addendacard,index) in addendacards" :key='index' >
                         <div class="addenda_item_block_cardorcandle">
                             <div class="addenda_block_cake_img_block_cardorcandle">
                                 <img src="../assets/images/bit_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">{{list.idname}}</div>
+                                <div class="addenda_block_cake_title_cardorcandle">{{addendacard.choice.idname}}</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -93,20 +93,25 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice_cardorcandle">
                                     <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">{{list.price}}</div>
+                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.price * addendacard.quantity - addendacard.choice.discount}}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="addenda_block_cake_item_cardorcandle_select_block">
 
                             <div class="addenda_block_cake_item_cardorcandle_select">
-                                <select v-model="list.idname" name="" id="addenda_block_cake_item_select">
-                                    <option  v-for="(item, index) in items" :key='index'>{{item}}</option>
+                                <select v-model="addendacards[index].choice"  id="addenda_block_cake_item_select">
+                                    <option 
+                                    v-for="(choice, i) in choices"                  
+                                    :key='i'
+                                    :value="choice"
+                                    v-show="!addendacards.map(card=>card.choice).includes(choice)"
+                                    >{{choice.idname}}</option>
                                 </select>
                             </div>
                             <div class="addenda_block_cake_item_cardorcandle_select_other">
-                                <select name="" id="addenda_block_cake_item_select_other">
-                                    <option v-for="(amount, index) in 10 " :key='index'>{{amount}}</option>
+                                <select name="quantity" id="addenda_block_cake_item_select_other" v-model="addendacards[index].quantity">
+                                    <option v-for="quantity in 10 " :key='quantity'>{{quantity}}</option>
                                 </select>
                             </div>
                         </div>
@@ -116,14 +121,14 @@
                         </div>
                         <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
-                            <div class="addenda_item_cancel"  @click="deladdenda(index)">
+                            <div class="addenda_item_cancel"  @click="deladdenda(index, ASt)">
                                 <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
                     </div>
-                    <div class="addenda_block_list4">
+                    <div class="addenda_block_list4" v-show="addendacards.length<choices.length">
                         <div class="new_addenda_block_outline">
-                            <div class="new_addenda_block_square" @click="addaddenda()" >
+                            <div  class="new_addenda_block_square" @click="addaddenda(index)" >
                                 <img src="../assets/images/add_purchase_icon.png" alt="">
                             </div>
                         </div>
@@ -187,7 +192,81 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
-import Vue from 'vue'
+const choices =[
+            {
+                idname: "一般卡片",
+                description: "我是一般卡片",
+                price: 10,
+                option: "",
+                discount: 10,
+                id:1,
+            },
+            {
+                idname: "一般蠟燭",
+                description: "我是一般蠟燭",
+                price: 10,
+                discount: 10,
+                option: "",
+                id:2,
+            },
+            {
+                idname: "特殊蠟燭",
+                description: "我是特殊蠟燭",
+                price: 50,
+                discount: 0,
+                option: "",
+                id:3,
+            },
+            {
+                idname: "情人節卡片",
+                description: "情人節卡片",
+                price: 30,
+                discount: 0,
+                option: "",
+                id:4,
+            },
+            {
+                idname: "聖誕節卡片",
+                description: "聖誕節卡片",
+                price: 30,
+                discount: 0,
+                option: "",
+                id:5,
+            },
+            {
+                idname: "造型數字蠟燭(0)",
+                description: "數字0蠟燭",
+                price: 30,
+                discount: 0,
+                option: "",
+                id:6,
+            },
+            {
+                idname: "造型數字蠟燭(1)",
+                description: "數字1蠟燭",
+                price: 30,
+                discount: 0,
+                option: "",
+                id:7,
+            }
+        ]
+
+// const AS0 = this.$store.state.AStorage[0].choice
+// const AS1 = this.$store.state.AStorage[1].choice
+
+const packages = [{
+    description:"一般包裝就是一班包裝",
+    name:"普通包裝",
+    price:0,
+},{
+    description:"高級包裝就是高級包裝",
+    name: "高級包裝",
+    price:60,
+},{
+    description:"特殊包裝就是特殊包裝",
+    name: "特殊包裝",
+    price:120,
+}]
 export default {
     name:'shopping_cart',
     components:{
@@ -197,61 +276,86 @@ export default {
     },
     data(){
         return{
-            packs:['普通包裝','高級包裝','特殊包裝'],
-            asd:123546,
-            lists:[{
-                idname: '一般卡片',
-                price: 0,
-                items:{
+            index: 0,
+            packages,
+            packageSelected: this.$store.state.PStorage,
+            choices,
+            // addendacards:this.$store.state.AStorage,
+            addendacards: [
+                {
+                quantity: 1,
+                choice: choices[0],
                 },
-            },{
-                idname: '一般蠟燭',
-                price: 0,
-                items:{
-                },
-
-            }],
-            items:['一般蠟燭','特殊蠟燭','一般卡片','特殊卡片'],
-            packdata:'',
-            // amount:'',
-            // listother:{},
+                {
+                quantity: 1,
+                choice: choices[1],
+                }
+            ],
+            fuck:[],
         }
     },
     methods:{
         addaddenda(){
-            this.lists.push(
-                {
-                    idname: '一般蠟燭',
-                    price: 0,
-                    items:['一般蠟燭'
-                    ],
-                items:['一般蠟燭','特殊蠟燭','一般卡片','特殊卡片'],
-            })
-        },
-        deladdenda(index){
-            console.log(index)
-                if(index !==1 && index !== 0){
-                this.lists.splice(index,1);
+            if(this.addendacards.length < choices.length ){
+                this.addendacards.push(
+                    {
+                        quantity: 1,
+                        choice: this.notSelectedChoices[0],
+                    }
+                )
             }
         },
+        deladdenda(index, ASt){
+            this.addendacards.splice(index,1);
+            console.log(ASt)
+        },
+        
     },
     watch: {                  // 2 宣告成物件
     },
     computed:{
-        
+        notSelectedChoices(){
+            return this.choices.filter((choice) => {
+                return !this.addendacards.some((addendacard) => {
+                return addendacard.choice === choice
+                })
+            })
+        },
+        ASt(){
+            return this.$store.state.AStorage
+        },
+        cake(){
+            return this.$store.state.storage
+        },
+        cakeQ(){
+            return this.$store.state.cakeQ
+        },
+        // PSt(){
+        //     return this.$store.state.PStorage
+        // }
     },
     mounted(){
+        this.fuck=this.$store.state.AStorage;
+        // for(let prop in this.$store.state.AStorage){
+        //     console.log(this.$store.state.AStorage[prop])
+        //     this.addendacards.push(this.$store.state.AStorage[prop]);
+        // }
+        // this.addendacards.concat(this.$store.state.AStorage);
         // 會員認證，非會員跳轉到登入頁面
             // if(this.$store.state.member_id==0){
             //     alert("您尚未登入，將跳轉到登入頁面");
             //     this.$router.push('/assign')
             // }
+
+            // return this.$store.state.storage;
+            // return this.$store.state.Astorage;
+            
+            
     },
     updated() {
         // console.log(`updated() pack: ---> ${this.packdata}`)
     },
     created(){
-        this.packdata = this.packs[0];
         document.querySelector('body').style.overflow='auto'
     }
 }

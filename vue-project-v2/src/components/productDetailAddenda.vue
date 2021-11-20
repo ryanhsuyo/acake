@@ -98,8 +98,8 @@
             返回商品
           </button>
         </router-link>
-        <router-link to="shopping_cart">
-          <button id="addenda_button_sumbit" @click="aaaaa()">前往結帳</button>
+        <router-link to="shopping_cart" >
+          <button id="addenda_button_sumbit" @click="addAdditionalToStorage(addendacards); addPStorage(packageSelected)">前往結帳</button>
         </router-link>
       </div>
     </div>
@@ -200,8 +200,6 @@ export default {
       index: 0,
       choices,
       packages,
-      theselect: '',
-      rank: 0,
       addendacards: [
         {
           quantity: 1,
@@ -215,15 +213,12 @@ export default {
       packageSelected: packages[0],
       counter: 1,
       closethat: this.showpage,
-      dude: Array(choices.length).fill(null).map((val, index)=> index).slice(2),
     };
   },
   props: ["show"],
   methods: {
 
-    fukcMyAnal(){
-    console.log(this.theselect);
-    },
+    
     add() {
       this.counter += 1;
     },
@@ -235,12 +230,6 @@ export default {
     close() {
       this.$emit("closepage", !this.show);
       console.log(this.show);
-    },
-    aaaaa() {
-      console.log(packageselect);
-    },
-    checkChoice(){
-
     },
     addaddenda(){
       if(this.addendacards.length < choices.length ){
@@ -255,6 +244,13 @@ export default {
     deladdenda(index){
       this.addendacards.splice(index,1);
     },
+    addAdditionalToStorage(additional, quantity){
+      this.$store.dispatch('AStorage', additional, quantity)
+    },
+    addPStorage(packageSelected){
+      this.$store.dispatch('PStorage', packageSelected)
+      
+    }
   },
   computed: {
     notSelectedChoices(){

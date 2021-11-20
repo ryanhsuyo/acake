@@ -114,9 +114,6 @@ vote_cake:[],
         method: "post",
         url: "http://localhost/static/quire_vote_cake.php",
 
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
         data: params,
       })
         .then((res) => {

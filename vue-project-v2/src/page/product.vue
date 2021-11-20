@@ -14,18 +14,22 @@
             <!-- <div id="select_test"></div> -->
         </div>
 
-        <main class="product_page_main" v-show="bbb">
+        <section class="product_page_main" v-show="bbb">
             <titleh1 class="titleh1rwd" title="主廚蛋糕" ></titleh1>
                 <div id="product_cakecard" >
-                    <router-link to="product_detail"  v-for="(card, index) in 12" :key="index">
-                        <div class="product_card_outline"> 
+                        <div class="product_card_outline" v-for="(card, index) in chefCake" :key="index"> 
                             <div class="product_img_container">
-                                <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                                <router-link to="product_detail"  >
+                                    <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                                </router-link>
                             </div>
                             <div class="product_introduce">
                                 <div class="product_detail">
-                                    <div class="product_cake_title" >巧克力蛋糕</div>
-                                    <span class="price">NT$800</span>
+                                    <div class="product_cake_title" >{{card.CAKE_NAME}}</div>
+                                    <div class="ntandprice">
+                                        <span class="nt">NT$</span>
+                                        <span class="price">{{card.PRICE}}</span>
+                                    </div>
                                 </div>
                                 <button class="like_button">
                                     加入我的最愛
@@ -33,30 +37,39 @@
                                 </button>
                             </div>
                         </div>
-                    </router-link>
                 </div>
-        </main>
-        <main class="product_page_main" v-show="!bbb">
+        </section>
+        
+
+        <section class="product_page_main" v-show="!bbb">
             <titleh1 class="titleh1rwd" title="私廚蛋糕" ></titleh1>
                 <div id="product_cakecard" >
-                    <div class="product_card_outline" v-for="(card, index) in 12" :key="index"> 
-                        <div class="product_img_container">
-                            <img class="product_img_container_img" src="../assets/images/bit_cake.jpg" />
-                        </div>
-                        <div class="product_introduce">
-                            <div class="product_detail">
-                                <div class="product_cake_title" >巧克力蛋糕</div>
-                                <span class="price">NT$800</span>
+                        <div class="product_card_outline" v-for="(card, index) in designerCake" :key="index"> 
+                            <div class="product_img_container" @click="addToStorage(card)">
+                            <img class="loveicon2" src="../assets/images/love_icon_h.svg">
+                            <img class="loveicon" src="../assets/images/love_icon.svg">
+                                <router-link to="product_detail"  >
+                                    <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                                </router-link>
                             </div>
-                            <button class="like_button">
-                                加入我的最愛
-                                <img src="../assets/images/love_icon.svg">
-                            </button>
+                            <div class="product_introduce">
+                                <div class="product_detail">
+                                    <div class="product_cake_title" >{{card.CAKE_NAME}}</div>
+                                    <div class="ntandprice">
+                                        <span class="nt">NT$</span>
+                                        <span class="price">{{card.PRICE}}</span>
+                                    </div>
+                                </div>
+                                <button class="addtocar">
+                                    加入購物車 
+                                    <img src="../assets/images/shoppingCar.svg">
+                                </button>
+                            </div>
                         </div>
-                    </div>
                 </div>
-        </main>
-
+        </section>
+        
+      
         <footercom></footercom>
         
     </div>
@@ -67,6 +80,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import switchTab from "../components/switchTab"
+import axios from "axios"
 export default {
     name:'product',
     components:{
@@ -74,12 +88,32 @@ export default {
         headercom,
         footercom,
         switchTab,
+    //      dataCart[{NAME:"AAA",PRICE:100}]
+    //     callAction(){
+    //         this.dispatch('action',this.dataCart)
+    //     }
+        
+    //    action function(context,test){
+    //         context.commit('mutation',test)
+    //     }
+    //    mutation function(state,aaa){
+    //         state.cart.push(aaa)
+    //         state.default = aaa
+    //     }
+    //     cart:[{NAME:"AAA",PRICE:100}]
+
+    //     this.$store.state.cart[0].NAME
+       
     },
     data(){
         return{
-            asd:123546,
+            vuex:this.$store.state.member_id.NAME,
+            // asd:123546,
             receive: '',
             bbb : true,
+            chefCake: [],
+            designerCake: [],
+            showMoveDot: [], 
         }
     },
     // props:{
@@ -95,17 +129,47 @@ export default {
             console.log(typeof ev)
             this.bbb = ev;
         },   
+        // addToCart(product, num){
+        //     this.showMoveDot = [...this.showMoveDotm, true]
+        addToStorage(cake){
+            this.$store.dispatch('storage', cake)
+        }
     },
     watch:{
         
     },
     computed:{
-        
+        my(){
+            return this.$store.state.member_id
+        }
 
     },
     mounted(){
+        const params = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productSelectCake.php",
+            data: params,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            // let datalength = data.length
+            this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+            this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            // console.log('thischefcake', this.chefCake);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data);
+            // console.log(datalength);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+       
     },
-
     
 }
 
@@ -219,9 +283,7 @@ body{
         justify-content: center;
     }
 }
-router-link{
-    text-decoration: none;
-}
+
 // 下方商品卡片
 #product_cakecard{
     margin: 0 auto;
@@ -260,21 +322,48 @@ router-link{
             margin: auto;
             width: 100%;
             max-width: 320px;
-
-        }   
+        }
+       
+        router-link{
+            text-decoration: none;
+            display: flex;
+        }
         .product_img_container{
             max-width: 300px;
             margin: 25px;
             width: 100%;
             display: flex;
+            position: relative;
             justify-content: center;
+            .loveicon{
+                position:absolute;
+                top:10px;
+                right: 10px;
+                width: 25px;
+                height: 25px;
+                object-fit: fill;
+                opacity: 1;
+                &:hover{
+                    opacity: 0;
+                    cursor: pointer;
+                }
+            }
+            .loveicon2{
+                position:absolute;
+                top:10px;
+                right: 10px;
+                width: 25px;
+                height: 25px;
+                object-fit: fill;
+            }
             .product_img_container_img{
+                
                 object-fit: cover;
                 width: 100%;
                 height: 100%;
                 @media screen and (max-width:767.98px){ 
-                width: 80%;
-                height: 80%;
+                width: 100%;
+                height: 100%;
                 object-fit: cover;
                 }
             }
@@ -293,12 +382,30 @@ router-link{
                 color: black;
                 .product_cake_title{
                     font-size: $h3;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    width: 120px;
+                    &:hover{
+                        // overflow: auto;
+                        z-index: 50;
+                        text-overflow: clip;
+                    }
                 }
-                .price{
-                    font-size: $h4;
+                .ntandprice{
+                    display: flex; 
+                    align-items: center;
+                    .price{
+                        font-size: $h4;
+                        }
+                    .tw{
+                        font-size: $h4;
+
+                    }
                 }
+
             }
-            .like_button{
+            .addtocar{
                 width: 180px;
                 height: 60px;
                 border-radius: 30px; 
@@ -311,6 +418,11 @@ router-link{
                     width: 20px;
                     height: 20px;
                 }
+                &:hover{
+                    color: $lightPike;
+                    cursor: pointer;
+                    background-color: $darkGrey;
+                }
             }
         }
     }
@@ -320,5 +432,6 @@ router-link{
 }
 a{
     text-decoration: none;
+    display: flex;
 }
 </style>

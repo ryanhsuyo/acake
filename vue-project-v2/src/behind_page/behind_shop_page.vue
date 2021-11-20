@@ -26,7 +26,7 @@
       <section id="bottom_section" :is="showWhat">
         
       </section>
-      </diV>
+      </div>
     </main>
   </div>
 </template>

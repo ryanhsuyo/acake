@@ -16,23 +16,27 @@
             <form action="" method="post">
                 <div id="member_name">
                     <span>姓名: </span>
-                    <input type="text" name="member_name" class="data-input" v-model="userName">
-                    <span class="data_input_span">{{userName}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userName" class="data-input" v-model="userName" v-show="!edit.userName">
+                    <span class="data_input_span" v-show="edit.userName">{{userName}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userName" @click="edit.userName = !edit.userName">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_nickname">
                     <span>暱稱: </span>
-                    <input type="text" name="member_nickname" class="data-input" v-model="userNickname">
-                    <span class="data_input_span">{{userNickname}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userNickname" class="data-input" v-model="userNickname" v-show="!edit.userNickname">
+                    <span class="data_input_span" v-show="edit.userNickname">{{userNickname}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userNickname" @click="edit.userNickname = !edit.userNickname">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_birthday">
                     <span>生日: </span>
-                    <input type="text" name="member_birthday_year" class="data-input" v-model="userBirthdayYear">
-                    <input type="text" name="member_birthday_month" class="data-input" v-model="userBirthdayMonth">
-                    <input type="text" name="member_birthday_date" class="data-input" v-model="userBirthdayDate">
-                    <span id="data_input_span">{{userBirthday}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userBirthdayYear" class="data-input  input_combined_three" v-model="userBirthdayYear" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayMonth" class="data-input  input_combined_three" v-model="userBirthdayMonth" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayDate" class="data-input  input_combined_three" v-model="userBirthdayDate" v-show="!edit.userBirthday">
+                    <span class="data_input_span" v-show="edit.userBirthday">{{userBirthday}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userBirthday"
+                    @click="edit.userBirthday = !edit.userBirthday">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userBirthday" @click="edit.userBirthday = !edit.userBirthday; updateData()">
                 </div>
             </form>
         </section>
@@ -41,27 +45,33 @@
             <form action="" method="post">
                 <div id="member_email">
                     <span>E-mail: </span>
-                    <input type="email" name="member_email" class="data-input" v-model="userEmail">
-                    <span class="data_input_span">{{userEmail}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="email" name="userEmail" class="data-input" v-model="userEmail" v-show="!edit.userEmail">
+                    <span class="data_input_span" v-show="edit.userEmail">{{userEmail}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userEmail" 
+                    @click="edit.userEmail = !edit.userEmail">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_address">
                     <span>地址:&nbsp;</span>
-                    <input type="text" name="member_address" class="data-input" v-model="userAddress">
-                    <span class="data_input_span">{{userAddress}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userAddress" class="data-input" v-model="userAddress" v-show="!edit.userAddress">
+                    <span class="data_input_span" v-show="edit.userAddress">{{userAddress}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userAddress" @click="edit.userAddress = !edit.userAddress">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_phone">
                     <span>電話:&nbsp;</span>
-                    <input type="text" name="member_phone" class="data-input" v-model="userPhone">
-                    <span class="data_input_span">{{userPhone}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userPhone" class="data-input" v-model="userPhone" v-show="!edit.userPhone">
+                    <span class="data_input_span" v-show="edit.userPhone">{{userPhone}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userPhone"
+                    @click="edit.userPhone = !edit.userPhone">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData(); resetInputSize($event)">
                 </div>
                 <div id="member_password">
                     <span>密碼:&nbsp;</span>
-                    <input type="text" name="member_password" class="data-input" v-model="userPassword">
-                    <span class="data_input_span">{{userPassword}}</span>
-                    <img src="../assets/images/pen_icon.svg" alt="">
+                    <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword">
+                    <span class="data_input_span" v-show="edit.userPassword">{{userPassword}}</span>
+                    <img src="../assets/images/pen_icon.svg" v-show="edit.userPassword" @click="edit.userPassword = !edit.userPassword">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData(); resetInputSize($event)">
                 </div>
             </form>
         </section>
@@ -75,19 +85,21 @@
 
             <div id="cake_design_cards">
 
-                <div class="card_outline">
+                <div class="card_outline" v-for="(item, index) in cakeDesignsShowing" :key="index">
                     <div class="img_container">
-                        <img src="../assets/images/cho_cake.jpg">
+                        <img :src="item.imgPath">
                     </div>
                     <div class="description_block">
-                        <h4 class="cake_title">無敵大蛋糕</h4>
-                        <p class="design_idea">內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文內文</p>
+                        <h4 class="cake_title">{{item.cakeTitle}}</h4>
+                        <p class="design_idea">{{item.cakeDescription}}</p>
                         <div class="status_area">
                             <div class="verify">
-                               <font-awesome-icon icon="fa-solid fa-circle" class="status_ball"/>
-                                <span class="status_text">人氣投票審核通過</span>
+                                <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_pass" v-show="item.voteStatus === '1'"/>
+                                <span class="status_text_pass" v-show="item.voteStatus === '1'">人氣投票審核通過</span>
+                                <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_making" v-show="item.voteStatus === '2'"/>
+                                <span class="status_text_making" v-show="item.voteStatus === '2'">蛋糕製作中</span>
                             </div>
-                            <button class="checking">
+                            <button class="checking" @click="showDesignDetail(item)">
                                 查看
                                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="scope_icon" />
                             </button>
@@ -97,7 +109,7 @@
 
                 <!-- 排版用重複組件開始 -->
 
-                <div class="card_outline">
+                <!-- <div class="card_outline">
                     <div class="img_container">
                         <img src="../assets/images/cho_cake.jpg">
                     </div>
@@ -134,14 +146,19 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- 排版用重複組件結束 -->
 
             </div>
 
             <div id="view_all_design_area">
-                <button id="view_all_design_button">查看全部</button>
+                <button id="view_all_design_button" @click="showAllDesign = true; viewDesignButton = false" v-show="viewDesignButton">查看全部</button>
+            </div>
+
+            <!-- 卡片詳細頁的light box -->
+            <div class="card_light_box" v-show="detailLightBox" @click.self="closeDesignDetail(false)">
+                <card_design_detail @close="closeDesignDetail" :designDetail="designDetail" @cakeDesign="changeDesignContent"></card_design_detail>
             </div>
 
         </section>
@@ -155,34 +172,34 @@
 
             <div id="coupon_area">
 
-                <div class="coupon">
+                <div class="coupon" v-for="(item, index) in couponShowing" :key="index">
                     <div class="coupon_left_block">
-                        <div class="discount_amout">$<span>150</span></div>
+                        <div class="discount_amout">$<span>{{item.discount}}</span></div>
                         <div class="A_cake_text_logo">
                             <img src="http://via.placeholder.com/60x22" alt="">
                         </div>
                         <div class="coupon_left_decoration_img">
                             <img src="http://via.placeholder.com/40x0" alt="">
                         </div>
-                        <div class="use_threshold">消費滿<span>1000</span>即可折抵</div>
+                        <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
                         <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
                     </div>
                     <div class="coupon_right_block">
                         <div class="expiration">
                             <span>使用期限</span>
-                            <span class="expiration_date">2021/10/31</span>
+                            <span class="expiration_date">{{item.expiration}}</span>
                         </div>
                         <div class="coupon_right_decoration_img">
                             <img src="http://via.placeholder.com/39x39" alt="">
                         </div>
                         <div class="expiration_countdown">
-                            即將失效：剩下<span>10</span>天
+                            即將失效：剩下&nbsp;<span>{{countDays(item.expirationForCal)}}</span>&nbsp;天
                         </div>
                     </div>
                 </div>
 
                 <!-- 排版用重複組件開始 -->
-                <div class="coupon">
+                <!-- <div class="coupon">
                     <div class="coupon_left_block">
                         <div class="discount_amout">$<span>150</span></div>
                         <div class="A_cake_text_logo">
@@ -231,12 +248,12 @@
                             即將失效：剩下<span>10</span>天
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- 排版用重複組件結束 -->
 
             </div>
 
-            <button id="view_all_coupon">
+            <button id="view_all_coupon" @click="showAllCoupons = true; viewCouponButton = false" v-show="viewCouponButton">
                 <font-awesome-icon icon="fa-solid fa-angles-down" id="arrow_down_icon" />
             </button>
 
@@ -259,9 +276,12 @@
     import headercomp from "../components/headercom";
     import footercomp from "../components/footercom";
     import axios from 'axios';
+    import $ from 'jquery';
+    import qs from "qs";
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
+    import card_design_detail from "../components/card_design_detail";
 
     export default {
         components: {
@@ -269,39 +289,269 @@
             footercomp,
             member_main_bar,
             title_h1,
+            card_design_detail,
         },
         data(){
             return{
-                page: "data",
-                // 會員資料
-                userName: "王大涵",
-                userNickname: "王小涵",
-                userBirthdayYear: "88",
-                userBirthdayMonth: "06",
-                userBirthdayDate: "12",
-                userEmail: "mmm@gmail.com",
-                userAddress: "台北市中山區南京東路三段219號4-5F",
-                userPhone: "0912234456",
-                userPassword: "******336",
-                // 折價券資料
+                memberId: 1,    // 測試用暫時性資料
+
+                page: "data",   // 頁面識別用
+
+                // title_h1組件用(往下傳)
                 titleDesign: "蛋糕庫設計",
                 titleCoupon: "折價券",
+
+                // 會員資料
+                userName: "",
+                userNickname: "",
+                userBirthdayYear: "",
+                userBirthdayMonth: "",
+                userBirthdayDate: "",
+                userEmail: "",
+                userAddress: "",
+                userPhone: "",
+                userPassword: "",
+
+                // 會員資料修改控制
+                edit:{
+                    userName: true,
+                    userNickname: true,
+                    userBirthday: true,
+                    userEmail: true,
+                    userAddress: true,
+                    userPhone: true,
+                    userPassword: true,
+                },
+
+                // 蛋糕設計資料
+                cakeDesigns: [],
+                showAllDesign: false,
+                viewDesignButton: true,
+
+                detailLightBox: false,
+                designDetail: {},
+
+                // 折價券資料
+                couponData: [],
+                showAllCoupons: false,
+                viewCouponButton: true,
+                
             };
+        },
+        methods: {
+            switchBoolean(val){
+                val = !val;
+            },
+            resetInputSize($event){
+
+                // 被點擊時呼叫
+                if($event){
+
+                    $($event.target).siblings("input.data-input").css("width", parseInt($($event.target).siblings("span.data_input_span").css("width")) + 5);
+                    $($event.target).siblings("input.data-input").css("height", parseInt($($event.target).siblings("span.data_input_span").css("height")) - 2);
+
+                    return null;
+                }
+
+                // mounted時呼叫
+                $("input.data-input").each(function(){
+                    // console.log($(this).siblings("span.data_input_span").css("width"));
+                    $(this).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
+                    $(this).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
+                    // console.log("/" + $(this).css("width"))
+                 });
+                $("input.data-input.input_combined_three").each(function(){
+                    // console.log(parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                    $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                });
+            },
+            updateData($event){
+
+                // 第一種拼資料的寫法：
+                // let params = new URLSearchParams();
+                // params.append('memberId', this.memberId );
+                // params.append('inputValue', inputValue );
+                // 第二種拼資料的寫法：
+                // const params = {
+                //     memberId: this.memberId,
+                //     inputValue: inputValue,
+                // };
+
+                // 先拼好生日的資料再送出
+                let birthday = "";
+                let birthdayInputs = $("div#member_birthday").find("input.data-input");
+                birthdayInputs.each(function(index){
+                    birthday += this.value;
+                    if(index !== birthdayInputs.length - 1){
+                        birthday += "-";
+                    }
+                });
+                // console.log(birthday);
+
+                let inputValues = {
+                    name: this.userName,
+                    nickname: this.userNickname,
+                    birthday: birthday,
+                    email: this.userEmail,
+                    address: this.userAddress,
+                    phone: this.userPhone,
+                    password: this.userPassword,
+                    memberId: this.memberId,
+                };
+
+                axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
+                    // .then(res => {console.log(res);})
+                    .catch(error => console.log(error));
+            },
+            showDesignDetail(cake){
+                this.detailLightBox = true;
+                $("body").css("overflow-y", "hidden");
+
+                this.designDetail = {};
+                axios.post("http://localhost/A_cake/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
+                    .then(res => {
+                        console.log(res);
+                        let data = res["data"];
+                        this.designDetail = {
+                            cakeImg: require("../assets/images/" + data[0].CAKE_IMAGE),
+                            cakeName: data[0].CAKE_NAME,
+                            cakeDescription: data[0].CAKE_DESCRIPTION,
+                            cakeAvailable: data[0].CAKE_AVAILABLE,
+                            cakeID: data[0].CAKE_ID,
+                            cakeIngredients: [],
+                        };
+                        for(let i = 0; i < data.length; i++){
+                            let ingredients = {};
+                            ingredients.ingredientName = data[i].INGREDIENT_NAME;
+                            ingredients.ingredientDescription = data[i].INGREDIENT_DESCRIPTION;
+                            ingredients.ingredientQuantity = data[i].QUANTITY
+                            this.designDetail.cakeIngredients.push(ingredients);
+                        }
+                        // console.log(this.designDetail);
+                    })
+                    .catch(err => console.log(err));
+
+            },
+            closeDesignDetail(val){
+                this.detailLightBox = val;
+                $("body").css("overflow-y", "auto");
+            },
+            changeDesignContent(val, name){
+                let index = this.cakeDesigns.map(item => item.cakeTitle).indexOf(name);
+                this.cakeDesigns[index].cakeDescription = val;
+            },
+            countDays(expiration){
+                let future = new Date(...expiration).getTime() / 1000;
+                let now = new Date().getTime() / 1000;
+                return Math.ceil((future - now) / 86400);
+            },
+            mobileCakeShowing(){
+                if(window.innerWidth < 1200){
+                    this.showAllDesign = true;
+                    this.viewDesignButton = false;
+                }
+            },
         },
         computed: {
             userBirthday(){
                 return this.userBirthdayYear + "/" + this.userBirthdayMonth + "/" + this.userBirthdayDate;
             },
+
+            cakeDesignsShowing(){
+                return this.showAllDesign ? this.cakeDesigns : this.cakeDesigns.slice(0, 3) ;
+            },
+
+            couponShowing(){
+                return this.showAllCoupons ? this.couponData : this.couponData.slice(0, 2) ;
+            },
+
         },
         mounted(){
-            // axios.get("http://tfd103g2.sexfat.tw/test_echo.php").then(res => console.log(res));
-            // 會員認證，非會員跳轉到登入頁面
-            if(this.$store.state.member_id==0){
+
+            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
                 alert("您尚未登入，將跳轉到登入頁面");
                 this.$router.push('/assign')
             }
+
+            // 載入會員資料
+            // 上傳filezilla用的路徑：./static/php/selectMemberData.php
+            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res.data[0];
+                        this.userName = data["NAME"];
+                        this.userNickname = data["NICKNAME"];
+                        this.userBirthdayYear = data["BIRTHDAY"].split("-")[0];
+                        this.userBirthdayMonth = data["BIRTHDAY"].split("-")[1];
+                        this.userBirthdayDate = data["BIRTHDAY"].split("-")[2].split(" ")[0];
+                        this.userEmail = data["EMAIL"];
+                        this.userAddress = data["ADDRESS"];
+                        this.userPhone = data["PHONE"];
+                        this.userPassword = data["PASSWORD"];
+
+
+                        // 調整會員資料輸入框大小
+                        this.$nextTick(()=>{
+                            this.resetInputSize();
+                        });
+                        
+                    })
+                    .catch(error => console.log(error));
+
+            // 載入蛋糕設計資料
+            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        for(let i = 0; i < data.length; i++){
+                            let cakeInfo = {
+                                imgPath: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                cakeTitle: data[i].CAKE_NAME,
+                                cakeDescription: data[i].CAKE_DESCRIPTION,
+                                voteStatus: data[i].CAKE_AVAILABLE,
+                                cakeID: data[i].CAKE_ID,
+                                };
+
+                            this.cakeDesigns.push(cakeInfo);
+
+                            // 顯示所有蛋糕設計的按鈕
+                            this.viewDesignButton = (this.cakeDesigns.length > 3 ? true : false);
+                        }
+
+                    })
+                    .catch(err => {console.log(err)});
+
+
+            // 載入折價券資料
+            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        for(let i = 0; i < data.length; i++){
+                            let couponInfo = {
+                                discount: data[i].DISCOUNT_AMOUNT,
+                                threshold: data[i].USE_THRESHOLD,
+                                expirationForCal: data[i].EXPIRATION_DATE.split(" ")[0].split("-"),
+                                expiration: data[i].EXPIRATION_DATE.split(" ")[0].replace(/-/g, "/"),
+                            };
+
+                            this.couponData.push(couponInfo);
+
+                            // 顯示所有折價券的按鈕
+                            this.viewCouponButton = (this.couponData.length > 2 ? true : false);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            
+            // 監聽視窗大小以控制顯示按鈕、蛋糕資料的出現或隱藏
+            window.addEventListener("resize", this.mobileCakeShowing);
+            // 載入時先執行一次檢查視窗寬度
+            this.mobileCakeShowing();
+
         },
     }
+// span套用字體後寬度似乎會變，jQuery抓到的是使用預設字體的寬度。
+// 手機版時span標籤會變兩行，input的高度也會被影響
 </script>
 
 
@@ -334,17 +584,33 @@
         color: $darkGrey;
 
         @media (max-width: 575.98px){
+            width: auto;
             margin: 20px auto 30px;
         }
 
         > form{
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr;
 
             @media (max-width: 575.98px){
+                display: flex;
+                justify-content: space-between;
                 flex-direction: column;
                 align-items: center;
                 height: 120px;
+                width: 100vw;
+            }
+
+            #member_name{
+                text-align: left;
+            }
+
+            #member_nickname{
+                text-align: center;
+            }
+
+            #member_birthday{
+                text-align: right;
             }
 
             span{
@@ -355,8 +621,9 @@
                 border: 1px solid #515151;
                 outline: none;
                 font-size: $h4;
+                max-width: 298px;
 
-                display: none;
+                // display: none;
             }
 
             img{
@@ -414,8 +681,9 @@
                     border: 1px solid #515151;
                     outline: none;
                     font-size: $h4;
+                    max-width: 298px;
 
-                    display: none;
+                    // display: none;
                 }
 
             }
@@ -428,7 +696,7 @@
         text-align: center;
         padding: 0 40px;
 
-        @media (max-width: 575.98px){
+        @media (max-width: 1198.98px){
             padding: 0;
         }
 
@@ -439,19 +707,28 @@
 
         #cake_design_cards{
             text-align: left;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 350px 350px 350px;
+            grid-auto-rows: auto;
+
+            @media (min-width: 1200px){
+                grid-column-gap: 35px;
+                grid-row-gap: 50px; // 要看XD再確認一下
+            }            
 
             @media (max-width: 1199.98px){
+                display: flex;
+                justify-content: space-between;
                 width: 100vw;
-                overflow-y: scroll;
-                padding: 0 30px 10px;
+                overflow-x: scroll;
+                padding: 0 0 10px;
+                justify-content: flex-start;
             }
 
             .card_outline{
                 box-shadow: $shadow;
 
-                @media (max-width: 575.98px){
+                @media (max-width: 1199.98px){
                     margin: 0 17.5px;
                 }
 
@@ -483,18 +760,32 @@
 
                         .verify{
                             margin-top: 35px;
-                            color: #5A9308;
                             font-size: 0px;
 
-                            .status_ball{
+                            .status_ball_pass{
                                 vertical-align: middle;
                                 font-size: $p;
                                 margin-right: 3px;
+                                color: #5A9308;
                             }
 
-                            .status_text{
+                            .status_text_pass{
                                 font-size: 12px;
                                 vertical-align: middle;
+                                color: #5A9308;
+                            }
+
+                            .status_ball_making{
+                                vertical-align: middle;
+                                font-size: $p;
+                                margin-right: 3px;
+                                color: #5975B2;
+                            }
+
+                            .status_text_making{
+                                font-size: 12px;
+                                vertical-align: middle;
+                                color: #5975B2;
                             }
 
                         }
@@ -532,9 +823,23 @@
 
         }
 
-        #view_all_design_area{
+        .card_light_box{
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .5);
+            overflow-y: scroll;
+        }
 
-            @media (max-width: 575.98px){
+        #view_all_design_area{
+            padding: 50px 0;
+
+            @media (max-width: 1198.98px){
                 height: 75px;
             }
 
@@ -547,7 +852,6 @@
                 outline: none;
                 cursor: pointer;
                 border-radius: 5px;
-                margin: 50px 0;
                 font-size: $h3;
                 box-shadow: $shadow;
                 &:hover{
@@ -555,7 +859,7 @@
                     color: $darkGrey;
                 }
 
-                @media (max-width: 575.98px){
+                @media (max-width: 1198.98px){
                     display: none;
                 }
                 
@@ -569,6 +873,7 @@
         background-color: $palePike;
         border-radius: 5px;
         text-align: center;
+        padding-bottom: 20px;
 
         @media (max-width: 474.98px){
             margin: 0 15px 32px;
@@ -783,7 +1088,7 @@
             font-size: 0;
             text-align: center;
             cursor: pointer;
-            margin: 15px 0 20px;
+            margin-top: 15px;
 
             #arrow_down_icon{
                 display: inline-block;
@@ -818,7 +1123,7 @@
 
 
 
-// ===== 組件card_voting的scss開始 =====
+// ===== card_voting的scss開始 =====
 .card_outline{
     box-sizing: border-box;
 
@@ -859,6 +1164,7 @@
             font-size: 16px;
             line-height: 16px;
             color: #515151;
+
         }
         .voting_area{
             display: flex;
@@ -938,6 +1244,6 @@ section#vote{
     }
     
 }
-// ===== 組件card_voting的scss結束 =====
+// ===== card_voting的scss結束 =====
 
 </style>

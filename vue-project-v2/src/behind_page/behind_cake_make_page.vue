@@ -3,11 +3,12 @@
     <behind-header thistitle="蛋糕製作管理"></behind-header>
       <main>
       <section id="search_site">
-        <search-bar></search-bar>
+        <selectBar></selectBar>
         <search-bar></search-bar>
       </section>
       <section class="cake_data">
-        <div class="outline close" v-for="(data,index) in data" :key="index">
+        <cakeData></cakeData>
+        <div class="outline close" v-for="(data,index) in theFlavor" :key="index">
     <div class="img_outline">
       <img src="../assets/images/cho_cake.jpg" alt="" />
       <button>修改圖片</button>
@@ -72,19 +73,36 @@
 import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
+import selectBar from "../components/select_bar";
 import cakeData from '../components/behind_cake_make_data';
+
+import axios from 'axios';
+import qs from 'qs';
 
 export default {
   name: "cake_make_manager",
   components: {
     behindHeader,
     searchBar,
+    selectBar,
     cakeData,
     
   },
   data() {
     return {
       showWhat: '',
+      flavor: 1,
+      ingredient: 1,
+      theFlavor:[],
+      // theFlavor: {
+      //   id:this.$store.state.id,
+      //   name:'',
+      //   description:'',
+      //   img:'',
+      //   price:'',
+      //   category:'',
+      //   available:'',
+      // }
     };
   },
   methods: {
@@ -105,8 +123,25 @@ export default {
     }
   },
   mounted(){
-     $("#cake").siblings().removeClass("target");
+    $("#cake").siblings().removeClass("target");
     $("#cake").addClass("target");
+
+    // select糕體
+    axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+      .then(res => {
+        let theFlavor = res["data"];
+        console.log(theFlavor);
+      })
+      .catch(err => console.log(err));
+
+    // select配料&裝飾
+    axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({ingredientId: this.ingredient}))
+      .then(res => {
+        let data = res["data"];
+        console.log(data);
+      })
+      .catch(err => console.log(err));
+
   },
 };
 </script>
@@ -131,8 +166,11 @@ main{
     display:grid;
     grid-template-columns: 1fr;
     gap:30px;
+    // height: 1000px;
+    // border: solid 1px #515151;
   }
 .outline {
+  // border: solid 1px #515151;
   display: flex;
   width: 1000px;
   height: 180px;

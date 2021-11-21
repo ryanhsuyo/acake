@@ -1,6 +1,6 @@
 <template>
     <div class="all">
-        <headercom></headercom>
+        <headercom openWhat="cakeDesign"></headercom>
         <section id="outside">
         <!-- 開始製作 -->
         <section id="first_screen">
@@ -31,7 +31,7 @@
          <!-- 製作中 -->
          <!-- <div class="center_box"> -->
         <transition name="disappear">
-         <section id="second_screen" v-show="isFinish">
+         <section id="second_screen" v-show="isFinish1">
              <div id="production_area">
                  <!-- 下雪 -->
                 <div class="snow-container">
@@ -72,7 +72,7 @@
                  <input id="next_step" type="button" @click="showModel = false; changeShowArea('next')" v-show="showArea < 3">
                  <!-- 蛋糕完成按鈕 -->
                  <!-- <img class="first_screen_cake_look" src="../assets/images/cake_design_look.svg" alt=""> -->
-                 <input id="finish" type="button" v-show="showArea === 3" @click="[toImage(), isFinish = !isFinish]">
+                 <input id="finish" type="button" v-show="showArea === 3" @click="[toImage(), isFinish()]">
                  <!-- <button @click="deleteImg">deleteImg</button> -->
              </div>
 
@@ -232,9 +232,18 @@
          <!-- </div> -->
          <!-- 製作中 -->
 
+        <!-- isLoading cooking -->
+        <transition @before-enter="beforeEnter" @before-leave="beforeLeave">
+            <div v-if="isLoading" class="loading">
+                <img src="../assets/images/cooking.gif" alt="loading">
+                <p>cooking...</p>
+            </div>
+        </transition>
+        <!-- isLoading cooking -->
+
          <!-- 製作完成 填寫設計理念 -->
          <transition name="appear">
-         <section id="third_screen" v-if="!isFinish">
+         <section id="third_screen" v-show="isFinish2">
             <!-- 下雪 -->
             <div class="snow-container" style="z-index: 0;">
                 <div class="snow foreground"></div>
@@ -346,7 +355,10 @@ export default {
     },
     data(){
         return{
-            isFinish: true,
+            isLoading: false,
+            // isFinish: true,
+            isFinish1: true,
+            isFinish2: false,
             Cwidth: 280,
             Cheight: 180,
             isShow: false,
@@ -500,6 +512,27 @@ export default {
     },
     methods:{
         
+        // 製作完成
+        isFinish(){
+            this.isFinish1 = false;
+            this.isLoading = true;
+
+            window.setTimeout(()=>{
+                this.isFinish2 = true;
+            },3000);
+            
+        },
+        beforeEnter() {
+            this.height = 0;
+        },
+        beforeLeave(){
+            this.$nextTick(() => {
+            // $refs
+            this.height = this.$refs.content.getBoundingClientRect().height;
+      })
+        },
+
+
         // 彈窗顯示
         isPopup(){
             $("div.popup_box").fadeIn();
@@ -522,7 +555,9 @@ export default {
         initial(){
                 this.isStart();
                 this.showArea=1;
-                this.isFinish=true;
+                this.isFinish1=true;
+                this.isFinish2=false;
+                this.isLoading=false;
                 this.canvas.clear();
                 html2canvas(this.$refs.imageTofile, {
                 width: this.Cwidth,
@@ -1720,6 +1755,32 @@ li.nav_item > a#cakeDesign{
     }
 
         //---------------------------------- 製作完成 third_screen ----------------------------------
+
+        .loading{
+            width: 180px;
+            height: 180px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.4);
+            animation-name: movRradius3;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+            z-index: 0;
+            img{
+                width: 100%;
+            }
+            p{
+                color: #515151;
+                text-align: center;
+                margin-top: -30px;
+                font-size: 17px;
+            }
+        }
+
         // section#third_screen.add_start2{
         //         display: grid;
         //     }
@@ -2088,14 +2149,14 @@ li.nav_item > a#cakeDesign{
         transform: all 1s ease;
     }
     
-    .disappear-enter-from{
-        transform: translateY(-100%);
-        opacity: 0;
+    .disappear-enter{
+        transform: translateY(100%);
+        opacity: 1;
     }
 
     .disappear-leave-to{
-        transform: translateY(100%);
-        opacity: 1;
+        transform: translateY(-100%);
+        opacity: 0;
     }
 
     .appear-leave-active,
@@ -2103,14 +2164,14 @@ li.nav_item > a#cakeDesign{
         transform: all 1s ease;
     }
 
-    .appear-enter-from{
-        transform: translateY(100%);
-        opacity: 1;
+    .appear-enter{
+        transform: translateY(-100%);
+        opacity: 0;
     }
 
     .appear-leave-to{
-        transform: translateY(-100%);
-        opacity: 0;
+        transform: translateY(100%);
+        opacity: 1;
     }
 
     @keyframes mascotTextmov {
@@ -2162,6 +2223,23 @@ li.nav_item > a#cakeDesign{
         }
         100%{
             border-radius: 55% 65% 60% 55%;
+        }
+    }
+
+@keyframes movRradius3 {
+        0%{
+            border-radius: 50% 60% 55% 70%;
+            opacity: 0;
+        }
+        33%{
+            border-radius: 60% 50% 65% 50%;
+        }
+        66%{
+            border-radius: 70% 60% 50% 60%;
+        }
+        100%{
+            border-radius: 55% 70% 60% 50%;
+            opacity: 1;
         }
     }
 // ---------------------------------- 下雪 ----------------------------------

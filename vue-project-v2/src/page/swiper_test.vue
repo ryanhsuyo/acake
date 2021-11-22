@@ -5,25 +5,25 @@
      <!-- <swiper ref="hits" :auto-update="true" class="actor-list" :options="swiperOption">
         <swiper-slide v-for="(slide, key) in swiperList" :key="key" >
             <div align="center"><img :src="slide" alt=""></div>
-        </swiper-slide> -->
-        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-        <!-- <div class="swiper-button-prev swiper-button-white" slot="button-prev"  @click="prev"></div>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+        <div class="swiper-button-prev swiper-button-white" slot="button-prev"  @click="prev"></div>
         <div class="swiper-button-next swiper-button-white" slot="button-next" @click="next"></div>
     </swiper> -->
 
     <!-- 把需要生成截圖的元素放在一個元素容器裡,設定一個ref -->
-    <div ref="imageTofile">
+    <!-- <div ref="imageTofile"> -->
       <!-- 這裡放需要截圖的元素,自定義元件元素也可以 -->
+      <!-- <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
       <div>我是擷取的內容</div>
-      <div>我是擷取的內容</div>
-    </div>
+    </div> -->
     <!-- 如果需要展示擷取的圖片,給一個img標籤 -->
-    <img :src="htmlUrl" v-show="isShow" />
+    <!-- <img :src="htmlUrl" v-show="isShow" />
     <button @click="toImage">擷取</button>
-    <img :src="htmlUrl" alt="">
+    <img :src="htmlUrl" alt=""> -->
     <!-- <vue-fabric id="x" ref="canvas" @selection:created="selected" :width="width" :height="height" style="background-color: cadetblue;"></vue-fabric> -->
 
     <!-- <canvas id="canvas" width="300" height="300" style="background-color: cadetblue;">
@@ -40,6 +40,33 @@
         <button class="btn" v-on:click="attachCanvas">attachCanvas - 1</button>
         <button class="btn" v-on:click="addLayerToCanvas">addLayerToCanvas - 2</button> -->
     <!-- </div> -->
+
+<div id="app">
+  <button @click="getUserInfo">取得隨機 User 資訊</button>
+  
+  <div class="flexbox-wrapper" :style="{height: height+'px'}">
+    <div class="flexbox-body" ref="content">
+      <div class="user-block" v-if="userInfo.name">
+        <h2>{{ userInfo.name }} / @{{ userInfo.username }}</h2>
+        
+        <img src="https://dummyimage.com/200x200/666/fff" alt="dummyimage">
+        <div class="wraps">
+          <p>{{ userInfo.company.name }}</p>
+          <p>{{ userInfo.phone }}</p>
+          <p>{{ userInfo.email }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <transition @before-enter="beforeEnter" @before-leave="beforeLeave">
+    <div v-if="isLoading" class="loading">
+      <img src="https://raw.githubusercontent.com/kurotanshi/vue-functional-demo/master/loading.gif" alt="loading">
+    </div>
+  </transition>
+</div>
  
   </div>
 </template>
@@ -62,9 +89,12 @@ export default {
     data(){
         
         return {
-            
-            canvas:[],
-            rect:[],
+            height: 0,
+            userInfo: {},
+            isLoading: false,
+
+            // canvas:[],
+            // rect:[],
             // swiperList :[
             //     'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
             //     'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
@@ -91,11 +121,42 @@ export default {
             //   prevEl: '.swiper-button-prev'
             // },
 
-            htmlUrl: "",
-            isShow: false,
+            // htmlUrl: "",
+            // isShow: false,
         }
     },
     methods: {
+
+    getRandomUserId() {
+      // 1 ~ 10
+      return Math.floor(Math.random() * 10) + 1;
+    },
+    async getUserInfo() {
+      this.isLoading = true;
+      this.userInfo = {};
+      const userId = this.getRandomUserId();
+
+      const res = await fetch('https://jsonplaceholder.typicode.com/users/' + userId)
+        .then((response) => response.json())
+        .then((json) => json);
+
+      // 加上延遲，避免太快看不到 loading
+      window.setTimeout(() => {
+        this.isLoading = false;
+        this.userInfo = res;
+      }, 3000);
+
+    },
+    beforeEnter() {
+      this.height = 0;
+    },
+    beforeLeave() {
+      // nextTick
+      this.$nextTick(() => {
+        // $refs
+        this.height = this.$refs.content.getBoundingClientRect().height;
+      })
+    },
          //adds canvas
         //         attachCanvas: function(){
         //             this.canvas = new fabric.Canvas('canvas');
@@ -144,20 +205,20 @@ export default {
         // },
 
         // 頁面元素轉圖片
-    toImage() {
-      // 第一個引數是需要生成截圖的元素,第二個是自己需要配置的引數,寬高等
-      html2canvas(this.$refs.imageTofile, {
-        backgroundColor: null,
-      }).then((canvas) => {
-        let url = canvas.toDataURL("image/png");
-        this.htmlUrl = url; // 把生成的base64點陣圖片上傳到伺服器,生成線上圖片地址
-        if (this.htmlUrl) {
-          // 渲染完成之後讓圖片顯示，用v-show可以避免一些bug
-          this.isShow = true;
-        }
-        // this.sendUrl();
-      });
-    }, // 圖片上傳伺服器
+        // toImage() {
+        // // 第一個引數是需要生成截圖的元素,第二個是自己需要配置的引數,寬高等
+        // html2canvas(this.$refs.imageTofile, {
+        //     backgroundColor: null,
+        // }).then((canvas) => {
+        //     let url = canvas.toDataURL("image/png");
+        //     this.htmlUrl = url; // 把生成的base64點陣圖片上傳到伺服器,生成線上圖片地址
+        //     if (this.htmlUrl) {
+        //     // 渲染完成之後讓圖片顯示，用v-show可以避免一些bug
+        //     this.isShow = true;
+        //     }
+        //     // this.sendUrl();
+        // });
+        // }, // 圖片上傳伺服器
     },
     mounted() {
 
@@ -190,6 +251,8 @@ export default {
         // card.on('object:modified',(e) => {
         //     console.log(e.target)
         // });
+
+        
         
         // 添加圖片
         // 方式一（通過img元素添加）
@@ -211,7 +274,77 @@ export default {
 </script>
 
 <style>
-    #c{
+
+#app {
+  position: relative;
+  display: block;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+button {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.flexbox-wrapper {
+  position: relative;
+  overflow: hidden;
+  transition: height 1s;
+  min-height: 35px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.flexbox-body {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.user-block {
+  overflow: hidden;
+  background: #eee;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 420px;
+}
+
+.user-block > img {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin: 0 1rem 0 0;
+  }
+  
+  .wraps{    
+    float: left;
+    margin-top: 1rem;
+    margin-left: 0.7rem;
+    font-size: 0.9rem;
+  }
+  
+  h2 {
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+  }
+
+.loading {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.loading > img {
+    border: none;
+  }
+.v-enter-active, .v-leave-active {
+  transition: opacity 1s;
+}
+.v-enter-from, .v-leave-to {
+  opacity: 0;
+}
+
+    /* #c{
         background-image: url(/static/img/cake_model1.2032bdd.png);
         background-size: cover;
         background-repeat: no-repeat;
@@ -220,5 +353,5 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: normal;
-    }
+    } */
 </style>

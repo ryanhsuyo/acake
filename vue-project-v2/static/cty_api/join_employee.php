@@ -10,7 +10,7 @@ $biulder = htmlspecialchars($_POST["biulder"]);
 $create_date = htmlspecialchars($_POST["create_date"]);
 $authority = htmlspecialchars($_POST["authority"]);
 $img = htmlspecialchars($_POST["img"]);
-$data = json_decode(file_get_contents("php://input"));
+// $data = json_decode(file_get_contents("php://input"));
 // $number = $data->number;
 // $password = $data->password;
 // $name = $data->name;
@@ -18,7 +18,7 @@ $data = json_decode(file_get_contents("php://input"));
 // $create_date = $data->create_date;
 // $authority = $data->authority;
 $sql = "INSERT INTO `A_cake`.`EMPLOYEE` ( `EMPLOYEE_NUMBER`, `EMPLOYEE_NAME`, `PASSWORD`, `AUTHORITY`,
- `CREATE_DATE`, `PHONE`, `BIULDER`, `ACTIVE`, `IMG`) VALUES ( ?, ?, ?, ?, NOW(), '3201252', ?, '1', ?);";
+ `CREATE_DATE`, `BIULDER`, `ACTIVE`, `IMG_BLOB`) VALUES ( ?, ?, ?, ?, NOW(), ?, '1', ?);";
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$number);
        $statement -> bindValue(2,$name);

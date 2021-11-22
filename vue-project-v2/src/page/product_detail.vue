@@ -25,7 +25,7 @@
                     <div id="cake_details">
                         <div class="cake_titlebar_content">
                             <div id="cake_titlebar">
-                                <div id="cake_title">巧克力蛋糕
+                                <div id="cake_title">{{storageDate.CAKE_NAME}}
                                     <img class="cake_detail_img" src="../assets/images/love_icon.svg" alt="">
                                 </div>
                                 <div class="product_details_combination1_button">
@@ -34,17 +34,14 @@
                                     <!-- </router-link> -->
                                     <!-- <router-link to="shopping_cart"> -->
 
-                                        <button id="product_details_combination1_buy" @click="open">直接購買</button>
+                                        <button id="product_details_combination1_buy" @click="open(); addToStorageQ(counter)">直接購買</button>
                                     <!-- </router-link> -->
                                         
                                 </div>
 
 
                             </div>
-                            <div id="cake_content">文字文字文字文字文字文字文字文文字文字
-                                文字文字文字文字文字文字文字文文字文字文字文字文字文字文字
-                                文字文字文字文字文字文字文字文文字文字文字文字文字文字文字
-                                文字文字文文字文文字文字文文字文字文字文字文字文字文字
+                            <div id="cake_content">{{storageDate.CAKE_DESCRIPTION}}
                             </div>
                         </div>
                         <div id="cake_size_quantity">
@@ -56,9 +53,7 @@
                             <div id="cake_size">
                                 <label for="">
                                     <select class="cake_size_select">
-                                        <option>6吋</option>
-                                        <option>8吋</option>
-                                        <option>10吋</option>
+                                        <option>{{storageDate.SIZE}}吋</option>
                                     </select>
                                 </label>
                             </div>
@@ -80,6 +75,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import productDetailAddenda from "../components/productDetailAddenda"
+import axios from "axios"
 
 export default {
     
@@ -118,16 +114,70 @@ export default {
             // console.log(ev)
             // this.qqq = ev;
             this.showpage = ev;
+        },
+        addToStorageQ(cakeQuantity){
+            this.$store.dispatch('cakeQ', cakeQuantity)
         }
     },
     watch:{
         
     },
     computed:{
-        
+        storageDate(){
+            return this.$store.state.storage
+        }
 
     },
     mounted(){
+        // {
+        //     const productDetailData = new URLSearchParams();
+        //     // params.append("page", index);
+        //     axios({
+        //         method: "post",
+        //         url: "http://localhost/A_cake/productSelectCake.php",
+        //         data: productDetailData ,
+        //     })
+        //     .then((res) => {
+        //         console.log(res.data);
+        //         let data = res.data;
+        //         // let datalength = data.length
+        //         this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+        //         this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+        //         // console.log('thischefcake', this.chefCake);
+        //         // console.log('thisdesingerckae', this.designerCake);
+        //         console.log('看一下裡面有', data);
+        //         // console.log(datalength);
+        //         // console.log(data.length); 
+        //         // this.DesignerCake = res.data
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        // }
+        // {
+        //     const productDetialCakeAndSize = new URLSearchParams();
+        //     // params.append("page", index);
+        //     axios({
+        //         method: "post",
+        //         url: "http://localhost/A_cake/productDetialCakeAndSize.php",
+        //         data: productDetialCakeAndSize,
+        //     })
+        //     .then((res) => {
+        //         console.log(res.data);
+        //         let data = res.data;
+        //         // let datalength = data.length
+        //         // console.log('thischefcake', this.chefCake);
+        //         // console.log('thisdesingerckae', this.designerCake);
+        //         // console.log(data);
+        //         // console.log(datalength);
+        //         // console.log(data.length); 
+        //         // this.DesignerCake = res.data
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        // }
+        return this.$store.state.storage
     },
 
     

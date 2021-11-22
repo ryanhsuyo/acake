@@ -7,7 +7,7 @@ $email = htmlspecialchars($_POST["email"]);
 $password = htmlspecialchars($_POST["password"]);
 $name = htmlspecialchars($_POST["name"]);
 $birthday = htmlspecialchars($_POST["birthday"]);
-$sql = "INSERT INTO `A_cake`.`MEMBER` (`EMAIL`, `PASSWORD`, `BIRTHDAY`, `NAME`) VALUES (?, ?, ?, ?);
+$sql = "INSERT INTO `A_cake`.`MEMBER` (`EMAIL`, `PASSWORD`, `BIRTHDAY`, `NAME`,`UNSOLVED_PROBLEM`) VALUES (?, ?, ?, ?,1);
 ";
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$email);

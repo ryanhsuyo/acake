@@ -177,24 +177,6 @@
                                     </div>
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">超商取貨(全家)
-                                        </div>
-                                        <div class="ready_bill_details_product_twandprice">
-                                            <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                            <div class="ready_bill_details_product_cake_price">60</div>
-                                        </div>
-                                    </div>
-                                    <div class="shipping_style_titlebar">
-                                        <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">超商取貨(7-11)
-                                        </div>
-                                        <div class="ready_bill_details_product_twandprice">
-                                            <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                            <div class="ready_bill_details_product_cake_price">60</div>
-                                        </div>
-                                    </div>
-                                    <div class="shipping_style_titlebar">
-                                        <div class="shipping_style_input">
                                             <input type="radio" name="shipping_style" id="">黑貓宅急便
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
@@ -293,13 +275,15 @@ export default {
         
     },
     computed:{
-        
+        storageDate(){
+            return this.$store.state.storage
+        }
 
     },
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post("http://localhost/acake/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post("http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 // console.log(res);
                 let data = res.data;
@@ -311,6 +295,9 @@ export default {
             })
             .catch( err => cosole.log(err));
     },
+    my(){
+        return this.$store.state.memberId
+    }
 
     
 }

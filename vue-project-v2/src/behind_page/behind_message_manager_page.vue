@@ -5,21 +5,21 @@
       <section class="left_site">
         <div class="member_outline" style="background:#DFB9B0" v-for="(data,index) in total_member" :key="index"  v-if="data.UNSOLVED_PROBLEM == '1'">
           <div class="img_outline">
-            <img :src="data.IMG" alt="">
+            <img :src="data.MEMBER_IMG_BLOB" alt="">
           </div>
-          <h1 id="user_name" @click="[chooseMember(data.ID),select_member=data]">{{data.NAME}}</h1>
+          <h1 id="user_name" @click="[chooseMember(data.MEMBER_ID),select_member=data]">{{data.NAME}}</h1>
         </div>
         <div class="member_outline" v-for="(data,index) in total_member" :key="index"  v-if="data.UNSOLVED_PROBLEM == '0'">
           <div class="img_outline">
-            <img :src="data.IMG" alt="">
+            <img :src="data.MEMBER_IMG_BLOB" alt="">
           </div>
-          <h1 id="user_name" @click="[chooseMember(data.ID),select_member=data]">{{data.NAME}}</h1>
+          <h1 id="user_name" @click="[chooseMember(data.MEMBER_ID),select_member=data]">{{data.NAME}}</h1>
         </div>
         <!-- 沒問題的 -->
       </section>
       <section class="middle_site">
         <div class="who">
-          <img :src="select_member.IMG" alt="">
+          <img :src="select_member.MEMBER_IMG_BLOB" alt="">
           <div class="status">
             <p>{{select_member.NAME}}</p>
           </div>
@@ -66,7 +66,7 @@ export default {
     quireTotalMember(){
       axios({
         method:"POST",
-        url:"http://localhost/static/cty_api/quire_total_member.php",
+        url:"./static/cty_api/quire_total_member.php",
       }).then((res)=>{
         this.total_member = res.data
       }).catch((error)=>{
@@ -78,7 +78,7 @@ export default {
       data.append("id",id)
       axios({
         method:"POST",
-        url:'http://localhost/static/cty_api/quire_member_message.php',
+        url:'./static/cty_api/quire_member_message.php',
         data,
       }).then((res)=>{
         this.select_member_message = res.data;
@@ -89,12 +89,12 @@ export default {
     sendAnswer(){
       if(this.answer!=''){
         let data = new URLSearchParams();
-        let id=this.select_member.ID
-        data.append('id',this.select_member.ID);
+        let id=this.select_member.MEMBER_ID
+        data.append('id',this.select_member.MEMBER_ID);
         data.append('message',this.answer);
         axios({
           method:"POST",
-          url:'http://localhost/static/cty_api/send_message_answer.php',
+          url:'./static/cty_api/send_message_answer.php',
           data,
         }).then((res)=>{
           if(res.data=="success"){
@@ -111,10 +111,10 @@ export default {
     },
     endQa(){
       let data=new URLSearchParams();
-      data.append("id",this.select_member.ID);
+      data.append("id",this.select_member.MEMBER_ID);
       axios({
         method:"POST",
-        url:'http://localhost/static/cty_api/change_unsolved_problem.php',
+        url:'./static/cty_api/change_unsolved_problem.php',
         data,
       }).then((res)=>{
         if(res.data="success"){
@@ -143,6 +143,8 @@ main{
 }
 .left_site{
   position:relative;
+  height:calc(100vh);
+  overflow-y: auto;
   top:-20px;
   background: #F0D5CE;
   .member_outline{

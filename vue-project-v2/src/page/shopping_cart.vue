@@ -33,13 +33,13 @@
                                         {{cake.SIZE}} 吋
                                     </div>
                                     <div class="addenda_block_cake_amountandunit">
-                                        <div class="addenda_block_cake_amount">1</div>
+                                        <div class="addenda_block_cake_amount">{{cakeQuantity}}</div>
                                         <div class="addenda_block_cake_unit">個</div>
                                     </div>
                                 </div>
                                 <div class="addenda_block_cake_twandprice">
                                     <div class="addenda_block_cake_tw">NT$</div>
-                                    <div class="addenda_block_cake_price">{{cake.PRICE}}</div>
+                                    <div class="addenda_block_cake_price">{{cake.PRICE * cakeQuantity}}</div>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                     <button class="addenda_goto_shopping">繼續購物</button>
                 </router-link>
                 <router-link to="ready_to_checkout">
-                    <button class="goto_checkout">前往結帳</button>
+                    <button class="goto_checkout" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
                 </router-link>
             </div>
             <!-- <section class="shopping_cart_list">
@@ -281,17 +281,17 @@ export default {
             packageSelected: this.$store.state.PStorage,
             choices,
             // addendacards:this.$store.state.AStorage,
-            addendacards: [
-                {
-                quantity: 1,
-                choice: choices[0],
-                },
-                {
-                quantity: 1,
-                choice: choices[1],
-                }
-            ],
-            fuck:[],
+            // addendacards: [],
+            // addendacards: [
+            //     {
+            //     quantity: 1,
+            //     choice: choices[0],
+            //     },
+            //     {
+            //     quantity: 1,
+            //     choice: choices[1],
+            //     }
+            // ],
         }
     },
     methods:{
@@ -309,33 +309,43 @@ export default {
             this.addendacards.splice(index,1);
             console.log(ASt)
         },
+        addToCart(addendacards, cake, cakeQuantity, packageSelected){
+            console.log(addendacards);
+            console.log(cake);
+            console.log(cakeQuantity);
+            console.log(packageSelected);
+            
+        }
         
     },
     watch: {                  // 2 宣告成物件
     },
     computed:{
         notSelectedChoices(){
+            //全部商品過濾每個商品
             return this.choices.filter((choice) => {
+                // 已選的商品如果有回傳true
                 return !this.addendacards.some((addendacard) => {
-                return addendacard.choice === choice
+                    // 已選商品 === 目前商品
+                    // console.log('sing' ,addendacard.choice, choice);
+                    return JSON.stringify(addendacard.choice) === JSON.stringify(choice)
                 })
             })
         },
-        ASt(){
+        addendacards(){
             return this.$store.state.AStorage
         },
         cake(){
             return this.$store.state.storage
         },
-        cakeQ(){
-            return this.$store.state.cakeQ
+        cakeQuantity(){
+            return this.$store.state.cakeQuantity
         },
         // PSt(){
         //     return this.$store.state.PStorage
         // }
     },
     mounted(){
-        this.fuck=this.$store.state.AStorage;
         // for(let prop in this.$store.state.AStorage){
         //     console.log(this.$store.state.AStorage[prop])
         //     this.addendacards.push(this.$store.state.AStorage[prop]);

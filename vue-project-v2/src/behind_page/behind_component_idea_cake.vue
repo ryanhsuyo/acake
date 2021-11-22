@@ -5,7 +5,7 @@
       <searchBar></searchBar>
     </div>
     <div class="cake" >
-      <div class="outline close" v-for="(data,index) in data" :key="index">
+      <div class="outline close" v-for="(ideaCake,index) in ideaCakes" :key="index">
             <div class="img_outline">
                 <img src="../assets/images/cho_cake.jpg" alt="">
                 <button>修改照片</button>
@@ -15,46 +15,46 @@
                     <div class="left_infor">
                         <div class="first">
                             <p>蛋糕ID：</p>
-                            <p>{{data.id}}</p>
+                            <p>{{ideaCake.CAKE_ID}}</p>
                         </div>
                         <div class="second">
                             <p>蛋糕名稱：</p>
-                            <p>{{data.name}}</p>
+                            <p>{{ideaCake.CAKE_NAME}}</p>
                         </div>
                         <div class="third">
-                            <p>8吋價格：</p>
-                            <p>{{data.eight}}</p>
+                            <p>吋數:</p>
+                            <p>{{ideaCake.SIZE}}</p>
                         </div>
                         <div class="forth">
                             <p>糕體口味：</p>
-                            <p>{{data.test}}</p>
+                            <p>{{ideaCake.CATEGORY_NAME}}</p>
                         </div>
                     </div>
                     <div class="right_infor">
                         <div class="first">
                             <p>製作者：</p>
-                            <p>{{data.author}}</p>
+                            <p>{{ideaCake.NICKNAME}}</p>
                         </div>
                         <div class="second">
-                            <p>6吋價格：</p>
-                            <p>{{data.six}}</p>
+                            <p>價格：</p>
+                            <p>{{ideaCake.PRICE}}</p>
                         </div>
-                        <div class="third">
+                        <!-- <div class="third">
                             <p>10吋價格：</p>
                             <p>{{data.ten}}</p>
-                        </div>
+                        </div> -->
                         <div class="forth">
                             <p>狀態</p>
                             <select name="" id="">
-                                <option value="" :selected="data.status==1">上架</option>
-                                <option value="" :selected="data.status==2">下架</option>
-                                </select>
+                                <!-- <option value="" :selected="data.status==1">上架</option>
+                                <option value="" :selected="data.status==2">下架</option> -->
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="descript">
                     <p>描述：</p>
-                    <textarea name="" id="" cols="30" rows="7" v-model="data.description"></textarea>
+                    <textarea name="" id="" cols="30" rows="7" v-model="ideaCake.CAKE_DESCRIPTION"></textarea>
                 </div>
             </div>   
             <div class="button_outline" >
@@ -74,6 +74,7 @@ import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import cakeData from "../components/behind_cake_data";
+import axios from "axios"
 export default {
   name: "idea_cake",
   components: {
@@ -84,23 +85,57 @@ export default {
   data() {
     return {
       showWhat: [],
+      ideaCakes: [],
+    //   data:[{
+    //       id: 1,
+    //       name: 3,
+    //       eight: 5,
+    //       test: 2,
+    //       author: 2,
+    //       six: 3,
+    //       ten: 5,
+    //   }]
     };
   },
   mounted() {
     $("#ideaCake").siblings().removeClass("target");
     $("#ideaCake").addClass("target");
+
+    const params = new URLSearchParams();
+                // params.append("page", index);
+            axios({
+                method: "post",
+                url: "http://localhost/A_cake/behindComponentIdeaCakeSelect.php",
+                data: params,
+            })
+            .then((res) => {
+                // console.log(res.data);
+                let data = res.data;
+                // console.log(data);
+                this.ideaCakes = data.filter(item => item.MEMBER_ID === "1");
+                // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+                console.log('thischefcake', this.ideaCakes);
+                // console.log('thisdesingerckae', this.designerCake);
+                // console.log(data.length);
+                // console.log(data.length); 
+                // this.DesignerCake = res.data
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    
   },
   methods:{
     open:　function(e){
         // console.log($(e.target).parents('.outline').siblings())
         $(e.target).parents('.outline').siblings().addClass('close');
         $(e.target).parents('.outline').toggleClass('close');
-  },
+    },
   },
   computed:{
-      data(){
-          return this.$store.state.chef_cake
-      }
+    //   data(){
+    //       return this.$store.state.chef_cake
+    //   }
   },
 };
 </script>

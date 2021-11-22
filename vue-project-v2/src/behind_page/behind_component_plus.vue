@@ -5,7 +5,7 @@
       <searchBar></searchBar>
     </div>
     <div class="cake" >
-      <div class="outline close" v-for="(data,index) in data" :key="index">
+      <div class="outline close" v-for="(plus,index) in pluses" :key="index">
             <div class="img_outline">
                 <img src="../assets/images/cho_cake.jpg" alt="">
                 <button>修改照片</button>
@@ -14,48 +14,48 @@
                 <div class="infor">
                     <div class="left_infor">
                         <div class="first">
-                            <p>蛋糕ID：</p>
-                            <p>{{data.id}}</p>
+                            <p>商品ID：</p>
+                            <p>{{plus.ACCESSOPIES_ID}}</p>
                         </div>
                         <div class="second">
-                            <p>蛋糕名稱：</p>
-                            <p>{{data.name}}</p>
+                            <p>價格</p>
+                            <p>{{plus.ACCESSOPIES_PRICE}}</p>
                         </div>
-                        <div class="third">
-                            <p>8吋價格：</p>
+                        <!-- <div class="third">
+                            <p>：</p>
                             <p>{{data.eight}}</p>
                         </div>
                         <div class="forth">
                             <p>糕體口味：</p>
                             <p>{{data.test}}</p>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="right_infor">
                         <div class="first">
-                            <p>製作者：</p>
-                            <p>{{data.author}}</p>
+                            <p>商品名稱:</p>
+                            <p>{{plus.ACCESSOPIES_NAME}}</p>
                         </div>
                         <div class="second">
-                            <p>6吋價格：</p>
-                            <p>{{data.six}}</p>
+                            <p>商品描述</p>
+                            <p>{{plus.ACCESSOPIES_DESCRIPTION}}</p>
                         </div>
-                        <div class="third">
+                        <!-- <div class="third">
                             <p>10吋價格：</p>
                             <p>{{data.ten}}</p>
-                        </div>
+                        </div> -->
                         <div class="forth">
                             <p>狀態</p>
                             <select name="" id="">
-                                <option value="" :selected="data.status==1">上架</option>
-                                <option value="" :selected="data.status==2">下架</option>
-                                </select>
+                                <option value="" :selected="plus.ACCESSOPIES_CATEGORY==1">上架</option>
+                                <option value="" :selected="plus.ACCESSOPIES_CATEGORY==2">下架</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div class="descript">
+                <!-- <div class="descript">
                     <p>描述：</p>
-                    <textarea name="" id="" cols="30" rows="7" v-model="data.description"></textarea>
-                </div>
+                    <textarea name="" id="" cols="30" rows="7" v-model="plus.description"></textarea>
+                </div> -->
             </div>   
             <div class="button_outline" >
                 <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
@@ -74,6 +74,7 @@ import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import cakeData from "../components/behind_cake_data";
+import axios from "axios"
 export default {
   name: "plus_shop",
   components: {
@@ -84,6 +85,7 @@ export default {
   data() {
     return {
       showWhat: [],
+      pluses:[]
     };
   },
   methods:{
@@ -94,13 +96,35 @@ export default {
   },
   },
   computed:{
-      data(){
-          return this.$store.state.chef_cake
-      }
+    //   data(){
+    //       return this.$store.state.chef_cake
+    //   }
   },
   mounted() {
     $("#plus").siblings().removeClass("target");
     $("#plus").addClass("target");
+    const params = new URLSearchParams();
+            // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/behindComponentPlusSelect.php",
+            data: params,
+        })
+        .then((res) => {
+            // console.log(res.data);
+            let pluses = res.data;
+            // console.log(data);
+            // this.plus = data.filter(item => item.MEMBER_ID === "0");
+            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            console.log('plus', pluses);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data.length);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
   },
 };
 </script>

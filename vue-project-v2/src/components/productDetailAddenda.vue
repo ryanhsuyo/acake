@@ -3,7 +3,8 @@
     <div class="addenda_title_block">
       <div class="addenda_titlebar">
         <div class="addenda_title">
-          {{ packageSelected.name }}
+          {{packageSelected.ACCESSORIES_NAME}}
+          <!-- {{choices[0]}} -->
           <div class="addenda_cancel_icon">
             <img src="" alt="" />
           </div>
@@ -14,7 +15,7 @@
             <div class="addenda_img">
               <img src="../assets/images/cho_cake.jpg" alt="" />
             </div>
-            <div class="addenda_describe">{{ packageSelected.description }}</div>
+            <div class="addenda_describe">{{ packageSelected.ACCESSORIES_DESCRIPTION }}</div>
           </div>
           <div class="addenda_detail_outline">
             <div class="addenda_amount">
@@ -26,14 +27,14 @@
                     v-for="(pack, index) in packages"
                     :key="index"
                     :value="pack"
-                    >{{ pack.name }}</option
+                    >{{ pack.ACCESSORIES_NAME}}</option
                   >
                 </select>
               </label>
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price">{{ packageSelected.price }}</div>
+              <div class="addenda_price">{{ packageSelected.ACCESSOPIES_PRICE }}</div>
             </div>
           </div>
         </div>
@@ -44,9 +45,10 @@
         class="addenda_titlebar"
         v-for="(addendacard, index) in addendacards"
         :key="index"
+        :value="index"
       >
-        <div class="addenda_title">
-          {{ addendacard.choice.idname }}
+        <div class="addenda_title" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_NAME">
+          {{ addendacard.choice.ACCESSORIES_NAME}}
           <div class="addenda_cancel_icon" @click="deladdenda(index)">
             <img src="" alt="" />
           </div>
@@ -57,8 +59,8 @@
             <div class="addenda_img">
               <img src="../assets/images/cho_cake.jpg" alt="" />
             </div>
-            <div class="addenda_describe">
-              {{ addendacard.choice.description }}
+            <div class="addenda_describe" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_DESCRIPTION">
+              {{addendacard.choice.ACCESSORIES_DESCRIPTION}}
             </div>
           </div>
           <div class="addenda_detail_outline">
@@ -70,24 +72,24 @@
                     :key="i"
                     :value="choice"
                     v-show="!addendacards.map(card=>card.choice).includes(choice)"
-                    >{{ choice.idname }}</option
+                    >{{choice.ACCESSORIES_NAME}}</option
                   >
                 </select>
               </label>
               <select name="quantity" v-model="addendacards[index].quantity">
-                <option v-for="quantity in 10" :key="quantity">{{quantity}}</option>
+                <option v-for="quantity in 10" :value="quantity" :key="quantity">{{quantity}}</option>
               </select>
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price" >{{ addendacard.choice.price * addendacard.quantity - addendacard.choice.discount }}</div>
+              <div class="addenda_price" v-if="addendacard.choice && addendacard.choice.ACCESSOPIES_PRICE">{{ addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity}}</div>
             </div>
           </div>
         </div>
       </div>
       <span class="addnew_product_hr"></span>
       <div v-show="addendacards.length<choices.length" class="new_addenda_titlebar">
-        <div class="new_addenda" @click="addaddenda(index)">
+        <div class="new_addenda" @click="addaddenda()">
         <div class="new_addenda_title" >新增加購</div>
             <img src="../assets/images/cho_cake.jpg" alt="" />
         </div>
@@ -109,78 +111,7 @@
 import $ from "jquery";
 import headercom from "../components/headercom";
 import footercom from "../components/footercom";
-const choices =[
-          {
-            idname: "一般卡片",
-            description: "我是一般卡片",
-            price: 10,
-            option: "",
-            discount: 10,
-            id:1,
-          },
-          {
-            idname: "一般蠟燭",
-            description: "我是一般蠟燭",
-            price: 10,
-            discount: 10,
-            option: "",
-            id:2,
-          },
-          {
-            idname: "特殊蠟燭",
-            description: "我是特殊蠟燭",
-            price: 50,
-            discount: 0,
-            option: "",
-            id:3,
-          },
-          {
-            idname: "情人節卡片",
-            description: "情人節卡片",
-            price: 30,
-            discount: 0,
-            option: "",
-            id:4,
-          },
-          {
-            idname: "聖誕節卡片",
-            description: "聖誕節卡片",
-            price: 30,
-            discount: 0,
-            option: "",
-            id:5,
-          },
-          {
-            idname: "造型數字蠟燭(0)",
-            description: "數字0蠟燭",
-            price: 30,
-            discount: 0,
-            option: "",
-            id:6,
-          },
-          {
-            idname: "造型數字蠟燭(1)",
-            description: "數字1蠟燭",
-            price: 30,
-            discount: 0,
-            option: "",
-            id:7,
-          }
-        ]
-
-const packages = [{
-  name:"普通包裝",
-  price:0,
-  description:"一般包裝就是一班包裝",
-},{
-  name: "高級包裝",
-  price:60,
-  description:"高級包裝就是高級包裝",
-},{
-  name: "特殊包裝",
-  price:120,
-  description:"特殊包裝就是特殊包裝",
-}]
+import axios from "axios"
 export default {
   model: {
     prop: "showpage", //這個字段，是指父組件設置 v-model 時，將變量值傳給子組件的 msg
@@ -188,83 +119,181 @@ export default {
   },
   name: "productDetailAddenda",
   components: {
-    // titleh1,
     headercom,
     footercom
-    // productDetailAddenda,
   },
   data() {
-
-
     return {
       index: 0,
-      choices,
-      packages,
-      addendacards: [
-        {
-          quantity: 1,
-          choice: choices[0],
-        },
-        {
-          quantity: 1,
-          choice: choices[1],
-        }
-      ],
-      packageSelected: packages[0],
+      choices: [],
+      packages: [],
+      packageSelected: {},
       counter: 1,
       closethat: this.showpage,
+      addendacards:[]
+
+    // }
     };
+    
   },
   props: ["show"],
   methods: {
-
-    
-    add() {
-      this.counter += 1;
-    },
-    minus() {
-      if (this.counter > 1) {
-        this.counter -= 1;
-      }
-    },
     close() {
       this.$emit("closepage", !this.show);
       console.log(this.show);
+      document.querySelector('body').style.overflow='auto'
     },
     addaddenda(){
-      if(this.addendacards.length < choices.length ){
-        this.addendacards.push(
-          {
-            quantity: 1,
-            choice: this.notSelectedChoices[0],
-          }
-        )
-      }
+        if(this.addendacards.length < this.choices.length ){
+            this.addendacards.push(
+                {
+                    quantity: 1,
+                    choice: this.notSelectedChoices[0],
+                }
+            )
+        }
     },
     deladdenda(index){
       this.addendacards.splice(index,1);
+      console.log(this.addendacards);
     },
-    addAdditionalToStorage(additional, quantity){
-      this.$store.dispatch('AStorage', additional, quantity)
+    addAdditionalToStorage(additional){
+      this.$store.dispatch('AStorage', additional)
     },
     addPStorage(packageSelected){
       this.$store.dispatch('PStorage', packageSelected)
-      
     }
   },
   computed: {
-    notSelectedChoices(){
-      return this.choices.filter((choice) => {
-        return !this.addendacards.some((addendacard) => {
-          return addendacard.choice === choice
-        })
-      })
-    }
+      notSelectedChoices(){
+            //全部商品過濾每個商品
+            return this.choices.filter((choice) => {
+              // console.log('這個choies', this.choices);
+                // 已選的商品如果有回傳true
+                return !this.addendacards.some((addendacard) => {
+                  // console.log('全部', addendacard.choice.ID);
+                  // console.log('choice', choice.ID);
+                    // 已選商品 === 目前商品
+                    // console.log('sing' ,addendacard.choice, choice);
+                    return JSON.stringify(addendacard.choice.ID) === JSON.stringify(choice.ID)
+                })
+            })
+        },
+    
   },
   mounted() {
+    const params = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            data: params,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            console.log('這是什麼', data)
+            this.choices = data;
+            this.addendacards = 
+                  [
+        {
+          quantity: 1,
+          choice: this.choices[0],
+        },
+        {
+          quantity: 1,
+          choice: this.choices[2],
+        }
+      ]
+            console.log('這個choices', this.choices)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    const data = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            data: data,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            this.packages = data;
+            console.log('這是什麼packages', this.packages)
+            this.packageSelected = this.packages[0]
+            console.log(this.packageSelected);
+            console.log(this.packageSelected.ACCESSOPIES_PRICE);
+            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            // console.log('thischefcake', this.chefCake);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data);
+            // console.log(datalength);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    // const params = new URLSearchParams();
+    //     // params.append("page", index);
+    //     axios({
+    //         method: "post",
+    //         url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+    //         data: params,
+    //     })
+    //     .then((res) => {
+    //         console.log(res.data);
+    //         let data = res.data;
+    //         console.log('這是什麼', data)
+    //         this.choices = data;
+    //         console.log('choices', this.choices)
+    //         this.choice0 = this.choices[0]
+    //         console.log('choice0' ,this.choice0);
+    //         this.choice1 = this.choices[1]
+    //         // let datalength = data.length
+    //         // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+    //         // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+    //         // console.log('thischefcake', this.chefCake);
+    //         // console.log('thisdesingerckae', this.designerCake);
+    //         // console.log(data);
+    //         // console.log(datalength);
+    //         // console.log(data.length); 
+    //         // this.DesignerCake = res.data
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+      // const data = new URLSearchParams();
+      //   // params.append("page", index);
+      //   axios({
+      //       method: "post",
+      //       url: "http://localhost/A_cake/productDetailSelectPackage.php",
+      //       data: data,
+      //   })
+      //   .then((res) => {
+      //       console.log(res.data);
+      //       let data = res.data;
+      //       this.packages = data;
+      //       console.log('這是什麼packages', this.packages)
+      //       // let datalength = data.length
+      //       // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+      //       // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+      //       // console.log('thischefcake', this.chefCake);
+      //       // console.log('thisdesingerckae', this.designerCake);
+      //       // console.log(data);
+      //       // console.log(datalength);
+      //       // console.log(data.length); 
+      //       // this.DesignerCake = res.data
+      //   })
+      //   .catch((error) => {
+      //       console.log(error);
+      //   })
   },
   created() {
-  }
+  },
 };
 </script>
 <style scoped lang="scss">

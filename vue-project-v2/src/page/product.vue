@@ -13,7 +13,7 @@
             <!-- </div> -->
             <!-- <div id="select_test"></div> -->
         </div>
-
+<!-- 
         <section class="product_page_main" v-show="bbb">
             <titleh1 class="titleh1rwd" title="主廚蛋糕" ></titleh1>
                 <div id="product_cakecard" >
@@ -38,49 +38,90 @@
                             </div>
                         </div>
                 </div>
+        </section> -->
+        <section class="product_page_main" v-show="bbb">
+            <titleh1 class="titleh1rwd" title="主廚蛋糕" ></titleh1>
+            <div id="product_cakecard" >
+                <div class="product_card_outline" v-for="(card, index) in chefCake" :key="index"> 
+                    <div class="product_cake_title" >{{card.CAKE_NAME}}
+                        <img class="loveicon2" src="../assets/images/love_icon_h.svg">
+                        <img class="loveicon" src="../assets/images/love_icon.svg">
+                    </div>
+                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
+                        <!-- <router-link to="product_detail"  > -->
+                            <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                        <!-- </router-link> -->
+                    </div>
+                    <div class="product_introduce">
+                        <div class="product_detail">
+                            <div class="ntandprice">
+                                <span class="nt">NT$</span>
+                                <span class="price">{{card.PRICE}}</span>
+                            </div>
+                            <div class="size">{{card.SIZE}}吋</div>
+                        </div>
+                        <button class="addtocar" @click="addToCart()">
+                            加入購物車 
+                            <img src="../assets/images/shoppingCar.svg">
+                            <transition appear
+                                @before-appear="beforeEnter"
+                                @after-appear='afterEnter'
+                                v-for="(item,index) in showMoveDot"
+                                :key="index.id">
+                                <div class="move_dot"
+                                    ref="ball"
+                                    v-if="item">
+                                </div>
+                            </transition>       
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
-        
 
         <section class="product_page_main" v-show="!bbb">
             <titleh1 class="titleh1rwd" title="私廚蛋糕" ></titleh1>
-                <div id="product_cakecard" >
-                        <div class="product_card_outline" v-for="(card, index) in designerCake" :key="index"> 
-                            <div class="product_img_container" @click="addToStorage(card)">
-                            <img class="loveicon2" src="../assets/images/love_icon_h.svg">
-                            <img class="loveicon" src="../assets/images/love_icon.svg">
-                                <router-link to="product_detail"  >
-                                    <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
-                                </router-link>
+            <div id="product_cakecard" >
+                <div class="product_card_outline" v-for="(card, index) in designerCake" :key="index"> 
+                    <div class="product_cake_title" >{{card.CAKE_NAME}}
+                        <img class="loveicon2" src="../assets/images/love_icon_h.svg">
+                        <img class="loveicon" src="../assets/images/love_icon.svg">
+                    </div>
+                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
+                        <!-- <router-link to="product_detail"  > -->
+                            <img class="product_img_container_img" src="../assets/images/cho_cake.jpg" />
+                        <!-- </router-link> -->
+                    </div>
+                    <div class="product_introduce">
+                        <div class="product_detail">
+                            <div class="ntandprice">
+                                <span class="nt">NT$</span>
+                                <span class="price">{{card.PRICE}}</span>
                             </div>
-                            <div class="product_introduce">
-                                <div class="product_detail">
-                                    <div class="product_cake_title" >{{card.CAKE_NAME}}</div>
-                                    <div class="ntandprice">
-                                        <span class="nt">NT$</span>
-                                        <span class="price">{{card.PRICE}}</span>
-                                    </div>
-                                </div>
-                                <button class="addtocar">
-                                    加入購物車 
-                                    <img src="../assets/images/shoppingCar.svg">
-                                </button>
-                            </div>
+                            <div class="size">{{card.SIZE}}吋</div>
                         </div>
+                        <button class="addtocar">
+                            加入購物車 
+                            <img src="../assets/images/shoppingCar.svg">
+                        </button>
+                    </div>
                 </div>
+            </div>
         </section>
-        
-      
         <footercom></footercom>
         
     </div>
 </template>
 <script>
+
 import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import switchTab from "../components/switchTab"
 import axios from "axios"
+
+
 export default {
     name:'product',
     components:{
@@ -108,12 +149,14 @@ export default {
     data(){
         return{
             vuex:this.$store.state.member_id.NAME,
-            // asd:123546,
             receive: '',
             bbb : true,
             chefCake: [],
             designerCake: [],
             showMoveDot: [], 
+            elLeft: 0, //當前點擊購物車按鈕在網頁中的絕對top值
+            elTop: 0, //當前點擊購物車按鈕在網頁中的絕對left值
+            // pageID: 0,
         }
     },
     // props:{
@@ -129,11 +172,17 @@ export default {
             console.log(typeof ev)
             this.bbb = ev;
         },   
-        // addToCart(product, num){
-        //     this.showMoveDot = [...this.showMoveDotm, true]
-        addToStorage(cake){
-            this.$store.dispatch('storage', cake)
+        addToCart(product, num){
+            this.showMoveDot = [...this.showMoveDot, true];
+            this.elLeft = event.target.getBoundingClientRect().left;
+            this.elTop = event.target.getBoundingClientRect().top;
+        },
+        addToStorage(cake, id){
+            this.$store.dispatch('storage', cake);
+            this.$router.push({path: `product_detail?id=${id}`});
+            console.log('讓我看看',id);
         }
+
     },
     watch:{
         
@@ -141,6 +190,26 @@ export default {
     computed:{
         my(){
             return this.$store.state.member_id
+        },
+        beforeEnter (el) {
+        // 設置transform值
+        el.style.transform = `translate3d(${this.elLeft - 30}px,${this.elTop - 100}px , 0)`;
+        // 設置透明度
+        el.style.opacity = 0;
+        },
+        afterEnter (el) {
+        // 獲取底部購物車徽標
+        const badgePosition = document
+        .getElementById("buycar")
+        .getBoundingClientRect();
+        // 設置小球移動的位移
+        el.style.transform = `translate3d(${badgePosition.left + 30}px,${badgePosition.top - 30}px,0)`
+        // 增加貝塞爾曲線  
+        el.style.transition = 'transform .88s cubic-bezier(0.3, -0.25, 0.7, -0.15)';
+        el.style.transition = 'transform .88s linear';
+        this.showMoveDot = this.showMoveDot.map(item => false);
+        // 設置透明度
+        el.style.opacity = 1;
         }
 
     },
@@ -158,17 +227,10 @@ export default {
             // let datalength = data.length
             this.chefCake = data.filter(item => item.MEMBER_ID === "0");
             this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCake);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data);
-            // console.log(datalength);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);
         })
-       
     },
     
 }
@@ -310,6 +372,7 @@ body{
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
         margin: auto;
         width: 100%;
         max-width: 350px;
@@ -323,41 +386,46 @@ body{
             width: 100%;
             max-width: 320px;
         }
-       
+        .product_cake_title{
+            max-width: 300px;
+            width: 100%;
+            font-size: $h3;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .loveicon{
+            position:absolute;
+            top:3px;
+            right: 0px;
+            width: 25px;
+            height: 25px;
+            object-fit: fill;
+            opacity: 1;
+            &:hover{
+                opacity: 0;
+                cursor: pointer;
+            }
+        }
+        .loveicon2{
+            position:absolute;
+            top:3px;
+            right: 0px;
+            width: 25px;
+            height: 25px;
+            object-fit: fill;
+        } 
         router-link{
             text-decoration: none;
             display: flex;
         }
         .product_img_container{
             max-width: 300px;
-            margin: 25px;
+            // margin: 15px;
             width: 100%;
             display: flex;
-            position: relative;
             justify-content: center;
-            .loveicon{
-                position:absolute;
-                top:10px;
-                right: 10px;
-                width: 25px;
-                height: 25px;
-                object-fit: fill;
-                opacity: 1;
-                &:hover{
-                    opacity: 0;
-                    cursor: pointer;
-                }
-            }
-            .loveicon2{
-                position:absolute;
-                top:10px;
-                right: 10px;
-                width: 25px;
-                height: 25px;
-                object-fit: fill;
-            }
             .product_img_container_img{
-                
                 object-fit: cover;
                 width: 100%;
                 height: 100%;
@@ -369,7 +437,7 @@ body{
             }
         }
         .product_introduce{
-            margin: 20px;
+            margin: 15px;
             width: 100%;
             max-width: 300px;
             display: flex;
@@ -378,32 +446,24 @@ body{
             .product_detail{
                 display: flex;
                 flex-direction: column;
-                // height: 60px;
+                justify-content: space-between;
+                max-width: 100px;
+                width: 100%;
                 color: black;
-                .product_cake_title{
-                    font-size: $h3;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    width: 120px;
-                    &:hover{
-                        // overflow: auto;
-                        z-index: 50;
-                        text-overflow: clip;
-                    }
-                }
                 .ntandprice{
                     display: flex; 
                     align-items: center;
+                    justify-content: space-between;
                     .price{
-                        font-size: $h4;
+                        font-size: $h3;
                         }
-                    .tw{
-                        font-size: $h4;
-
+                    .nt{
+                        font-size: $h3;
                     }
                 }
-
+                .size{
+                    font-size: $h4;
+                }
             }
             .addtocar{
                 width: 180px;
@@ -419,9 +479,9 @@ body{
                     height: 20px;
                 }
                 &:hover{
-                    color: $lightPike;
+                    // color: $lightPike;
                     cursor: pointer;
-                    background-color: $darkGrey;
+                    // background-color: $darkGrey;
                 }
             }
         }

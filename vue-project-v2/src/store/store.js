@@ -24,8 +24,8 @@ export default new Vuex.Store({
     storage(context, storagearr){
       context.commit("updateStorage", storagearr)
     },
-    AStorage(context, AStoragearr,Quantity){
-      context.commit("updateAStorage", AStoragearr,Quantity);
+    AStorage(context, AStoragearr){
+      context.commit("updateAStorage", AStoragearr);
     },
     cakeQ(context, cakeQuantity){
       context.commit("updateQuantity", cakeQuantity)
@@ -43,9 +43,8 @@ export default new Vuex.Store({
     updateStorage(state, storagearr){
       state.storage = storagearr
     },
-    updateAStorage(state, AStoragearr,Quantity){
+    updateAStorage(state, AStoragearr){
       state.AStorage = AStoragearr
-      state.Quantity = Quantity
     },
     updateQuantity(state, cakeQuantity){
       state.cakeQuantity = cakeQuantity

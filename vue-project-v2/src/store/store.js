@@ -4,8 +4,8 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 const state = {
-  member_id:1,
-  employee_id:0,
+  member_id: 1,
+  employee_id: 1,
 };
 export default new Vuex.Store({
   state,

@@ -36,7 +36,7 @@ export default[{
         {path:'member_data', component: r => require.ensure([], () => r(require('../page/member-data')), 'member-data')}, // 會員資料頁
         {path:'member_fav', component: r => require.ensure([], () => r(require('../page/member-fav')), 'member_fav')}, // 會員最愛分類頁
         {path:'member_order', component: r => require.ensure([], () => r(require('../page/member-order')), 'member_order')}, // 會員訂單查詢頁
-        {path:'member_fav_detail/:categoryID', component: r => require.ensure([], () => r(require('../page/member-fav-detail')), 'member_fav_detail'), props: (route) => route.params, props: true}, // 會員最愛詳細頁
+        {path:'member_fav_detail/:categoryID', component: r => require.ensure([], () => r(require('../page/member-fav-detail')), 'member_fav_detail'), props: true}, // 會員最愛詳細頁
         // {path:'member_data', component: member_data},   // 會員資料頁
         // {path:'member_order', component: member_order},   // 會員訂單查詢頁
         // {path:'member_fav', component: member_fav},   // 會員最愛分類頁

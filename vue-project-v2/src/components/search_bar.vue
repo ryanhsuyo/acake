@@ -1,7 +1,7 @@
 <template>
   <input
     type="text"
-    placeholder="搜尋..."
+    :placeholder="placeholder"
     class="search"
     v-model.lazy="forSearch"
   />
@@ -10,7 +10,7 @@
 import axios from "axios";
 export default {
   name: "search_bar",
-  props: ["title"],
+  props: {"title": {}, placeholder: {default: "搜尋..."}},
   data() {
     return {
       forSearch: "",
@@ -19,7 +19,7 @@ export default {
   watch: {
     forSearch: {
       handler: function (newValue) {
-        this. $emit("selectData", newValue);
+        this.$emit("selectData", newValue);
       },
       deep: true,
     },

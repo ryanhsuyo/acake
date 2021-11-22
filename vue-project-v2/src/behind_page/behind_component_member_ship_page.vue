@@ -2,63 +2,64 @@
   <section id="right_section">
     <div class="title">
       <h1>會員資料</h1>
-      <searchBar></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..."></searchBar>
     </div>
     <div class="cake">
       
-       <div id="confirm" v-bind:class="{open: confirmCase}">
+      <!-- 會員取消權限修改 -->
+       <!-- <div id="confirm" v-bind:class="{open: confirmCase}">
          <div class="confirm_outline">
-        <h1>狀態是否改為停用</h1>
-        <div class="check">
-            <button class="true" id="confirm_yes"  @click="yes">確認</button>
-            <button class="false1" id="confirm_no" @click="cancel">取消</button>
-        </div>
-         <!-- @click="yes(index)"@click="cancel(index)" -->
-    </div>
-    </div>  
-      <div class="outline" v-for="(status,index) in member_data" :key="index">
+          <h1>狀態是否改為停用</h1>
+          <div class="check">
+              <button class="true" id="confirm_yes"  @click="yes">確認</button>
+              <button class="false1" id="confirm_no" @click="cancel">取消</button>
+          </div> -->
+          <!-- @click="yes(index)"@click="cancel(index)" -->
+        <!-- </div>
+      </div>   -->
+      <div class="no_result" v-show="no_result">沒有符合的搜尋結果！</div>
+      <div class="outline" :class="{'-off': status.show === false}" v-for="(status,index) in member_data" :key="index">
       <!-- 確認框 -->
      
      <!-- 會員框 -->
        
         <div class="img_outline">
-          <img src="../assets/images/cho_cake.jpg" alt="" />
+          <img :src="status.memberImg" alt="" />
         </div>
 
         <div class="text_outline">
-          <div class="forPosition open">
-            <span>
-              <span class="switch_button" @click="change(index);opened_index = index">
+          <!-- <div class="forPosition open">
+            <span> -->
+              <!-- 會員取消權限修改 -->
+              <!-- <span class="switch_button" @click="change(index);opened_index = index">
                 <label for="" style="margin-right: 10px" >狀態</label>
-                <div class="switch" id="outline" :class="{ '-on': status.status }"><!--按鈕開關-->
+                <div class="switch" id="outline" :class="{ '-on': status.status }">
+                  按鈕開關
                   <span
                     class="circle"
                     id="circle"
                     :class="{ '-on': status.status }"
                   ></span>
                 </div>
-              </span>
-              <font-awesome-icon
-                icon="fa-solid fa-xmark"
-                
-              />
-            </span>
+              </span> -->
+            <!-- </span>
+          </div> -->
+          <div class="text">
+            <label for="">姓名:<span>&nbsp;{{status.name}}</span></label>
+            <label for="">Email:<span>&nbsp;{{status.email}}</span></label>
+            <span class="icon" @click="status.show = !status.show"><font-awesome-icon icon="fa-solid fa-caret-down"/></span>
           </div>
           <div class="text">
-            <label for="">Email<input type="text" :value=status.email></label>
-            <label for="">姓名<input type="text" :value=status.name /></label>
+            <label for="">暱稱:<span>&nbsp;{{status.nickName}}</span></label>
+            <label for="">創建日期:<span>&nbsp;{{status.createDate}}</span></label>
           </div>
           <div class="text">
-            <label for="">暱稱<input type="text" :value=status.nickName /></label>
-            <label for="">創建日期<input type="text" :value=status.createDate /></label>
+            <label for="">手機號碼:<span>&nbsp;{{status.phone}}</span></label>
+            <label for="">生日:<span>&nbsp;{{status.birthday}}</span></label>
           </div>
-          <div class="text">
-            <label for="">手機號碼<input type="text" :value=status.phone /></label>
-            <label for="">生日<input type="text" :value=status.birthday /></label>
-          </div>
-          <div class="adress">
-            <label for="">地址</label>
-            <textarea name="" id="" cols="50" rows="3" v-model="status.adress"></textarea>
+          <div class="address">
+            <label for="">地址:&nbsp;</label>
+            <p>{{status.address}}</p>
           </div>
         </div>
       </div>
@@ -71,6 +72,7 @@ import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import member from "../components/member_data";
+import axios from "axios";
 export default {
   name: "membership",
   components: {
@@ -80,35 +82,71 @@ export default {
   },
   data() {
     return {
-      opened_index:null,
-      confirmCase: 0,
-      switchCase: 1,
+      // opened_index:null,
+      // confirmCase: 0,
+      // switchCase: 1,
+
+      member_data: [],
+      member_data_unchanged: [],
+
+      no_result: false,
     };
   },
   methods: {
-    cancel(){
-          this.confirmCase = 0
-      },
-      yes(){
-          console.log(this.change)
-      },
-      change(index){
-        let i =  this.member_data[index].status;
-        this.member_data[index].status = this.member_data[index].status?0:1
-        if(this.member_data[index].status == 0){
-          this.confirmCase = 1;
-        };
-        this.opened_index = index;
+    // 會員取消權限修改
+    // cancel(){
+    //       this.confirmCase = 0
+    //   },
+      // yes(){
+      //     console.log(this.change)
+      // },
+    //   change(index){
+    //     let i =  this.member_data[index].status;
+    //     this.member_data[index].status = this.member_data[index].status?0:1
+    //     if(this.member_data[index].status == 0){
+    //       this.confirmCase = 1;
+    //     };
+    //     this.opened_index = index;
+    // },
+
+    goSearching(newVal){
+      this.no_result = false;
+      this.member_data = this.member_data_unchanged.concat();
+      let searchVal = new RegExp(newVal, "i");
+      this.member_data = this.member_data.filter(item => {
+        return searchVal.test(item.name) || searchVal.test(item.nickName) ||searchVal.test(item.email);
+      });
+      if(this.member_data.length === 0) this.no_result = true;
     },
   },
   mounted() {
-    $("#member_ship_manager").siblings().removeClass("target");
-    $("#member_ship_manager").addClass("target");
+    axios.post("http://localhost/A_cake/BE_selectMember.php")
+      .then(res => {
+        let data = res["data"];
+        // console.log(data);
+
+        for(let i = 0; i < data.length; i++){
+          this.member_data.push({
+            show: true,
+            memberID: data[i].member_ID,
+            name: data[i].NAME,
+            nickName: data[i].NICKNAME,
+            email: data[i].EMAIL,
+            createDate: data[i].CREATEDATE.split(" ")[0].replace(/-/g, "/"),
+            phone: data[i].PHONE,
+            birthday: data[i].BIRTHDAY.split(" ")[0].replace(/-/g, "/"),
+            address: data[i].ADDRESS,
+            memberImg: data[i].MEMBER_IMG_BLOB,
+          });
+        }
+        this.member_data_unchanged = this.member_data.concat();
+      })
+      .catch(err => console.log(err));
   },
   computed: {
-    member_data(){
-      return this.$store.state.member_status
-    },
+    // member_data(){
+    //   return this.$store.state.member_status
+    // },
   },
 };
 </script>
@@ -133,20 +171,27 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   gap: 30px;
 }
 #right_section {
-  padding: 70px 100px;
+  padding: 70px 140px 70px 60px;
   .title {
     display: flex;
     justify-content: space-between;
   }
 }
 // 會員檔案
+.no_result{
+  color: #515151;
+  font-size: 32px;
+  text-align: center;
+  padding-top: 100px;
+}
 .outline {
   display: flex;
-  width: 775px;
+  width: 815px;
   height: 250px;
   padding: 20px;
   background: #f7dcdc;
   border-radius: 5px;
+  transition: all .3s;
   // transform:scale(2);
   .img_outline {
     flex: 0.5;
@@ -160,53 +205,77 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    padding: 0 20px;
     // position:relative;
     // top:40px;
   }
   .text {
     display: flex;
     margin: 5px 0;
+    position: relative;
+    .icon{
+      position: absolute;
+      top: -10px;
+      right: 0;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all .5s;
+    }
     label {
       flex: 1;
       padding: 0 5px;
-    }
-    input {
-      float: right;
+      > span{
+        padding-left: 5px;
+      }
     }
   }
 }
-.adress {
+.outline.-off{
+  height: 65px;
+  overflow: hidden;
+  .img_outline {
+    display: none;
+  }
+  .text_outline{
+    .text, .address{
+      display: none;
+      &:first-child{
+        display: flex;
+      }
+    }
+    .text .icon{
+      transform: rotate(180deg);
+    }
+  }
+}
+.address {
   padding: 0 5px;
   // display:flex;
   gap: 4px;
   display: grid;
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: 40px 1fr;
   label {
     white-space: nowrap;
-    // width:15%;
   }
-  textarea {
-    // vertical-align: top;
-    width: 100%;
-    resize: none;
-    border: 2px solid;
+  p{
+    padding: 0;
+    margin: 0;
   }
 }
-.forPosition {
-  display: flex;
-  justify-content: flex-end;
-  // flex-direction: column;
-  display: none;
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-.forPosition.open {
-  display: flex;
-}
+// .forPosition {
+//   justify-content: flex-end;
+//   // flex-direction: column;
+//   display: none;
+//   span {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+// }
+// .forPosition.open {
+//   display: flex;
+// }
 
 #confirm {
   width: calc(100vw - 280px);

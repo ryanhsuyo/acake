@@ -500,10 +500,10 @@
         },
         mounted(){
 
-            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
-                alert("您尚未登入，將跳轉到登入頁面");
-                this.$router.push('/assign')
-            }
+            // if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
+            //     alert("您尚未登入，將跳轉到登入頁面");
+            //     this.$router.push('/assign')
+            // }
 
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
@@ -1025,7 +1025,6 @@
                     }
 
                     .coupon_left_decoration_img{
-                        // 此處樣式未確定
                         position: absolute;
                         left: 15px;
                         bottom: -10px;

@@ -25,16 +25,13 @@
 
                 <div class="folder">
                     <div class="folder_title_tag">
-                        <span class="folder_title">未分類收藏</span>
-                        <!-- <button class="delete_folder">
-                            <font-awesome-icon icon="fa-solid fa-xmark" class="close_icon" />
-                        </button> -->
+                        <span class="folder_title">所有收藏</span>
                     </div>
                     <div class="folder_img_outline">
-                        <router-link to="/member_fav_detail">
-                            <img :src="favFolder[0].categoryPic">
-                            <!-- 上面不知為何會報錯 -->
-                        </router-link>
+                        <a @click.prevent="selectFavFolder({categoryID: '0'})">
+                            <img :src="favFolder[randomIndexInFolder].categoryPic" v-if="noCake === false">
+                            <span v-else>收藏內尚未加入任何蛋糕！</span>
+                        </a>
                     </div>
                 </div>
 
@@ -49,11 +46,11 @@
                             <font-awesome-icon icon="fa-solid fa-check" class="check_icon" />
                         </button>
                     </div>
-                    <div class="folder_img_outline">
-                        <router-link to="/member_fav_detail">
-                            <img :src="item.categoryPic" v-if="!!item.categoryPic !== false">
+                    <div class="folder_img_outline" :class="{'noPointer': !!item.categoryPic === false}">
+                        <a @click.prevent="selectFavFolder(item)">
+                            <img :src="item.categoryPic" v-if="!!item.categoryPic === true">
                             <span v-else>這個分類尚未加入蛋糕喔！</span>
-                        </router-link>
+                        </a>
                     </div>
                 </div>
 
@@ -130,6 +127,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from "../store/store"
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -143,7 +141,7 @@
         },
         data(){
             return{
-                memberId: 1,    // 測試用暫時性資料
+                memberId: this.$store.state.member_id,
 
                 page: "fav",    // 頁面識別用
 
@@ -153,8 +151,11 @@
                 // 最愛資料夾
                 favFolder: [],
 
-                //資料夾改名輸入框啓閉
+                // 資料夾改名輸入框啓閉
                 editTitle: [],
+
+                // 收藏內是否有蛋糕，控制未分類蛋糕資料夾的照片是否顯示
+                noCake: false,
             };
         },
         methods: {
@@ -201,6 +202,11 @@
                     })
                     .catch(err => console.log(err));
             },
+            selectFavFolder(item){
+                this.$router.push({
+                    path: `/member_fav_detail/${item.categoryID}`
+                });
+            },
             // addPhoto(){
             //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
             //         .then(res => {
@@ -225,35 +231,38 @@
                 // axios做兩次呼叫取資料合併成一個物件時，第二次取得的資料有問題，重整後不會渲染畫面，下面暫且先合併成一次axios呼叫做處理
                 axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        // console.log(res);
                         let data = res["data"];
-                        // console.log(data);
-                        let categoryID = 2;  // 第一個直接指定，從第二個資料夾開始放圖片
+                        // console.log(data.length);
+                        console.log(data);
 
-                        this.favFolder.push({
-                            categoryName: data[0].CATEGORY_NAME,
-                            categoryID: data[0].CATEGORY_ID,
-                            categoryPic: require("../assets/images/" + data[0].CAKE_IMAGE),
-                        });
+                        if(data.length === 0){
+                            this.noCake = true;
+                        }else{
 
-                        let folderCounter = 0;
-                        for(let i = 1; i < data.length; i++){
-                            if(this.favFolder[folderCounter].categoryID !== data[i].CATEGORY_ID){
-                                folderCounter++;
-                                let folder = {
-                                    categoryName: data[i].CATEGORY_NAME,
-                                    categoryID: data[i].CATEGORY_ID,        
-                                };
-                            this.favFolder.push(folder);
-                            }
+                            // 第一個直接寫入，從第二個資料夾開始比對並放資料
+                            this.favFolder.push({
+                                categoryName: data[0].CATEGORY_NAME,
+                                categoryID: data[0].CATEGORY_ID,
+                                categoryPic: require("../assets/images/" + data[0].CAKE_IMAGE),
+                            });
 
-                            if(categoryID === parseInt(data[i].CATEGORY_ID)){
-                                try{
-                                    this.favFolder[(categoryID - 1)].categoryPic = require("../assets/images/" + data[i].CAKE_IMAGE);
-                                }catch(e){
-                                    this.favFolder[(categoryID - 1)].categoryPic = null;
+                            let folderCounter = 0;
+                            for(let i = 1; i < data.length; i++){
+                                if(this.favFolder[folderCounter].categoryID !== data[i].CATEGORY_ID){
+                                    folderCounter++;
+                                    let folder = {
+                                        categoryName: data[i].CATEGORY_NAME,
+                                        categoryID: data[i].CATEGORY_ID,        
+                                    };
+                                    this.favFolder.push(folder);
+                                
+                                    try{
+                                        this.favFolder[folderCounter].categoryPic = require("../assets/images/" + data[i].CAKE_IMAGE);
+                                    }catch(e){
+                                        this.favFolder[folderCounter].categoryPic = null;
+                                    }
                                 }
-                                categoryID++;
+
                             }
 
                         }
@@ -264,14 +273,20 @@
                     .catch(err => {console.log(err)});
             },
         },
+        computed: {
+            randomIndexInFolder(){
+                let favImageNum = this.favFolder.filter(item => !!item.categoryPic === true).length;
+                return Math.floor(Math.random() * favImageNum);
+            },
+        },
         mounted(){
-        //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
-        //                 // console.log(res);
+            //                 // console.log(res);
         //                 let data = res["data"];
         //                 for(let i = 0; i < data.length; i++){
-        //                     let folder = {
-        //                         categoryName: data[i].CATEGORY_NAME,
+            //                     let folder = {
+                //                         categoryName: data[i].CATEGORY_NAME,
         //                         categoryID: data[i].CATEGORY_ID,
         //                     };
         //                     this.favFolder.push(folder);
@@ -329,7 +344,7 @@
         #folder_area{
             margin: 0 auto 5px;
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: 1fr 1fr 1fr;
             grid-auto-rows: auto;
             // grid-gap: 75px;
             grid-row-gap: 65px;
@@ -485,6 +500,10 @@
                     }
 
 
+                }
+
+                .folder_img_outline.noPointer{
+                    cursor: default;
                 }
 
             }

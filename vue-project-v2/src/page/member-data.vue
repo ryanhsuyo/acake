@@ -19,14 +19,14 @@
                     <input type="text" name="userName" class="data-input" v-model="userName" v-show="!edit.userName">
                     <span class="data_input_span" v-show="edit.userName">{{userName}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userName" @click="edit.userName = !edit.userName">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData($event);">
                 </div>
                 <div id="member_nickname">
                     <span>暱稱: </span>
                     <input type="text" name="userNickname" class="data-input" v-model="userNickname" v-show="!edit.userNickname">
                     <span class="data_input_span" v-show="edit.userNickname">{{userNickname}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userNickname" @click="edit.userNickname = !edit.userNickname">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData($event);">
                 </div>
                 <div id="member_birthday">
                     <span>生日: </span>
@@ -45,18 +45,19 @@
             <form action="" method="post">
                 <div id="member_email">
                     <span>E-mail: </span>
-                    <input type="email" name="userEmail" class="data-input" v-model="userEmail" v-show="!edit.userEmail">
+                    <input type="email" name="userEmail" class="data-input" v-model="userEmail" v-show="!edit.userEmail" @input="verifyEmail">
                     <span class="data_input_span" v-show="edit.userEmail">{{userEmail}}</span>
+                    <span class="error_email" v-show="invalidEmail">E-mail格式錯誤！</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userEmail" 
                     @click="edit.userEmail = !edit.userEmail">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userEmail" @click="edit.userEmail = !edit.userEmail; updateData($event, 'Email');">
                 </div>
                 <div id="member_address">
                     <span>地址:&nbsp;</span>
                     <input type="text" name="userAddress" class="data-input" v-model="userAddress" v-show="!edit.userAddress">
                     <span class="data_input_span" v-show="edit.userAddress">{{userAddress}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userAddress" @click="edit.userAddress = !edit.userAddress">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData($event);">
                 </div>
                 <div id="member_phone">
                     <span>電話:&nbsp;</span>
@@ -64,14 +65,15 @@
                     <span class="data_input_span" v-show="edit.userPhone">{{userPhone}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPhone"
                     @click="edit.userPhone = !edit.userPhone">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPhone" @click="edit.userPhone = !edit.userPhone; updateData($event);">
                 </div>
                 <div id="member_password">
                     <span>密碼:&nbsp;</span>
-                    <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword">
-                    <span class="data_input_span" v-show="edit.userPassword">{{userPassword}}</span>
+                    <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword" @input="verifyPassword">
+                    <span class="data_input_span" v-show="edit.userPassword">{{userPasswordHidden}}</span>
+                    <span class="error_password" v-show="invalidPassword">密碼需超過五個字元且只能使用字母或數字！</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPassword" @click="edit.userPassword = !edit.userPassword">
-                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData(); resetInputSize($event)">
+                    <img src="../assets/images/yes_icon.svg" v-show="!edit.userPassword" @click="edit.userPassword = !edit.userPassword; updateData($event, 'password');">
                 </div>
             </form>
         </section>
@@ -176,10 +178,10 @@
                     <div class="coupon_left_block">
                         <div class="discount_amout">$<span>{{item.discount}}</span></div>
                         <div class="A_cake_text_logo">
-                            <img src="http://via.placeholder.com/60x22" alt="">
+                            <img src="../assets/images/logo_title.png" alt="">
                         </div>
                         <div class="coupon_left_decoration_img">
-                            <img src="http://via.placeholder.com/40x0" alt="">
+                            <img src="../assets/images/blueberry_cream.png" alt="">
                         </div>
                         <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
                         <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
@@ -190,7 +192,7 @@
                             <span class="expiration_date">{{item.expiration}}</span>
                         </div>
                         <div class="coupon_right_decoration_img">
-                            <img src="http://via.placeholder.com/39x39" alt="">
+                            <img src="../assets/images/jellyfish_icon.svg" alt="">
                         </div>
                         <div class="expiration_countdown">
                             即將失效：剩下&nbsp;<span>{{countDays(item.expirationForCal)}}</span>&nbsp;天
@@ -293,7 +295,7 @@
         },
         data(){
             return{
-                memberId: 1,    // 測試用暫時性資料
+                memberId: this.$store.state.member_id,
 
                 page: "data",   // 頁面識別用
 
@@ -322,6 +324,8 @@
                     userPhone: true,
                     userPassword: true,
                 },
+                invalidEmail: false,
+                invalidPassword: false,
 
                 // 蛋糕設計資料
                 cakeDesigns: [],
@@ -362,10 +366,34 @@
                  });
                 $("input.data-input.input_combined_three").each(function(){
                     // console.log(parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
-                    $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                    $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.8);
                 });
             },
-            updateData($event){
+            verifyEmail(){
+                this.invalidEmail = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(this.userEmail) ? false : true;
+            },
+            verifyPassword(){
+                this.invalidPassword = /[A-za-z0-9]{5,}/.test(this.userPassword) ? false : true;
+                // "^"符號可以通過測試，不知為何
+            },
+            updateData($event, check){
+
+                if(check === "Email" && this.invalidEmail === true){
+                    alert("填寫中的資料有誤，請再次確認");
+                    this.edit.userEmail = false;
+                    return null;
+                }
+
+                if(check === "password" && this.invalidPassword === true){
+                    alert("填寫中的資料有誤，請再次確認");
+                    this.edit.userPassword = false;
+                    return null;
+                }
+
+                if(this.invalidEmail === true || this.invalidPassword === true){
+                    alert("其它輸入中的資料格式有誤，請先修正該項目");
+                    return null;
+                }
 
                 // 第一種拼資料的寫法：
                 // let params = new URLSearchParams();
@@ -402,6 +430,8 @@
                 axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
                     // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
+
+                this.resetInputSize($event);
             },
             showDesignDetail(cake){
                 this.detailLightBox = true;
@@ -464,14 +494,16 @@
             couponShowing(){
                 return this.showAllCoupons ? this.couponData : this.couponData.slice(0, 2) ;
             },
-
+            userPasswordHidden(){
+                return this.userPassword.slice(0, this.userPassword.length - 3).replace(/./g, "*") + this.userPassword.slice(this.userPassword.length - 3);
+            },
         },
         mounted(){
 
-            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
-                alert("您尚未登入，將跳轉到登入頁面");
-                this.$router.push('/assign')
-            }
+            // if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
+            //     alert("您尚未登入，將跳轉到登入頁面");
+            //     this.$router.push('/assign')
+            // }
 
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
@@ -603,14 +635,28 @@
 
             #member_name{
                 text-align: left;
+
+                > span, > input{
+                    font-family: sans-serif;
+                }
             }
 
             #member_nickname{
                 text-align: center;
+
+                > span, > input{
+                    font-family: sans-serif;
+                }
+
             }
 
             #member_birthday{
                 text-align: right;
+
+                > span, > input{
+                    font-family: sans-serif;
+                }
+
             }
 
             span{
@@ -664,9 +710,37 @@
 
             > div{
                 padding: 10px 0;
+                position: relative;
 
                 span{
                     font-size: $h4;
+                    font-family: sans-serif;
+                }
+
+                input{
+                    font-family: sans-serif;
+                }
+
+                span.error_email{
+                    display: block;
+                    color: red;
+                    font-size: 12px;
+                    position: absolute;
+                    left: 68px;
+                    top: 35px;
+                    font-family: sans-serif;
+                    // letter-spacing: .5px;
+                }
+
+                span.error_password{
+                    display: block;
+                    color: red;
+                    font-size: 12px;
+                    position: absolute;
+                    left: 54px;
+                    top: 35px;
+                    font-family: sans-serif;
+                    // letter-spacing: .5px;
                 }
 
                 img{
@@ -917,6 +991,7 @@
                     position: relative;
                     border-right: 1px solid $palePike;
                     border-top-left-radius: 5px;
+                    overflow: hidden;
 
                     .discount_amout{
                         font-size: 50px;
@@ -950,10 +1025,16 @@
                     }
 
                     .coupon_left_decoration_img{
-                        // 此處樣式未確定
                         position: absolute;
-                        left: 27px;
-                        bottom: 20px;
+                        left: 15px;
+                        bottom: -10px;
+                        width: 100px;
+                        z-index: 100;
+
+                        >img{
+                            width: 100%;
+                        }
+
                     }
 
                     .use_threshold{
@@ -965,7 +1046,7 @@
                     }
 
                     .bottom_decoration_img{
-                        width: 100%;
+                        width: 200%;
                         position: absolute;
                         bottom: 0;
                         left: 0;

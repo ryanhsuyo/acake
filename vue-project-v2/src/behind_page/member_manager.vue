@@ -7,30 +7,42 @@
         <div
           id="upload_votePic"
           class="select_option"
-          @click="showWhat = 'votePage'" style="margin-top:75px"
+          :class="{'target': target === 1}"
+          @click="showWhat = 'votePage'; target = 1" style="margin-top:75px"
         >
           <h1>上傳參賽蛋糕照片</h1>
         </div>
+
         <div
           id="member_ship_manager"
           class="select_option"
-          @click="showWhat = 'membership'"
+          :class="{'target': target === 2}"
+          @click="showWhat = 'membership'; target = 2"
         >
-          <h1>修查會員資格與權限</h1>
+          <h1>查看與搜尋會員資料</h1>
         </div>
-        <div id="coupon" class="select_option" @click="showWhat = 'coupon'">
+
+        <div id="coupon" 
+          class="select_option" 
+          :class="{'target': target === 3}"
+          @click="showWhat = 'coupon'; target = 3"
+        >
           <h1>給予折扣券</h1>
         </div>
-        <div id="order" class="select_option" @click="showWhat = 'order'">
+
+        <div id="order" 
+          class="select_option" 
+          :class="{'target': target === 4}"
+          @click="showWhat = 'order'; target = 4"
+        >
           <h1>修改查詢訂單</h1>
         </div>
       </section>
       <diV id="content">
        
-        
-      <section id="right_section" :is="showWhat">
-        
-      </section>
+      <keep-alive>
+        <section id="right_section" :is="showWhat"></section>
+      </keep-alive>        
         
       </diV>
     </main>
@@ -60,14 +72,10 @@ export default {
   data() {
     return {
       showWhat: votePage,
+      target: 1,
     };
   },
   methods: {},
-  mounted(){
-    $("#member").siblings().removeClass("target");
-    $("#member").addClass("target");
-
-  },
 };
 </script>
 <style scoped lang="scss">
@@ -137,7 +145,7 @@ main {
 #content{
   display:flex;
   justify-content: center;
-  align-items:center;
+  align-items:flex-start;
 }
 
 </style>

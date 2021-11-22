@@ -65,7 +65,9 @@ export default {
                 document.getElementById("avatar_pic").src = reader.result;
 
                 axios.post("http://localhost/A_cake/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
-                    .then(res => {console.log(res)})
+                    .then(res => {
+                        // console.log(res);
+                    })
                     .catch(err => console.log(err));
 
             });
@@ -76,7 +78,7 @@ export default {
 
         axios.post("http://localhost/A_cake/selectAvatar.php",qs.stringify({memberId: this.memberId}))
             .then(res => {
-                // console.log(res);
+                console.log(res);
                 document.getElementById("avatar_pic").src = res["data"][0].MEMBER_IMG_BLOB;
             })
             .catch(err => console.log(err));

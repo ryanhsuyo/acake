@@ -411,8 +411,7 @@ export default {
     updateData(index) {
       let data = this.data[index];
       const params = new URLSearchParams();
-      params.append("id", index);
-      params.append("page", this.sn);
+      params.append("id", data.ID);
       params.append("name", data.EMPLOYEE_NAME);
       params.append("password", data.PASSWORD);
       params.append("authority", data.AUTHORITY);

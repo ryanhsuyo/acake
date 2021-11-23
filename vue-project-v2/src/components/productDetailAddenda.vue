@@ -196,15 +196,15 @@ export default {
             this.choices = data;
             this.addendacards = 
                   [
-        {
-          quantity: 1,
-          choice: this.choices[0],
-        },
-        {
-          quantity: 1,
-          choice: this.choices[2],
-        }
-      ]
+                    {
+                      quantity: 1,
+                      choice: this.choices[0],
+                    },
+                    {
+                      quantity: 1,
+                      choice: this.choices[2],
+                    }
+                  ]
             console.log('這個choices', this.choices)
         })
         .catch((error) => {

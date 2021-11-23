@@ -60,7 +60,7 @@
                             </div>
                             <div class="size">{{card.SIZE}}吋</div>
                         </div>
-                        <button class="addtocar" @click="addToCart()">
+                        <button class="addtocar" @click="addToCakeCart(card)">
                             加入購物車 
                             <img src="../assets/images/shoppingCar.svg">
                             <transition appear
@@ -100,7 +100,7 @@
                             </div>
                             <div class="size">{{card.SIZE}}吋</div>
                         </div>
-                        <button class="addtocar">
+                        <button class="addtocar" @click="addToCakeCart(card); addCakeQuantity(counter); addQuantityToCart(counter)">
                             加入購物車 
                             <img src="../assets/images/shoppingCar.svg">
                         </button>
@@ -120,6 +120,7 @@ import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import switchTab from "../components/switchTab"
 import axios from "axios"
+import qs from "qs"
 
 
 export default {
@@ -129,22 +130,6 @@ export default {
         headercom,
         footercom,
         switchTab,
-    //      dataCart[{NAME:"AAA",PRICE:100}]
-    //     callAction(){
-    //         this.dispatch('action',this.dataCart)
-    //     }
-        
-    //    action function(context,test){
-    //         context.commit('mutation',test)
-    //     }
-    //    mutation function(state,aaa){
-    //         state.cart.push(aaa)
-    //         state.default = aaa
-    //     }
-    //     cart:[{NAME:"AAA",PRICE:100}]
-
-    //     this.$store.state.cart[0].NAME
-       
     },
     data(){
         return{
@@ -156,6 +141,7 @@ export default {
             showMoveDot: [], 
             elLeft: 0, //當前點擊購物車按鈕在網頁中的絕對top值
             elTop: 0, //當前點擊購物車按鈕在網頁中的絕對left值
+            counter: 1,
             // pageID: 0,
         }
     },
@@ -181,7 +167,17 @@ export default {
             this.$store.dispatch('storage', cake);
             this.$router.push({path: `product_detail?id=${id}`});
             console.log('讓我看看',id);
+        },
+        addToCakeCart(cake){
+            this.$store.dispatch('storage', cake)
+        },
+        addCakeQuantity(){
+            this.counter += 1;
+        },
+        addQuantityToCart(counter){
+            this.$store.dispatch('cakeQ', counter)
         }
+
 
     },
     watch:{
@@ -214,25 +210,22 @@ export default {
 
     },
     mounted(){
-        const params = new URLSearchParams();
-        // params.append("page", index);
-        axios({
-            method: "post",
-            url: "http://localhost/A_cake/productSelectCake.php",
-            data: params,
-        })
-        .then((res) => {
-            console.log(res.data);
-            let data = res.data;
-            // let datalength = data.length
-            this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-            this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    },
+    {
+            axios.post("./static/jiawei.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+                .then(res => {
+                    console.log(res.data);
+                    let data = res["data"];
+                    // let datalength = data.length
+                    this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+                    this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+        }
     
+
 }
 
 </script>
@@ -422,6 +415,7 @@ body{
         .product_img_container{
             max-width: 300px;
             // margin: 15px;
+            cursor: pointer;
             width: 100%;
             display: flex;
             justify-content: center;

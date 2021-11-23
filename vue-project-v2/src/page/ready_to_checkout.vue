@@ -85,18 +85,18 @@
                                 <div class="hr4"></div>
                                 <div class="ready_bill_details_product_cake_block">
                                     <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">{{PStorage.name}}</label>
+                                        <label for="" class="ready_bill_details_product_item">{{PStorage.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x"></div>
                                         <div class="ready_bill_details_product_cake_amount"></div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{PStorage.price}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSOPIES_PRICE}}</div>
                                     </div>
                                     <div class="ready_bill_details_product_detail"  v-for="(addendacard,index) in AStorage" :key='index'>
-                                        <label for="" class="ready_bill_details_product_item">{{addendacard.choice.idname}}</label>
+                                        <label for="" class="ready_bill_details_product_item">{{addendacard.choice.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x">X</div>
                                         <div class="ready_bill_details_product_cake_amount">{{addendacard.quantity}}</div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.price * addendacard.quantity}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity}}</div>
                                     </div>
                                 </div>
                             <div class="hr3"></div>
@@ -143,7 +143,7 @@
                                 <label for="" class="ready_bill_details_second_title">小計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">{{(storage.PRICE * cakeQuantity) + PStorage.price }}</div>
+                                    <div class="ready_bill_details_product_cake_price">{{(storage.PRICE * cakeQuantity) + PStorage.ACCESSOPIES_PRICE }}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>

@@ -4,9 +4,85 @@
       <h1>主廚推薦蛋糕</h1>
       <searchBar></searchBar>
     </div>
-    <div class="cake">
-      <div class="outline close" @click="addChefCake();open">
+    <div class="cake" >
+      <div class="outline close" @click="addChefCake();open()">
+        <div class="img_outline">
+          <img src="../assets/images/cho_cake.jpg" alt="" />
+          <button>修改照片</button>
+        </div>
+        <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+                <p>蛋糕ID：</p>
+                <input type="text">
+              </div>
+              <div class="second">
+                <p>蛋糕名稱：</p>
+                <input type="text">
+              </div>
+              <div class="third">
+                <p>吋數:</p>
+                <select name="" id="" v-for="(chefCake, index) in chefCakes" :key="index">
+                  <option>{{chefCake.SIZE}}</option>
+                </select>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <input type="text">
+              </div>
+            </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>狀態：</p>
+                <select name="" id="">
+                  <!-- <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
+                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option> -->
+                </select>
+              </div>
+              <div class="second">
+                <p>價格：</p>
+                <input type="text">
+              </div>
+              <!-- <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div> -->
+              <div class="forth">
+                <p>製作者：</p>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="ingredientOutline">
+
+            <!-- <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>
+            </div> -->
+          </div>
+          <div class="descript">
+            <p>描述：</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="7"
+            ></textarea>
+          </div>
+        </div>
+        <div class="button_outline">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            id="toggle"
+            @click="open"
+          />
+          <div class="button_position">
+            <button>修改</button>
+            <button>確認</button>
+          </div>
+        </div>
       </div>
+
 
       <!-- 已有蛋糕 -->
       <div class="outline close" v-for="(chefCake, index) in chefCakes" :key="index">
@@ -56,8 +132,11 @@
               </div>
             </div>
           </div>
-          <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
-            <input class="icheckbox" type="checkbox" checked>{{name}}
+          <div class="ingredientOutline">
+
+            <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>{{name}}
+            </div>
           </div>
           <div class="descript">
             <p>描述：</p>
@@ -117,6 +196,7 @@ export default {
     },
     addChefCake(){
       console.log(123)
+      
     }
   },
   computed: {
@@ -131,7 +211,6 @@ export default {
     $("#chefCake").addClass("target");
 
     const params = new URLSearchParams();
-            // params.append("page", index);
         axios({
             method: "post",
             url: "http://localhost/A_cake/behindComponentChefCakeSelect.php",
@@ -157,25 +236,6 @@ export default {
               
             }
             this.$forceUpdate()
-            // a = this.chefCakes.ID
-            // for(let i = 0; i < data.length; i++){
-              // INGREDIENT.push()
-        
-            // let currentCakeID = "-1";
-            //   if(data[i].CAKE_ID !== currentCakeID){
-            //     currentCakeID = data[i].CAKE_ID;
-                
-            //   }
-            // }
-            
-            // console.log(this.chefCakes);
-            //  = this.chefCakes.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = a.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCakes);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data.length);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);
@@ -346,6 +406,11 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
       display: none;
     }
   }
+}
+.ingredientOutline{
+  max-width: 100%;
+  display: flex;
+
 }
 .ingredient{
   display: flex;

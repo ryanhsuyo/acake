@@ -19,7 +19,7 @@
             <section id="product_details_combination1">
                 <div id="cake_information"> 
                     <div id="cake_img_outline"> 
-                        <img class="cake_img" src="../assets/images/cho_cake.jpg" alt="">
+                        <img class="cake_img" :src="cake.CAKE_IMAGE_BLOB" alt="">
                         <!-- <img id="change_cake" src="../assets/images/cho_cake.jpg" alt=""> -->
                     </div>
                     <div id="cake_details">
@@ -30,11 +30,11 @@
                                 </div>
                                 <div class="product_details_combination1_button">
                                     <!-- <router-link to="shopping_cart"> -->
-                                        <button id="product_details_combination1_commit">加入購物車</button>
+                                        <button id="product_details_combination1_commit" @click="addToStorage(cake); addToStorageQ(counter)">加入購物車</button>
                                     <!-- </router-link> -->
                                     <!-- <router-link to="shopping_cart"> -->
 
-                                        <button id="product_details_combination1_buy" @click="open(); addToStorageQ(counter)">直接購買</button>
+                                        <button id="product_details_combination1_buy" @click="open(); addToStorageQ(counter) ;addToStorage(cake)">直接購買</button>
                                     <!-- </router-link> -->
                                 </div>
 
@@ -90,7 +90,7 @@ export default {
         return{
             counter: 1,
             showpage: false,
-            cake: '',
+            cake: {},
         }
     },
     methods:{
@@ -116,38 +116,45 @@ export default {
         },
         addToStorageQ(cakeQuantity){
             this.$store.dispatch('cakeQ', cakeQuantity)
+        },
+        addToStorage(cake){
+            this.$store.dispatch('storage', cake)
         }
     },
     watch:{
         
     },
     computed:{
-        // storageDate(){
-        //     return this.$store.state.storage
+        // cakeQ(){
+        //     return this.$store.state.=
         // }
 
     },
     mounted(){
-        // let pageID = this.$route.query.id;
+        let pageID = this.$route.query.id;
+        // console.log('蔗葉id', pageID);
         //     {
-            axios.post("http://localhost/A_cake/productSelectCakeChangePage.php",qs.stringify({cakeID: this.CAKE_ID, cakeNAME : this.CAKE_NAME, size: SIZE , img: CAKE_IMAGEZ}))
+            axios.post("http://localhost/A_cake/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
-            let data = res['data'];
+                console.log(1232131321)
+                console.log(res.data[0])
+                this.cake = res.data[0];
+                // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
+                console.log('到底要不要給我cake', this.cake.CAKE_IMAGE_BLOB)
             // console.log('ROUTE的IID ',this.$route.params.id);
-            for(let i = 0; i < data.length; i++){
-                    let cake = {
-                        cakeID: data[i].CAKE_ID,
-                        cakeName: data[i].CAKE_NAME,
-                        cakeDescription: data[i].CAKE_DESCRIPTION,
-                        cakeSize: data[i].SIZE,
-                        cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
-                    }
-                    this.favCategory.push(cake);
-            }
-            console.log('到底要不要給我', this.cake)
+            // for(let i = 0; i < data.length; i++){
+            //         let cake = {
+            //             cakeID: data[i].CAKE_ID,
+            //             cakeName: data[i].CAKE_NAME,
+            //             cakeDescription: data[i].CAKE_DESCRIPTION,
+            //             cakeSize: data[i].SIZE,
+            //             cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
+            //         }
+            //         this.favCategory.push(cake);
+            // }
             console.log('到底要不要給我', pageID)
-            const productDetailData = new URLSearchParams();
-            params.append("page", index);
+            // const productDetailData = new URLSearchParams();
+            // params.append("page", index);
             // axios({
             //     method: "post",
             //     url: "http://localhost/A_cake/productSelectCakeChangePage.php",
@@ -289,6 +296,7 @@ body{
         width:100%;
         margin: 0 auto;
         margin-top: 30px;
+        border-radius: 10px;
         margin-bottom: 100px;
         background-color: $palePike;
         @media screen and (max-width:767.98px){ 

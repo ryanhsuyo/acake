@@ -21,9 +21,9 @@ import html2canvas from "html2canvas"
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGoogle,faInstagram,faLine} from '@fortawesome/free-brands-svg-icons'
-import { faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
+import { faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faGoogle,faInstagram,faLine,faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare)
+library.add(faGoogle,faInstagram,faLine,faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.prototype.$qs = qs
 // Vue.use(VueFullpage)

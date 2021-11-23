@@ -1,7 +1,7 @@
 <template>
     <div class="change_page" @click="switchLite">
-        <div class="chef_cake" :class="{'-on':Case}" @click="switch_tab = true" is="chefpage">主廚推薦</div>         
-        <div class="designer_cake" :class="{'-on':!Case}" @click="switch_tab = false" is="designerpage">創意點子</div>         
+        <div class="chef_cake" :class="{'-on':Case}" @click="switch_tab = true">主廚推薦</div>         
+        <div class="designer_cake" :class="{'-on':!Case}" @click="switch_tab = false" >創意點子</div>         
     </div>
 </template>
 <script>

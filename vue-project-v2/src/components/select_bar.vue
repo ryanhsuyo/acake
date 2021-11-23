@@ -1,16 +1,23 @@
 <template>
-  <input
+<div>
+    <select name="" id="select_box">
+        <option value="model">糕體</option>
+        <option value="fruits">配料</option>
+        <option value="decorations">裝飾</option>
+    </select>
+</div>
+  <!-- <input
     type="text"
-    :placeholder="placeholder"
+    placeholder="搜尋..."
     class="search"
     v-model.lazy="forSearch"
-  />
+  /> -->
 </template>
 <script>
 import axios from "axios";
 export default {
-  name: "search_bar",
-  props: {"title": {}, placeholder: {default: "搜尋..."}},
+  name: "select_bar",
+  props: ["title"],
   data() {
     return {
       forSearch: "",
@@ -19,7 +26,7 @@ export default {
   watch: {
     forSearch: {
       handler: function (newValue) {
-        this.$emit("selectData", newValue);
+        this. $emit("selectData", newValue);
       },
       deep: true,
     },
@@ -30,7 +37,7 @@ export default {
 * {
   box-sizing: border-box;
 }
-input.search {
+select#select_box {
   width: 400px;
   max-width: 100%;
   height: 50px;
@@ -41,7 +48,7 @@ input.search {
   background: rgba(255, 255, 255, 1);
   box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   font-size: 20px;
-  cursor: text;
+  cursor: pointer;
   // color:red;
   &:focus {
     border: none;

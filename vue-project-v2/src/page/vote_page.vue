@@ -126,9 +126,6 @@ vote_cake:[],
         method: "post",
         url: "./static/cty_api/quire_vote_cake.php",
 
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
         data: params,
       })
         .then((res) => {

@@ -63,69 +63,71 @@
                         <font-awesome-icon icon="fa-solid fa-minus" class="minus_icon" v-show="orderShow[index]" @click="unfoldOrderDetail(index)"/>
                     </button>
                 </div>
-                <div class="order_detail" v-show="orderShow[index]">
-                    <div class="order_item" v-for="(item, index) in item.cakeData" :key="index">
-                        <div class="product_image">
-                            <img :src="item.cakeImage">
+                <transition name="slide" mode="out-in">
+                    <div class="order_detail" v-show="orderShow[index]">
+                        <div class="order_item" v-for="(item, index) in item.cakeData" :key="index">
+                            <div class="product_image">
+                                <img :src="item.cakeImage">
+                            </div>
+                            <div class="product_description_block">
+                                <div class="product_title">{{item.cakeName}}</div>
+                                <div class="product_description">{{item.cakeDescription}}</div>
+                            </div>
+                            <div class="item_number"><span>{{item.quantity}}</span>個</div>
+                            <div class="item_total">$<span>{{item.price}}</span></div>
                         </div>
-                        <div class="product_description_block">
-                            <div class="product_title">{{item.cakeName}}</div>
-                            <div class="product_description">{{item.cakeDescription}}</div>
+                        <!-- 重複排版用組件開始 -->
+                        <!-- <div class="order_item">
+                            <div class="product_image">
+                                <img src="../assets/images/cho_cake.jpg">
+                            </div>
+                            <div class="product_description_block">
+                                <div class="product_title">巧克力大蛋糕</div>
+                                <div class="product_description">超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕</div>
+                            </div>
+                            <div class="item_number"><span>1</span>個</div>
+                            <div class="item_total">$<span>180</span></div>
                         </div>
-                        <div class="item_number"><span>{{item.quantity}}</span>個</div>
-                        <div class="item_total">$<span>{{item.price}}</span></div>
+                        <div class="order_item">
+                            <div class="product_image">
+                                <img src="../assets/images/cho_cake.jpg">
+                            </div>
+                            <div class="product_description_block">
+                                <div class="product_title">巧克力大蛋糕</div>
+                                <div class="product_description">超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕</div>
+                            </div>
+                            <div class="item_number"><span>1</span>個</div>
+                            <div class="item_total">$<span>180</span></div>
+                        </div> -->
+                        <!-- 重複排版用組件結束 -->
+                        <div class="information_block">
+                            <div class="information_left">
+                                <div class="payment_method">
+                                    付款方式:
+                                    <span>{{item.paymentMethod}}</span>
+                                </div>
+                                <div class="pickup_store">
+                                    地址:
+                                    <span>{{item.address}}</span>
+                                </div>
+                            </div>
+                            <div class="information_right">
+                                <div class="deliver_fee">
+                                    <span>運費: $&nbsp;</span>
+                                    <span>{{item.deliverFee}}</span>
+                                </div>
+                                <div class="discount">
+                                    <span>折扣: $&nbsp;</span>
+                                    <span>{{item.discount}}</span>
+                                </div>
+                                <div class="order_total">
+                                    <span>總計: $&nbsp;</span>
+                                    <span>{{getOrderPrice(item)}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- 重複排版用組件開始 -->
-                    <!-- <div class="order_item">
-                        <div class="product_image">
-                            <img src="../assets/images/cho_cake.jpg">
-                        </div>
-                        <div class="product_description_block">
-                            <div class="product_title">巧克力大蛋糕</div>
-                            <div class="product_description">超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕</div>
-                        </div>
-                        <div class="item_number"><span>1</span>個</div>
-                        <div class="item_total">$<span>180</span></div>
-                    </div>
-                    <div class="order_item">
-                        <div class="product_image">
-                            <img src="../assets/images/cho_cake.jpg">
-                        </div>
-                        <div class="product_description_block">
-                            <div class="product_title">巧克力大蛋糕</div>
-                            <div class="product_description">超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕超級好吃的巧克力蛋糕</div>
-                        </div>
-                        <div class="item_number"><span>1</span>個</div>
-                        <div class="item_total">$<span>180</span></div>
-                    </div> -->
-                    <!-- 重複排版用組件結束 -->
-                    <div class="information_block">
-                        <div class="information_left">
-                            <div class="payment_method">
-                                付款方式:
-                                <span>{{item.paymentMethod}}</span>
-                            </div>
-                            <div class="pickup_store">
-                                地址:
-                                <span>{{item.address}}</span>
-                            </div>
-                        </div>
-                        <div class="information_right">
-                            <div class="deliver_fee">
-                                <span>運費: $&nbsp;</span>
-                                <span>{{item.deliverFee}}</span>
-                            </div>
-                            <div class="discount">
-                                <span>折扣: $&nbsp;</span>
-                                <span>{{item.discount}}</span>
-                            </div>
-                            <div class="order_total">
-                                <span>總計: $&nbsp;</span>
-                                <span>{{item.totalPrice}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </transition>
             </div>
             
         </section>
@@ -167,7 +169,7 @@
                 page: "order",
                 title: "我的訂單",
 
-                memberId: 1,
+                memberId: this.$store.state.member_id,
 
                 order: [],
                 orderChoose: [],
@@ -182,11 +184,11 @@
         },
         methods: {
             unfoldOrderDetail(index){
-                console.log(index)
+                // console.log(index)
                 this.$set(this.orderShow, index, false);
             },
             foldOrderDetail(index){
-                console.log(index)
+                // console.log(index)
                 this.$set(this.orderShow, index, true);
             },
             chooseOrderType(state){
@@ -194,6 +196,9 @@
             },
             switchTo(state){
                 this.orderChoose = this.chooseOrderType(state);
+                this.searchValue = "";
+                this.yearSelected = -1;
+                this.monthSelected = -1;
             },
             selectByDate(){
                 this.searchValue = "";
@@ -213,6 +218,9 @@
                 this.orderChoose = this.orderChoose.filter(item => {
                     return searchVal.test(item.orderID);
                 });
+            },
+            getOrderPrice(item){
+                return parseInt(item.totalPrice) + parseInt(item.deliverFee) - parseInt(item.discount);
             },
         },
         computed: {
@@ -739,5 +747,22 @@ input.search{
 
 }
 // ===== 組件searchbar的scss結束 =====
+
+
+// ===== 以下為 Vue transition 的CSS設定 =====
+.slide-enter-active{
+    transition: all .8s ease;
+}
+.slide-leave-active{
+    transition: all .3s ease;
+}
+.slide-enter, .slide-leave-to{
+    // transform: translateY(-5%);
+    opacity: 0;
+}
+.slide-enter-to, .slide-leave{
+    // transform: translateY(0);
+    opacity: 100%;
+}
 
 </style>

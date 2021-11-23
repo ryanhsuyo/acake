@@ -19,7 +19,7 @@
                 <title_h1 :title="title" class="title_h1"></title_h1>
             </div>
 
-            <div id="fav_area">
+            <div id="fav_area" v-if="cakeExist === true">
 
                 <div class="card_outline" v-for="(item, index) in favCategory" :key="index">
                     <div class="img_container">
@@ -101,6 +101,8 @@
                 <!-- 排版用重複組件結束 -->
 
             </div>
+
+            <div v-else class="noCake">這個分類中目前沒有蛋糕收藏喔!</div>
             
         </section>
 
@@ -123,6 +125,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from "../store/store"
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -134,15 +137,17 @@
             member_main_bar,
             title_h1,
         },
+        props: ["categoryID"],
         data(){
             return{
                 page: "fav",
                 title: "我的最愛",
 
-                memberID: 2,
-                favCategoryID: 28,
+                memberID: this.$store.state.member_id,
+                // favCategoryID: 1,
 
                 favCategory: [],
+                cakeExist: true,
             };
         },
         methods:{
@@ -157,20 +162,25 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.favCategoryID}))
+            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
-                        // console.log(data);
+                        console.log(data.length)
+                        console.log(!(data.length === 0));
 
-                        for(let i = 0; i < data.length; i++){
-                            let cake = {
-                                cakeID: data[i].CAKE_ID,
-                                cakeName: data[i].CAKE_NAME,
-                                cakeDescription: data[i].CAKE_DESCRIPTION,
-                                cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
-                                cakeImgBlob: data[i].CAKE_IMG_BLOB,
+                        if(!(data.length === 0)){
+                            for(let i = 0; i < data.length; i++){
+                                let cake = {
+                                    cakeID: data[i].CAKE_ID,
+                                    cakeName: data[i].CAKE_NAME,
+                                    cakeDescription: data[i].CAKE_DESCRIPTION,
+                                    cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                    cakeImgBlob: data[i].CAKE_IMG_BLOB,
+                                }
+                                this.favCategory.push(cake);
                             }
-                            this.favCategory.push(cake);
+                        }else{
+                            this.cakeExist = false;
                         }
 
                     })
@@ -301,6 +311,12 @@
             
             }
 
+        }
+
+        .noCake{
+            font-size: $h2;
+            color: #515151;
+            margin: 75px 0 125px;
         }
 
     }

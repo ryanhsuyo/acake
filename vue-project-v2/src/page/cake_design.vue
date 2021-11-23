@@ -33,6 +33,19 @@
         <transition name="disappear">
          <section id="second_screen" v-show="isFinish1">
              <div id="production_area">
+
+                 <!-- RWD需要的上一步 下一步 -->
+                 <!-- <div class="rwd_step">
+                     <input id="rwd_back_step" type="button" @click="showModel = true; changeShowArea('back')" v-show="showArea > 1"> -->
+                    <!-- 選擇糕體 上一步按鈕的偽元素 -->
+                    <!-- <input id="rwd_pseudo_element_button" type="button" v-show="showArea === 1">
+
+                    <input id="rwd_next_step" type="button" @click="showModel = false; changeShowArea('next')" v-show="showArea < 3"> -->
+                 <!-- 蛋糕完成按鈕 -->
+                 <!-- <input id="rwd_finish" type="button" v-show="showArea === 3" @click="[toImage(), isFinish()]">
+                 </div> -->
+                 <!-- RWD需要的上一步 下一步 -->
+
                  <!-- 下雪 -->
                 <div class="snow-container">
                     <div class="snow foreground"></div>
@@ -236,7 +249,18 @@
         <transition @before-enter="beforeEnter" @before-leave="beforeLeave">
             <div v-if="isLoading" class="loading">
                 <img src="../assets/images/cooking.gif" alt="loading">
-                <p>cooking...</p>
+                <div class="loading_text">
+                    <p>c</p>
+                    <p>o</p>
+                    <p>o</p>
+                    <p>k</p>
+                    <p>i</p>
+                    <p>n</p>
+                    <p>g</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                </div>
             </div>
         </transition>
         <!-- isLoading cooking -->
@@ -339,6 +363,10 @@ import buttontest from '../components/button_h1.vue'
 import buttontest2 from '../components/button_h1_2.vue'
 import buttontest3 from '../components/button_h1_3.vue'
 import footercom from '../components/footercom'
+
+import axios from 'axios'
+import qs from 'qs'
+
 export default {
     name:"cakeDesign",
     components:{
@@ -355,6 +383,9 @@ export default {
     },
     data(){
         return{
+            flavor: 1,
+            ingredient: 1,
+            // theFlavor:[],
             isLoading: false,
             // isFinish: true,
             isFinish1: true,
@@ -363,11 +394,9 @@ export default {
             Cheight: 180,
             isShow: false,
             htmlUrl: "",
-            // showModel: true,
-            // showFruits: false,
             showArea: 1,
-            smallIMages:["../../static/cake_design/cake_model"],
-            bigImages:["../../static/cake_design/cake_model"],
+            // smallIMages:["../../static/cake_design/cake_model"],
+            // bigImages:["../../static/cake_design/cake_model"],
             bigPic:require ('../assets/images/cake_design/cake_model1.png'),
             // 糕體
             swiperList1:[
@@ -410,6 +439,7 @@ export default {
 
                 // 水果配料
                 swiperList2:[
+                    
                     {img:require ('../assets/images/cake_design/fruit1.png'),
                     title:'當季新鮮草莓（整顆）',
                     text: '來自苗栗大湖現採草莓，趕快試看看把草莓加到你的設計上，甜入你心～ ♡',
@@ -519,7 +549,7 @@ export default {
 
             window.setTimeout(()=>{
                 this.isFinish2 = true;
-            },3000);
+            },4000);
             
         },
         beforeEnter() {
@@ -555,9 +585,9 @@ export default {
         initial(){
                 this.isStart();
                 this.showArea=1;
+                this.isLoading=false;
                 this.isFinish1=true;
                 this.isFinish2=false;
-                this.isLoading=false;
                 this.canvas.clear();
                 html2canvas(this.$refs.imageTofile, {
                 width: this.Cwidth,
@@ -596,27 +626,6 @@ export default {
                     img: val,
                     prize: '',
                 });
-            // console.log(i)
-            // var i = this.key;
-            
-            // for (let k in this.swiperList) {
-            //     console.log(k)
-            //     console.log(this.swiperList[k])
-            // }
-
-            // let k = this.swiperList.length - 1
-            // console.log(k)
-
-            // let _this = this
-            // function findValue(key) {
-            //     for (let k in _this.swiperList) {
-            //         if(k === key){
-            //             return _this.swiperList[k]
-            //         }
-                    
-            //     }
-            // }
-            // console.log(findValue('2'))
             
         },
 
@@ -735,6 +744,22 @@ export default {
 
         this.canvas = new fabric.Canvas('c');
         this.showArea = 1;
+
+        // -------------------------------------------- 資料處理部分 --------------------------------------------
+                axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                .then(res => {
+                    let theFlavor = res["data"];
+                    console.log(theFlavor);
+                })
+                .catch(err => console.log(err));
+
+                // select配料&裝飾
+                axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({ingredientId: this.ingredient}))
+                .then(res => {
+                    let data = res["data"];
+                    console.log(data);
+                })
+                .catch(err => console.log(err));
     },
     
     watch: {
@@ -758,6 +783,89 @@ li.nav_item > a#cakeDesign{
         margin: 0;
         position: relative;
         background-color: #EFE6E4;
+    }
+
+    //---------------------------------- RWD需要的上一步下一步 ----------------------------------
+    div.rwd_step{
+        display: none;
+        // position: absolute;
+        // flex-direction: row;
+        // justify-content: space-evenly;
+        // left: 50%;
+        // bottom: 20%;
+        // transform: translateX(-50%);
+        // 選擇糕體 上一步按鈕的偽元素
+        input#rwd_pseudo_element_button{ 
+            visibility: hidden;
+            // background-image: url("../assets/images/back_step.png");
+            width: 85px;
+            height: 85px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color:rgba(0, 0, 0, 0.0);
+            &:hover{
+                transform: translateY(-5px);
+            }
+        }
+        input#rwd_back_step{
+            // visibility: hidden;
+            background-image: url("../assets/images/back_step.png");
+            width: 85px;
+            height: 85px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color:rgba(0, 0, 0, 0.0);
+            &:hover{
+                transform: translateY(-5px);
+            }
+        }
+        input#rwd_next_step{
+            background-image: url("../assets/images/next_step.png");
+            width: 85px;
+            height: 85px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color:rgba(0, 0, 0, 0.0);
+            &:hover{
+                transform: translateY(-5px);
+            }
+        }
+        // 完成蛋糕 按鈕
+        input#rwd_finish{
+            background-image: url("../assets/images/finish_button.png");
+            width: 85px;
+            height: 85px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color:rgba(0, 0, 0, 0.0);
+            &:hover{
+                transform: translateY(-5px);
+            }
+        }
+    }
+    @media all and (max-width: 768px){
+        div.rwd_step{
+            z-index: 10;
+            display: flex;
+            position: absolute;
+            flex-direction: row;
+            justify-content: space-evenly;
+            left: 50%;
+            bottom: 10%;
+            transform: translateX(-50%);
+        }
     }
     //---------------------------------- 是否購買彈窗樣式 ----------------------------------
     div.popup_box{
@@ -1250,6 +1358,18 @@ li.nav_item > a#cakeDesign{
         div#production_area{
             grid-column: 1/2;
             order: 2;
+            // input#pseudo_element_button{
+            //     display: none;
+            // }
+            // input#back_step{
+            //     display: none;
+            // }
+            // input#next_step{
+            //     display: none;
+            // }
+            // input#next_step{
+            //     display: none;
+            // }
         }
     }
 
@@ -1586,6 +1706,13 @@ li.nav_item > a#cakeDesign{
         }
     }
 
+    @media all and (max-width: 768px){
+        div.choose_cake_fruits{
+            grid-column: 1/2;
+            order: 1;
+        }
+    }
+
     // ------------------------------------------- 選擇裝飾 -------------------------------------------
     div.choose_cake_decorations{
         // overflow: hidden;
@@ -1753,7 +1880,12 @@ li.nav_item > a#cakeDesign{
                 }
         }
     }
-
+    @media all and (max-width: 768px){
+        div.choose_cake_decorations{
+            grid-column: 1/2;
+            order: 1;
+        }
+    }
         //---------------------------------- 製作完成 third_screen ----------------------------------
 
         .loading{
@@ -1766,18 +1898,60 @@ li.nav_item > a#cakeDesign{
             z-index: 10;
             background-color: rgba(255, 255, 255, 0.4);
             animation-name: movRradius3;
-            animation-duration: 3s;
+            animation-duration: 4s;
             animation-iteration-count: infinite;
             animation-direction: alternate-reverse;
-            z-index: 0;
+            z-index: -1;
             img{
                 width: 100%;
+                // transform-origin: center;
+                // animation: animate_dailyimg 2s infinite;
+                // -webkit-animation: animate_dailyimg 2s infinite;
             }
-            p{
-                color: #515151;
-                text-align: center;
-                margin-top: -30px;
-                font-size: 17px;
+            div.loading_text{
+                display: flex;
+                justify-content: center;
+                p{
+                    color: #515151;
+                    text-align: center;
+                    margin-top: -30px;
+                    font-size: 18px;
+                    opacity: .1;
+
+                    transition: all .5s;
+                    animation: animate_dailycss 2s infinite;
+                    -webkit-animation: animate_dailycss 2s infinite;
+                }
+                p:nth-child(1){
+                    animation-delay: .1s;
+                }
+                p:nth-child(2){
+                    animation-delay: .2s;
+                }
+                p:nth-child(3){
+                    animation-delay: .3s;
+                }
+                p:nth-child(4){
+                    animation-delay: .4s;
+                }
+                p:nth-child(5){
+                    animation-delay: .5s;
+                }
+                p:nth-child(6){
+                    animation-delay: .6s;
+                }
+                p:nth-child(7){
+                    animation-delay: .7s;
+                }
+                p:nth-child(8){
+                    animation-delay: .8s;
+                }
+                p:nth-child(9){
+                    animation-delay: .9s;
+                }
+                p:nth-child(10){
+                    animation-delay: 1s;
+                }
             }
         }
 
@@ -2226,6 +2400,42 @@ li.nav_item > a#cakeDesign{
         }
     }
 
+// ---------------------------------- cooking動畫 ----------------------------------
+// @keyframes animate_dailyimg {
+//     0% {
+//         transform: scale(1, 1);
+//         margin-left: 0;
+//     }
+
+//     50% {
+//         transform: scale(1.05, 1.05);
+//         margin-left: 10px;
+//         text-shadow: 0 15px 5px rgba(0, 0, 0, .1);
+//     }
+
+//     100% {
+//         transform: scale(1, 1);
+//     }
+// }
+@keyframes animate_dailycss {
+    0% {
+        opacity: .1;
+        transform: translateY(0);
+        margin-left: 0;
+    }
+
+    25% {
+        opacity: 1;
+        transform: translateY(-15px);
+        margin-left: 10px;
+        text-shadow: 0 15px 5px rgba(0, 0, 0, .2);
+    }
+
+    100% {
+        opacity: .1;
+        transform: translateY(0);
+    }
+}
 @keyframes movRradius3 {
         0%{
             border-radius: 50% 60% 55% 70%;

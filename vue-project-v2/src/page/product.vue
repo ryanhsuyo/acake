@@ -44,8 +44,10 @@
             <div id="product_cakecard" >
                 <div class="product_card_outline" v-for="(card, index) in chefCake" :key="index"> 
                     <div class="product_cake_title" >{{card.CAKE_NAME}}
-                        <img class="loveicon2" src="../assets/images/love_icon_h.svg">
-                        <img class="loveicon" src="../assets/images/love_icon.svg">
+                        <!-- <img class="loveicon2" src="../assets/images/love_icon_h.svg" > -->
+                        <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="openFavorite=!openFavorite;loveActive()" :class="{'active':light}" />
+                        <!-- <img class="loveicon" src="../assets/images/love_icon.svg"> -->
+                        <SelectFavorite class="openFavorite" :openFavorite="openFavorite"></SelectFavorite>
                     </div>
                     <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
                         <!-- <router-link to="product_detail"  > -->
@@ -60,7 +62,7 @@
                             </div>
                             <div class="size">{{card.SIZE}}吋</div>
                         </div>
-                        <button class="addtocar" @click="addToCakeCart(card)">
+                        <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
                             加入購物車 
                             <img src="../assets/images/shoppingCar.svg">
                             <transition appear
@@ -84,8 +86,9 @@
             <div id="product_cakecard" >
                 <div class="product_card_outline" v-for="(card, index) in designerCake" :key="index"> 
                     <div class="product_cake_title" >{{card.CAKE_NAME}}
-                        <img class="loveicon2" src="../assets/images/love_icon_h.svg">
-                        <img class="loveicon" src="../assets/images/love_icon.svg">
+                        <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="openFavorite=!openFavorite;loveActive()" :class="{'active':light}" />
+                        <!-- <img class="loveicon" src="../assets/images/love_icon.svg"> -->
+                        <SelectFavorite class="openFavorite" :openFavorite="openFavorite"></SelectFavorite>
                     </div>
                     <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
                         <!-- <router-link to="product_detail"  > -->
@@ -99,8 +102,10 @@
                                 <span class="price">{{card.PRICE}}</span>
                             </div>
                             <div class="size">{{card.SIZE}}吋</div>
+
+
                         </div>
-                        <button class="addtocar" @click="addToCakeCart(card); addCakeQuantity(counter); addQuantityToCart(counter)">
+                        <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
                             加入購物車 
                             <img src="../assets/images/shoppingCar.svg">
                         </button>
@@ -119,6 +124,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import switchTab from "../components/switchTab"
+import SelectFavorite from "../components/cakeSelectFavoriteBox"
 import axios from "axios"
 import qs from "qs"
 
@@ -130,6 +136,7 @@ export default {
         headercom,
         footercom,
         switchTab,
+        SelectFavorite
     },
     data(){
         return{
@@ -142,6 +149,10 @@ export default {
             elLeft: 0, //當前點擊購物車按鈕在網頁中的絕對top值
             elTop: 0, //當前點擊購物車按鈕在網頁中的絕對left值
             counter: 1,
+            openFavorite: false,
+            light:false,
+            packageSelected: {},
+            addendacards:[],
             // pageID: 0,
         }
     },
@@ -153,6 +164,10 @@ export default {
         // getValFormChild(val){
         //     this.receive = 
         // }
+            // 我要資料替換掉light
+        loveActive(){
+            this.light=true
+        },
         abc(ev){
             console.log(ev)
             console.log(typeof ev)
@@ -171,16 +186,20 @@ export default {
         addToCakeCart(cake){
             this.$store.dispatch('storage', cake)
         },
-        addCakeQuantity(){
-            this.counter += 1;
-        },
         addQuantityToCart(counter){
             this.$store.dispatch('cakeQ', counter)
+        },
+        addAdditionalToStorage(additional){
+        this.$store.dispatch('AStorage', additional)
+        },
+        addToPStorage(packageSelected){
+        this.$store.dispatch('PStorage', packageSelected)
+        console.log('做不出來',packageSelected);
         }
 
 
     },
-    watch:{
+    watch:{ 
         
     },
     computed:{
@@ -210,20 +229,88 @@ export default {
 
     },
     mounted(){
-    {
-            axios.post("./static/jiawei.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-                .then(res => {
-                    console.log(res.data);
-                    let data = res["data"];
-                    // let datalength = data.length
-                    this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-                    this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            }
+        {
+        // axios.post("./static/jiawei.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/A_cake/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            .then(res => {
+                console.log(res.data);
+                let data = res["data"];
+                // let datalength = data.length
+                this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+                this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         }
+        {
+        // axios.post("./static/jiawei.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/A_cake/productDetailSelectPackage.php")
+            .then(res => {
+                console.log(res.data);
+                this.packageSelected = res.data[0];
+                console.log( '這個要跑什麼好呢',this.packageSelected);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+        const params = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            data: params,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            console.log('這是什麼', data)
+            this.choices = data;
+            this.addendacards = 
+                [
+                {
+                    quantity: 1,
+                    choice: this.choices[0],
+                },
+                {
+                    quantity: 1,
+                    choice: this.choices[2],
+                }
+                ]
+            console.log('這個choices', this.choices)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        const data = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            data: data,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            this.packages = data;
+            console.log('這是什麼packages', this.packages)
+            this.packageSelected = this.packages[0]
+            console.log(this.packageSelected);
+            console.log(this.packageSelected.ACCESSOPIES_PRICE);
+            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            // console.log('thischefcake', this.chefCake);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data);
+            // console.log(datalength);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
     
 
 }
@@ -388,26 +475,21 @@ body{
             position: relative;
         }
         .loveicon{
-            position:absolute;
+            position: absolute;
             top:3px;
             right: 0px;
             width: 25px;
             height: 25px;
             object-fit: fill;
-            opacity: 1;
             &:hover{
-                opacity: 0;
                 cursor: pointer;
+                color: red;
             }
         }
-        .loveicon2{
-            position:absolute;
-            top:3px;
-            right: 0px;
-            width: 25px;
-            height: 25px;
-            object-fit: fill;
-        } 
+        .loveicon.active{
+            color: red;
+        }
+
         router-link{
             text-decoration: none;
             display: flex;
@@ -487,5 +569,9 @@ body{
 a{
     text-decoration: none;
     display: flex;
+}
+.openFavorite{
+    position: absolute;
+    top: 0;
 }
 </style>

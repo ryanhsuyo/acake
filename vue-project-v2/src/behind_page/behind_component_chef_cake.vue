@@ -7,29 +7,36 @@
     <div class="cake" >
       <div class="outline close" @click="addChefCake();open()">
         <div class="img_outline">
-          <img src="../assets/images/cho_cake.jpg" alt="" />
-          <button>修改照片</button>
+                  <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <button @click="newClickInput($event)">
+            修改照片</button>
+              <input
+                  type="file"
+                  style="display: none"
+                  class="imageButton"
+                  @click="setNewImage()"
+                />
         </div>
         <div class="text_outline">
           <div class="infor">
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <input type="text">
+                <input type="text"  disabled v-model="newCakeID">
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <input type="text">
+                <input type="text" v-model="newCakeName">
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <select name="" id="" v-for="(chefCake, index) in chefCakes" :key="index">
-                  <option>{{chefCake.SIZE}}</option>
+                <select name="" id="" v-for="(size, index) in result" :key="index">
+                  <option>{{size}}吋</option>
                 </select>
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <input type="text">
+                <input type="text" v-model="newCakeFlavor">
               </div>
             </div>
             <div class="right_infor">
@@ -42,7 +49,7 @@
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text">
+                <input type="text" v-model="newCakePrice">
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -77,8 +84,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>修改</button>
-            <button>確認</button>
+            <button>確認修改</button>
           </div>
         </div>
       </div>
@@ -156,8 +162,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>修改</button>
-            <button>確認</button>
+            <button>確認修改</button>
           </div>
         </div>
       </div>
@@ -181,6 +186,8 @@ export default {
     return {
       showWhat: [],
       chefCakes:{},
+      cake:[],
+      result: [],
     };
   },
   methods: {
@@ -197,7 +204,76 @@ export default {
     addChefCake(){
       console.log(123)
       
-    }
+    },
+    newClickInput($event){
+      let file = $event.target.nextSibling.nextSibling;
+      file.click();
+    },
+    setNewImage(){
+      let button =
+        document.querySelectorAll("input[type='file']")[0];
+      button.onchange = this.pushNewImage;
+    },
+    pushNewImage(){
+      let that = this;
+      let file = document.querySelectorAll("input[type='file']")[0].files[0];
+      
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementById("new_cake_img");
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        that.newFlavor.img = readFile.result;
+      })
+    },
+     clickInput(index, $event,data) {
+      let file = $event.target.nextSibling.nextSibling;
+      this.theIndex = index;
+      this.modifyData=data
+      file.click();
+    },
+    setImage() {
+      let button =
+        document.querySelectorAll("input[type='file']")[this.theIndex];
+      button.onchange = this.pushImage;
+    },
+    pushImage() {
+      let that = this;
+      let index = this.theIndex;
+      let file =
+        document.querySelectorAll("input[type='file']")[this.theIndex].files[0];
+      this.imgData = file;
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementsByClassName("cake_make_image")[index];
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        const params = new FormData();
+        params.append("img", that.imgData);
+        params.append("test", readFile.result);
+        params.append("index", this.modifyData.ID);
+        axios({
+          method: "post",
+          url: "./static/melody_php/new_flavor.php",
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+      // 寫進資料庫
+    },
   },
   computed: {
     // data() {
@@ -205,9 +281,7 @@ export default {
     // }
   },
   mounted() {
-    $("#chefCake")
-      .siblings()
-      .removeClass("target");
+    $("#chefCake").siblings().removeClass("target");
     $("#chefCake").addClass("target");
 
     const params = new URLSearchParams();
@@ -219,7 +293,7 @@ export default {
         .then((res) => {
             // console.log(res.data);
             let data = res.data;
-            console.log(data);
+            console.log('data練面試',data);
             // this.chefCakes = data.filter(item => item.MEMBER_ID === "0")
             
             // 
@@ -236,6 +310,32 @@ export default {
               
             }
             this.$forceUpdate()
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+         axios({
+            method: "post",
+            url: "http://localhost/A_cake/behindComponentChefCakeSelectAll.php",
+            data: params,
+        })
+        .then((res) => {
+            // console.log(res.data);
+            let sizearr = [];
+            let data = res.data;
+            console.log('到底想撈幾次',data);
+            for (let index = 0; index < data.length; index++) {
+              const element = data[index].SIZE;
+              console.log('阿是多少',element);
+                sizearr.push(element);
+                console.log(sizearr);
+            }
+            var result = sizearr.filter((item, index, arr) => {
+	          return arr.indexOf(item) === index;
+            })
+            console.log(result);
+            // 
+              
         })
         .catch((error) => {
             console.log(error);

@@ -16,7 +16,7 @@
                 <span class="checkout_page">結帳完成</span>
             </section>
             <!-- 從這開始 -->
-            <section class="addenda_block_outline">
+            <section class="addenda_block_outline" v-if="cake.CAKE_NAME">
                 <div class="addenda_cancel_button">
                     <font-awesome-icon class="addenda_cancel_button_icon" icon="fa-solid fa-xmark" />
                 </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="select_block">
 
-                            <div class="addenda_block_package">
+                            <div class="addenda_block_package" v-if="packageSelected.ACCESSORIES_NAME">
                                 <div class="addenda_block_package_item_img_block">
                                     <img src="../assets/images/cho_cake.jpg" alt="">
                                 </div>
@@ -66,8 +66,8 @@
                                 </div>
                             </div>
                             <div class="addenda_block_package_select_block">  
-                                <select v-model="packageSelected" name="" id="addenda_block_package_select">
-                                    <option v-for="(pack, index) in packages" :key='index' :value="pack">{{pack.ACCESSORIES_NAME}}</option>
+                                <select  v-model='packageSelected' name="" id="addenda_block_package_select">
+                                    <option  v-for="(pack, index) in packages" :key='index' :value="pack" >{{pack.ACCESSORIES_NAME}}</option>
                                 </select>
                             </div>
                         </div>
@@ -137,12 +137,16 @@
             </section>
             <div class="addenda_button_block">
                 <router-link to="product">
-                    <button class="addenda_goto_shopping">繼續購物</button>
+                    <button class="addenda_goto_shopping" v-if="packageSelected.ACCESSORIES_NAME">繼續購物</button>
                 </router-link>
                 <router-link to="ready_to_checkout">
-                    <button class="goto_checkout" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
+                    <button class="goto_checkout" v-if="packageSelected.ACCESSORIES_NAME" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
                 </router-link>
             </div>
+            <p class="errorText" v-if="!packageSelected.ACCESSORIES_NAME">您還沒有購入任何蛋糕</p>
+            <router-link to="product">
+                <button class="backToProduct" v-if="!packageSelected.ACCESSORIES_NAME">選購蛋糕</button>
+            </router-link>
             <!-- <section class="shopping_cart_list">
                 <div class="shopping_cart_block">
                     <div class="choose_cakeandimg">
@@ -281,21 +285,14 @@ export default {
             packages: [],
             packageSelected: this.$store.state.PStorage,
             choices: [],
-            // addendacards:this.$store.state.AStorage,
-            // addendacards: [],
-            // addendacards: [
-            //     {
-            //     quantity: 1,
-            //     choice: choices[0],
-            //     },
-            //     {
-            //     quantity: 1,
-            //     choice: choices[1],
-            //     }
-            // ],
         }
     },
     methods:{
+        testChange(){
+            let select = document.getElementById('addenda_block_package_select');
+            this.packageSelected=select.value
+            console.log(select)
+        },
         addaddenda(){
             if(this.addendacards.length < this.choices.length ){
                 this.addendacards.push(
@@ -306,9 +303,8 @@ export default {
                 )
             }
         },
-        deladdenda(index, ASt){
+        deladdenda(index){
             this.addendacards.splice(index,1);
-            console.log(ASt)
         },
         addToCart(addendacards, cake, cakeQuantity, packageSelected){
             console.log(addendacards);
@@ -346,9 +342,9 @@ export default {
         cakeQuantity(){
             return this.$store.state.cakeQuantity
         },
-        // PSt(){
-        //     return this.$store.state.PStorage
-        // }
+        PStorage(){
+            return this.$store.state.PStorage
+        }
     },
     mounted(){
         const params = new URLSearchParams();
@@ -999,7 +995,25 @@ body{
         }
     }
 }
-
+.errorText{
+    color: $darkGrey;
+    font-size: $h1;
+    margin-bottom: 50px;
+}
+.backToProduct{
+    width: 120px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: $darkGrey;
+    color: white;
+    font-size: $h4;
+    box-shadow: $shadow;
+    margin-bottom: 100px;
+    &:hover{
+        color: $lightYellow;
+        cursor: pointer;
+    }
+}
 // img{
 //     display: none;
 // }

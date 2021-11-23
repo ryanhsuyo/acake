@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $vote = $_POST['vote'];
 $id = $_POST['id'];
 //建立SQL語法
-$sql = "UPDATE `A_cake`.`CAKE` SET `VOTING_NUM` = ? WHERE (`CAKE_ID` = ?);
+$sql = "UPDATE `CAKE` SET `VOTING_NUM` = ? WHERE (`CAKE_ID` = ?);
 ";
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$vote);

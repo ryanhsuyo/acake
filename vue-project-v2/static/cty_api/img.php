@@ -17,7 +17,7 @@ $fileName = $_FILES["img"]["name"];    //檔案名稱含副檔名
         $filePath = $ServerRoot."/static/employee_images/".$fileName;
         move_uploaded_file($filePath_Temp, $filePath);
 
-$sql = "UPDATE `A_cake`.`EMPLOYEE` SET `IMG_BLOB` = ? WHERE (`ID` = ?);";
+$sql = "UPDATE `EMPLOYEE` SET `IMG_BLOB` = ? WHERE (`ID` = ?);";
 
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$_POST["test"]);

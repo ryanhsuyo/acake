@@ -373,7 +373,7 @@ export default {
       let biulder = this.new_employee.biulder;
       let create_date = this.new_employee.create_date;
       let authority = this.new_employee.authority;
-      let data = this.new_employee;
+      // let data = this.new_employee;
       let img = this.new_employee.img;
       const params = new URLSearchParams();
       params.append("number", number);
@@ -411,8 +411,7 @@ export default {
     updateData(index) {
       let data = this.data[index];
       const params = new URLSearchParams();
-      params.append("id", index);
-      params.append("page", this.sn);
+      params.append("id", data.ID);
       params.append("name", data.EMPLOYEE_NAME);
       params.append("password", data.PASSWORD);
       params.append("authority", data.AUTHORITY);

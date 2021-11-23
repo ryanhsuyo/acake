@@ -17,7 +17,7 @@ $img = htmlspecialchars($_POST["img"]);
 // $biulder = $data->biulder;
 // $create_date = $data->create_date;
 // $authority = $data->authority;
-$sql = "INSERT INTO `A_cake`.`EMPLOYEE` ( `EMPLOYEE_NUMBER`, `EMPLOYEE_NAME`, `PASSWORD`, `AUTHORITY`,
+$sql = "INSERT INTO `EMPLOYEE` ( `EMPLOYEE_NUMBER`, `EMPLOYEE_NAME`, `PASSWORD`, `AUTHORITY`,
  `CREATE_DATE`, `BIULDER`, `ACTIVE`, `IMG_BLOB`) VALUES ( ?, ?, ?, ?, NOW(), ?, '1', ?);";
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$number);

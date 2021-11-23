@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $page = $_POST['page'];
 $page = $page*10;
 //建立SQL語法
-$sql = "SELECT * FROM EMPLOYEE LIMIT $page,10 ";
+$sql = "SELECT * FROM `EMPLOYEE` LIMIT $page,10 ";
 $statement = getPDO()->prepare($sql);
 // $statement -> bindValue(1,$page);
 $statement -> execute();

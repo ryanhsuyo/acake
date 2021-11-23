@@ -69,46 +69,39 @@
                             <div class="ready_bill_details_title">您的訂單</div>
                             <label class="ready_bill_details_second_title">商品</label>
                             <div class="hr3"></div>
-                            <div class="combination_ready">
+                            <div class="combination_ready" >
                                 <div class="ready_bill_details_product_title">
                                     <div class="ready_bill_details_product_cakesizeamount">
-                                        <label class="ready_bill_details_product_item" for="">巧克力蛋糕</label>
-                                        <label class="ready_bill_details_product_cake_size">(6吋)</label>
+                                        <label class="ready_bill_details_product_item" for="">{{storage.CAKE_NAME}}</label>
+                                        <label class="ready_bill_details_product_cake_size">{{storage.SIZE}} 吋</label>
                                         <label class="ready_bill_details_product_cake_x">X</label>
-                                        <label class="ready_bill_details_product_cake_amount">1</label>
+                                        <label class="ready_bill_details_product_cake_amount">{{cakeQuantity}}</label>
                                     </div>
                                     <div class="ready_bill_details_product_twandprice">
                                         <label class="ready_bill_details_product_cake_tw">NT$</label>
-                                        <label class="ready_bill_details_product_cake_price">600</label>
+                                        <label class="ready_bill_details_product_cake_price">{{storage.PRICE * cakeQuantity}}</label>
                                     </div>
                                 </div>
                                 <div class="hr4"></div>
                                 <div class="ready_bill_details_product_cake_block">
                                     <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">普通包裝</label>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
+                                        <label for="" class="ready_bill_details_product_item">{{PStorage.ACCESSORIES_NAME}}</label>
+                                        <div class="ready_bill_details_product_cake_x"></div>
+                                        <div class="ready_bill_details_product_cake_amount"></div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
+                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSOPIES_PRICE}}</div>
                                     </div>
-                                    <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">一般蠟燭</label>
+                                    <div class="ready_bill_details_product_detail"  v-for="(addendacard,index) in AStorage" :key='index'>
+                                        <label for="" class="ready_bill_details_product_item">{{addendacard.choice.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
+                                        <div class="ready_bill_details_product_cake_amount">{{addendacard.quantity}}</div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
-                                    </div>
-                                    <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">一般卡片</label>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
-                                        <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
+                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity}}</div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="hr3"></div>
-                            <div class="combination_ready">
+                            </div>
+                            <!-- <div class="combination_ready">
                                 <div class="ready_bill_details_product_title">
                                     <div class="ready_bill_details_product_cakesizeamount">
                                         <label class="ready_bill_details_product_cake" for="">巧克力蛋糕</label>
@@ -145,13 +138,12 @@
                                         <div class="ready_bill_details_product_cake_price">600</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="hr3"></div>
+                            </div> -->
                             <div class="subtotal">
                                 <label for="" class="ready_bill_details_second_title">小計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">600</div>
+                                    <div class="ready_bill_details_product_cake_price">{{(storage.PRICE * cakeQuantity) + PStorage.ACCESSOPIES_PRICE }}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -234,6 +226,7 @@ import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import coupon from "../components/coupon.vue"
 import axios from "axios"
+import {mapState, mapGetters} from 'vuex'
 export default {
     name:'shopping_cart',
     components:{
@@ -257,7 +250,7 @@ export default {
         submitorder(){
             let memberId = new URLSearchParams;
             memberId.append("memberId", this.memberId);
-            axios.post("http://localhost/acake/submitorder.php", memberId)
+            axios.post("http://localhost/A_cake/submitorder.php", memberId)
                 .then(res => {
                     // console.log(res);
                     let data = res.data;
@@ -277,13 +270,19 @@ export default {
     computed:{
         storageDate(){
             return this.$store.state.storage
-        }
+        },
+        ...mapState([
+            'storage',
+            'PStorage',
+            'AStorage',
+            'cakeQuantity',
+        ])
 
     },
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post("http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 // console.log(res);
                 let data = res.data;
@@ -293,7 +292,7 @@ export default {
                 this.address = data[0].ADDRESS;
 
             })
-            .catch( err => cosole.log(err));
+            .catch( err => console.log(err));
     },
     my(){
         return this.$store.state.memberId

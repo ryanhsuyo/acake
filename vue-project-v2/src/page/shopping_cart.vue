@@ -33,13 +33,13 @@
                                         {{cake.SIZE}} 吋
                                     </div>
                                     <div class="addenda_block_cake_amountandunit">
-                                        <div class="addenda_block_cake_amount">1</div>
+                                        <div class="addenda_block_cake_amount">{{cakeQuantity}}</div>
                                         <div class="addenda_block_cake_unit">個</div>
                                     </div>
                                 </div>
                                 <div class="addenda_block_cake_twandprice">
                                     <div class="addenda_block_cake_tw">NT$</div>
-                                    <div class="addenda_block_cake_price">{{cake.PRICE}}</div>
+                                    <div class="addenda_block_cake_price">{{cake.PRICE * cakeQuantity}}</div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                     <img src="../assets/images/cho_cake.jpg" alt="">
                                 </div>
                                 <div class="addenda_block_cake_content">
-                                    <div class="addenda_block_cake_title">{{packageSelected.name}}</div>
+                                    <div class="addenda_block_cake_title">{{packageSelected.ACCESSORIES_NAME}}</div>
                                     <div class="addenda_block_cake_sizeandamount">
                                         <div class="addenda_block_cake_size">
                                         </div>
@@ -61,13 +61,13 @@
                                     </div>
                                     <div class="addenda_block_cake_twandprice">
                                         <div class="addenda_block_cake_tw">NT$</div>
-                                        <div class="addenda_block_cake_price">{{packageSelected.price}}</div>
+                                        <div class="addenda_block_cake_price">{{packageSelected.ACCESSOPIES_PRICE}}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="addenda_block_package_select_block">  
                                 <select v-model="packageSelected" name="" id="addenda_block_package_select">
-                                    <option v-for="(pack, index) in packages" :key='index' :value="pack">{{pack.name}}</option>
+                                    <option v-for="(pack, index) in packages" :key='index' :value="pack">{{pack.ACCESSORIES_NAME}}</option>
                                 </select>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 <img src="../assets/images/bit_cake.jpg" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
-                                <div class="addenda_block_cake_title_cardorcandle">{{addendacard.choice.idname}}</div>
+                                <div class="addenda_block_cake_title_cardorcandle">{{addendacard.choice.ACCESSORIES_NAME}}</div>
                                 <div class="addenda_block_cake_sizeandamount">
                                     <div class="addenda_block_cake_size">
                                     </div>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice_cardorcandle">
                                     <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.price * addendacard.quantity - addendacard.choice.discount}}</div>
+                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity }}</div>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                                     :key='i'
                                     :value="choice"
                                     v-show="!addendacards.map(card=>card.choice).includes(choice)"
-                                    >{{choice.idname}}</option>
+                                    >{{choice.ACCESSORIES_NAME}}</option>
                                 </select>
                             </div>
                             <div class="addenda_block_cake_item_cardorcandle_select_other">
@@ -140,7 +140,7 @@
                     <button class="addenda_goto_shopping">繼續購物</button>
                 </router-link>
                 <router-link to="ready_to_checkout">
-                    <button class="goto_checkout">前往結帳</button>
+                    <button class="goto_checkout" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
                 </router-link>
             </div>
             <!-- <section class="shopping_cart_list">
@@ -192,81 +192,82 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
-const choices =[
-            {
-                idname: "一般卡片",
-                description: "我是一般卡片",
-                price: 10,
-                option: "",
-                discount: 10,
-                id:1,
-            },
-            {
-                idname: "一般蠟燭",
-                description: "我是一般蠟燭",
-                price: 10,
-                discount: 10,
-                option: "",
-                id:2,
-            },
-            {
-                idname: "特殊蠟燭",
-                description: "我是特殊蠟燭",
-                price: 50,
-                discount: 0,
-                option: "",
-                id:3,
-            },
-            {
-                idname: "情人節卡片",
-                description: "情人節卡片",
-                price: 30,
-                discount: 0,
-                option: "",
-                id:4,
-            },
-            {
-                idname: "聖誕節卡片",
-                description: "聖誕節卡片",
-                price: 30,
-                discount: 0,
-                option: "",
-                id:5,
-            },
-            {
-                idname: "造型數字蠟燭(0)",
-                description: "數字0蠟燭",
-                price: 30,
-                discount: 0,
-                option: "",
-                id:6,
-            },
-            {
-                idname: "造型數字蠟燭(1)",
-                description: "數字1蠟燭",
-                price: 30,
-                discount: 0,
-                option: "",
-                id:7,
-            }
-        ]
+import axios from "axios"
+// const choices =[
+//             {
+//                 idname: "一般卡片",
+//                 description: "我是一般卡片",
+//                 price: 10,
+//                 option: "",
+//                 discount: 10,
+//                 id:1,
+//             },
+//             {
+//                 idname: "一般蠟燭",
+//                 description: "我是一般蠟燭",
+//                 price: 10,
+//                 discount: 10,
+//                 option: "",
+//                 id:2,
+//             },
+//             {
+//                 idname: "特殊蠟燭",
+//                 description: "我是特殊蠟燭",
+//                 price: 50,
+//                 discount: 0,
+//                 option: "",
+//                 id:3,
+//             },
+//             {
+//                 idname: "情人節卡片",
+//                 description: "情人節卡片",
+//                 price: 30,
+//                 discount: 0,
+//                 option: "",
+//                 id:4,
+//             },
+//             {
+//                 idname: "聖誕節卡片",
+//                 description: "聖誕節卡片",
+//                 price: 30,
+//                 discount: 0,
+//                 option: "",
+//                 id:5,
+//             },
+//             {
+//                 idname: "造型數字蠟燭(0)",
+//                 description: "數字0蠟燭",
+//                 price: 30,
+//                 discount: 0,
+//                 option: "",
+//                 id:6,
+//             },
+//             {
+//                 idname: "造型數字蠟燭(1)",
+//                 description: "數字1蠟燭",
+//                 price: 30,
+//                 discount: 0,
+//                 option: "",
+//                 id:7,
+//             }
+//         ]
 
 // const AS0 = this.$store.state.AStorage[0].choice
 // const AS1 = this.$store.state.AStorage[1].choice
 
-const packages = [{
-    description:"一般包裝就是一班包裝",
-    name:"普通包裝",
-    price:0,
-},{
-    description:"高級包裝就是高級包裝",
-    name: "高級包裝",
-    price:60,
-},{
-    description:"特殊包裝就是特殊包裝",
-    name: "特殊包裝",
-    price:120,
-}]
+// const packages = [{
+//     description:"一般包裝就是一班包裝",
+//     name:"普通包裝",
+//     price:0,
+// },{
+//     description:"高級包裝就是高級包裝",
+//     name: "高級包裝",
+//     price:60,
+// },{
+//     description:"特殊包裝就是特殊包裝",
+//     name: "特殊包裝",
+//     price:120,
+// }]
 export default {
     name:'shopping_cart',
     components:{
@@ -277,26 +278,26 @@ export default {
     data(){
         return{
             index: 0,
-            packages,
+            packages: [],
             packageSelected: this.$store.state.PStorage,
-            choices,
+            choices: [],
             // addendacards:this.$store.state.AStorage,
-            addendacards: [
-                {
-                quantity: 1,
-                choice: choices[0],
-                },
-                {
-                quantity: 1,
-                choice: choices[1],
-                }
-            ],
-            fuck:[],
+            // addendacards: [],
+            // addendacards: [
+            //     {
+            //     quantity: 1,
+            //     choice: choices[0],
+            //     },
+            //     {
+            //     quantity: 1,
+            //     choice: choices[1],
+            //     }
+            // ],
         }
     },
     methods:{
         addaddenda(){
-            if(this.addendacards.length < choices.length ){
+            if(this.addendacards.length < this.choices.length ){
                 this.addendacards.push(
                     {
                         quantity: 1,
@@ -309,33 +310,76 @@ export default {
             this.addendacards.splice(index,1);
             console.log(ASt)
         },
+        addToCart(addendacards, cake, cakeQuantity, packageSelected){
+            console.log(addendacards);
+            console.log(cake);
+            console.log(cakeQuantity);
+            console.log(packageSelected);
+            
+        }
         
     },
     watch: {                  // 2 宣告成物件
     },
     computed:{
         notSelectedChoices(){
+            //全部商品過濾每個商品
             return this.choices.filter((choice) => {
+                // console.log('thischoices這個',choices);
+                // 已選的商品如果有回傳true
                 return !this.addendacards.some((addendacard) => {
-                return addendacard.choice === choice
+                    // 已選商品 === 目前商品
+                    // console.log('sing' ,addendacard.choice, choice);
+                    return JSON.stringify(addendacard.choice) === JSON.stringify(choice)
                 })
             })
         },
-        ASt(){
+        // packages(){
+        //     return this.$store.state.PStorage
+        // },
+        addendacards(){
             return this.$store.state.AStorage
         },
         cake(){
             return this.$store.state.storage
         },
-        cakeQ(){
-            return this.$store.state.cakeQ
+        cakeQuantity(){
+            return this.$store.state.cakeQuantity
         },
         // PSt(){
         //     return this.$store.state.PStorage
         // }
     },
     mounted(){
-        this.fuck=this.$store.state.AStorage;
+        const params = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            data: params,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            console.log('這是什麼', data)
+            this.choices = data;
+            // console.log('012', this.choices);
+            // this.addendacards = 
+            //     [
+            //     {
+            //         quantity: 1,
+            //         choice: this.choices[0],
+            //     },
+            //     {
+            //         quantity: 1,
+            //         choice: this.choices[2],
+            //     }
+            //     ]
+            console.log('這個choices', this.choices)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
         // for(let prop in this.$store.state.AStorage){
         //     console.log(this.$store.state.AStorage[prop])
         //     this.addendacards.push(this.$store.state.AStorage[prop]);
@@ -349,7 +393,30 @@ export default {
 
             // return this.$store.state.storage;
             // return this.$store.state.Astorage;
-            
+            const data = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            data: data,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            this.packages = data;
+            console.log('shopping這是什麼packages', this.packages)
+            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            // console.log('thischefcake', this.chefCake);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data);
+            // console.log(datalength);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
             
     },
     updated() {

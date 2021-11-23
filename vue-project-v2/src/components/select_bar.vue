@@ -1,6 +1,6 @@
 <template>
 <div>
-    <select name="" id="select_box">
+    <select name="" id="select_box" @change="send">
         <option value="model">糕體</option>
         <option value="fruits">配料</option>
         <option value="decorations">裝飾</option>

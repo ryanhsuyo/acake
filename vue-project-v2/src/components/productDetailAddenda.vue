@@ -6,7 +6,6 @@
           {{packageSelected.ACCESSORIES_NAME}}
           <!-- {{choices[0]}} -->
           <div class="addenda_cancel_icon">
-            <img src="" alt="" />
           </div>
         </div>
 
@@ -50,7 +49,7 @@
         <div class="addenda_title" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_NAME">
           {{ addendacard.choice.ACCESSORIES_NAME}}
           <div class="addenda_cancel_icon" @click="deladdenda(index)">
-            <img src="" alt="" />
+             <img src="../assets/images/trash_icon.svg" alt="">
           </div>
         </div>
 
@@ -95,11 +94,10 @@
         </div>
       </div>
       <div class="addenda_button_bar">
-        <router-link to="">
-          <button id="addenda_button_backtoproduct" @click="close">
+        
+        <button id="addenda_button_backtoproduct" @click="close">
             返回商品
-          </button>
-        </router-link>
+        </button>
         <router-link to="shopping_cart" >
           <button id="addenda_button_sumbit" @click="addAdditionalToStorage(addendacards); addPStorage(packageSelected)">前往結帳</button>
         </router-link>
@@ -140,7 +138,7 @@ export default {
   methods: {
     close() {
       this.$emit("closepage", !this.show);
-      console.log(this.show);
+      // console.log(this.show);
       document.querySelector('body').style.overflow='auto'
     },
     addaddenda(){
@@ -162,6 +160,7 @@ export default {
     },
     addPStorage(packageSelected){
       this.$store.dispatch('PStorage', packageSelected)
+      console.log('做不出來',packageSelected);
     }
   },
   computed: {
@@ -349,7 +348,6 @@ body {
         width: 35px;
         height: 35px;
         object-fit: fill;
-        background-color: black;
       }
     }
   }
@@ -815,11 +813,10 @@ body {
   max-width: 500px;
   width: 100%;
   margin: auto;
+ 
 }
 #addenda_button_sumbit {
   margin: 0 auto;
-  // margin-top: 20px;
-  // margin-bottom: 50px;
   background-color: $darkGrey;
   width: 120px;
   height: 40px;
@@ -838,8 +835,6 @@ body {
 }
 #addenda_button_backtoproduct {
   margin: 0 auto;
-  // margin-top: 20px;
-  // margin-bottom: 50px;
   background-color: $darkGrey;
   width: 120px;
   height: 40px;

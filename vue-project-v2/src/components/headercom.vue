@@ -32,7 +32,8 @@
             
             <div id="header_div_two_two">
                 <li class="nav_icon"><router-link to="/member_data" id="member_data"><img src="../assets/images/member.svg" alt=""></router-link></li>
-                <li class="nav_icon"><router-link to="/shopping_cart" id="shopping_cart"><img src="../assets/images/shoppingCar.svg" alt=""></router-link></li>
+                <li class="nav_icon"><router-link to="/shopping_cart" id="shopping_cart" ><img src="../assets/images/shoppingCar.svg" alt=""></router-link></li>
+
             <!-- RWD漢堡選單 -->
             <a id="hamburger" href="" @click.prevent="isShow">
                 <span class="hamburger_icon"></span>
@@ -45,13 +46,15 @@
 </template>
 <script>
 import $ from 'jquery'
+import axios from "axios"
 export default {
     name:"headercom",
     props:['openWhat'],
+  
     methods: {
         isShow(){
-             $('#header_nav').toggleClass('show');
-             $(".nav_item").css({"margin":20,});
+            $('#header_nav').toggleClass('show');
+            $(".nav_item").css({"margin":20,});
         },
         // openHeader(e){
         //     e.preventDefault();
@@ -63,6 +66,8 @@ export default {
         //     e.target.classList.add("on");
         //     console.log(e.target);
         // }
+    
+
     },
     mounted() {
         // header陰影
@@ -91,6 +96,9 @@ export default {
                     $('.header_nav').removeClass('show');
                 })
             });
+        
+    
+    
     },
 }
 </script>

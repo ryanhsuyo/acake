@@ -47,7 +47,7 @@
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
-                                <input class="bill_individual_short" type="date" name="" id="" >
+                                <input class="bill_individual_short" type="date" name="" id="myID" >
                             </div>
                             <div class="mark">
                                 <label class="bill_individual_title_long">註記<span class="bill_individual_title_marktext">(選擇宅配需在下方留下您當日方便收件時間)</span></label>
@@ -227,6 +227,13 @@ import titleh1 from "../components/title_h1.vue"
 import coupon from "../components/coupon.vue"
 import axios from "axios"
 import {mapState, mapGetters} from 'vuex'
+// const fp = flatpickr(myID, 
+//     {
+//         minDate: "today",
+//         maxDate: new Date().fp_incr(90)
+//     }
+// )
+
 export default {
     name:'shopping_cart',
     components:{
@@ -244,6 +251,7 @@ export default {
             phone: '',
             address: '',
             otheraddress: '',
+            // myID,
         }
     },
     methods:{
@@ -262,7 +270,7 @@ export default {
                 })
                 .catch( err => cosole.log(err));
 
-        }
+        },
     },
     watch:{
         
@@ -280,6 +288,9 @@ export default {
 
     },
     mounted(){
+        // let that = this;
+        
+        // that.myID = document.getElementById("myID");
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
         axios.post( "http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
@@ -296,7 +307,10 @@ export default {
     },
     my(){
         return this.$store.state.memberId
-    }
+    },
+    // myID(){
+        
+    // }
 
     
 }

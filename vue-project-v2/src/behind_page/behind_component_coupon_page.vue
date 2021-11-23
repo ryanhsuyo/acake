@@ -2,18 +2,18 @@
   <section id="right_section">
     <h1>折價券</h1>
     <div class="content">
-      <input type="text" placeholder="會員ID" @change="checkMemberID($event)"/>
-      <input type="text" placeholder="折扣金額" v-model="coupon_prize" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)"/>
+      <input type="text" placeholder="會員ID" @change="checkMemberID($event)" v-model="memberID"/>
+      <input type="text" placeholder="折扣金額" v-model="discount" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)"/>
       <select v-model="useThreshold">
         <option value="0" selected>使用門檻</option>
         <option :value="item" v-for="(item, index) in useThresholdArr" :key="index">{{item}}</option>
       </select>
-      <input type="text" placeholder="期限" v-model="deadline" @keydown="keyInDate($event)" />
+      <input type="text" maxlength="10" placeholder="期限" v-model="deadline" @keydown="keyInDate($event)" @keyup="keyInDate_II($event)" @change="checkDate($event)"/>
     </div>
     <div class="coupon">
       <div id="coupon" style="transform:scale(.8) translate(-105px,37px);">
     <div id="coupon_left_block">
-      <div id="discount_amout">$<span>{{coupon_prize}}</span></div>
+      <div id="discount_amout">$<span>{{discount}}</span></div>
       <div id="A_cake_text_logo">
         <img src="../assets/images/logo_title.png" alt="" />
       </div>
@@ -31,13 +31,13 @@
       <div id="coupon_right_decoration_img">
         <img src="../assets/images/jellyfish_icon.svg" alt="" />
       </div>
-      <div id="expiration_countdown">即將失效：剩下<span v-html="'&nbsp 10 &nbsp'"></span>天</div>
+      <div id="expiration_countdown">即將失效：剩下&nbsp;<span>{{daysCountDown}}</span>&nbsp;天</div>
     </div>
   </div>
       <!-- <coupon class="ticket" style="transform:scale(.8) translate(-105px,37px);"></coupon> -->
       <input type="text" placeholder="張數" style="transform:translateX(-70px)" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)"/>
     </div>
-    <button>確認送出</button>
+    <button @click="updateCoupon">確認送出</button>
   </section>
 </template>
 <script>
@@ -45,6 +45,7 @@
 import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import axios from 'axios';
+import qs from 'qs';
 export default {
   name: "behind_coupon",
   components: {
@@ -52,8 +53,9 @@ export default {
   },
   data() {
     return {
-      coupon_prize:180,
-      deadline:'2021/12/12',
+      discount: "",
+      deadline: "",
+      memberID: "",
 
       // 使用門檻的選項
       useThreshold: 0,
@@ -66,13 +68,40 @@ export default {
   },
   methods: {
     keyInDate($event){
-      console.log($event.key)
-      if(new RegExp(/[\d]/).test($event.key) || ["Backspace", "ArrowLeft", "ArrowRight"].includes($event.key)){
-        console.log($event.target.value.length);
-        if($event.target.value.length === 3) {$event.target.value += ($event.key + "/")}
-        if($event.target.value.length === 5 && $event.key === "Backspace") {$event.target.value = $event.target.value.slice(0, 4);}
-      }else{
+      // 只允許輸入數字與左右移動、backspace
+      if(new RegExp(/\D/).test($event.key) && !["Backspace", "ArrowLeft", "ArrowRight"].includes($event.key)){
         $event.preventDefault();
+      }
+      // console.log($event.key)
+      // if(new RegExp(/[\d]/).test($event.key) || ["Backspace", "ArrowLeft", "ArrowRight"].includes($event.key)){
+      //   console.log($event.target.value.length);
+      //   if($event.target.value.length === 3) {$event.target.value += ($event.key + "/")}
+      //   if($event.target.value.length === 5 && $event.key === "Backspace") {$event.target.value = $event.target.value.slice(0, 4);}
+      // }else{
+      //   $event.preventDefault();
+      // }
+    },
+    keyInDate_II($event){
+      // 阻擋注音與中文的輸入
+      $event.target.value = $event.target.value.replace(/[^\d|/]/g, "");
+      // 自動加上或刪除 / 符號
+      if($event.target.value.length === 4 && $event.key !== "Backspace"){$event.target.value += "/"}
+      if($event.target.value.length === 4 && $event.key === "Backspace"){
+        $event.target.value = $event.target.value.slice(0, 3);
+      }
+      if($event.target.value.length === 7 && $event.key !== "Backspace"){$event.target.value += "/"}
+      if($event.target.value.length === 7 && $event.key === "Backspace"){
+        $event.target.value = $event.target.value.slice(0, 6);
+      }
+    },
+    checkDate($event){
+      if(isNaN(new Date($event.target.value).getTime())){
+        alert("無效的日期，請重新輸入。");
+        $event.target.value = "";
+      }
+      if(new Date($event.target.value).getTime() < new Date().getTime()){
+        alert("期限至少要大於1天，請重新輸入。");
+        $event.target.value = "";
       }
     },
     keyInNumber($event){
@@ -95,7 +124,19 @@ export default {
         alert("無效的會員ID，請重新輸入。")
         $event.target.value = "";
       }
-    }
+    },
+    updateCoupon(){
+      axios.post("http://localhost/A_cake/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline}))
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    },
+  },
+  computed: {
+    daysCountDown(){
+      let future = new Date(this.deadline).getTime() / 1000;
+      let now = new Date().getTime() / 1000;
+      return Math.ceil((future - now) / 86400) ? Math.ceil((future - now) / 86400) : "";
+    },
   },
   mounted() {
     axios.post("http://localhost/A_cake/BE_selectAllMemberID.php")

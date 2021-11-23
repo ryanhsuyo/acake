@@ -6,16 +6,11 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $data = json_decode(file_get_contents("php://input"));
 
 $ID = $_POST['id'];
-$PAGE = $_POST['page'];
-$PAGE--;
-$PAGE = $PAGE*10;
-$ID++;
-$ID = $ID + $PAGE;
 $name =$_POST['name'];
 $password =$_POST['password'];
 $authority =$_POST['authority'];
 $active =$_POST['active'];
-$sql = "UPDATE `A_cake`.`EMPLOYEE` SET `EMPLOYEE_NAME` = ?, `PASSWORD` = ?, `AUTHORITY` = ?,`ACTIVE` = ? WHERE (`ID` = ?);
+$sql = "UPDATE `EMPLOYEE` SET `EMPLOYEE_NAME` = ?, `PASSWORD` = ?, `AUTHORITY` = ?,`ACTIVE` = ? WHERE (`ID` = ?);
 ";
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$name);

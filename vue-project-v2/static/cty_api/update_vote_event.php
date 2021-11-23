@@ -7,7 +7,7 @@ $title = $_POST['title'];
 $description =$_POST['description'];
 $endDate=$_POST['endDate'];
 $id=($_POST['id']);
-$sql = "UPDATE `A_cake`.`VOTING` SET `EVENT_NAME` = ?, `EVENT_DESCRIPTION` = ?, `END_DATE` = ? WHERE (`ID` = ?);
+$sql = "UPDATE `VOTING` SET `EVENT_NAME` = ?, `EVENT_DESCRIPTION` = ?, `END_DATE` = ? WHERE (`ID` = ?);
 ";
 $statement = getPDO()->prepare($sql);
        $statement -> bindValue(1,$title);

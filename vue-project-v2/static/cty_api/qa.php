@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $id = $_POST['id'];
 //建立SQL語法
 $sql = "SELECT ms.MESSAGE,ms.SENDER,m.MEMBER_ID,m.UNSOLVED_PROBLEM 
-FROM A_cake.MESSAGE ms 
+FROM `MESSAGE` ms 
 JOIN MEMBER m 
 	ON ms.MEMBER_ID = m.MEMBER_ID 
     WHERE ms.MEMBER_ID = ?;";

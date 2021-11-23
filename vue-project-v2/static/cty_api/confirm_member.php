@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $email = $_POST['email'];
 $password = $_POST['password'];
 //建立SQL語法
-$sql = "SELECT * FROM A_cake.MEMBER WHERE EMAIL = ? && PASSWORD = ?;";
+$sql = "SELECT * FROM `MEMBER` WHERE EMAIL = ? && PASSWORD = ?;";
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$email);
 $statement -> bindValue(2,$password);

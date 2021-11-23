@@ -8,7 +8,7 @@ $description =$_POST['description'];
 $startDate=$_POST['startDate'];
 $endDate=$_POST['endDate'];
 $img=$_POST['img'];
-$sql = "INSERT INTO `A_cake`.`VOTING` (`EVENT_NAME`, `EVENT_DESCRIPTION`, `IMG_BLOB`, `START_DATE`, `END_DATE`) VALUES (?,?,?,?,?);
+$sql = "INSERT INTO `VOTING` (`EVENT_NAME`, `EVENT_DESCRIPTION`, `IMG_BLOB`, `START_DATE`, `END_DATE`) VALUES (?,?,?,?,?);
 
 ";
 $statement = getPDO()->prepare($sql);

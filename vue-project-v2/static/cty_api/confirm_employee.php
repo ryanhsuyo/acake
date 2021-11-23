@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $id = $_POST['id'];
 $password = $_POST['password'];
 //建立SQL語法
-$sql = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_NUMBER = ? && PASSWORD = ?;";
+$sql = "SELECT * FROM `EMPLOYEE` WHERE EMPLOYEE_NUMBER = ? && PASSWORD = ?;";
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$id);
 $statement -> bindValue(2,$password);

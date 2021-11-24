@@ -4,8 +4,8 @@
       <h1>主廚推薦蛋糕</h1>
       <searchBar></searchBar>
     </div>
-    <div class="cake">
-      <div class="outline close" v-for="(data, index) in data" :key="index">
+    <div class="cake" >
+      <div class="outline close" @click="addChefCake();open()">
         <div class="img_outline">
           <img src="../assets/images/cho_cake.jpg" alt="" />
           <button>修改照片</button>
@@ -15,41 +15,127 @@
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <p>{{ data.id }}</p>
+                <input type="text">
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <p>{{ data.name }}</p>
+                <input type="text">
               </div>
               <div class="third">
-                <p>8吋價格：</p>
-                <p>{{ data.eight }}</p>
+                <p>吋數:</p>
+                <select name="" id="" v-for="(chefCake, index) in chefCakes" :key="index">
+                  <option>{{chefCake.SIZE}}</option>
+                </select>
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <p>{{ data.test }}</p>
+                <input type="text">
               </div>
             </div>
             <div class="right_infor">
               <div class="first">
-                <p>製作者：</p>
-                <p>{{ data.author }}</p>
-              </div>
-              <div class="second">
-                <p>6吋價格：</p>
-                <p>{{ data.six }}</p>
-              </div>
-              <div class="third">
-                <p>10吋價格：</p>
-                <p>{{ data.ten }}</p>
-              </div>
-              <div class="forth">
-                <p>狀態</p>
+                <p>狀態：</p>
                 <select name="" id="">
-                  <option value="" :selected="data.status == 1">上架</option>
-                  <option value="" :selected="data.status == 2">下架</option>
+                  <!-- <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
+                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option> -->
                 </select>
               </div>
+              <div class="second">
+                <p>價格：</p>
+                <input type="text">
+              </div>
+              <!-- <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div> -->
+              <div class="forth">
+                <p>製作者：</p>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="ingredientOutline">
+
+            <!-- <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>
+            </div> -->
+          </div>
+          <div class="descript">
+            <p>描述：</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="7"
+            ></textarea>
+          </div>
+        </div>
+        <div class="button_outline">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            id="toggle"
+            @click="open"
+          />
+          <div class="button_position">
+            <button>修改</button>
+            <button>確認</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 已有蛋糕 -->
+      <div class="outline close" v-for="(chefCake, index) in chefCakes" :key="index">
+        <div class="img_outline">
+          <img src="../assets/images/cho_cake.jpg" alt="" />
+          <button>修改照片</button>
+        </div>
+        <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+                <p>蛋糕ID：</p>
+                <p>{{chefCake.CAKE_ID}}</p>
+              </div>
+              <div class="second">
+                <p>蛋糕名稱：</p>
+                <p>{{chefCake.CAKE_NAME}}</p>
+              </div>
+              <div class="third">
+                <p>吋數:</p>
+                <p>{{chefCake.SIZE}}吋</p>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <p>{{chefCake.CATEGORY_NAME}}</p>
+              </div>
+            </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>狀態：</p>
+                <select name="" id="">
+                  <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
+                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option>
+                </select>
+              </div>
+              <div class="second">
+                <p>價格：</p>
+                <p>{{chefCake.PRICE}}</p>
+              </div>
+              <!-- <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div> -->
+              <div class="forth">
+                <p>製作者：</p>
+                <p>{{chefCake.NAME}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="ingredientOutline">
+
+            <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>{{name}}
             </div>
           </div>
           <div class="descript">
@@ -59,7 +145,7 @@
               id=""
               cols="30"
               rows="7"
-              v-model="data.description"
+              v-model="chefCake.CAKE_DESCRIPTION"
             ></textarea>
           </div>
         </div>
@@ -79,11 +165,11 @@
   </section>
 </template>
 <script>
-// import "../font/fff.less";
 import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import cakeData from "../components/behind_cake_data";
+import axios from "axios"
 export default {
   name: "chefCake",
   components: {
@@ -93,12 +179,12 @@ export default {
   },
   data() {
     return {
-      showWhat: []
+      showWhat: [],
+      chefCakes:{},
     };
   },
   methods: {
     open: function(e) {
-      // console.log($(e.target).parents('.outline').siblings())
       $(e.target)
         .parents(".outline")
         .siblings()
@@ -106,19 +192,56 @@ export default {
       $(e.target)
         .parents(".outline")
         .toggleClass("close");
+        
+    },
+    addChefCake(){
+      console.log(123)
+      
     }
   },
   computed: {
-    data() {
-      return this.$store.state.chef_cake;
-    }
+    // data() {
+    //   return this.$store.state.chef_cake;
+    // }
   },
   mounted() {
     $("#chefCake")
       .siblings()
       .removeClass("target");
     $("#chefCake").addClass("target");
-  }
+
+    const params = new URLSearchParams();
+        axios({
+            method: "post",
+            url: "http://localhost/A_cake/behindComponentChefCakeSelect.php",
+            data: params,
+        })
+        .then((res) => {
+            // console.log(res.data);
+            let data = res.data;
+            console.log(data);
+            // this.chefCakes = data.filter(item => item.MEMBER_ID === "0")
+            
+            // 
+            for (let index = 0; index < data.length; index++) {
+              const element = data[index];
+              const id = element.ID;
+              console.log(this.chefCakes[id]);
+              if(this.chefCakes[id]){
+                this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
+              }else{
+                this.chefCakes[id] = element
+                this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
+              }
+              
+            }
+            this.$forceUpdate()
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+  },
+
 };
 </script>
 <style scoped lang="scss">
@@ -160,11 +283,13 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   transition: 0.3s;
   .img_outline {
     position: relative;
+    width: 250px;
+    height: 250px;
     flex: 1;
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: fill;
     }
     button {
       position: absolute;
@@ -194,6 +319,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   // flex-direction: column;
   justify-content: space-between;
+
   .left_infor,
   .right_infor {
     display: flex;
@@ -210,10 +336,14 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     }
   }
 }
+.first{
+  height: 50px;
+}
 .descript {
-  margin-top: 20px;
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 7fr;
+  height: 70px;
   textarea {
     width: 100%;
     resize: none;
@@ -276,5 +406,29 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
       display: none;
     }
   }
+}
+.ingredientOutline{
+  max-width: 100%;
+  display: flex;
+
+}
+.ingredient{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 100px;
+  width: 100%;
+  margin: 0;
+  
+}
+.icheckbox{
+max-width: 100px;
+display: flex;
+}
+select{
+  height: 30px;
+  width: 150px;
+  align-items: center;
+  margin: 10px;
 }
 </style>

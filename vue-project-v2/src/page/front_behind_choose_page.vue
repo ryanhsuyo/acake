@@ -403,7 +403,7 @@ scene.add( mesh );
         data.append('password',this.password)
         axios({
           method:"POST",
-          url:'./static/cty_api/confirm_employee.php',
+          url:'http://localhost/static/cty_api/confirm_employee.php',
           data,
         }).then((res)=>{
           console.log(res.data)

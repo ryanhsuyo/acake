@@ -3,7 +3,7 @@
     <!-- <span class="circle_one"></span>
     <span class="circle_two"></span>
     <span class="circle_three"></span> -->
-	<button class="button_h1">
+	<button class="button_h1" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
         <img src="../assets/images/butter.png">{{title}}
         <img src="../assets/images/butter.png">
         <span>GOOOOO !</span>
@@ -24,6 +24,7 @@ export default {
 $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 *{
     box-sizing: border-box;
+    font-family: 'EB Garamond','jf open 粉圓 1.1';
 }
 // span.circle_one{
 //     background-color: #dfb9b0;
@@ -32,7 +33,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 //     border-radius: 5px;
 // }
 .button_h1 {
-    font-family: "EB Garamond";
+    // font-family: "EB Garamond";
     width: 250px;
     height: 75px;
     border-radius: 5px;

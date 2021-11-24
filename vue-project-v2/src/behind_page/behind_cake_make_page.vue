@@ -28,7 +28,7 @@
           />
         </div>
         <!-- 新增物件 -->
-        <div class="outline" v-show="newbox">
+      <div class="outline" v-show="newbox">
       <div class="img_outline">
         <!-- <img src="" alt="" /> -->
         <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
@@ -94,11 +94,11 @@
       </div>
     </div>
   </div>
-        <!-- 新增物件 -->
+        <!---------------------------------- 新增物件 ---------------------------------- >
 
 
         <!-- theFlavor 蛋糕部分 -->
-        <div class="outline close" v-for="(data,index) in theFlavor" :key="index" v-show="choose=='model'">
+        <div class="outline close" v-for="(data,index) in theFlavor" :key="index" v-if="choose=='model'">
       <div class="img_outline">
         <img :src="data.IMG" alt="" class="cake_make_image" />
         <button @click="clickInput(index, $event, data)">修改圖片</button>
@@ -109,15 +109,18 @@
       <div class="left_text">
         <div>
           <p>名稱：</p>
-          <p>{{data.NAME}}</p>
+          <!-- <p>{{data.NAME}}</p> -->
+          <input class="name" type="text" v-model="data.NAME"/>
         </div>
         <div>
           <p>ID：</p>
           <p>{{data.ID}}</p>
+          <!-- <input class="id" type="text" v-model="data.ID"/> -->
         </div>
         <div>
           <p>價格：</p>
-          <p>{{data.PRICE}}</p>
+          <!-- <p>{{data.PRICE}}</p> -->
+          <input class="price" type="text" v-model="data.PRICE"/>
         </div>
       </div>
       <div class="right_text">
@@ -152,25 +155,27 @@
         />
       </div>
       <div class="button_downsite">
-        <button>修改</button>
-        <button>確認</button>
+        <!-- <button>修改</button> -->
+        <button @click="updateData(data)">確認修改</button>
       </div>
     </div>
   </div>
         <!-- theFlavor 蛋糕部分 -->
 
         <!-- theFlavor 水果部分 -->
-        <div class="outline close" v-for="(data,index) in theIngredient" :key="index" v-show="choose=='fruits'" v-if="data.CATEGORY=='2'">
+        <div class="outline close" v-for="(data,index) in theIngredient2" :key="index" v-if=" choose == 'fruits'">
       <div class="img_outline">
-        <img :src="data.IMG" alt="" />
-        <button>修改圖片</button>
+        <img :src="data.IMG" alt="" class="cake_make_image"/>
+        <button @click="clickInput(index, $event, data)">修改圖片</button>
+        <input type="file" style="display: none" class="imageButton" @click="setImage()" @change="pushImage">
       </div>
 
     <div class="text_outline">
       <div class="left_text">
         <div>
           <p>名稱：</p>
-          <p>{{data.INGREDIENT_NAME}}</p>
+          <!-- <p>{{data.INGREDIENT_NAME}}</p> -->
+          <input class="name" type="text" v-model="data.INGREDIENT_NAME"/>
         </div>
         <div>
           <p>ID：</p>
@@ -178,15 +183,16 @@
         </div>
         <div>
           <p>價格：</p>
-          <p>{{data.PRICE}}</p>
+          <!-- <p>{{data.PRICE}}</p> -->
+          <input class="name" type="text" v-model="data.PRICE"/>
         </div>
       </div>
       <div class="right_text">
         <div>
           <p>種類：</p>
           <select name="" id="">
-            <option value="" :selected="data.CATEGORY == '1'">糕體</option>
             <option value="" :selected="data.CATEGORY == '2'">水果</option>
+            <option value="" :selected="data.CATEGORY == '1'">糕體</option>
             <option value="" :selected="data.CATEGORY == '3'">裝飾</option>
           </select>
         </div>
@@ -213,25 +219,27 @@
         />
       </div>
       <div class="button_downsite">
-        <button>修改</button>
-        <button>確認</button>
+        <!-- <button>修改</button> -->
+        <button @click="updateData(data)">確認修改</button>
       </div>
     </div>
   </div>
         <!-- theFlavor 水果部分 -->
 
         <!-- theFlavor 裝飾部分 -->
-        <div class="outline close" v-for="(data,index) in theIngredient" :key="index" v-show="choose=='decorations'" v-if="data.CATEGORY=='3'">
+        <div class="outline close" v-for="(data,index) in theIngredient3" :key="index" v-if="choose == 'decorations'">
       <div class="img_outline">
-        <img :src="data.IMG" alt="" />
-        <button>修改圖片</button>
+        <img :src="data.IMG" alt="" class="cake_make_image"/>
+        <button @click="clickInput(index, $event, data)">修改圖片</button>
+        <input type="file" style="display: none" class="imageButton" @click="setImage()">
       </div>
 
     <div class="text_outline">
       <div class="left_text">
         <div>
           <p>名稱：</p>
-          <p>{{data.INGREDIENT_NAME}}</p>
+          <!-- <p>{{data.INGREDIENT_NAME}}</p> -->
+          <input class="name" type="text" v-model="data.INGREDIENT_NAME"/>
         </div>
         <div>
           <p>ID：</p>
@@ -239,7 +247,8 @@
         </div>
         <div>
           <p>價格：</p>
-          <p>{{data.PRICE}}</p>
+          <!-- <p>{{data.PRICE}}</p> -->
+          <input class="name" type="text" v-model="data.PRICE"/>
         </div>
       </div>
       <div class="right_text">
@@ -273,8 +282,8 @@
         />
       </div>
       <div class="button_downsite">
-        <button>修改</button>
-        <button>確認</button>
+        <!-- <button>修改</button> -->
+        <button @click="updateData(data)">確認修改</button>
       </div>
     </div>
   </div>
@@ -311,7 +320,9 @@ export default {
       flavor: 1,
       ingredient: 1,
       theFlavor:[],
-      theIngredient:[],
+      // theIngredient:[],
+      theIngredient2:[],
+      theIngredient3:[],
       choose:'model',
       // choose:this.theFlavor,
       newFlavor: {
@@ -373,7 +384,7 @@ export default {
       
       if (this.newFlavor.category == 1) {
         
-        axios.post("./static/melody_php/new_flavor.php", qs.stringify({
+        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -388,7 +399,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/new_ingredient.php", qs.stringify({
+        axios.post("http://localhost/melody_php/new_ingredient.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -403,26 +414,75 @@ export default {
         .catch(err => console.log(err));
 
       }
+      alert('已新增完成');
 
+    },
+    // ---------------- 修改配料 ----------------
+    updateData(data){
+      if (data.CATEGORY == undefined) {
+        
+        axios.post("http://localhost/melody_php/update_flavor.php", qs.stringify({
+        id: data.ID,
+        name: data.NAME,
+        description: data.DESCRIPTION,
+        // img: data.IMG,
+        price: data.PRICE,
+        // category: this.newFlavor.category,
+        // available: this.newFlavor.available,
+        })).then((res)=>{
+          console.log(res.data);
+          console.log(data);
+          console.log(data.CATEGORY);
+        }).catch((error)=>{
+          console.log(error);
+        })
 
+      } else {
+        
+        axios.post("http://localhost/melody_php/update_ingredient.php", qs.stringify({
+        id: data.INGREDIENT_ID,
+        name: data.INGREDIENT_NAME,
+        description: data.INGREDIENT_DESCRIPTION,
+        img: data.IMG,
+        // price: data.PRICE,
+        category: data.CATEGORY,
+        // available: this.newFlavor.available,
+        })).then(res => {
+          // this.newFlavor = res.data;
+          // let data = res["data"];
+          console.log(res.data);
+          console.log(data);
+          console.log(data.CATEGORY);
+        })
+        .catch(err => console.log(err));
+
+        // let data= new URLSearchParams();
+        // data.append('name':this.theI)
+      };
+      alert('已更新完成');
     },
     // ---------------- 更新照片 ----------------
     clickInput(index, $event,data) {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
-      this.modifyData=data
+      this.newFlavor = data;
       file.click();
     },
     setImage() {
-      let button =
-        document.querySelectorAll("input[type='file']")[this.theIndex];
+      let button = document.querySelectorAll("input[type='file']")[this.theIndex+1];
       button.onchange = this.pushImage;
+      // console.log(button);
+      // console.log(this.newFlavor);
+      // console.log(this.theIndex);
+      // console.log(data);
+      // alert(data);
     },
     pushImage() {
+      console.log(111)
       let that = this;
       let index = this.theIndex;
       let file =
-        document.querySelectorAll("input[type='file']")[this.theIndex].files[0];
+      document.querySelectorAll("input[type='file']")[this.theIndex+1].files[0];
       this.imgData = file;
       let readFile = new FileReader();
       // console.log(readFile.readAsBinaryString(file));
@@ -431,27 +491,36 @@ export default {
         let image = document.getElementsByClassName("cake_make_image")[index];
         // console.log(readFile.result);
         image.src = readFile.result;
-        const params = new FormData();
-        params.append("img", that.imgData);
-        params.append("test", readFile.result);
-        params.append("index", this.modifyData.ID);
-        axios({
-          method: "post",
-          url: "./static/melody_php/new_flavor.php",
+        // that.data.IMG = readFile.result;
+        // console.log(that.data.CATEGORY);
+        // alert(that.data);
 
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          data: params,
+        if (that.newFlavor.CATEGORY == undefined) {
+        
+        axios.post("http://localhost/melody_php/update_flavor_img.php", qs.stringify({
+        id: parseInt(that.newFlavor.ID),
+        img: readFile.result,
+        })).then((res)=>{
+          console.log(res.data);
+        }).catch((error)=>{
+          console.log(error);
         })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+
+      } else {
+        
+        axios.post("http://localhost/melody_php/update_ingredient_img.php", qs.stringify({
+        id: that.newFlavor.INGREDIENT_ID,
+        img: readFile.result,
+        category: that.newFlavor.CATEGORY,
+        })).then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+      };
+
       });
       // 寫進資料庫
+      alert('圖片已修改完成');
     },
 
   },
@@ -465,7 +534,7 @@ export default {
     $("#cake").addClass("target");
 
     // select糕體
-    axios.post("./static/melody_php/select_flavor.php", qs.stringify({
+    axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({
       flavorId: this.flavor,
       
       }))
@@ -476,39 +545,25 @@ export default {
       })
       .catch(err => console.log(err));
 
-    // select配料&裝飾
-    axios.post("./static/melody_php/select_ingredient.php", qs.stringify({
-      ingredientId: this.ingredient}))
+    // select配料
+    axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({
+      ingredientId: 2}))
       .then(res => {
-        this.theIngredient = res.data;
+        this.theIngredient2 = res.data;
         // let data = res["data"];
         console.log(theIngredient);
       })
       .catch(err => console.log(err));
 
-    // 新增 糕體
-    // axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
-    //   newflavor: this.flavor,
-      
-    //   }))
-    //   .then(res => {
-    //     this.theFlavor = res.data;
-    //     // let theFlavor = res["data"];
-    //     console.log(this.theFlavor);
-    //   })
-    //   .catch(err => console.log(err));
-
-    // 新增 配料&裝飾
-    // axios.post("http://localhost/melody_php/new_ingredient.php", qs.stringify({
-    //   newingredient: this.ingredient,
-
-    //   }))
-    //   .then(res => {
-    //     this.theIngredient = res.data;
-    //     // let data = res["data"];
-    //     console.log(theIngredient);
-    //   })
-    //   .catch(err => console.log(err));
+    // select裝飾
+    axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({
+      ingredientId: 3}))
+      .then(res => {
+        this.theIngredient3 = res.data;
+        // let data = res["data"];
+        console.log(theIngredient);
+      })
+      .catch(err => console.log(err));
 
   },
    watch: {
@@ -557,6 +612,8 @@ main{
   transition: 0.3s;
   .img_outline {
     position:relative;
+    width: 140px;
+    height: 140px;
     img {
       width: 100%;
       height: 100%;
@@ -595,6 +652,10 @@ select{
     div {
       display: grid;
       grid-template-columns: 1fr 4fr;
+      input{
+        margin: 0;
+        padding-left: 10px;
+      }
       p {
         margin: 0;
         padding-left: 10px;
@@ -656,6 +717,9 @@ select{
   justify-content: flex-start;
   align-items: flex-start;
   padding: 10px;
+  input.id{
+    display: none;
+  }
   .img_outline {
     display: none;
   }

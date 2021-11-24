@@ -66,8 +66,8 @@
           :for="choose"
           ><span>{{ choose }} <font-awesome-icon icon="fa-solid fa-xmark" /></span></label>
       </div>
-      <button class="clearall" id='send' @click="overflowReverse()">確認送出</button>
-      <button class="clearall" id='clear' @click="choose_total=[],choose_total_flavor=[]">清空選項</button>
+      <button class="clearall" id='send' @click="overflowReverse()" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">確認送出</button>
+      <button class="clearall" id='clear' @click="choose_total=[],choose_total_flavor=[]" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">清空選項</button>
     </div>
   </div>
 </div>
@@ -101,6 +101,7 @@ export default {
 @import "../assets/style/var.scss";
 * {
   box-sizing: border-box;
+  color:#515151;
 }
 label {
   margin: 5px;
@@ -170,11 +171,13 @@ button {
   right: 180px;
   top: 40px;
   background: transparent;
-  color:black;
+  color:#515151;
+  font-family: 'EB Garamond','jf open 粉圓 1.1';
 }
 #send{
-right: 40px;
+  right: 40px;
   top: 40px;
+  font-family: 'EB Garamond','jf open 粉圓 1.1';
 }
 #choose_label {
   display:grid;

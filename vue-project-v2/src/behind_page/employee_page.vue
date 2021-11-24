@@ -484,7 +484,7 @@ export default {
         const params = new FormData();
         params.append("img", that.imgData);
         params.append("test", readFile.result);
-        params.append("index", this.modifyData.ID);
+        params.append("index", that.modifyData.ID);
         axios({
           method: "post",
           url: "./static/cty_api/img.php",

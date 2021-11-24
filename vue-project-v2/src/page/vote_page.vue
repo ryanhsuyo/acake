@@ -12,7 +12,7 @@
       </p>
     </div>
     <main id="vote_page_main">
-      <h1 class="nowRange">
+      <h1 class="nowRange" style="color:#515151">
         <img src="../assets/images/jellyfish_single.svg" alt="" />現在排名
       </h1>
       <section id="topthree">
@@ -39,7 +39,7 @@
       ></cake-selector>
       <!-- <div id="select_test"></div> -->
       <h1 class="vote_title">
-        <span
+        <span style="color:#515151"
           ><img
             src="../assets/images/jellyfish_single.svg"
             alt=""

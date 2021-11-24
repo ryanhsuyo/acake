@@ -120,14 +120,14 @@ export default {
     },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectMember.php")
+    axios.post("./static/jiawei.api/BE_selectMember.php")
       .then(res => {
         let data = res["data"];
         // console.log(data);
 
         for(let i = 0; i < data.length; i++){
           this.member_data.push({
-            show: true,
+            show: false,
             memberID: data[i].member_ID,
             name: data[i].NAME,
             nickName: data[i].NICKNAME,
@@ -191,7 +191,8 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   padding: 20px;
   background: #f7dcdc;
   border-radius: 5px;
-  transition: all .3s;
+  transition: all .5s;
+  overflow: hidden;
   // transform:scale(2);
   .img_outline {
     flex: 0.5;
@@ -220,7 +221,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
       right: 0;
       font-size: 28px;
       cursor: pointer;
-      transition: all .5s;
+      transition: all .3s;
     }
     label {
       flex: 1;
@@ -233,7 +234,6 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 }
 .outline.-off{
   height: 65px;
-  overflow: hidden;
   .img_outline {
     display: none;
   }

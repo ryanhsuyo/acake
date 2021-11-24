@@ -7,29 +7,37 @@
     <div class="cake" >
       <div class="outline close" @click="addChefCake();open()">
         <div class="img_outline">
-          <img src="../assets/images/cho_cake.jpg" alt="" />
-          <button>修改照片</button>
+          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <button @click="newClickInput($event)">
+            修改照片
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            class="imageButton"
+            @click="setNewImage()"
+          />
         </div>
         <div class="text_outline">
           <div class="infor">
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <input type="text">
+                <input type="text"  disabled v-model="newCakeId" value="data">
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <input type="text">
+                <input type="text" v-model="newCakeName">
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <select name="" id="" v-for="(chefCake, index) in chefCakes" :key="index">
-                  <option>{{chefCake.SIZE}}</option>
+                <select name="" id="" v-for="(size, index) in result" :key="index">
+                  <option>{{size}}吋</option>
                 </select>
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <input type="text">
+                <input type="text" v-model="newCakeFlavor">
               </div>
             </div>
             <div class="right_infor">
@@ -42,7 +50,7 @@
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text">
+                <input type="text" v-model="newCakePrice">
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -77,8 +85,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>修改</button>
-            <button>確認</button>
+            <button @click="updateData(data)">確認修改</button>
           </div>
         </div>
       </div>
@@ -87,8 +94,9 @@
       <!-- 已有蛋糕 -->
       <div class="outline close" v-for="(chefCake, index) in chefCakes" :key="index">
         <div class="img_outline">
-          <img src="../assets/images/cho_cake.jpg" alt="" />
-          <button>修改照片</button>
+          <img :src="data.IMG" alt="" class="cake_make_image" />
+          <button @click="clickInput(index, $event, chefCake)">修改圖片</button>
+          <input type="file" style="display: none" class="imageButton" @click="setImage()">
         </div>
         <div class="text_outline">
           <div class="infor">
@@ -156,8 +164,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>修改</button>
-            <button>確認</button>
+            <button>確認修改</button>
           </div>
         </div>
       </div>
@@ -179,8 +186,21 @@ export default {
   },
   data() {
     return {
+      index: 0,
       showWhat: [],
-      chefCakes:{},
+      chefCakes:[],
+      cake:[],
+      result: [],
+      data: [],
+      newChefCake: {
+        newCakeID:'',
+        newCakeName:'',
+        size:'',
+        newCakeFlavor: '',
+        newCakePrice:'',
+        description: '',
+        // available:1,
+      },
     };
   },
   methods: {
@@ -192,11 +212,113 @@ export default {
       $(e.target)
         .parents(".outline")
         .toggleClass("close");
-        
     },
     addChefCake(){
-      console.log(123)
+    },
+    newClickInput($event){
+      let file = $event.target.nextSibling.nextSibling;
+      file.click();
+    },
+    setNewImage(){
+      let button =
+        document.querySelectorAll("input[type='file']")[0];
+      button.onchange = this.pushNewImage;
+    },
+    pushNewImage(){
+      let that = this;
+      let file = document.querySelectorAll("input[type='file']")[0].files[0];
       
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementById("new_cake_img");
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        that.newFlavor.img = readFile.result;
+      })
+    },
+    clickInput(index, $event,data) {
+      let file = $event.target.nextSibling.nextSibling;
+      this.theIndex = index;
+      this.modifyData=data
+      console.log(index)
+      file.click();
+    },
+    setImage() {
+      // alert(this.theIndex)
+      // let button =
+      //   document.querySelectorAll("input[type='file']")[this.theIndex + 1];
+      // button.onchange = this.pushImage;
+    },
+    pushImage() {
+      let that = this;
+      let index = this.theIndex;
+      let file =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1].files[0];
+      this.imgData = file;
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementsByClassName("cake_make_image")[index];
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        const params = new FormData();
+        params.append("img", that.imgData);
+        params.append("test", readFile.result);
+        params.append("index", this.modifyData.ID);
+        axios({
+          method: "post",
+          url: "./static/melody_php/new_flavor.php",
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+      // 寫進資料庫
+    },
+    // ---------------- 新增配料 ----------------
+    sendData(){
+      
+      if (this.newFlavor.category == 1) {
+        
+        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
+        name: this.newFlavor.name,
+        description: this.newFlavor.description,
+        img: this.newFlavor.img,
+        price: this.newFlavor.price,
+        // category: this.newFlavor.category,
+        // available: this.newFlavor.available,
+        })).then((res)=>{
+          console.log(res.data);
+        }).catch((error)=>{
+          console.log(error);
+        })
+
+      } else {
+        
+        axios.post("./static/jiawei.api/behindComponentChefCakeInsert.php", qs.stringify({
+        name: this.newFlavor.name,
+        description: this.newFlavor.description,
+        img: this.newFlavor.img,
+        price: this.newFlavor.price,
+        category: this.newFlavor.category,
+        })).then(res => {
+          // this.newFlavor = res.data;
+          // let data = res["data"];
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+      }
     }
   },
   computed: {
@@ -205,37 +327,77 @@ export default {
     // }
   },
   mounted() {
-    $("#chefCake")
-      .siblings()
-      .removeClass("target");
+    $("#chefCake").siblings().removeClass("target");
     $("#chefCake").addClass("target");
 
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/A_cake/behindComponentChefCakeSelect.php",
+            url: "./static/jiawei.api/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
+          // console.log(res.data)
             // console.log(res.data);
             let data = res.data;
-            console.log(data);
-            // this.chefCakes = data.filter(item => item.MEMBER_ID === "0")
-            
-            // 
+            // console.log(data);
             for (let index = 0; index < data.length; index++) {
               const element = data[index];
-              const id = element.ID;
-              console.log(this.chefCakes[id]);
+              // console.log(element.CAKE_ID);
+              let id = element.CAKE_ID
+              console.log(id);
+              // let id_arr = [];
+              
               if(this.chefCakes[id]){
                 this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
               }else{
                 this.chefCakes[id] = element
                 this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
               }
-              
+              console.log(this.chefCakes);
+              // if(element.CAKE_ID)
             }
-            this.$forceUpdate()
+            // for (let index = 0; index < data.length; index++) {
+            //   const element = data[index];
+            //   const id = element.ID;
+            //   // console.log(this.chefCakes[id]);
+            //   // console.log('13241r5321這啥',this.chefCakes);
+            //   if(this.chefCakes[id]){
+            //     this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
+            //   }else{
+            //     this.chefCakes[id] = element
+            //     this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
+            //   }
+            //   console.log(this.chefCakes);
+            // }
+            // this.$forceUpdate()
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+         axios({
+            method: "post",
+            url: "./static/jiawei.api/behindComponentChefCakeSelectAll.php",
+            data: params,
+        })
+        .then((res) => {
+            // console.log(res.data);
+            let sizearr = [];
+            let data = res.data;
+            // console.log('到底想撈幾次',data);
+            for (let index = 0; index < data.length; index++) {
+              const element = data[index].SIZE;
+              // console.log('阿是多少',element);
+                sizearr.push(element);
+                // console.log(sizearr);
+
+            }
+            var result = sizearr.filter((item, index, arr) => {
+	          return arr.indexOf(item) === index;
+            })
+            // console.log(result);
+            // 
+              
         })
         .catch((error) => {
             console.log(error);

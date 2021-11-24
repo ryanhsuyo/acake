@@ -8,7 +8,7 @@
                 <div class="product_cake_title" >巧克力蛋糕</div>
                 <span class="price">NT$800</span>
             </div>
-            <button class="like_button">
+            <button class="like_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
                 加入我的最愛
                 <img src="../assets/images/love_icon.svg">
             </button>

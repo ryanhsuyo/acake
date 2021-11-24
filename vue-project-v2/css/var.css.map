@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": ";AAaA,UAAU;EACN,WAAW,EAAE,aAAa;EAC1B,GAAG,EAAE,2BAA2B,CAAA,kBAAkB;;;AAEtD,UAAU;EACN,WAAW,EAAE,kBAAkB;EAC/B,GAAG,EAAE,wCAAwC,CAAA,kBAAkB",
+    "sources": [
+        "../src/assets/style/var.scss"
+    ],
+    "names": [],
+    "file": "var.css"
+}

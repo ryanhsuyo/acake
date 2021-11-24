@@ -9,7 +9,7 @@
                     <h4 class="cake_title">無敵大蛋糕</h4>
                     <p class="price">NT $500</p>
                 </div>
-                <button class="voting">
+                <button class="voting" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
                     加入我的最愛
                     <span></span>
                 </button>

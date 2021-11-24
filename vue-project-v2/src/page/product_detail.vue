@@ -26,11 +26,11 @@
                         <div class="cake_titlebar_content">
                             <div id="cake_titlebar">
                                 <div id="cake_title" v-if="cake && cake.CAKE_NAME">{{cake.CAKE_NAME}}
-                                    <img class="cake_detail_img" src="../assets/images/love_icon.svg" alt="">
+                                    <!-- <img class="cake_detail_img" src="../assets/images/love_icon.svg" alt=""> -->
                                 </div>
                                 <div class="product_details_combination1_button">
                                     <!-- <router-link to="shopping_cart"> -->
-                                        <button id="product_details_combination1_commit" @click="addToStorage(cake); addToStorageQ(counter)">加入購物車</button>
+                                        <button id="product_details_combination1_commit" @click="addToStorage(cake); addToStorageQ(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">加入購物車</button>
                                     <!-- </router-link> -->
                                     <!-- <router-link to="shopping_cart"> -->
 
@@ -61,6 +61,7 @@
                 </div>
                 <div class="productDetailAddenda_block" v-show="showpage" >
                     <productDetailAddenda class="heyBro" v-show="showpage" @closepage="nnn" :show="showpage"></productDetailAddenda>
+                    <div class="blackpage"></div>
                 </div>
             </section>
         </main>
@@ -119,28 +120,38 @@ export default {
         },
         addToStorage(cake){
             this.$store.dispatch('storage', cake)
+        },
+        addAdditionalToStorage(additional){
+        this.$store.dispatch('AStorage', additional)
+        },
+        addToPStorage(packageSelected){
+        this.$store.dispatch('PStorage', packageSelected)
+        console.log('做不出來',packageSelected);
         }
     },
     watch:{
         
     },
     computed:{
-        // cakeQ(){
-        //     return this.$store.state.=
-        // }
+        cakeQuantity(){
+            if(this.$store.state.cakeQuantity != "1"){
+                this.counter =  this.$store.state.cakeQuantity
+            }
+            // this.counter = cakeQuantity
+        },
 
     },
     mounted(){
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("http://localhost/A_cake/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("./static/jiawei.api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
                 this.cake = res.data[0];
                 // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
-                console.log('到底要不要給我cake', this.cake.CAKE_IMAGE_BLOB)
+                console.log('到底要不要給我cake', this.cake)
             // console.log('ROUTE的IID ',this.$route.params.id);
             // for(let i = 0; i < data.length; i++){
             //         let cake = {
@@ -157,62 +168,71 @@ export default {
             // params.append("page", index);
             // axios({
             //     method: "post",
-            //     url: "http://localhost/A_cake/productSelectCakeChangePage.php",
+            //     url: "./static/jiawei.api/productSelectCakeChangePage.php",
             //     data: pageID,
             // })
             }
-        )}
+        )
+         const params = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "./static/jiawei.api/productDetailSelectAdditional.php",
+            data: params,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            console.log('這是什麼', data)
+            this.choices = data;
+            this.addendacards = 
+                [
+                {
+                    quantity: 1,
+                    choice: this.choices[0],
+                },
+                {
+                    quantity: 1,
+                    choice: this.choices[2],
+                }
+                ]
+            console.log('這個choices', this.choices)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        const data = new URLSearchParams();
+        // params.append("page", index);
+        axios({
+            method: "post",
+            url: "./static/jiawei.api/productDetailSelectPackage.php",
+            data: data,
+        })
+        .then((res) => {
+            console.log(res.data);
+            let data = res.data;
+            this.packages = data;
+            console.log('這是什麼packages', this.packages)
+            this.packageSelected = this.packages[0]
+            console.log(this.packageSelected);
+            console.log(this.packageSelected.ACCESSOPIES_PRICE);
+            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
+            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+            // console.log('thischefcake', this.chefCake);
+            // console.log('thisdesingerckae', this.designerCake);
+            // console.log(data);
+            // console.log(datalength);
+            // console.log(data.length); 
+            // this.DesignerCake = res.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+        }
+        
     // }
 }
-            // .then((res) => {
-            //     console.log(res.data);
-            //     this.cake = res.data;
-            //     console.log('蛋糕這個嘉偉', this.cake);
-            //     this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-            //     this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-            //     this.DesignerCake = res.data
-            // })
-            // .catch((error) => {
-            //     console.log(error);
-            // })
-        // {
-        //     const productDetialCakeAndSize = new URLSearchParams();
-        //     // params.append("page", index);
-        //     axios({
-        //         method: "post",
-        //         url: "http://localhost/A_cake/productDetialCakeAndSize.php",
-        //         data: productDetialCakeAndSize,
-        //     })
-        //     .then((res) => {
-        //         console.log(res.data);
-        //         let data = res.data;
-        //         // let datalength = data.length
-        //         // console.log('thischefcake', this.chefCake);
-        //         // console.log('thisdesingerckae', this.designerCake);
-        //         // console.log(data);
-        //         // console.log(datalength);
-        //         // console.log(data.length); 
-        //         // this.DesignerCake = res.data
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
-        // }
-        // return this.$store.state.storage
-        // const params = new URLSearchParams();
-        //     // params.append("page", index);
-        // axios({
-        //     method: "post",
-        //     url: "http://localhost/A_cake/productSelectCakeChangePage.php",
-        //     data: params,
-        // })
-        // .then((res) => {
-        //     let data = res.data;
-        //     console.log(data);
-            
-        // })
-        // .catch((error) => {
-        //     console.log(error);
         
 
 </script>
@@ -695,8 +715,6 @@ body{
     z-index: 99999999;
     // transform: scale(0.5);
     @media screen and (max-width:767.98px){ 
-        
-        // margin-top: 200px;
     }
     .heyBro{
         margin: 100px auto;
@@ -706,7 +724,13 @@ body{
     }
 
 }
+.blackpage{
+    background-color:  rgba(0,0,0,.35);;
+    @media screen and (max-width:767.98px){ 
+        margin: 0;
+    }
 
+}
 
 
 

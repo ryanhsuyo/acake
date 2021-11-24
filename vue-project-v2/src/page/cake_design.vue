@@ -293,11 +293,11 @@
             <div id="finish_designIdea_box">
                 <div class="designIdea_name">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕名稱</p>
-                    <textarea name="" id="" cols="50" rows="2">我的蛋糕名稱</textarea>
+                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱"></textarea>
                 </div>
                 <div class="designIdea">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕設計理念</p>
-                    <textarea name="" id="" cols="50" rows="5">我的蛋糕設計理念...</textarea>
+                    <textarea name="" id="" cols="50" rows="5" placeholder="我的蛋糕設計理念..."></textarea>
                 </div>
             </div>
             <div id="finish_mascot_box">
@@ -323,8 +323,8 @@
                 <article>
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">是否直接購買設計完成的客製化蛋糕?</p>
                     <div class="popup_button">
-                        <button class="yes">是，直接購買</button>
-                        <button class="no">否，加入設計庫</button>
+                        <button class="yes" @click="memberLogin">是，直接購買</button>
+                        <button class="no" @click="memberLogin">否，加入設計庫</button>
                         <!-- <buttontest title=" 是，直接購買"></buttontest> -->
                         <!-- <buttontest title=" 否，加入設計庫"></buttontest> -->
                     </div>
@@ -383,6 +383,8 @@ export default {
     },
     data(){
         return{
+            // 會員自己的創意蛋糕
+
             flavor: 1,
             ingredient: 1,
             // theFlavor:[],
@@ -541,7 +543,29 @@ export default {
         }
     },
     methods:{
-        
+        // 判斷會員是否登入
+        memberLogin(){
+            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign');
+            }else{
+                axios.post("./static/melody_php/new_ingredient.php", qs.stringify({
+                // name: this.newFlavor.name,
+                // description: this.newFlavor.description,
+                img: this.newFlavor.img,
+                // price: this.newFlavor.price,
+                // category: this.newFlavor.category,
+                // available: this.newFlavor.available,
+                })).then(res => {
+                // this.newFlavor = res.data;
+                // let data = res["data"];
+                console.log(res.data);
+                })
+                .catch(err => console.log(err));
+                // this.$router.push('/member_data');
+            }
+        },
+
         // 製作完成
         isFinish(){
             this.isFinish1 = false;
@@ -746,7 +770,7 @@ export default {
         this.showArea = 1;
 
         // -------------------------------------------- 資料處理部分 --------------------------------------------
-                axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                axios.post("./static/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
                 .then(res => {
                     let theFlavor = res["data"];
                     console.log(theFlavor);
@@ -754,7 +778,7 @@ export default {
                 .catch(err => console.log(err));
 
                 // select配料&裝飾
-                axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({ingredientId: this.ingredient}))
+                axios.post("./static/melody_php/select_ingredient.php", qs.stringify({ingredientId: this.ingredient}))
                 .then(res => {
                     let data = res["data"];
                     console.log(data);
@@ -855,7 +879,7 @@ li.nav_item > a#cakeDesign{
             }
         }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.rwd_step{
             z-index: 10;
             display: flex;
@@ -942,7 +966,7 @@ li.nav_item > a#cakeDesign{
         width: 100%;
         height: 100vh;
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         section#outside{
             height: 200vh;
         }
@@ -1081,7 +1105,7 @@ li.nav_item > a#cakeDesign{
         // overflow: hidden;
         display: none;
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         section#second_screen{
             grid-template-columns: 1fr;
         }
@@ -1354,7 +1378,7 @@ li.nav_item > a#cakeDesign{
         //         animation-fill-mode:both;
         //     }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div#production_area{
             grid-column: 1/2;
             order: 2;
@@ -1531,7 +1555,7 @@ li.nav_item > a#cakeDesign{
         }
     }
 
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_model{
             grid-column: 1/2;
             order: 1;
@@ -1706,7 +1730,7 @@ li.nav_item > a#cakeDesign{
         }
     }
 
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_fruits{
             grid-column: 1/2;
             order: 1;
@@ -1880,7 +1904,7 @@ li.nav_item > a#cakeDesign{
                 }
         }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_decorations{
             grid-column: 1/2;
             order: 1;

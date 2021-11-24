@@ -2,10 +2,10 @@
   <section id="right_section">
     <h1>折價券</h1>
     <div class="content">
-      <input type="text" placeholder="會員ID" @change="checkMemberID($event)" v-model="memberID"/>
-      <input type="text" placeholder="折扣金額" v-model="discount" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)"/>
+      <input type="text" placeholder="會員ID" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)" @change="checkMemberID($event)" v-model="memberID"/>
+      <input type="text" placeholder="折扣金額" v-model="discount" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)" @change="keyInNumber_III($event)" maxlength="5"/>
       <select v-model="useThreshold">
-        <option value="0" selected>使用門檻</option>
+        <option value="-1" selected disabled>使用門檻</option>
         <option :value="item" v-for="(item, index) in useThresholdArr" :key="index">{{item}}</option>
       </select>
       <input type="text" maxlength="10" placeholder="期限" v-model="deadline" @keydown="keyInDate($event)" @keyup="keyInDate_II($event)" @change="checkDate($event)"/>
@@ -20,7 +20,7 @@
       <div id="coupon_left_decoration_img">
         <img src="../assets/images/blueberry_cream.png" alt="" />
       </div>
-      <div id="use_threshold">消費滿$&nbsp;<span>{{useThreshold}}</span>&nbsp;即可折抵</div>
+      <div id="use_threshold">消費滿$&nbsp;<span>{{caluseThreshold}}</span>&nbsp;即可折抵</div>
       <img id="bottom_decoration_img" src="../assets/images/snowRWD.svg" />
     </div>
     <div id="coupon_right_block">
@@ -35,7 +35,7 @@
     </div>
   </div>
       <!-- <coupon class="ticket" style="transform:scale(.8) translate(-105px,37px);"></coupon> -->
-      <input type="text" placeholder="張數" style="transform:translateX(-70px)" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)"/>
+      <input type="text" placeholder="張數" style="transform:translateX(-70px)" @keydown="keyInNumber($event)" @keyup="keyInNumber_II($event)" @change="keyInNumber_III($event)" maxlength="1" v-model="quantity"/>
     </div>
     <button @click="updateCoupon">確認送出</button>
   </section>
@@ -56,10 +56,11 @@ export default {
       discount: "",
       deadline: "",
       memberID: "",
+      quantity: "",
 
       // 使用門檻的選項
-      useThreshold: 0,
-      useThresholdArr: [150, 350, 500, 600, 800, 1000, 1500, 2000],
+      useThreshold: -1,
+      useThresholdArr: [0, 150, 350, 500, 600, 800, 1000, 1500, 2000],
 
       // 會員ID的驗證
       allMemberID: [],
@@ -95,6 +96,7 @@ export default {
       }
     },
     checkDate($event){
+      console.log(new Date($event.target.value));
       if(isNaN(new Date($event.target.value).getTime())){
         alert("無效的日期，請重新輸入。");
         $event.target.value = "";
@@ -109,12 +111,17 @@ export default {
       if(new RegExp(/\D/).test($event.key) && !["Backspace", "ArrowLeft", "ArrowRight"].includes($event.key)){
         $event.preventDefault();
       }
-      // 超過五位數後只允許輸入左右移動與backspace
-      if($event.target.value.length > 4 && !["Backspace", "ArrowLeft", "ArrowRight"].includes($event.key)){$event.preventDefault();}
     },
     keyInNumber_II($event){
       // 阻擋注音與中文的輸入
       $event.target.value = $event.target.value.replace(/\D/g, "");
+    },
+    keyInNumber_III($event){
+      // 禁止輸入0
+      if($event.target.value === "0"){
+        alert("輸入值不得為0，請重新輸入。");
+        $event.target.value = "";
+      }
     },
     checkMemberID($event){
       this.validMemberID = false;
@@ -126,9 +133,22 @@ export default {
       }
     },
     updateCoupon(){
-      axios.post("http://localhost/A_cake/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline}))
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      console.log(typeof this.useThreshold);
+      if(this.memberID && this.discount && this.useThreshold != "-1" && this.deadline && this.quantity){
+        axios.post("./static/jiawei.api/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline, quantity: this.quantity}))
+        .then(res => {
+          // console.log(res)
+          alert("成功送出折價券！");
+          this.memberID = "";
+          this.discount = "";
+          this.useThreshold = -1;
+          this.deadline = "";
+          this.quantity = "";
+        })
+        .catch(err => console.log(err));
+      }else{
+        alert("請確認所有欄位均已填寫再送出折價券！");
+      }
     },
   },
   computed: {
@@ -137,9 +157,12 @@ export default {
       let now = new Date().getTime() / 1000;
       return Math.ceil((future - now) / 86400) ? Math.ceil((future - now) / 86400) : "";
     },
+    caluseThreshold(){
+      return parseInt(this.useThreshold) >= 0 ? this.useThreshold : "";
+    },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectAllMemberID.php")
+    axios.post("./static/jiawei.api/BE_selectAllMemberID.php")
       .then(res => {
         this.allMemberID = res.data.map(item => item.MEMBER_ID);
       })

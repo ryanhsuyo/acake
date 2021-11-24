@@ -153,7 +153,7 @@
         methods:{
             deleteFav(cakeID, index){
                 if(confirm("確定要將此蛋糕從收藏中刪除嗎?")){
-                    axios.post("http://localhost/A_cake/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.favCategoryID, cakeID: parseInt(cakeID)}))
+                    axios.post("./static/jiawei.api/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.favCategoryID, cakeID: parseInt(cakeID)}))
                     .then(res => console.log(res))
                     .catch((err) => console.log(err));
 
@@ -162,11 +162,11 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
+            axios.post("./static/jiawei.api/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
-                        console.log(data.length)
-                        console.log(!(data.length === 0));
+                        // console.log(data.length)
+                        // console.log(!(data.length === 0));
 
                         if(!(data.length === 0)){
                             for(let i = 0; i < data.length; i++){

@@ -47,18 +47,74 @@
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
-                                <input class="bill_individual_short" type="date" name="" id="" >
+                                <input class="bill_individual_short" type="date" name="" id="myID" >
                             </div>
                             <div class="mark">
                                 <label class="bill_individual_title_long">註記<span class="bill_individual_title_marktext">(選擇宅配需在下方留下您當日方便收件時間)</span></label>
                                 <textarea class="bill_individual_mark" type="text" name="" id="" placeholder="請留下配送當日您方便收件的時間及其他想傳達給我們的資訊"></textarea>
                             </div>
                             
+                            
+                          
+                            <!-- <div id="coupon">
+                                <div id="coupon_left_block">
+                                <div id="discount_amout">$<span>150</span></div>
+                                <div id="A_cake_text_logo">
+                                    <img src="../assets/images/logo_title.png" alt="">
+                                </div>
+                                <div id="coupon_left_decoration_img">
+                                    <img src="../assets/images/blueberry_cream.png" alt="">
+                                </div>
+                                <div id="use_threshold">消費滿<span>1000</span>即可折抵</div>
+                                <img id="bottom_decoration_img" src="../assets/images/snowRWD.svg" />
+                                </div>
+                                <div id="coupon_right_block">
+                                <div id="expiration">
+                                    <span>使用期限</span>
+                                    <span id="expiration_date">2021/10/31</span>
+                                </div>
+                                <div id="coupon_right_decoration_img">
+                                    <img src="../assets/images/jellyfish_icon.svg" alt="">
+                                </div>
+                                <div id="expiration_countdown">即將失效：剩下<span>10</span>天</div>
+                                </div>
+                            </div> -->
                             <div class="ready_to_checkout_coupon">
-                                <input type="checkbox" name="" class="ready_to_checkout_coupon_click" checked>
-                                <label for="">使用折價卷</label>
+                                <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" checked v-model="couponDiscount">
+                                <label for="">不使用折價卷</label>
                             </div>
-                            <coupon class="coupon"></coupon>
+                                <div class="coupon" v-for="(item, index) in couponData" :key="index" :value="item.discount">
+                                    <div class="ready_to_checkout_coupon">
+                                        <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" v-model="couponDiscount" >
+                                        <label for="">使用折價卷</label>
+                                    </div>
+                                    <div class="coupon_block">
+
+                                        <div class="coupon_left_block">
+                                            <div class="discount_amout">$<span>{{item.discount}}</span></div>
+                                            <div class="A_cake_text_logo">
+                                                <img src="../assets/images/logo_title.png" alt="">
+                                            </div>
+                                            <div class="coupon_left_decoration_img">
+                                                <img src="../assets/images/blueberry_cream.png" alt="">
+                                            </div>
+                                            <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
+                                            <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
+                                        </div>
+                                        <div class="coupon_right_block">
+                                            <div class="expiration">
+                                                <span>使用期限</span>
+                                                <span class="expiration_date">{{item.expiration}}</span>
+                                            </div>
+                                            <div class="coupon_right_decoration_img">
+                                                <img src="../assets/images/jellyfish_icon.svg" alt="">
+                                            </div>
+                                            <div class="expiration_countdown">
+                                                即將失效：剩下&nbsp;<span>{{}}</span>&nbsp;天
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         </form>
                     </div>
 
@@ -143,7 +199,7 @@
                                 <label for="" class="ready_bill_details_second_title">小計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">{{(storage.PRICE * cakeQuantity) + PStorage.ACCESSOPIES_PRICE }}</div>
+                                    <div class="ready_bill_details_product_cake_price">{{storage.PRICE * cakeQuantity + aPrice }}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -151,7 +207,7 @@
                                 <label for="" class="ready_bill_details_second_title">折價卷</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">- 150</div>
+                                    <div class="ready_bill_details_product_cake_price">-{{}}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -160,7 +216,7 @@
                                 <div class="shipping_style_block">
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">宅配
+                                            <input type="radio" name="shipping_style" id="" value="150" v-model="shipPrice">宅配
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -169,7 +225,7 @@
                                     </div>
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">黑貓宅急便
+                                            <input type="radio" name="shipping_style" id="" value="120" v-model="shipPrice">黑貓宅急便
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -183,7 +239,8 @@
                                 <label for="" class="ready_bill_details_second_title">總計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw ready_bill_special_color">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">1780</div>
+                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{storage.PRICE * cakeQuantity + aPrice + parseInt(shipPrice) }}</div>
+                                    <!-- <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{couponDiscount}}</div> -->
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -226,7 +283,15 @@ import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import coupon from "../components/coupon.vue"
 import axios from "axios"
+import qs from "qs"
 import {mapState, mapGetters} from 'vuex'
+// const fp = flatpickr(myID, 
+//     {
+//         minDate: "today",
+//         maxDate: new Date().fp_incr(90)
+//     }
+// )
+
 export default {
     name:'shopping_cart',
     components:{
@@ -244,13 +309,19 @@ export default {
             phone: '',
             address: '',
             otheraddress: '',
+            aPrice: 0,
+            shipPrice: 0,
+            couponDiscount: 0,
+            // 折價券資料
+            couponData: [],
+            // myID,
         }
     },
     methods:{
         submitorder(){
             let memberId = new URLSearchParams;
             memberId.append("memberId", this.memberId);
-            axios.post("http://localhost/A_cake/submitorder.php", memberId)
+            axios.post("./static/jiawei.api/submitorder.php", memberId)
                 .then(res => {
                     // console.log(res);
                     let data = res.data;
@@ -262,27 +333,50 @@ export default {
                 })
                 .catch( err => cosole.log(err));
 
-        }
+        },
     },
     watch:{
         
     },
     computed:{
-        storageDate(){
-            return this.$store.state.storage
+        // storageDate(){
+        //     return this.$store.state.storage
+        // },
+        countDays(expiration){
+            let future = new Date(...expiration).getTime() / 1000;
+            let now = new Date().getTime() / 1000;
+            return Math.ceil((future - now) / 86400);
         },
+        
         ...mapState([
             'storage',
             'PStorage',
-            'AStorage',
+            // 'AStorage',
             'cakeQuantity',
-        ])
 
+        ]),
+        AStorage(){
+            let a = this.$store.state.AStorage;
+            console.log('我是a',a);
+            let sum = 0;
+            for(let i = 0; i < a.length; i++){
+                a[i].price = a[i].quantity * a[i].choice.ACCESSOPIES_PRICE;
+                sum = sum + a[i].price
+                console.log('我是B',sum);
+            }
+            
+            this.aPrice = sum
+            console.log(this.aPrice);
+            return this.$store.state.AStorage
+        },
     },
     mounted(){
+        // let that = this;
+        
+        // that.myID = document.getElementById("myID");
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "./static/jiawei.api/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 // console.log(res);
                 let data = res.data;
@@ -293,10 +387,34 @@ export default {
 
             })
             .catch( err => console.log(err));
+            // 載入折價券資料
+            axios.post("./static/jiawei.api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+                    .then(res => {
+                        // console.log(res);
+                        let data = res["data"];
+                        for(let i = 0; i < data.length; i++){
+                            let couponInfo = {
+                                discount: data[i].DISCOUNT_AMOUNT,
+                                threshold: data[i].USE_THRESHOLD,
+                                expirationForCal: data[i].EXPIRATION_DATE.split(" ")[0].split("-"),
+                                expiration: data[i].EXPIRATION_DATE.split(" ")[0].replace(/-/g, "/"),
+                            };
+
+                            this.couponData.push(couponInfo);
+                            console.log('我家很大',this.couponData);
+
+                            // 顯示所有折價券的按鈕
+                            // this.viewCouponButton = (this.couponData.length > 2 ? true : false);
+                        }
+                    })
+                    .catch(err => console.log(err));
     },
     my(){
         return this.$store.state.memberId
-    }
+    },
+    // myID(){
+        
+    // }
 
     
 }
@@ -704,6 +822,7 @@ router-link{
                         max-width: 200px;
                         width: 100%;
                         display: inline-block;
+                        cursor: pointer;
                     }
                 }
             }
@@ -713,7 +832,9 @@ router-link{
                 flex-direction: column;
                 .bill_payment_style_block{
                     margin-bottom: 5px;
+                    line-height: 30px;
                     display: flex;
+                    cursor: pointer;
                     .img_30{
                         width: 30px;
                         height: 30px;
@@ -811,12 +932,194 @@ router-link{
     font-size: $h4;
     display: flex;
 }
+.coupon_block{
+    display: flex;
+}
 .ready_to_checkout_coupon{
     align-items: center;
 }
 .ready_to_checkout_coupon_click{
     cursor: pointer;
 }
+.coupon{
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 25px;
+                
+                .coupon_option{
+                    display: flex;
+                }
+                .coupon_left_block{
+                    width: 300px;
+                    height: 150px;
+                    background-color: #F0D5CE;
+                    position: relative;
+                    border-right: 1px solid $palePike;
+                    border-top-left-radius: 5px;
+                    overflow: hidden;
+
+                    .discount_amout{
+                        font-size: 50px;
+                        line-height: 56px;
+                        position: absolute;
+                        top: 19px;
+                        left: 27px;
+                        color: #515151;
+                    }
+
+                    .A_cake_text_logo{
+                        width: 60px;
+                        height: 22px;
+                        position: absolute;
+                        top: 33px;
+                        right: 34px;
+                        overflow: hidden;
+
+                        // border: 1px solid blue;
+
+                        > img{
+                            width: 100%;
+                        }
+
+                        > span{
+                            font-size: 5px;
+                            line-height: 4px;
+                            color: #515151
+                        }
+
+                    }
+
+                    .coupon_left_decoration_img{
+                        position: absolute;
+                        left: 15px;
+                        bottom: -10px;
+                        width: 100px;
+                        z-index: 100;
+
+                        >img{
+                            width: 100%;
+                        }
+
+                    }
+
+                    .use_threshold{
+                        font-size: $p;
+                        color: #515151;
+                        position: absolute;
+                        bottom: 30px;
+                        right: 34px;
+                    }
+
+                    .bottom_decoration_img{
+                        width: 200%;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        transform: rotate(180deg);
+                    }
+
+                    > svg{
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        transform: rotate(180deg);
+                    }
+
+                }
+
+                .coupon_right_block{
+                    background-color: #F7EDD4;
+                    position: relative;
+                    width: 120px;
+                    height: 150px;
+                    border-bottom-right-radius: 5px;
+
+                    &::after{
+                        content: "";
+                        display: inline-block;
+                        width: 42px;
+                        height: 42px;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        background-image: linear-gradient(45deg, #EFDCAC 50%, #F7F2F1 50%);
+                        border-bottom-left-radius: 5px;
+                    }
+
+                    .expiration{
+                        width: 80px;
+                        height: 31px;
+                        position: absolute;
+                        top: 30px;
+                        left: 20px;
+                        display: flex;
+                        flex-direction: column;
+
+                        > span:first-child{
+                            align-self: flex-start;
+                            font-size: 12px;
+                            transform: scale(0.83);
+                            transform-origin:center left;
+                            line-height: 14px;
+                            color: #515151;
+                            margin-bottom: 3px;
+                        }
+
+                        .expiration_date{
+                            align-self: flex-end;
+                            font-size: 12px;
+                            line-height: 14px;
+                            color: #515151;
+                        }
+
+                    }
+
+                    .coupon_right_decoration_img{
+                        position: absolute;
+                        top: 65px;
+                        left: 10px;
+                        width: 39px;
+                        height: 39px;
+                        overflow: hidden;
+
+                        > img{
+                            width: 100%;
+                        }
+
+                    }
+
+                    .expiration_countdown{
+                        color: #E8542E;
+                        font-size: 12px;
+                        white-space: nowrap;
+                        transform: scale(.6);
+                        transform-origin:center left;
+                        position: absolute;
+                        line-height: 10px;
+                        left: 28px;
+                        bottom: 32px;
+                    }
+
+                }
+
+                @media (min-width: 1029.98px){
+                // 排版上一列有兩個時用的設定
+                    &:nth-child(2n){
+                        justify-self: start;
+                    }
+
+                    &:nth-child(2n + 1){
+                        justify-self: end;
+                    }
+                }
+
+                @media (max-width: 575.98px){
+                    // 手機版
+                    transform-origin: center top;
+                    transform: scale(.75);
+                }
+
+            }
 .bill_individual_title_short{
     display: flex;
     max-width: 100px;
@@ -1131,7 +1434,150 @@ font-weight: bold;
     }
 }
 
+#coupon {
+  display: inline-flex;
 
+  #coupon_left_block {
+    width: 300px;
+    height: 150px;
+    background-color: #f0d5ce;
+    position: relative;
+    border-right: 1px solid $palePike;
+    border-top-left-radius: 5px;
+
+    #discount_amout {
+      font-size: 50px;
+      line-height: 56px;
+      position: absolute;
+      top: 19px;
+      left: 27px;
+      color: #515151;
+    }
+
+    #A_cake_text_logo {
+      width: 60px;
+      height: 22px;
+      position: absolute;
+      top: 33px;
+      right: 34px;
+      overflow: hidden;
+
+      // border: 1px solid blue;
+
+      > img {
+        width: 100%;
+      }
+
+      > span {
+        font-size: 5px;
+        line-height: 4px;
+        color: #515151;
+      }
+    }
+
+    #coupon_left_decoration_img {
+      // 此處樣式未確定
+      position: absolute;
+      left: 27px;
+      bottom: 20px;
+    }
+
+    #use_threshold {
+      font-size: $p;
+      color: #515151;
+      position: absolute;
+      bottom: 30px;
+      right: 34px;
+    }
+
+    #bottom_decoration_img {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: rotate(180deg);
+    }
+
+    > svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: rotate(180deg);
+    }
+  }
+
+  #coupon_right_block {
+    background-color: #f7edd4;
+    position: relative;
+    width: 120px;
+    height: 150px;
+    border-bottom-right-radius: 5px;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 42px;
+      height: 42px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-image: linear-gradient(45deg, #efdcac 50%, #F7F2F1 50%);
+      border-bottom-left-radius: 5px;
+    }
+
+    #expiration {
+      width: 80px;
+      height: 31px;
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+
+      > span:first-child {
+        align-self: flex-start;
+        font-size: 12px;
+        transform: scale(0.83);
+        transform-origin: center left;
+        line-height: 14px;
+        color: #515151;
+        margin-bottom: 3px;
+      }
+
+      #expiration_date {
+        align-self: flex-end;
+        font-size: 12px;
+        line-height: 14px;
+        color: #515151;
+      }
+    }
+
+    #coupon_right_decoration_img {
+      position: absolute;
+      top: 65px;
+      left: 10px;
+      width: 39px;
+      height: 39px;
+      overflow: hidden;
+
+      > img {
+        width: 100%;
+      }
+    }
+
+    #expiration_countdown {
+      color: #e8542e;
+      font-size: 12px;
+      white-space: nowrap;
+      transform: scale(0.6);
+      transform-origin: center left;
+      position: absolute;
+      line-height: 10px;
+      left: 28px;
+      bottom: 32px;
+    }
+  }
+}
 
 
 </style>

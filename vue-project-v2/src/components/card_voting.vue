@@ -11,7 +11,7 @@
                     <span class="heart_icon"></span>
                     <span class="num">{{vote}}</span>
                 </div>
-                <button class="voting" @click="votePlus()" :class="{'check':choose}">
+                <button class="voting" @click="votePlus()" :class="{'check':choose}" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
                     投票
                     <span></span>
                 </button>

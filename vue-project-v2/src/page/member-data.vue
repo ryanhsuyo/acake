@@ -99,7 +99,7 @@
                                 <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_pass" v-show="item.voteStatus === '1'"/>
                                 <span class="status_text_pass" v-show="item.voteStatus === '1'">人氣投票審核通過</span>
                                 <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_making" v-show="item.voteStatus === '2'"/>
-                                <span class="status_text_making" v-show="item.voteStatus === '2'">蛋糕製作中</span>
+                                <span class="status_text_making" v-show="item.voteStatus === '2'">人氣投票審核中</span>
                             </div>
                             <button class="checking" @click="showDesignDetail(item)">
                                 查看
@@ -427,7 +427,7 @@
                     memberId: this.memberId,
                 };
 
-                axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
+                axios.post("./static/jiawei.api/updateMemberData.php", qs.stringify(inputValues))
                     // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
 
@@ -438,7 +438,7 @@
                 $("body").css("overflow-y", "hidden");
 
                 this.designDetail = {};
-                axios.post("http://localhost/A_cake/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
+                axios.post("./static/jiawei.api/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
                     .then(res => {
                         console.log(res);
                         let data = res["data"];
@@ -507,7 +507,7 @@
 
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
-            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/jiawei.api/selectMemberData.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res.data[0];
@@ -531,7 +531,7 @@
                     .catch(error => console.log(error));
 
             // 載入蛋糕設計資料
-            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/jiawei.api/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
@@ -555,7 +555,7 @@
 
 
             // 載入折價券資料
-            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/jiawei.api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];

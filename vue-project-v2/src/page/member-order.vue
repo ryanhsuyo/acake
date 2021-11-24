@@ -234,7 +234,7 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/jiawei.api/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
@@ -751,10 +751,10 @@ input.search{
 
 // ===== 以下為 Vue transition 的CSS設定 =====
 .slide-enter-active{
-    transition: all .8s ease;
+    transition: all .3s ease;
 }
 .slide-leave-active{
-    transition: all .3s ease;
+    transition: all .2s ease;
 }
 .slide-enter, .slide-leave-to{
     // transform: translateY(-5%);

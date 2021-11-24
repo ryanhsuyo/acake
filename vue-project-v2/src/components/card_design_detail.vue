@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="buying_block">
-                <button class="go_buying">
+                <button class="go_buying" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
                     再次購買
                     <img src="../assets/images/shoppingCar.svg">
                 </button>
@@ -64,7 +64,7 @@ export default {
         },
         updateCakeDesign(){
             console.log(this.designDetail);
-            axios.post("http://localhost/A_cake/updateCakeDescription.php",qs.stringify({cakeID: this.designDetail.cakeID, cakeDescription: this.designDetail.cakeDescription}))
+            axios.post("./static/jiawei.api/updateCakeDescription.php",qs.stringify({cakeID: this.designDetail.cakeID, cakeDescription: this.designDetail.cakeDescription}))
                 .then(res => {
                     console.log(res);
                     this.$emit("cakeDesign", this.designDetail.cakeDescription, this.designDetail.cakeName);

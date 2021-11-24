@@ -12,12 +12,12 @@
     $ingredientId = htmlspecialchars($_POST["ingredientId"]);
 
     // $sql = "SELECT * FROM INGREDIENT WHERE INGREDIENT_ID = ?;";
-    $sql = "SELECT * FROM INGREDIENT;";
+    $sql = "SELECT * FROM INGREDIENT WHERE CATEGORY = ?;";
 
     
 
     $statement = $pdo->prepare($sql);
-    // $statement->bindValue(1, $ingredientId);
+    $statement->bindValue(1, $ingredientId);
     $statement->execute();
     $data = $statement->fetchAll();
 

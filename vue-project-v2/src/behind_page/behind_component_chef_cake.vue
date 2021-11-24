@@ -7,22 +7,23 @@
     <div class="cake" >
       <div class="outline close" @click="addChefCake();open()">
         <div class="img_outline">
-                  <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
           <button @click="newClickInput($event)">
-            修改照片</button>
-              <input
-                  type="file"
-                  style="display: none"
-                  class="imageButton"
-                  @click="setNewImage()"
-                />
+            修改照片
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            class="imageButton"
+            @click="setNewImage()"
+          />
         </div>
         <div class="text_outline">
           <div class="infor">
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <input type="text"  disabled v-model="newCakeID">
+                <input type="text"  disabled v-model="newCakeId" value="data">
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
@@ -84,7 +85,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>確認修改</button>
+            <button @click="updateData(data)">確認修改</button>
           </div>
         </div>
       </div>
@@ -93,8 +94,9 @@
       <!-- 已有蛋糕 -->
       <div class="outline close" v-for="(chefCake, index) in chefCakes" :key="index">
         <div class="img_outline">
-          <img src="../assets/images/cho_cake.jpg" alt="" />
-          <button>修改照片</button>
+          <img :src="data.IMG" alt="" class="cake_make_image" />
+          <button @click="clickInput(index, $event, chefCake)">修改圖片</button>
+          <input type="file" style="display: none" class="imageButton" @click="setImage()">
         </div>
         <div class="text_outline">
           <div class="infor">
@@ -184,10 +186,21 @@ export default {
   },
   data() {
     return {
+      index: 0,
       showWhat: [],
-      chefCakes:{},
+      chefCakes:[],
       cake:[],
       result: [],
+      data: [],
+      newChefCake: {
+        newCakeID:'',
+        newCakeName:'',
+        size:'',
+        newCakeFlavor: '',
+        newCakePrice:'',
+        description: '',
+        // available:1,
+      },
     };
   },
   methods: {
@@ -199,11 +212,8 @@ export default {
       $(e.target)
         .parents(".outline")
         .toggleClass("close");
-        
     },
     addChefCake(){
-      console.log(123)
-      
     },
     newClickInput($event){
       let file = $event.target.nextSibling.nextSibling;
@@ -228,22 +238,24 @@ export default {
         that.newFlavor.img = readFile.result;
       })
     },
-     clickInput(index, $event,data) {
+    clickInput(index, $event,data) {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
       this.modifyData=data
+      console.log(index)
       file.click();
     },
     setImage() {
-      let button =
-        document.querySelectorAll("input[type='file']")[this.theIndex];
-      button.onchange = this.pushImage;
+      // alert(this.theIndex)
+      // let button =
+      //   document.querySelectorAll("input[type='file']")[this.theIndex + 1];
+      // button.onchange = this.pushImage;
     },
     pushImage() {
       let that = this;
       let index = this.theIndex;
       let file =
-        document.querySelectorAll("input[type='file']")[this.theIndex].files[0];
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1].files[0];
       this.imgData = file;
       let readFile = new FileReader();
       // console.log(readFile.readAsBinaryString(file));
@@ -274,6 +286,40 @@ export default {
       });
       // 寫進資料庫
     },
+    // ---------------- 新增配料 ----------------
+    sendData(){
+      
+      if (this.newFlavor.category == 1) {
+        
+        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
+        name: this.newFlavor.name,
+        description: this.newFlavor.description,
+        img: this.newFlavor.img,
+        price: this.newFlavor.price,
+        // category: this.newFlavor.category,
+        // available: this.newFlavor.available,
+        })).then((res)=>{
+          console.log(res.data);
+        }).catch((error)=>{
+          console.log(error);
+        })
+
+      } else {
+        
+        axios.post("http://localhost/A_cake/behindComponentChefCakeInsert.php", qs.stringify({
+        name: this.newFlavor.name,
+        description: this.newFlavor.description,
+        img: this.newFlavor.img,
+        price: this.newFlavor.price,
+        category: this.newFlavor.category,
+        })).then(res => {
+          // this.newFlavor = res.data;
+          // let data = res["data"];
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+      }
+    }
   },
   computed: {
     // data() {
@@ -291,25 +337,40 @@ export default {
             data: params,
         })
         .then((res) => {
+          // console.log(res.data)
             // console.log(res.data);
             let data = res.data;
-            console.log('data練面試',data);
-            // this.chefCakes = data.filter(item => item.MEMBER_ID === "0")
-            
-            // 
+            // console.log(data);
             for (let index = 0; index < data.length; index++) {
               const element = data[index];
-              const id = element.ID;
-              console.log(this.chefCakes[id]);
+              // console.log(element.CAKE_ID);
+              let id = element.CAKE_ID
+              console.log(id);
+              // let id_arr = [];
+              
               if(this.chefCakes[id]){
                 this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
               }else{
                 this.chefCakes[id] = element
                 this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
               }
-              
+              console.log(this.chefCakes);
+              // if(element.CAKE_ID)
             }
-            this.$forceUpdate()
+            // for (let index = 0; index < data.length; index++) {
+            //   const element = data[index];
+            //   const id = element.ID;
+            //   // console.log(this.chefCakes[id]);
+            //   // console.log('13241r5321這啥',this.chefCakes);
+            //   if(this.chefCakes[id]){
+            //     this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
+            //   }else{
+            //     this.chefCakes[id] = element
+            //     this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
+            //   }
+            //   console.log(this.chefCakes);
+            // }
+            // this.$forceUpdate()
         })
         .catch((error) => {
             console.log(error);
@@ -323,17 +384,18 @@ export default {
             // console.log(res.data);
             let sizearr = [];
             let data = res.data;
-            console.log('到底想撈幾次',data);
+            // console.log('到底想撈幾次',data);
             for (let index = 0; index < data.length; index++) {
               const element = data[index].SIZE;
-              console.log('阿是多少',element);
+              // console.log('阿是多少',element);
                 sizearr.push(element);
-                console.log(sizearr);
+                // console.log(sizearr);
+
             }
             var result = sizearr.filter((item, index, arr) => {
 	          return arr.indexOf(item) === index;
             })
-            console.log(result);
+            // console.log(result);
             // 
               
         })

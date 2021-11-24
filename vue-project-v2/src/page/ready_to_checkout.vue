@@ -55,9 +55,11 @@
                             </div>
                             
                             <div class="ready_to_checkout_coupon">
-                                <input type="checkbox" name="" class="ready_to_checkout_coupon_click" checked>
-                                <label for="">使用折價卷</label>
+                                <input type="radio" name="" class="ready_to_checkout_coupon_click" value="0" checked v-model="couponDiscount">
+                                <label for="">不使用折價卷</label>
                             </div>
+                            <input type="radio" name="" class="ready_to_checkout_coupon_click" value="150" checked v-model="couponDiscount">
+                            <label for="">使用折價卷</label>
                             <coupon class="coupon"></coupon>
                         </form>
                     </div>
@@ -143,7 +145,7 @@
                                 <label for="" class="ready_bill_details_second_title">小計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">{{(storage.PRICE * cakeQuantity) + PStorage.ACCESSOPIES_PRICE }}</div>
+                                    <div class="ready_bill_details_product_cake_price">{{storage.PRICE * cakeQuantity + aPrice }}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -151,7 +153,7 @@
                                 <label for="" class="ready_bill_details_second_title">折價卷</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">- 150</div>
+                                    <div class="ready_bill_details_product_cake_price">-{{couponDiscount}}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -160,7 +162,7 @@
                                 <div class="shipping_style_block">
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">宅配
+                                            <input type="radio" name="shipping_style" id="" value="150" v-model="shipPrice">宅配
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -169,7 +171,7 @@
                                     </div>
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="">黑貓宅急便
+                                            <input type="radio" name="shipping_style" id="" value="120" v-model="shipPrice">黑貓宅急便
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -183,7 +185,8 @@
                                 <label for="" class="ready_bill_details_second_title">總計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw ready_bill_special_color">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">1780</div>
+                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{storage.PRICE * cakeQuantity + aPrice + parseInt(shipPrice) - parseInt(couponDiscount)}}</div>
+                                    <!-- <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{couponDiscount}}</div> -->
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -251,6 +254,9 @@ export default {
             phone: '',
             address: '',
             otheraddress: '',
+            aPrice: 0,
+            shipPrice: 0,
+            couponDiscount: 0,
             // myID,
         }
     },
@@ -276,16 +282,31 @@ export default {
         
     },
     computed:{
-        storageDate(){
-            return this.$store.state.storage
-        },
+        // storageDate(){
+        //     return this.$store.state.storage
+        // },
+        
         ...mapState([
             'storage',
             'PStorage',
-            'AStorage',
+            // 'AStorage',
             'cakeQuantity',
-        ])
 
+        ]),
+        AStorage(){
+            let a = this.$store.state.AStorage;
+            console.log('我是a',a);
+            let sum = 0;
+            for(let i = 0; i < a.length; i++){
+                a[i].price = a[i].quantity * a[i].choice.ACCESSOPIES_PRICE;
+                sum = sum + a[i].price
+                console.log('我是B',sum);
+            }
+            
+            this.aPrice = sum
+            console.log(this.aPrice);
+            return this.$store.state.AStorage
+        },
     },
     mounted(){
         // let that = this;
@@ -304,6 +325,7 @@ export default {
 
             })
             .catch( err => console.log(err));
+        // this.$store.
     },
     my(){
         return this.$store.state.memberId

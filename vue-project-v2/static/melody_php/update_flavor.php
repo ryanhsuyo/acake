@@ -11,18 +11,19 @@
     // $memberId = htmlspecialchars($_POST["memberId"]);
     $name = htmlspecialchars($_POST["name"]);
     $description = htmlspecialchars($_POST["description"]);
-    $img = htmlspecialchars($_POST["img"]);
+    // $img = htmlspecialchars($_POST["img"]);
     $price = htmlspecialchars($_POST["price"]);
 
     // $sql = "SELECT * FROM FLAVOR;";
     // $sql = "SELECT * FROM FLAVOR WHERE FLAVOR_ID = ?;";
-    $sql = "UPDATE `FLAVOR` SET `NAME`, `DESCRIPTION`, `IMG`, `PRICE`, `CATEGORY_NAME`, `AVAILABLE` VALUES (?,?,?,?,'cake',1);";
+    $sql = "UPDATE `FLAVOR` SET `NAME`= ?, `DESCRIPTION`= ?, `PRICE`= ?, `CATEGORY_NAME`= 'cake', `AVAILABLE`= 1 WHERE (`ID` = ?);";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $name);
     $statement->bindValue(2, $description);
-    $statement->bindValue(3, $img);
-    $statement->bindValue(4, $price);
+    // $statement->bindValue(3, $img);
+    $statement->bindValue(3, $price);
+    $statement->bindValue(4,$_POST["id"]);
 
     $statement->execute();
     // $data = $statement->fetchAll();

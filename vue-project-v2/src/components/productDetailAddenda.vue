@@ -49,7 +49,7 @@
         <div class="addenda_title" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_NAME">
           {{ addendacard.choice.ACCESSORIES_NAME}}
           <div class="addenda_cancel_icon" @click="deladdenda(index)">
-             <img src="../assets/images/trash_icon.svg" alt="">
+            <img src="../assets/images/trash_icon.svg" alt="">
           </div>
         </div>
 

@@ -151,7 +151,7 @@ export default {
                 console.log(res.data[0])
                 this.cake = res.data[0];
                 // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
-                console.log('到底要不要給我cake', this.cake.CAKE_IMAGE_BLOB)
+                console.log('到底要不要給我cake', this.cake)
             // console.log('ROUTE的IID ',this.$route.params.id);
             // for(let i = 0; i < data.length; i++){
             //         let cake = {

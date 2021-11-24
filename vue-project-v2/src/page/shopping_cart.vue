@@ -351,7 +351,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectAdditional.php",
+            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -393,7 +393,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectPackage.php",
+            url: "http://localhost/A_cake/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

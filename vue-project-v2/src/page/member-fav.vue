@@ -165,7 +165,7 @@
                     // console.log(index);
                     let categoryId = this.favFolder[index].categoryID
                     // console.log(categoryId);
-                    axios.post("./static/jiawei.api/deleteFavFolder.php",qs.stringify({categoryId: categoryId}))
+                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryId}))
                         .then(res => {
                             // console.log(res);
                             this.favFolder = [];
@@ -181,7 +181,7 @@
                 let newName = prompt("請輸入資料夾名稱");
                 if(newName === "") alert("資料夾名稱未輸入！")
                 if(newName === true){
-                    axios.post("./static/jiawei.api/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
+                    axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
                             .then(res => {
                                 // console.log(res);
                                 this.favFolder = [];
@@ -196,7 +196,7 @@
                 this.$set(this.editTitle, index, boo);
             },
             updateTitle(index){
-                axios.post("./static/jiawei.api/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
+                axios.post("http://localhost/A_cake/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
                     .then(res => {
                         // console.log(res);
                     })
@@ -208,7 +208,7 @@
                 });
             },
             // addPhoto(){
-            //     axios.post("./static/jiawei.api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
             //         .then(res => {
             //             // console.log(res);
             //             let data = res["data"];
@@ -229,7 +229,7 @@
 
             selectFolder(){
                 // axios做兩次呼叫取資料合併成一個物件時，第二次取得的資料有問題，重整後不會渲染畫面，下面暫且先合併成一次axios呼叫做處理
-                axios.post("./static/jiawei.api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+                axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
@@ -280,7 +280,7 @@
             },
         },
         mounted(){
-            //     axios.post("./static/jiawei.api/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
             //                 // console.log(res);
         //                 let data = res["data"];

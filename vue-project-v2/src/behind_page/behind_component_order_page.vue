@@ -5,7 +5,7 @@
       <searchBar></searchBar>
     </div>
     <div class="cake">
-      <div class="detail_outline"  v-for="(data ,index) in order_data" :key="index" :style="hideContent">
+      <div class="detail_outline"  v-for="(data ,index) in order_data" :key="index" :class="{'scroll_y':hideOrderContent}">
         <!-- <span id="switch_button"><font-awesome-icon icon="fa-solid fa-sort-up" /></span> -->
         <span id="switch_button" @click="open"
           ><font-awesome-icon icon="fa-solid fa-sort-down"
@@ -133,16 +133,19 @@ export default {
       // console.log($(e.target).parents('.detail_outline').siblings())
         $(e.target).parents('.detail_outline').siblings().removeClass('open');
         $(e.target).parents('.detail_outline').toggleClass('open');
+
+        this.hideOrderContent = !this.hideOrderContent;
     },
   },
-  computed: {
-    hideContent(){
-      return 
-    }
-  },
+  // computed: {
+  //   hideContent(){
+  //     console.log(this.hideOrderContent);
+  //     return {'overflow-y': this.hideOrderContent ? '' : 'scroll'};
+  //   },
+  // },
   mounted() {
     
-    axios.post("./static/jiawei.api/BE_selectAllOrder.php")
+    axios.post("http://localhost/A_cake/BE_selectAllOrder.php")
       .then(res => {
         let data = res["data"];
         console.log(data);
@@ -265,6 +268,9 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   #switch_button {
     transform: rotate(-180deg);
   }
+}
+.detail_outline.scroll_y{
+  overflow-y: scroll;
 }
 .text_outline {
   display: flex;

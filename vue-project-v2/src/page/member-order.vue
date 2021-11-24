@@ -234,7 +234,7 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/jiawei.api/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];

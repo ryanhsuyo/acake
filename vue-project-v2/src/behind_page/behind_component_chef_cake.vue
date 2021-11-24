@@ -306,7 +306,7 @@ export default {
 
       } else {
         
-        axios.post("http://localhost/A_cake/behindComponentChefCakeInsert.php", qs.stringify({
+        axios.post("./static/jiawei.api/behindComponentChefCakeInsert.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -333,7 +333,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/A_cake/behindComponentChefCakeSelect.php",
+            url: "./static/jiawei.api/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -377,7 +377,7 @@ export default {
         })
          axios({
             method: "post",
-            url: "http://localhost/A_cake/behindComponentChefCakeSelectAll.php",
+            url: "./static/jiawei.api/behindComponentChefCakeSelectAll.php",
             data: params,
         })
         .then((res) => {

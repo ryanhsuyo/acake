@@ -135,7 +135,7 @@ export default {
     updateCoupon(){
       console.log(typeof this.useThreshold);
       if(this.memberID && this.discount && this.useThreshold != "-1" && this.deadline && this.quantity){
-        axios.post("http://localhost/A_cake/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline, quantity: this.quantity}))
+        axios.post("./static/jiawei.api/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline, quantity: this.quantity}))
         .then(res => {
           // console.log(res)
           alert("成功送出折價券！");
@@ -162,7 +162,7 @@ export default {
     },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectAllMemberID.php")
+    axios.post("./static/jiawei.api/BE_selectAllMemberID.php")
       .then(res => {
         this.allMemberID = res.data.map(item => item.MEMBER_ID);
       })

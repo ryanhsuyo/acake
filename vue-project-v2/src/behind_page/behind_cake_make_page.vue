@@ -5,13 +5,13 @@
       <section id="search_site">
         <!-- <selectBar></selectBar> -->
         <!-- selectBar -->
-        <select name="" id="select_box" v-model='choose'>
+        <select name="" id="select_box" v-model='choose' :style="{opacity:'70%'}">
             <option value="model">糕體</option>
             <option value="fruits">配料</option>
             <option value="decorations">裝飾</option>
         </select>
         <!-- selectBar -->
-        <search-bar></search-bar>
+        <search-bar :style="{opacity:'70%'}"></search-bar>
       </section>
       <section class="cake_data">
         <!-- <p>{{newFlavor}}</p> -->

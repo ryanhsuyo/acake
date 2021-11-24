@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
     
     <router-view></router-view>
     
@@ -25,5 +25,7 @@ export default {
 
 </script>
 <style  lang="scss">
-
+  // *{
+  //   font-family: 'EB Garamond','jf open 粉圓 1.1';
+  // }
 </style>

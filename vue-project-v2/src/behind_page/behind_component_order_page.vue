@@ -5,7 +5,7 @@
       <searchBar></searchBar>
     </div>
     <div class="cake">
-      <div class="detail_outline"  v-for="(data,index) in order_data" :key="index">
+      <div class="detail_outline"  v-for="(data ,index) in order_data" :key="index" :style="hideContent">
         <!-- <span id="switch_button"><font-awesome-icon icon="fa-solid fa-sort-up" /></span> -->
         <span id="switch_button" @click="open"
           ><font-awesome-icon icon="fa-solid fa-sort-down"
@@ -22,11 +22,11 @@
               <p class="content">{{data.member_id}}</p>
             </div>
             <div class="third_item">
-              <p>狀態</p>
-              <select name="" id="">
+              <!-- <p>狀態</p> -->
+              <!-- <select>
                 <option value="" :selected="data.status==0">奧客</option>
                 <option value="" :selected="data.status==1">超級奧客</option>
-              </select>
+              </select> -->
             </div>
           </div>
           <div class="second_line">
@@ -60,7 +60,7 @@
             </div>
             <div class="second_item">
               <p>折價</p>
-              <p class="content">{{data.coupon.prize}}</p>
+              <p class="content">{{data.coupon.discount}}</p>
             </div>
             <div class="third_item">
               <p>運費</p>
@@ -80,36 +80,27 @@
             </div>
           </div>
         </div>
-        <div class="combo_outline">
+        <div class="combo_outline" v-for="(item, index) in data.combination" :key="index">
           <div class="combo_title">
-            <h1>組合1：</h1>
+            <h1>組合{{index + 1}}：</h1>
           </div>
           <div class="combo_item">
-            <p>{{data.cake_prize.name}}</p>
-            <p>{{data.pake_prize.name}}</p>
-            <p>{{data.card_prize.name}}</p>
+            <p v-for="(innerItem, innerIndex) in item.name" :key="innerIndex">{{innerItem}}</p>
             <p>小計</p>
           </div>
           <div class="combo_prize_outline">
-            <div class="combo_prize">
-              <p class="prize">{{data.cake_prize.prize}}</p>
+            <div class="combo_prize" v-for="(innerItem, innerIndex) in item.quantity" :key="innerIndex">
+              <p class="prize">{{innerItem}}</p>
             </div>
             <div class="combo_prize">
-              <p class="prize">{{data.pake_prize.prize}}</p>
-            </div>
-            <div class="combo_prize">
-              <p class="prize">{{data.card_prize.prize}}</p>
-            </div>
-            <div class="combo_prize">
-              <p class="prize">{{data.total}}</p>
+              <p class="prize">{{item.subTotal}}</p>
             </div>
           </div>
         </div>
         <div class="description">
-          <input type="text" />
+          <input type="text" v-model="data.note"/>
           <div class="button_zone">
-            <button>修改</button>
-            <button>確認</button>
+            <button>確認修改</button>
           </div>
         </div>
       </div>
@@ -122,15 +113,20 @@ import $ from "jquery";
 import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import order from "../components/order_detail";
+import axios from 'axios';
 export default {
   name: "order_detail",
   components: {
     behindHeader,
     searchBar,
     order,
+
+    hideOrderContent: true,
   },
   data() {
-    return {};
+    return {
+      order_data: [],
+    };
   },
   methods: {
     open:　function(e){
@@ -139,14 +135,73 @@ export default {
         $(e.target).parents('.detail_outline').toggleClass('open');
     },
   },
+  computed: {
+    hideContent(){
+      return 
+    }
+  },
   mounted() {
-    $("#order").siblings().removeClass("target");
-    $("#order").addClass("target");
+    
+    axios.post("http://localhost/A_cake/BE_selectAllOrder.php")
+      .then(res => {
+        let data = res["data"];
+        console.log(data);
+
+        let orderCounter = -1; // 紀錄正在操作的訂單物件的index
+        let orderChecker = "-1"; // 判斷是否加入新的訂單物件，第一筆資料必定開始加入
+        let totalPriceCounter = 0;  // 計算訂單總額
+        let productCounter = -1;  // 紀錄正在操作的購物組合的index
+        let productChecker = "-1";  // 判斷是否加入新的購物組合
+
+        for(let i = 0; i < data.length; i++){
+
+          // 這個 if 操作的單位是以訂單為準
+          if(orderChecker !== data[i].ORDER_ID){
+            // 加入新的訂單物件
+            orderChecker = data[i].ORDER_ID;
+            this.order_data.push({
+              order_id: data[i].ORDER_ID,
+              member_id: data[i].MEMBER_ID,
+              order_date: data[i].CREATE_DATE.split(" ")[0],
+              send_date: !!data[i].SHIPPING_DATE !== false ? data[i].SHIPPING_DATE.split(" ")[0] : "尚未寄出",
+              complete_date: !!data[i].FINISHED_DATE !== false ? data[i].FINISHED_DATE.split(" ")[0] : "尚未完成",
+              recipient: data[i].RECEIVER,
+              phone: data[i].PHONE,
+              coupon: {id: data[i].COUPON_ID, discount: !!data[i].DISCOUNT_AMOUNT !== false ? data[i].DISCOUNT_AMOUNT : "0"},
+              shipping: data[i].DELIVER_FEE, 
+              address: data[i].ADDRESS,
+              note: data[i].NOTE,
+              combination: [],
+            });
+            // combination: [{name: [], quantity: []}, {}, {}],
+
+            // 初始化給這個訂單物件用的總金額
+            totalPriceCounter = 0 - parseInt(!!data[i].DISCOUNT_AMOUNT !== false ? data[i].DISCOUNT_AMOUNT : "0") + parseInt(data[i].DELIVER_FEE);
+            orderCounter++;
+            productCounter = -1;  // 初始化
+          }
+
+          // 這個 if 操作的單位是以購物組合為準
+          if(productChecker !== data[i].CAKE_ID){
+            productChecker = data[i].CAKE_ID;
+            this.order_data[orderCounter].combination.push({name: [data[i].CAKE_NAME], quantity: [data[i].QUANTITY], subTotal: data[i].PRICE});  // 第一筆放入這個購物組合的蛋糕
+            productCounter++;
+            // 累計訂單總金額
+            totalPriceCounter += parseInt(data[i].PRICE);
+            this.order_data[orderCounter].total = totalPriceCounter;
+          }
+
+          this.order_data[orderCounter].combination[productCounter].name.push(data[i].ACCESSORIES_NAME);
+          this.order_data[orderCounter].combination[productCounter].quantity.push(data[i].ACCESSORIES_QUANTITY);
+
+        }
+      })
+      .catch(err => console.log(err));
   },
   computed:{
-    order_data(){
-      return this.$store.state.order_detail
-    }
+    // order_data(){
+    //   return this.$store.state.order_detail
+    // }
   }
 };
 </script>
@@ -177,7 +232,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
     justify-content: space-between;
   }
 }
-.detail_outline {
+.detail_outline{
   height: 90px;
   transition: 0.5s;
   overflow: hidden;

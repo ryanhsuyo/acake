@@ -293,11 +293,11 @@
             <div id="finish_designIdea_box">
                 <div class="designIdea_name">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕名稱</p>
-                    <textarea name="" id="" cols="50" rows="2">我的蛋糕名稱</textarea>
+                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱"></textarea>
                 </div>
                 <div class="designIdea">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕設計理念</p>
-                    <textarea name="" id="" cols="50" rows="5">我的蛋糕設計理念...</textarea>
+                    <textarea name="" id="" cols="50" rows="5" placeholder="我的蛋糕設計理念..."></textarea>
                 </div>
             </div>
             <div id="finish_mascot_box">
@@ -855,7 +855,7 @@ li.nav_item > a#cakeDesign{
             }
         }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.rwd_step{
             z-index: 10;
             display: flex;
@@ -942,7 +942,7 @@ li.nav_item > a#cakeDesign{
         width: 100%;
         height: 100vh;
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         section#outside{
             height: 200vh;
         }
@@ -1081,7 +1081,7 @@ li.nav_item > a#cakeDesign{
         // overflow: hidden;
         display: none;
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         section#second_screen{
             grid-template-columns: 1fr;
         }
@@ -1354,7 +1354,7 @@ li.nav_item > a#cakeDesign{
         //         animation-fill-mode:both;
         //     }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div#production_area{
             grid-column: 1/2;
             order: 2;
@@ -1531,7 +1531,7 @@ li.nav_item > a#cakeDesign{
         }
     }
 
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_model{
             grid-column: 1/2;
             order: 1;
@@ -1706,7 +1706,7 @@ li.nav_item > a#cakeDesign{
         }
     }
 
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_fruits{
             grid-column: 1/2;
             order: 1;
@@ -1880,7 +1880,7 @@ li.nav_item > a#cakeDesign{
                 }
         }
     }
-    @media all and (max-width: 768px){
+    @media all and (max-width: 976px){
         div.choose_cake_decorations{
             grid-column: 1/2;
             order: 1;

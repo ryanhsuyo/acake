@@ -99,7 +99,7 @@
                                 <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_pass" v-show="item.voteStatus === '1'"/>
                                 <span class="status_text_pass" v-show="item.voteStatus === '1'">人氣投票審核通過</span>
                                 <font-awesome-icon icon="fa-solid fa-circle" class="status_ball_making" v-show="item.voteStatus === '2'"/>
-                                <span class="status_text_making" v-show="item.voteStatus === '2'">蛋糕製作中</span>
+                                <span class="status_text_making" v-show="item.voteStatus === '2'">人氣投票審核中</span>
                             </div>
                             <button class="checking" @click="showDesignDetail(item)">
                                 查看

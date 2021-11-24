@@ -165,8 +165,8 @@
             axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
-                        console.log(data.length)
-                        console.log(!(data.length === 0));
+                        // console.log(data.length)
+                        // console.log(!(data.length === 0));
 
                         if(!(data.length === 0)){
                             for(let i = 0; i < data.length; i++){

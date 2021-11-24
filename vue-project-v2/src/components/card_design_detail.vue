@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="buying_block">
-                <button class="go_buying">
+                <button class="go_buying" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
                     再次購買
                     <img src="../assets/images/shoppingCar.svg">
                 </button>

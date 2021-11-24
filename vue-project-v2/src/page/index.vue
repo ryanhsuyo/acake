@@ -145,7 +145,7 @@
                     </div>
                     <div class="first_knowledge_img">
                         <img src="../assets/images/int_cho_cake.gif" alt="">
-                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="first_knowledge_button">Buy New</button></router-link>
+                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="first_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
                     </div>
                     <div class="first_knowledge_text">
                         <h2>維也納朱古力杏仁蛋糕的由來</h2>
@@ -166,7 +166,7 @@
                     </div>
                     <div class="third_knowledge_img">
                         <img src="../assets/images/int_sch_cake.gif" alt="">
-                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="third_knowledge_button">Buy New</button></router-link>
+                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="third_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
                     </div>
                     <div class="third_knowledge_text">
                         <h2>黑森林蛋糕由來</h2>

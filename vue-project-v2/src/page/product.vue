@@ -1,6 +1,6 @@
 <template>
     <div>
-        <headercom></headercom>
+        <headercom openWhat="product"></headercom>
         <!-- 主廚/創意頁面切換 -->
         <div class="product_page_main_bar">
             <div class="change_page">

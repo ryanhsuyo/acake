@@ -1,6 +1,6 @@
 <template>
     <div>
-        <headercom voteon=1 qaon=0 saleon=0 cakeon=0></headercom>
+        <headercom voteon=1 qaon=0 saleon=0 cakeon=0 openWhat="vote"></headercom>
         <div id="vote_page_main_bar">
             <titleh1 title="人氣投票"></titleh1>
             <p>

@@ -110,7 +110,7 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/behindComponentPlusSelect.php",
+            url: "./static/api/behindComponentPlusSelect.php",
             data: params,
         })
         .then((res) => {

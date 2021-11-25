@@ -30,8 +30,8 @@ name: "switchTab",
     },
     mounted(){
         {
-            // axios.post("http://localhost/A_cake/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-        axios.post("http://localhost/A_cake/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+            // axios.post("./static/api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+        axios.post("./static/api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 console.log('讓我看看res.data',res.data);
                 let data = res.data;

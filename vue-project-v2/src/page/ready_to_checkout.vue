@@ -321,7 +321,7 @@ export default {
         submitorder(){
             let memberId = new URLSearchParams;
             memberId.append("memberId", this.memberId);
-            axios.post("http://localhost/A_cake/submitorder.php", memberId)
+            axios.post("./static/api/submitorder.php", memberId)
                 .then(res => {
                     // console.log(res);
                     let data = res.data;
@@ -376,7 +376,7 @@ export default {
         // that.myID = document.getElementById("myID");
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "./static/api/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 // console.log(res);
                 let data = res.data;
@@ -388,7 +388,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];

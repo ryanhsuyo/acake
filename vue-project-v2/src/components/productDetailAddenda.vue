@@ -185,7 +185,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            url: "./static/api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -213,7 +213,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            url: "./static/api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -240,7 +240,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+    //         url: "./static/api/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -269,7 +269,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "http://localhost/A_cake/productDetailSelectPackage.php",
+      //       url: "./static/api/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {

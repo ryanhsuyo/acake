@@ -252,7 +252,7 @@ export default {
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "http://localhost/static/cty_api/quire_member.php",
+      url: "./static/cty_api/quire_member.php",
       data: params,
     }).then((res) => {
       // console.log(res.data);
@@ -265,7 +265,7 @@ export default {
     // 產生頁數寫入pages[]
     this.$axios({
       method: "get",
-      url: "http://localhost/static/cty_api/quire_employee_total.php",
+      url: "./static/cty_api/quire_employee_total.php",
     }).then((res) => {
       let pages = Math.ceil(res.data / 10);
       for (let i = 1; i <= pages; i++) {
@@ -296,7 +296,7 @@ export default {
       params.append("name", newValue);
       axios({
         method: "post",
-        url: "http://localhost/static/cty_api/select_member.php",
+        url: "./static/cty_api/select_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -309,7 +309,7 @@ export default {
             params.append("page", this.sn - 1);
             this.$axios({
               method: "POST",
-              url: "http://localhost/static/cty_api/quire_member.php",
+              url: "./static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -328,7 +328,7 @@ export default {
           params.append("page", this.sn - 1);
           this.$axios({
               method: "POST",
-              url: "http://localhost/static/cty_api/quire_member.php",
+              url: "./static/cty_api/quire_member.php",
               data: params,
             }).then((response) => {
               this.data = response.data;
@@ -348,7 +348,7 @@ export default {
       params.append("page", index);
       axios({
         method: "post",
-        url: "http://localhost/static/cty_api/quire_member.php",
+        url: "./static/cty_api/quire_member.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -387,7 +387,7 @@ export default {
       // const json = encodeURI(JSON.stringify(data),'utf-8')
       axios({
         method: "post",
-        url: "http://localhost/static/cty_api/join_employee.php",
+        url: "./static/cty_api/join_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -419,7 +419,7 @@ export default {
       const json = encodeURI(JSON.stringify(data), "utf-8");
       axios({
         method: "post",
-        url: "http://localhost/static/cty_api/update_employee.php",
+        url: "./static/cty_api/update_employee.php",
 
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -487,7 +487,7 @@ export default {
         params.append("index", that.modifyData.ID);
         axios({
           method: "post",
-          url: "http://localhost/static/cty_api/img.php",
+          url: "./static/cty_api/img.php",
 
           headers: {
             "Content-Type": "multipart/form-data",

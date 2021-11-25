@@ -230,8 +230,8 @@ export default {
     },
     mounted(){
         {
-        // axios.post("http://localhost/A_cake/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-            axios.post("http://localhost/A_cake/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+        // axios.post("./static/api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("./static/api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 console.log(res.data);
                 let data = res["data"];
@@ -244,8 +244,8 @@ export default {
             })
         }
         {
-        // axios.post("http://localhost/A_cake/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-            axios.post("http://localhost/A_cake/productDetailSelectPackage.php")
+        // axios.post("./static/api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("./static/api/productDetailSelectPackage.php")
             .then(res => {
                 console.log(res.data);
                 this.packageSelected = res.data[0];
@@ -259,7 +259,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            url: "./static/api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -287,7 +287,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            url: "./static/api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

@@ -64,7 +64,7 @@ export default {
             reader.addEventListener("load", function(){
                 document.getElementById("avatar_pic").src = reader.result;
 
-                axios.post("http://localhost/A_cake/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
+                axios.post("./static/api/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
                     .then(res => {
                         // console.log(res);
                     })
@@ -76,7 +76,7 @@ export default {
     mounted(){
         document.getElementById("avatar_upload").addEventListener("change", this.uploadAvatar);
 
-        axios.post("http://localhost/A_cake/selectAvatar.php",qs.stringify({memberId: this.memberId}))
+        axios.post("./static/api/selectAvatar.php",qs.stringify({memberId: this.memberId}))
             .then(res => {
                 // console.log(res);
                 document.getElementById("avatar_pic").src = res["data"][0].MEMBER_IMG_BLOB;

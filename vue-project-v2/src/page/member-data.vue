@@ -16,23 +16,23 @@
             <form action="" method="post">
                 <div id="member_name">
                     <span>姓名: </span>
-                    <input type="text" name="userName" class="data-input" v-model="userName" v-show="!edit.userName">
+                    <input type="text" name="userName" class="data-input name" v-model="userName" v-show="!edit.userName">
                     <span class="data_input_span" v-show="edit.userName">{{userName}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userName" @click="edit.userName = !edit.userName">
                     <img src="../assets/images/yes_icon.svg" v-show="!edit.userName" @click="edit.userName = !edit.userName; updateData($event);">
                 </div>
                 <div id="member_nickname">
                     <span>暱稱: </span>
-                    <input type="text" name="userNickname" class="data-input" v-model="userNickname" v-show="!edit.userNickname">
+                    <input type="text" name="userNickname" class="data-input nickname" v-model="userNickname" v-show="!edit.userNickname">
                     <span class="data_input_span" v-show="edit.userNickname">{{userNickname}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userNickname" @click="edit.userNickname = !edit.userNickname">
                     <img src="../assets/images/yes_icon.svg" v-show="!edit.userNickname" @click="edit.userNickname = !edit.userNickname; updateData($event);">
                 </div>
                 <div id="member_birthday">
                     <span>生日: </span>
-                    <input type="text" name="userBirthdayYear" class="data-input  input_combined_three" v-model="userBirthdayYear" v-show="!edit.userBirthday">
-                    <input type="text" name="userBirthdayMonth" class="data-input  input_combined_three" v-model="userBirthdayMonth" v-show="!edit.userBirthday">
-                    <input type="text" name="userBirthdayDate" class="data-input  input_combined_three" v-model="userBirthdayDate" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayYear" class="data-input  input_combined_three year" v-model="userBirthdayYear" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayMonth" class="data-input  input_combined_three month" v-model="userBirthdayMonth" v-show="!edit.userBirthday">
+                    <input type="text" name="userBirthdayDate" class="data-input  input_combined_three day" v-model="userBirthdayDate" v-show="!edit.userBirthday">
                     <span class="data_input_span" v-show="edit.userBirthday">{{userBirthday}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userBirthday"
                     @click="edit.userBirthday = !edit.userBirthday">
@@ -45,7 +45,7 @@
             <form action="" method="post">
                 <div id="member_email">
                     <span>E-mail: </span>
-                    <input type="email" name="userEmail" class="data-input" v-model="userEmail" v-show="!edit.userEmail" @input="verifyEmail">
+                    <input type="email" name="userEmail" class="data-input email" v-model="userEmail" v-show="!edit.userEmail" @input="verifyEmail">
                     <span class="data_input_span" v-show="edit.userEmail">{{userEmail}}</span>
                     <span class="error_email" v-show="invalidEmail">E-mail格式錯誤！</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userEmail" 
@@ -54,14 +54,14 @@
                 </div>
                 <div id="member_address">
                     <span>地址:&nbsp;</span>
-                    <input type="text" name="userAddress" class="data-input" v-model="userAddress" v-show="!edit.userAddress">
+                    <input type="text" name="userAddress" class="data-input address" v-model="userAddress" v-show="!edit.userAddress">
                     <span class="data_input_span" v-show="edit.userAddress">{{userAddress}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userAddress" @click="edit.userAddress = !edit.userAddress">
                     <img src="../assets/images/yes_icon.svg" v-show="!edit.userAddress" @click="edit.userAddress = !edit.userAddress; updateData($event);">
                 </div>
                 <div id="member_phone">
                     <span>電話:&nbsp;</span>
-                    <input type="text" name="userPhone" class="data-input" v-model="userPhone" v-show="!edit.userPhone">
+                    <input type="text" name="userPhone" class="data-input phone" v-model="userPhone" v-show="!edit.userPhone">
                     <span class="data_input_span" v-show="edit.userPhone">{{userPhone}}</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPhone"
                     @click="edit.userPhone = !edit.userPhone">
@@ -69,7 +69,7 @@
                 </div>
                 <div id="member_password">
                     <span>密碼:&nbsp;</span>
-                    <input type="text" name="userPassword" class="data-input" v-model="userPassword" v-show="!edit.userPassword" @input="verifyPassword">
+                    <input type="text" name="userPassword" class="data-input password" v-model="userPassword" v-show="!edit.userPassword" @input="verifyPassword">
                     <span class="data_input_span" v-show="edit.userPassword">{{userPasswordHidden}}</span>
                     <span class="error_password" v-show="invalidPassword">密碼需超過五個字元且只能使用字母或數字！</span>
                     <img src="../assets/images/pen_icon.svg" v-show="edit.userPassword" @click="edit.userPassword = !edit.userPassword">
@@ -89,7 +89,7 @@
 
                 <div class="card_outline" v-for="(item, index) in cakeDesignsShowing" :key="index">
                     <div class="img_container">
-                        <img :src="item.imgPath">
+                        <img :src="item.img">
                     </div>
                     <div class="description_block">
                         <h4 class="cake_title">{{item.cakeTitle}}</h4>
@@ -347,28 +347,28 @@
             switchBoolean(val){
                 val = !val;
             },
-            resetInputSize($event){
+            resetInputSize($event){ // 此 Function 停用
 
-                // 被點擊時呼叫
-                if($event){
+                // // 被點擊時呼叫
+                // if($event){
 
-                    $($event.target).siblings("input.data-input").css("width", parseInt($($event.target).siblings("span.data_input_span").css("width")) + 5);
-                    $($event.target).siblings("input.data-input").css("height", parseInt($($event.target).siblings("span.data_input_span").css("height")) - 2);
+                //     $($event.target).siblings("input.data-input").css("width", parseInt($($event.target).siblings("span.data_input_span").css("width")) + 5);
+                //     $($event.target).siblings("input.data-input").css("height", parseInt($($event.target).siblings("span.data_input_span").css("height")) - 2);
 
-                    return null;
-                }
+                //     return null;
+                // }
 
-                // mounted時呼叫
-                $("input.data-input").each(function(){
-                    // console.log($(this).siblings("span.data_input_span").css("width"));
-                    $(this).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
-                    $(this).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
-                    // console.log("/" + $(this).css("width"))
-                 });
-                $("input.data-input.input_combined_three").each(function(){
-                    // console.log(parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
-                    $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.8);
-                });
+                // // mounted時呼叫
+                // $("input.data-input").each(function(){
+                //     // console.log($(this).siblings("span.data_input_span").css("width"));
+                //     $(this).css("width", parseInt($(this).siblings("span.data_input_span").css("width")) + 5);
+                //     $(this).css("height", parseInt($(this).siblings("span.data_input_span").css("height")) - 2);
+                //     // console.log("/" + $(this).css("width"))
+                //  });
+                // $("input.data-input.input_combined_three").each(function(){
+                //     // console.log(parseInt($(this).siblings("span.data_input_span").css("width")) / 2.5);
+                //     $(this).css("width",parseInt($(this).siblings("span.data_input_span").css("width")) / 2.8);
+                // });
             },
             verifyEmail(){
                 this.invalidEmail = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(this.userEmail) ? false : true;
@@ -398,11 +398,11 @@
 
                 // 第一種拼資料的寫法：
                 // let params = new URLSearchParams();
-                // params.append('memberId', this.$store.state.member_id );
+                // params.append('memberId', this.memberId );
                 // params.append('inputValue', inputValue );
                 // 第二種拼資料的寫法：
                 // const params = {
-                //     memberId: this.$store.state.member_id,
+                //     memberId: this.memberId,
                 //     inputValue: inputValue,
                 // };
 
@@ -425,14 +425,14 @@
                     address: this.userAddress,
                     phone: this.userPhone,
                     password: this.userPassword,
-                    memberId: this.$store.state.member_id,
+                    memberId: this.memberId,
                 };
 
                 axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
                     // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
 
-                this.resetInputSize($event);
+                // this.resetInputSize($event);
             },
             showDesignDetail(cake){
                 this.detailLightBox = true;
@@ -441,10 +441,10 @@
                 this.designDetail = {};
                 axios.post("http://localhost/A_cake/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         let data = res["data"];
                         this.designDetail = {
-                            cakeImg: require("../assets/images/" + data[0].CAKE_IMAGE),
+                            cakeImg: !!data[0].CAKE_IMAGE_BLOB ? data[0].CAKE_IMAGE_BLOB : data[0].CAKE_DESIGN_IMAGE_BLOB,
                             cakeName: data[0].CAKE_NAME,
                             cakeDescription: data[0].CAKE_DESCRIPTION,
                             cakeAvailable: data[0].CAKE_AVAILABLE,
@@ -501,14 +501,14 @@
         },
         mounted(){
 
-            // if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
+            // if(this.memberId === 0 || typeof this.memberId !== "number"){
             //     alert("您尚未登入，將跳轉到登入頁面");
             //     this.$router.push('/assign')
             // }
 
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
-            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.$store.state.member_id}))
+            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res.data[0];
@@ -524,21 +524,21 @@
 
 
                         // 調整會員資料輸入框大小
-                        this.$nextTick(()=>{
-                            this.resetInputSize();
-                        });
+                        // this.$nextTick(()=>{
+                        //     this.resetInputSize();
+                        // });
                         
                     })
                     .catch(error => console.log(error));
 
             // 載入蛋糕設計資料
-            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.$store.state.member_id}))
+            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let cakeInfo = {
-                                imgPath: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                img: !!data[i].CAKE_IMAGE_BLOB ? data[i].CAKE_IMAGE_BLOB : data[i].CAKE_DESIGN_IMAGE_BLOB,
                                 cakeTitle: data[i].CAKE_NAME,
                                 cakeDescription: data[i].CAKE_DESCRIPTION,
                                 voteStatus: data[i].CAKE_AVAILABLE,
@@ -546,6 +546,8 @@
                                 };
 
                             this.cakeDesigns.push(cakeInfo);
+
+                            // console.log(this.cakeDesigns);
 
                         }
                             // 顯示所有蛋糕設計的按鈕
@@ -555,7 +557,7 @@
 
 
             // 載入折價券資料
-            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.$store.state.member_id}))
+            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
@@ -1326,5 +1328,36 @@ section#vote{
     
 }
 // ===== card_voting的scss結束 =====
+
+
+// ===== 追加的會員資料 Input 欄位寬度 =====
+
+.data-input.name, .data-input.nickname{
+    width: 70px;
+}
+.data-input.year{
+    width: 50px;
+}
+.data-input.month, .data-input.day{
+    width: 32px;
+}
+.data-input.email{
+    width: 300px;
+    @media (max-width: 567.98px){
+        width: 190px;
+    }
+}
+.data-input.address{
+    width: 300px;
+    @media (max-width: 567.98px){
+        width: 210px;
+    }
+}
+.data-input.phone{
+    width: 150px;
+}
+.data-input.password{
+    width: 150px;
+}
 
 </style>

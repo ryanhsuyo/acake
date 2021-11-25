@@ -29,7 +29,7 @@
                         <h4 class="cake_title">{{item.cakeName}}</h4>
                         <p class="design_idea">{{item.cakeDescription}}</p>
                         <div class="interact_area">
-                            <button class="go_shopping">進入商品頁面</button>
+                            <button class="go_shopping" @click="goBuying(item.cakeID)">進入商品頁面</button>
                             <div class="delete" @click="deleteFav(item.cakeID, index)">
                                 <font-awesome-icon icon="fa-solid fa-trash-can" class="trash_can_icon" />
                             </div>
@@ -160,6 +160,11 @@
                     this.favCategory.splice(index, 1);
                 }
             },
+            goBuying(cakeID){
+                this.$router.push({
+                    path: `/product_detail/${cakeID}`
+                });
+            },
         },
         mounted(){
             axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
@@ -174,7 +179,7 @@
                                     cakeID: data[i].CAKE_ID,
                                     cakeName: data[i].CAKE_NAME,
                                     cakeDescription: data[i].CAKE_DESCRIPTION,
-                                    cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                    cakeImg: !!data[i].CAKE_IMAGE_BLOB ? data[i].CAKE_IMAGE_BLOB : data[i].CAKE_DESIGN_IMAGE_BLOB,
                                     cakeImgBlob: data[i].CAKE_IMG_BLOB,
                                 }
                                 this.favCategory.push(cake);

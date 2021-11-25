@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="buying_block">
-                <button class="go_buying" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
+                <button class="go_buying" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}" @click="goBuying">
                     再次購買
                     <img src="../assets/images/shoppingCar.svg">
                 </button>
@@ -73,7 +73,13 @@ export default {
         },
         showCakeIngredient(item){
             return item.ingredientName + ": " + item.ingredientDescription + " × " + item.ingredientQuantity;
-        }
+        },
+        goBuying(){
+            this.$emit("close", false);
+            this.$router.push({
+                path: `/product_detail/${this.designDetail.cakeID}`
+            });
+        },
     },
 }
 </script>

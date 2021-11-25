@@ -39,7 +39,7 @@
                     <div class="folder_title_tag">
                         <span class="folder_title" v-show="!editTitle[index]" @click="editTitleContent(index, true)">{{item.categoryName}}</span>
                         <input type="text" v-model.lazy="item.categoryName" v-show="editTitle[index]">
-                        <button class="delete_folder" @click="deleteFolder(index)" v-show="!editTitle[index]">
+                        <button class="delete_folder" @click="deleteFolder(item.categoryID)" v-show="!editTitle[index]">
                             <font-awesome-icon icon="fa-solid fa-xmark" class="close_icon" />
                         </button>
                         <button class="change_name" @click="editTitle[index] = false; editTitleContent(index, false); updateTitle(index)" v-show="editTitle[index]">
@@ -127,7 +127,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
-    import store from "../store/store"
+    import store from "../store/store";
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -159,13 +159,11 @@
             };
         },
         methods: {
-            deleteFolder(index){
+            deleteFolder(categoryID){
                 this.editTitle = Array(this.favFolder.length).fill(false);
                 if(confirm("確定要刪除此分類資料夾?")){
-                    // console.log(index);
-                    let categoryId = this.favFolder[index].categoryID
                     // console.log(categoryId);
-                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryId}))
+                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID}))
                         .then(res => {
                             // console.log(res);
                             this.favFolder = [];
@@ -243,7 +241,7 @@
                             this.favFolder.push({
                                 categoryName: data[0].CATEGORY_NAME,
                                 categoryID: data[0].CATEGORY_ID,
-                                categoryPic: require("../assets/images/" + data[0].CAKE_IMAGE),
+                                categoryPic: !!data[0].CAKE_IMAGE_BLOB ? data[0].CAKE_IMAGE_BLOB : data[0].CAKE_DESIGN_IMAGE_BLOB,
                             });
 
                             let folderCounter = 0;
@@ -257,7 +255,7 @@
                                     this.favFolder.push(folder);
                                 
                                     try{
-                                        this.favFolder[folderCounter].categoryPic = require("../assets/images/" + data[i].CAKE_IMAGE);
+                                        this.favFolder[folderCounter].categoryPic = !!data[i].CAKE_IMAGE_BLOB ? data[i].CAKE_IMAGE_BLOB : data[i].CAKE_DESIGN_IMAGE_BLOB;
                                     }catch(e){
                                         this.favFolder[folderCounter].categoryPic = null;
                                     }

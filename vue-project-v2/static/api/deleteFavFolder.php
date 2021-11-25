@@ -6,6 +6,8 @@
 
     $CATEGORY_ID = htmlspecialchars($_POST["categoryId"]);
 
+    // $sql = "DELETE FROM FAVORITE WHERE FAVORITE_CATEGORY_ID = ? and MEMBER_ID = ?";
+
     $sql = "DELETE FROM FAVORITE_CATEGORY WHERE CATEGORY_ID = ?;";
 
     $statement = $pdo->prepare($sql);

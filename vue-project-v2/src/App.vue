@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
+  <div id="app" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`, padding: `0 !important`}">
     
     <router-view></router-view>
     

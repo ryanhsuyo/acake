@@ -130,7 +130,7 @@ export default {
             data.append("password",this.password);
             axios({
                 method:"POST",
-                url: "./static/cty_api/confirm_member.php",
+                url: "http://localhost/static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
@@ -170,7 +170,7 @@ export default {
                 data.append('birthday',birthday)
                 axios({
                     method:"POST",
-                    url:'./static/cty_api/join_newMember.php',
+                    url:'http://localhost/static/cty_api/join_newMember.php',
                     data,
                 }).then((res)=>{
                     if(res.data=='success'){
@@ -180,7 +180,7 @@ export default {
             data.append("password",that.registPassword);
             axios({
                 method:"POST",
-                url: "./static/cty_api/confirm_member.php",
+                url: "http://localhost/static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
@@ -213,23 +213,28 @@ export default {
         },
         email:function(newValue){
             this.emailSuccess = !(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(newValue))
-            let data2 = new URLSearchParams();
-            data2.append('id',newValue);
-axios({
-                url:'./static/cty_api/again_account.php',
-                method:"POST",
-                data:data2,
-            }).then((res)=>{
-                if(res.data == '此信箱已使用'){
-                    alert(res.data)
-                    this.emailSuccess=true
-                }else{
-                    alert("此信箱可使用")
-                    this.emailSuccess=false
-                }
-            }).catch((error)=>{
-                console.log(error);
-            })
+            if(this.emailSuccess == false){
+
+                let data2 = new URLSearchParams();
+                data2.append('id',newValue);
+    axios({
+                    url:'http://localhost/static/cty_api/again_account.php',
+                    method:"POST",
+                    data:data2,
+                }).then((res)=>{
+                    if(res.data == '此信箱已使用'){
+                        // console.log(res.data)
+                        alert('此信箱已被註冊過')
+                        this.emailSuccess=true
+                    }else{
+                        // console.log(res.data)
+                        // alert("此信箱可使用")
+                        // this.emailSuccess=false
+                    }
+                }).catch((error)=>{
+                    console.log(error);
+                })
+            }
         },
         registPassword:function(newValue){
             this.registPasswordSuccess = !(/^[a-zA-Z0-9_]{5,10}$/.test(newValue))
@@ -243,7 +248,7 @@ axios({
         },
         name:function(newValue){
             
-            this.nameSuccess = !(/^[a-zA-Z0-9_]{1,20}$/.test(newValue))
+            // this.nameSuccess = !(/^[a-zA-Z0-9_]{1,20}$/.test(newValue))
             
         },
         

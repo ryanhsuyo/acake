@@ -72,7 +72,7 @@ export default {
         // console.log(unchangedIndex);
         // cake_data_unchanged[unchangedIndex].cakeIMG = reader.result;
 
-        axios.post("http://localhost/A_cake/BE_updateCakeImage.php", qs.stringify({cakeID: cakeID, cakeImgBlob: reader.result}))
+        axios.post("http://localhost/yoyo/BE_updateCakeImage.php", qs.stringify({cakeID: cakeID, cakeImgBlob: reader.result}))
         .then(res => console.log(res))
         .catch(err => console.log(err));
       });
@@ -103,7 +103,7 @@ export default {
     // },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectCake.php")
+    axios.post("http://localhost/yoyo/BE_selectCake.php")
       .then(res => {
         let data = res["data"];
 

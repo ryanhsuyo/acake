@@ -64,7 +64,7 @@ export default {
         },
         updateCakeDesign(){
             console.log(this.designDetail);
-            axios.post("http://localhost/A_cake/updateCakeDescription.php",qs.stringify({cakeID: this.designDetail.cakeID, cakeDescription: this.designDetail.cakeDescription}))
+            axios.post("http://localhost/yoyo/updateCakeDescription.php",qs.stringify({cakeID: this.designDetail.cakeID, cakeDescription: this.designDetail.cakeDescription}))
                 .then(res => {
                     console.log(res);
                     this.$emit("cakeDesign", this.designDetail.cakeDescription, this.designDetail.cakeName);

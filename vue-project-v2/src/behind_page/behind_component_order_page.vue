@@ -142,7 +142,7 @@ export default {
   },
   mounted() {
     
-    axios.post("http://localhost/A_cake/BE_selectAllOrder.php")
+    axios.post("http://localhost/yoyo/BE_selectAllOrder.php")
       .then(res => {
         let data = res["data"];
         console.log(data);

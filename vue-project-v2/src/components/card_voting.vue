@@ -41,7 +41,7 @@ export default {
                 //加一票
                         //如果投過三票
                     if(document.cookie.indexOf(`${this.$store.state.member_id}-3`)!=-1){
-                        alert('你今天已經投過三票瞜')
+                        alert('你今天已經投過三票囉')
                     }
                 
                     //如果投過兩票
@@ -49,21 +49,21 @@ export default {
                             document.cookie = `${this.$store.state.member_id}-3=Mike222; max-age=60`;
                         this.choose = 1;
                         this.vote++;
-                        alert('第三票')
+                        alert('今天投完票囉')
                     }
                 //如果投過一票
                 if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&(document.cookie.indexOf(`${this.$store.state.member_id}-2`)==-1)){
                     document.cookie = `${this.$store.state.member_id}-2=Mike222; max-age=60;`
                     this.choose = 1;
                     this.vote++;
-                    alert('第二票')
+                    alert('剩下一票')
                 }
                     //如果都沒投票
                 if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)==-1){
                 document.cookie = `${this.$store.state.member_id}-1=Mike222; max-age=60;`
                 this.choose = 1;
                 this.vote++;
-                alert('第一票')
+                alert('剩下兩票')
                 }
             }else{
                 //減一票

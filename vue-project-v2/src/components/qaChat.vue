@@ -104,6 +104,7 @@ export default {
             })
               .then((res) => {
                 this.qa = res.data;
+                console.log(res.data)
                 this.problem=parseInt(res.data[0].UNSOLVED_PROBLEM)
               })
               .catch((error) => {

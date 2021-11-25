@@ -208,7 +208,7 @@
                 });
             },
             // addPhoto(){
-            //     axios.post("http://localhost/yoyo/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
             //         .then(res => {
             //             // console.log(res);
             //             let data = res["data"];
@@ -233,7 +233,7 @@
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
-                        console.log(data);
+                        // console.log(data);
 
                         if(data.length === 0){
                             this.noCake = true;
@@ -280,7 +280,7 @@
             },
         },
         mounted(){
-            //     axios.post("http://localhost/yoyo/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
             //                 // console.log(res);
         //                 let data = res["data"];

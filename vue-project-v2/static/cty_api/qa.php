@@ -13,10 +13,26 @@ JOIN MEMBER m
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$id);
 $statement -> execute();
+$data = $statement->fetchAll();
+// print_r(COUNT($data));
+if(COUNT($data)!=[]){
+    echo json_encode($data);
+}else{
+    $sql="INSERT INTO `MESSAGE` (`MESSAGE`, `SENDER`, `MEMBER_ID`) VALUES ('您尚未提問', '0', ?);";
+    $statement = getPDO()->prepare($sql);
+$statement -> bindValue(1,$id);
+$statement -> execute();
 
-//執行並查詢，會回傳查詢結果的物件，必須使用fetch、fetchAll...等方式取得資料
-// $statement = getPDO()->query($sql);
-//抓出全部且依照順序封裝成一個二維陣列
+$sql2 = "SELECT ms.MESSAGE,ms.SENDER,m.MEMBER_ID,m.UNSOLVED_PROBLEM 
+FROM `MESSAGE` ms 
+JOIN MEMBER m 
+	ON ms.MEMBER_ID = m.MEMBER_ID 
+    WHERE ms.MEMBER_ID = ?;";
+$statement = getPDO()->prepare($sql2);
+$statement -> bindValue(1,$id);
+$statement -> execute();
 $data = $statement->fetchAll();
 echo json_encode($data);
+
+}
 ?>

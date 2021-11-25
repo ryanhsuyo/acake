@@ -175,32 +175,43 @@ export default {
                 }).then((res)=>{
                     if(res.data=='success'){
                         alert('註冊成功，即將跳轉至會員中心')
-                        let data = new URLSearchParams;
-            data.append("email",that.email);
-            data.append("password",that.registPassword);
-            axios({
-                method:"POST",
-                url: "./static/cty_api/confirm_member.php",
-                data,
-            }).then((res)=>{
-                // console.log(res.data);
-                if(res.data =='登入失敗'){
-                    alert(res.data)
-                }else{
-                    console.log(res.data[0].MEMBER_ID);
-                    this.$store.dispatch('update_memberId',parseInt(res.data[0].MEMBER_ID))
-                    this.$router.push('/member_data')
-                }
-            }).catch((error)=>{
-                console.log(error);
-            })
+                        let data = new URLSearchParams();
+                        data.append("email",that.email);
+                        data.append("password",that.registPassword);
+                            axios({
+                                method:"POST",
+                                url: "./static/cty_api/confirm_member.php",
+                                data,
+                            }).then((res)=>{
+                                // console.log(res.data);
+                                if(res.data =='登入失敗'){
+                                    alert(res.data)
+                                }else{
+                                    console.log(res.data[0].MEMBER_ID);
+                                    this.$store.dispatch('update_memberId',parseInt(res.data[0].MEMBER_ID))
+                                    this.$router.push('/member_data')
+                                    let data2 = new URLSearchParams();
+                                    data2.append('id',this.$store.state.member_id)
+                                    axios({
+                                        method:"POST",
+                                        data:data2,
+                                        url:'./static/cty_api/insertAllFav.php'
+                                    }).then((res)=>{
+                                        console.log(res.data);
+                                    }).catch((err)=>{
+                                        console.log(err);
+                                    })
+                                }
+                            }).catch((error)=>{
+                                console.log(error);
+                            })
+                        }
+                        }).catch((error)=>{
+                            console.log(error);
+                        })
+                    }else{
+                        alert('註冊失敗，請確認基本資料符合規則，以不出現紅字為準')
                     }
-                }).catch((error)=>{
-                    console.log(error);
-                })
-            }else{
-                alert('註冊失敗，請確認基本資料符合規則，以不出現紅字為準')
-            }
         }
     },
     watch:{

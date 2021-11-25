@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="addenda_block_cake_twandprice">
                                         <div class="addenda_block_cake_tw">NT$</div>
-                                        <div class="addenda_block_cake_price">{{packageSelected.ACCESSOPIES_PRICE}}</div>
+                                        <div class="addenda_block_cake_price">{{packageSelected.ACCESSORIES_PRICE}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice_cardorcandle">
                                     <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity }}</div>
+                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity }}</div>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +351,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -393,7 +393,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

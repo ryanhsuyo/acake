@@ -145,7 +145,7 @@ export default {
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("./static/jiawei.api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("http://localhost/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
@@ -168,7 +168,7 @@ export default {
             // params.append("page", index);
             // axios({
             //     method: "post",
-            //     url: "./static/jiawei.api/productSelectCakeChangePage.php",
+            //     url: "http://localhost/yoyo/productSelectCakeChangePage.php",
             //     data: pageID,
             // })
             }
@@ -177,7 +177,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -205,7 +205,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

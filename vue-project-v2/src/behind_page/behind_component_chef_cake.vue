@@ -5,7 +5,7 @@
       <searchBar></searchBar>
     </div>
     <div class="cake" >
-      <div class="outline close" @click="addChefCake();open()">
+      <div class="outline close" @click="open()">
         <div class="img_outline">
           <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
           <button @click="newClickInput($event)">
@@ -23,11 +23,11 @@
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <input type="text"  disabled v-model="newCakeId" value="data">
+                <input type="text"  disabled >
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <input type="text" v-model="newCakeName">
+                <input type="text" >
               </div>
               <div class="third">
                 <p>吋數:</p>
@@ -37,7 +37,7 @@
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <input type="text" v-model="newCakeFlavor">
+                <input type="text" >
               </div>
             </div>
             <div class="right_infor">
@@ -50,7 +50,7 @@
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text" v-model="newCakePrice">
+                <input type="text" >
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -142,8 +142,8 @@
           </div>
           <div class="ingredientOutline">
 
-            <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
-              <input class="icheckbox" type="checkbox" checked>{{name}}
+            <div class="ingredient" v-for="(ingredient, index) in ingredientAll" :key="index">
+              <input class="icheckbox" type="checkbox" >{{ingredient.INGREDIENT_NAME}}
             </div>
           </div>
           <div class="descript">
@@ -192,6 +192,8 @@ export default {
       cake:[],
       result: [],
       data: [],
+      aaa: [],
+      ingredientAll: [],
       newChefCake: {
         newCakeID:'',
         newCakeName:'',
@@ -212,8 +214,6 @@ export default {
       $(e.target)
         .parents(".outline")
         .toggleClass("close");
-    },
-    addChefCake(){
     },
     newClickInput($event){
       let file = $event.target.nextSibling.nextSibling;
@@ -306,7 +306,7 @@ export default {
 
       } else {
         
-        axios.post("./static/jiawei.api/behindComponentChefCakeInsert.php", qs.stringify({
+        axios.post("http://localhost/yoyo/behindComponentChefCakeInsert.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -333,75 +333,49 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/jiawei.api/behindComponentChefCakeSelect.php",
+            url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
-          // console.log(res.data)
-            // console.log(res.data);
             let data = res.data;
-            // console.log(data);
-            for (let index = 0; index < data.length; index++) {
-              const element = data[index];
-              // console.log(element.CAKE_ID);
-              let id = element.CAKE_ID
-              console.log(id);
-              // let id_arr = [];
-              
-              if(this.chefCakes[id]){
-                this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
-              }else{
-                this.chefCakes[id] = element
-                this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
-              }
-              console.log(this.chefCakes);
-              // if(element.CAKE_ID)
-            }
-            // for (let index = 0; index < data.length; index++) {
-            //   const element = data[index];
-            //   const id = element.ID;
-            //   // console.log(this.chefCakes[id]);
-            //   // console.log('13241r5321這啥',this.chefCakes);
-            //   if(this.chefCakes[id]){
-            //     this.chefCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
-            //   }else{
-            //     this.chefCakes[id] = element
-            //     this.chefCakes[id].INGREDIENT_NAME = [this.chefCakes[id].INGREDIENT_NAME]
-            //   }
-            //   console.log(this.chefCakes);
-            // }
-            // this.$forceUpdate()
+            this.chefCakes = data
         })
         .catch((error) => {
             console.log(error);
         })
-         axios({
+    const ingredientAll = new URLSearchParams();
+        axios({
             method: "post",
-            url: "./static/jiawei.api/behindComponentChefCakeSelectAll.php",
-            data: params,
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            data: ingredientAll,
         })
         .then((res) => {
-            // console.log(res.data);
-            let sizearr = [];
             let data = res.data;
-            // console.log('到底想撈幾次',data);
-            for (let index = 0; index < data.length; index++) {
-              const element = data[index].SIZE;
-              // console.log('阿是多少',element);
-                sizearr.push(element);
-                // console.log(sizearr);
-
-            }
-            var result = sizearr.filter((item, index, arr) => {
-	          return arr.indexOf(item) === index;
-            })
-            // console.log(result);
-            // 
-              
+            console.log(data);
+            this.ingredientAll = data
         })
         .catch((error) => {
             console.log(error);
         })
+
+    // const INGREDIENT = new URLSearchParams();
+    //     axios({
+    //         method: "post",
+    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         data: INGREDIENT,
+    //     })
+    //     .then((res) => {
+    //         let data = res.data;
+    //         console.log(data);
+    //         data.forEach(function (data, item){
+    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
+    //           // console.log(item);
+    //         });
+    //         // this.ingredient = 
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
   },
 
 };

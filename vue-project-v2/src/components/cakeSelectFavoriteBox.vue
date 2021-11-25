@@ -1,7 +1,7 @@
 <template>
-    <div class="favorite" v-show="openFavorite" @click="openFavorite">
-        <div class="favoriteChangeBox" v-for="(choose, index) in choosefavorite" :key="index">
-            <div class="favoriteBox">{{choose.CATEGORY_NAME}}</div>
+    <div class="favorite" v-show="openFavorite">
+        <div class="favoriteChangeBox" v-for="(choose, index) in allFavorite" :key="index">
+            <div class="favoriteBox" @click="writeFavorite(choose)">{{choose.CATEGORY_NAME}}</div>
         </div>
     </div>
 </template>
@@ -15,12 +15,34 @@ name: "switchTab",
         return{
             switch_tab: true,
             choosefavorite: [],
+            allFavorite: [],
+            totalFavoriteID:0,
         }
     },
-    props:['openFavorite'],
+    props:['openFavorite','cakeID'],
     methods: {
         switchLite(){
             this.$emit("receive",this.switch_tab);
+        },
+        writeFavorite(choose){
+            let isOK = confirm("是否要把此蛋糕加入收藏")
+            if(isOK){
+                let that = this;
+                let data = new URLSearchParams();
+                data.append('fileID',choose.CATEGORY_ID);
+                data.append('cakeID',this.cakeID)
+                data.append('allID',this.totalFavoriteID)
+                axios({
+                    method:"POST",
+                    url:'http://localhost/yoyo/insertFavorite.php',
+                    data,
+                }).then((res)=>{
+                    alert(`已將此蛋糕加入${choose.CATEGORY_NAME}資料夾`)
+                    that.$emit('callFile');
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }
         }
     },
     computed:{
@@ -29,25 +51,18 @@ name: "switchTab",
         }
     },
     mounted(){
-        {
-            // axios.post("./static/jiawei.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-        axios.post("./static/jiawei.api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+        this.$emit('callFile');
+        axios.post("http://localhost/yoyo/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
-                console.log('讓我看看res.data',res.data);
-                let data = res.data;
-                // let datalength = data.length
-                this.choosefavorite = data.filter(item => item.MEMBER_ID === "1");
-                console.log('cty',choosefavorite);
-                    
-                // console.log('我的最愛',this.favorite);
-
-
-                // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
+                    this.allFavorite = res.data;
+                    this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'}
+                        )
+                        [0].CATEGORY_ID
                 })
             .catch((error) => {
                 console.log(error);
             })
-        }
+        
         
     
     },

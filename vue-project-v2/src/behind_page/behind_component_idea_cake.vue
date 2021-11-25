@@ -53,8 +53,8 @@
                     </div>
                 </div>
                 <div class="ingredientOutline">
-                    <div class="ingredient" v-for="(name, index) in ideaCake.INGREDIENT_NAME" :key="index">
-                        <input class="icheckbox" type="checkbox" checked>{{name}}
+                    <div class="ingredient" v-for="(ingredient, index) in ingredientAll" :key="index">
+                        <input class="icheckbox" type="checkbox" >{{ingredient.INGREDIENT_NAME}}
                     </div>
                 </div>
                 <div class="descript">
@@ -91,6 +91,7 @@ export default {
     return {
       showWhat: [],
       ideaCakes: {},
+      ingredientAll: [],
     //   data:[{
     //       id: 1,
     //       name: 3,
@@ -109,7 +110,7 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/jiawei.api/behindComponentIdeaCakeSelect.php",
+            url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -157,13 +158,27 @@ export default {
         .catch((error) => {
             console.log(error);
         })
+            const ingredientAll = new URLSearchParams();
+        axios({
+            method: "post",
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            data: ingredientAll,
+        })
+        .then((res) => {
+            let data = res.data;
+            console.log(data);
+            this.ingredientAll = data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
   },
 
 //     const params = new URLSearchParams();
 //                 // params.append("page", index);
 //             axios({
 //                 method: "post",
-//                 url: "./static/jiawei.api/behindComponentIdeaCakeSelect.php",
+//                 url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
 //                 data: params,
 //             })
 //             .then((res) => {

@@ -7,7 +7,7 @@
     $IMG_BLOB = htmlspecialchars($_POST["imgBlob"]);
     $MEMBER_ID = htmlspecialchars($_POST["memberId"]);
 
-    $sql = "UPDATE `MEMBER` SET IMG_BLOB = ? WHERE MEMBER_ID = ?;";
+    $sql = "UPDATE `MEMBER` SET MEMBER_IMG_BLOB = ? WHERE MEMBER_ID = ?;";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $IMG_BLOB);

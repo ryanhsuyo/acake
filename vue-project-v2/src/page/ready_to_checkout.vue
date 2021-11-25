@@ -79,42 +79,42 @@
                                 <div id="expiration_countdown">即將失效：剩下<span>10</span>天</div>
                                 </div>
                             </div> -->
-                            <div class="ready_to_checkout_coupon">
-                                <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" checked v-model="couponDiscount">
+                            <!-- <div class="ready_to_checkout_coupon">
+                                <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="0" checked v-model="couponDiscount">
                                 <label for="">不使用折價卷</label>
-                            </div>
-                                <div class="coupon" v-for="(item, index) in couponData" :key="index" :value="item.discount">
-                                    <div class="ready_to_checkout_coupon">
-                                        <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" v-model="couponDiscount" >
-                                        <label for="">使用折價卷</label>
-                                    </div>
-                                    <div class="coupon_block">
+                            </div> -->
+                            <div class="coupon" v-for="(item, index) in couponData" :key="index" :value="item.discount" @click="chooseDiscount(item.discount)">
+                                <div class="ready_to_checkout_coupon">
+                                    <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" v-model="couponDiscount" >
+                                    <label for="">使用折價卷</label>
+                                </div>
+                                <div class="coupon_block">
 
-                                        <div class="coupon_left_block">
-                                            <div class="discount_amout">$<span>{{item.discount}}</span></div>
-                                            <div class="A_cake_text_logo">
-                                                <img src="../assets/images/logo_title.png" alt="">
-                                            </div>
-                                            <div class="coupon_left_decoration_img">
-                                                <img src="../assets/images/blueberry_cream.png" alt="">
-                                            </div>
-                                            <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
-                                            <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
+                                    <div class="coupon_left_block">
+                                        <div class="discount_amout">$<span>{{item.discount}}</span></div>
+                                        <div class="A_cake_text_logo">
+                                            <img src="../assets/images/logo_title.png" alt="">
                                         </div>
-                                        <div class="coupon_right_block">
-                                            <div class="expiration">
-                                                <span>使用期限</span>
-                                                <span class="expiration_date">{{item.expiration}}</span>
-                                            </div>
-                                            <div class="coupon_right_decoration_img">
-                                                <img src="../assets/images/jellyfish_icon.svg" alt="">
-                                            </div>
-                                            <div class="expiration_countdown">
-                                                即將失效：剩下&nbsp;<span>{{}}</span>&nbsp;天
-                                            </div>
+                                        <div class="coupon_left_decoration_img">
+                                            <img src="../assets/images/blueberry_cream.png" alt="">
+                                        </div>
+                                        <div class="use_threshold">消費滿&nbsp;<span>{{item.threshold}}</span>&nbsp;即可折抵</div>
+                                        <img class="bottom_decoration_img" src="../assets/images/snowRWD.svg">
+                                    </div>
+                                    <div class="coupon_right_block">
+                                        <div class="expiration">
+                                            <span>使用期限</span>
+                                            <span class="expiration_date">{{item.expiration}}</span>
+                                        </div>
+                                        <div class="coupon_right_decoration_img">
+                                            <img src="../assets/images/jellyfish_icon.svg" alt="">
+                                        </div>
+                                        <div class="expiration_countdown">
+                                            即將失效：剩下&nbsp;<span>{{}}</span>&nbsp;天
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </form>
                     </div>
 
@@ -145,56 +145,18 @@
                                         <div class="ready_bill_details_product_cake_x"></div>
                                         <div class="ready_bill_details_product_cake_amount"></div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSOPIES_PRICE}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSORIES_PRICE}}</div>
                                     </div>
                                     <div class="ready_bill_details_product_detail"  v-for="(addendacard,index) in AStorage" :key='index'>
                                         <label for="" class="ready_bill_details_product_item">{{addendacard.choice.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x">X</div>
                                         <div class="ready_bill_details_product_cake_amount">{{addendacard.quantity}}</div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity}}</div>
                                     </div>
                                 </div>
                             <div class="hr3"></div>
                             </div>
-                            <!-- <div class="combination_ready">
-                                <div class="ready_bill_details_product_title">
-                                    <div class="ready_bill_details_product_cakesizeamount">
-                                        <label class="ready_bill_details_product_cake" for="">巧克力蛋糕</label>
-                                        <div class="ready_bill_details_product_cake_size">(6吋)</div>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
-                                    </div>
-                                    <div class="ready_bill_details_product_twandprice">
-                                        <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
-                                    </div>
-                                </div>
-                                <div class="hr4"></div>
-                                <div class="ready_bill_details_product_cake_block">
-                                    <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">一般包裝</label>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
-                                        <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
-                                    </div>
-                                    <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">一般蠟燭</label>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
-                                        <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
-                                    </div>
-                                    <div class="ready_bill_details_product_detail">
-                                        <label for="" class="ready_bill_details_product_item">一般卡片</label>
-                                        <div class="ready_bill_details_product_cake_x">X</div>
-                                        <div class="ready_bill_details_product_cake_amount">1</div>
-                                        <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">600</div>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="subtotal">
                                 <label for="" class="ready_bill_details_second_title">小計</label>
                                 <div class="ready_bill_details_product_twandprice">
@@ -202,12 +164,12 @@
                                     <div class="ready_bill_details_product_cake_price">{{storage.PRICE * cakeQuantity + aPrice }}</div>
                                 </div>
                             </div>
-                            <div class="hr3"></div>
-                            <div class="couple_cost" >
+                            <div class="hr3"  v-if="couponDiscount > 0"></div>
+                            <div class="couple_cost" v-if="couponDiscount > 0">
                                 <label for="" class="ready_bill_details_second_title">折價卷</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">-{{}}</div>
+                                    <div class="ready_bill_details_product_cake_price">{{couponDiscount}}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -240,7 +202,6 @@
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw ready_bill_special_color">NT$</div>
                                     <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{storage.PRICE * cakeQuantity + aPrice + parseInt(shipPrice) }}</div>
-                                    <!-- <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{couponDiscount}}</div> -->
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -318,30 +279,29 @@ export default {
         }
     },
     methods:{
+        chooseDiscount(item){
+            this.couponDiscount = item;
+        },
         submitorder(){
             let memberId = new URLSearchParams;
             memberId.append("memberId", this.memberId);
-            axios.post("http://localhost/A_cake/submitorder.php", memberId)
+            axios.post("http://localhost/yoyo/submitorder.php", memberId)
                 .then(res => {
-                    // console.log(res);
                     let data = res.data;
-                    // console.log(data[0].ADDRESS);
                     this.recipient = data[0].RECEIVER;
                     this.phone = data[0].PHONE;
                     this.address = data[0].ADDRESS;
     
                 })
                 .catch( err => cosole.log(err));
-
         },
+      
+        
     },
     watch:{
         
     },
     computed:{
-        // storageDate(){
-        //     return this.$store.state.storage
-        // },
         countDays(expiration){
             let future = new Date(...expiration).getTime() / 1000;
             let now = new Date().getTime() / 1000;
@@ -351,36 +311,28 @@ export default {
         ...mapState([
             'storage',
             'PStorage',
-            // 'AStorage',
             'cakeQuantity',
 
         ]),
         AStorage(){
             let a = this.$store.state.AStorage;
-            console.log('我是a',a);
             let sum = 0;
             for(let i = 0; i < a.length; i++){
-                a[i].price = a[i].quantity * a[i].choice.ACCESSOPIES_PRICE;
+                a[i].price = a[i].quantity * a[i].choice.ACCESSORIES_PRICE;
                 sum = sum + a[i].price
-                console.log('我是B',sum);
             }
             
             this.aPrice = sum
-            console.log(this.aPrice);
             return this.$store.state.AStorage
         },
+        
     },
     mounted(){
-        // let that = this;
-        
-        // that.myID = document.getElementById("myID");
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/A_cake/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "http://localhost/yoyo/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
-                // console.log(res);
                 let data = res.data;
-                // console.log(data[0].ADDRESS);
                 this.recipient = data[0].RECEIVER;
                 this.phone = data[0].PHONE;
                 this.address = data[0].ADDRESS;
@@ -388,9 +340,8 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        // console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let couponInfo = {
@@ -401,11 +352,11 @@ export default {
                             };
 
                             this.couponData.push(couponInfo);
-                            console.log('我家很大',this.couponData);
 
                             // 顯示所有折價券的按鈕
                             // this.viewCouponButton = (this.couponData.length > 2 ? true : false);
                         }
+                            console.log('我家很大',this.couponData);
                     })
                     .catch(err => console.log(err));
     },
@@ -934,6 +885,7 @@ router-link{
 }
 .coupon_block{
     display: flex;
+    transform: scale(0.8);
 }
 .ready_to_checkout_coupon{
     align-items: center;

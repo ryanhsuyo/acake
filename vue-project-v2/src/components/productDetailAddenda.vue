@@ -33,7 +33,7 @@
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price">{{ packageSelected.ACCESSOPIES_PRICE }}</div>
+              <div class="addenda_price">{{ packageSelected.ACCESSORIES_PRICE }}</div>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price" v-if="addendacard.choice && addendacard.choice.ACCESSOPIES_PRICE">{{ addendacard.choice.ACCESSOPIES_PRICE * addendacard.quantity}}</div>
+              <div class="addenda_price" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_PRICE">{{ addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity}}</div>
             </div>
           </div>
         </div>
@@ -185,7 +185,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -213,7 +213,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -240,7 +240,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/A_cake/productDetailSelectAdditional.php",
+    //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -269,7 +269,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "http://localhost/A_cake/productDetailSelectPackage.php",
+      //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {

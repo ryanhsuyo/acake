@@ -6,10 +6,18 @@
     </div>
     <div class="cake" >
       <div class="outline close" v-for="(plus,index) in pluses" :key="index">
-            <div class="img_outline">
-                <img src="../assets/images/cho_cake.jpg" alt="">
-                <button>修改照片</button>
-            </div>
+           <div class="img_outline">
+          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <button @click="newClickInput($event)">
+            修改照片
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            class="imageButton"
+            @click="setNewImage()"
+          />
+        </div>
             <div class="text_outline">
                 <div class="infor">
                     <div class="left_infor">
@@ -40,7 +48,7 @@
                         </div>
                         <div class="second">
                             <p>價格</p>
-                            <p>{{plus.ACCESSOPIES_PRICE}}</p>
+                            <p>{{plus.ACCESSORIES_PRICE}}</p>
                         </div>
                         <!-- <div class="third">
                             <p>10吋價格：</p>
@@ -63,8 +71,7 @@
             <div class="button_outline" >
                 <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
                 <div class="button_position">
-                    <button>修改</button>
-                    <button>確認</button>
+                    <button>修改確認</button>
                 </div>
             </div>
         </div>
@@ -96,7 +103,72 @@ export default {
         // console.log($(e.target).parents('.outline').siblings())
         $(e.target).parents('.outline').siblings().addClass('close');
         $(e.target).parents('.outline').toggleClass('close');
-  },
+    },
+    newClickInput($event){
+      let file = $event.target.nextSibling.nextSibling;
+      file.click();
+    },
+    setNewImage(){
+      let button =
+        document.querySelectorAll("input[type='file']")[0];
+      button.onchange = this.pushNewImage;
+    },
+    pushNewImage(){
+      let that = this;
+      let file = document.querySelectorAll("input[type='file']")[0].files[0];
+      
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementById("new_cake_img");
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        that.newFlavor.img = readFile.result;
+      })
+    },
+    pushImage() {
+      let that = this;
+      let index = this.theIndex;
+      let file =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1].files[0];
+      this.imgData = file;
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementsByClassName("cake_make_image")[index];
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        const params = new FormData();
+        params.append("img", that.imgData);
+        params.append("test", readFile.result);
+        params.append("index", this.modifyData.ID);
+        axios({
+          method: "post",
+          url: "./static/melody_php/new_flavor.php",
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+      // 寫進資料庫
+    },
+    clickInput(index, $event,data) {
+      let file = $event.target.nextSibling.nextSibling;
+      this.theIndex = index;
+      this.modifyData=data
+      console.log(index)
+      file.click();
+    },
   },
   computed:{
     //   data(){
@@ -110,20 +182,13 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/A_cake/behindComponentPlusSelect.php",
+            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
             data: params,
         })
         .then((res) => {
-            // console.log(res.data);
             this.pluses = res.data;
             console.log(pluses);
-            // this.plus = data.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
             console.log('plus', pluses);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data.length);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);

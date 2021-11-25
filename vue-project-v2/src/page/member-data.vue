@@ -280,6 +280,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from '../store/store';
 
     import member_main_bar from "../components/member_main_bar";
     import title_h1 from "../components/title_h1";
@@ -397,11 +398,11 @@
 
                 // 第一種拼資料的寫法：
                 // let params = new URLSearchParams();
-                // params.append('memberId', this.memberId );
+                // params.append('memberId', this.$store.state.member_id );
                 // params.append('inputValue', inputValue );
                 // 第二種拼資料的寫法：
                 // const params = {
-                //     memberId: this.memberId,
+                //     memberId: this.$store.state.member_id,
                 //     inputValue: inputValue,
                 // };
 
@@ -424,10 +425,10 @@
                     address: this.userAddress,
                     phone: this.userPhone,
                     password: this.userPassword,
-                    memberId: this.memberId,
+                    memberId: this.$store.state.member_id,
                 };
 
-                axios.post("./static/api/updateMemberData.php", qs.stringify(inputValues))
+                axios.post("http://localhost/A_cake/updateMemberData.php", qs.stringify(inputValues))
                     // .then(res => {console.log(res);})
                     .catch(error => console.log(error));
 
@@ -438,7 +439,7 @@
                 $("body").css("overflow-y", "hidden");
 
                 this.designDetail = {};
-                axios.post("./static/api/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
+                axios.post("http://localhost/A_cake/selectCakeIngredient.php",qs.stringify({cakeID: cake.cakeID}))
                     .then(res => {
                         console.log(res);
                         let data = res["data"];
@@ -507,7 +508,7 @@
 
             // 載入會員資料
             // 上傳filezilla用的路徑：./static/php/selectMemberData.php
-            axios.post("./static/api/selectMemberData.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/A_cake/selectMemberData.php",qs.stringify({memberId: this.$store.state.member_id}))
                     .then(res => {
                         // console.log(res);
                         let data = res.data[0];
@@ -531,9 +532,9 @@
                     .catch(error => console.log(error));
 
             // 載入蛋糕設計資料
-            axios.post("./static/api/selectCakeDesigns.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/A_cake/selectCakeDesigns.php",qs.stringify({memberId: this.$store.state.member_id}))
                     .then(res => {
-                        // console.log(res);
+                        console.log(res);
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
                             let cakeInfo = {
@@ -546,16 +547,15 @@
 
                             this.cakeDesigns.push(cakeInfo);
 
+                        }
                             // 顯示所有蛋糕設計的按鈕
                             this.viewDesignButton = (this.cakeDesigns.length > 3 ? true : false);
-                        }
-
                     })
                     .catch(err => {console.log(err)});
 
 
             // 載入折價券資料
-            axios.post("./static/api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/A_cake/selectCoupons.php",qs.stringify({memberId: this.$store.state.member_id}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
@@ -569,9 +569,9 @@
 
                             this.couponData.push(couponInfo);
 
+                        }
                             // 顯示所有折價券的按鈕
                             this.viewCouponButton = (this.couponData.length > 2 ? true : false);
-                        }
                     })
                     .catch(err => console.log(err));
             

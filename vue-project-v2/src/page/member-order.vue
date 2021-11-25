@@ -234,7 +234,7 @@
             },
         },
         mounted(){
-            axios.post("./static/api/selectOrder.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         // console.log(res);
                         let data = res["data"];
@@ -726,7 +726,7 @@ input.search{
     border-radius: 100px;
     border:none;
     padding:0 30px;
-    opacity:70%;
+    // opacity:0.7;
     box-shadow: $shadow;
     font-size: 20px;
     cursor: text;
@@ -762,7 +762,7 @@ input.search{
 }
 .slide-enter-to, .slide-leave{
     // transform: translateY(0);
-    opacity: 100%;
+    opacity: 1; 
 }
 
 </style>

@@ -109,7 +109,7 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/api/behindComponentIdeaCakeSelect.php",
+            url: "http://localhost/A_cake/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -163,7 +163,7 @@ export default {
 //                 // params.append("page", index);
 //             axios({
 //                 method: "post",
-//                 url: "./static/api/behindComponentIdeaCakeSelect.php",
+//                 url: "http://localhost/A_cake/behindComponentIdeaCakeSelect.php",
 //                 data: params,
 //             })
 //             .then((res) => {

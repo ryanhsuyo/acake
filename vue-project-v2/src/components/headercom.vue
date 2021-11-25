@@ -4,7 +4,7 @@
             <!-- <a href="" id="logo">
                 <img src="../assets/images/logo.png">
             </a> -->
-            <router-link to="index" id="logo"><img src="../assets/images/logo.png"></router-link>
+            <router-link to="/index" id="logo"><img src="../assets/images/logo.png"></router-link>
             <ul id="header_nav">
                 <div id="header_div_one">
                     <!-- RWD漢堡選單 才會出現的背景圖 -->

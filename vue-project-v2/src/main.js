@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routes from './router/router.js'
+import router from './router/router.js'
 import App from './App'
 import './assets/style/var.scss'
 import VueAxios from 'vue-axios'
@@ -30,7 +30,7 @@ Vue.prototype.$qs = qs
 // Vue.use(VueAxios)
 // Vue.use(axios)
 // Vue.use(VueFullPage)
-Vue.use(VueRouter,axios,VueAxios)
+Vue.use(axios,VueAxios)
 Vue.use(VueAwesomeSwiper)
 Vue.use(html2canvas)
 Vue.use(Fabric)
@@ -55,14 +55,16 @@ Vue.prototype.$axios = axios;
 // Vue.config.productionTip = false
 // // 以上為遠端請求
 
-const router = new VueRouter({
-  routes,
-  // mode:"history",
-})
+// const router = new VueRouter({
+//   routes,
+//   // mode:"history",
+// })
 
 // console.log(router)
 new Vue({
+  el: '#app',
   router,
   store,
   render: h => h(App),
-}).$mount('#app');
+  // template: '<App/>'
+});

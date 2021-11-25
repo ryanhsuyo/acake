@@ -2,10 +2,11 @@
   <section id="right_section">
     <div class="title">
       <h1>訂單查詢</h1>
-      <searchBar></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入 '會員'+ID、日期、收件人或地址..."></searchBar>
     </div>
     <div class="cake">
-      <div class="detail_outline"  v-for="(data ,index) in order_data" :key="index" :class="{'scroll_y':hideOrderContent}">
+      <div class="no_result" v-show="no_result">沒有符合的搜尋結果！</div>
+      <div class="detail_outline"  v-for="(data ,index) in order_data" :key="index">
         <!-- <span id="switch_button"><font-awesome-icon icon="fa-solid fa-sort-up" /></span> -->
         <span id="switch_button" @click="open"
           ><font-awesome-icon icon="fa-solid fa-sort-down"
@@ -98,9 +99,9 @@
           </div>
         </div>
         <div class="description">
-          <input type="text" v-model="data.note"/>
+          <input type="text" v-model="data.note" class="order_note"/>
           <div class="button_zone">
-            <button>確認修改</button>
+            <button @click="updateNote($event, data.order_id)">確認修改</button>
           </div>
         </div>
       </div>
@@ -114,6 +115,7 @@ import behindHeader from "../components/behind_page_headercom";
 import searchBar from "../components/search_bar";
 import order from "../components/order_detail";
 import axios from 'axios';
+import qs from 'qs';
 export default {
   name: "order_detail",
   components: {
@@ -121,11 +123,14 @@ export default {
     searchBar,
     order,
 
-    hideOrderContent: true,
+    // hideOrderContent: true,
   },
   data() {
     return {
       order_data: [],
+      order_data_unchanged: [],
+
+      no_result: false,
     };
   },
   methods: {
@@ -134,15 +139,36 @@ export default {
         $(e.target).parents('.detail_outline').siblings().removeClass('open');
         $(e.target).parents('.detail_outline').toggleClass('open');
 
-        this.hideOrderContent = !this.hideOrderContent;
+        $(e.target).parent('.detail_outline').siblings('.detail_outline').removeClass('scroll_y');
+        $('.detail_outline').each((index, item) => {item.scrollTop = 0});
+        
+        $(e.target).closest('.detail_outline').toggleClass('scroll_y');
+    },
+    updateNote($event, orderID){
+      axios.post("http://localhost/A_cake/BE_updateOrderNote.php", qs.stringify({orderID: orderID, note: $($event.target).parent().siblings(".order_note")[0].value}))
+      .then(res => {
+        // console.log(res);
+        alert("成功修改備註！")
+      })
+      .catch(err => console.log(err));
+    },
+    goSearching(newVal){
+      this.no_result = false;
+      this.order_data = this.order_data_unchanged.concat();
+      if(newVal.trim().slice(0,2) === "會員"){
+        let searchVal = new RegExp(newVal.trim().slice(2), "i");
+        this.order_data = this.order_data.filter(item => {
+          return searchVal.test(item.member_id)
+        });
+      }else{
+        let searchVal = new RegExp(newVal, "i");
+        this.order_data = this.order_data.filter(item => {
+          return searchVal.test(item.order_date) || searchVal.test(item.send_date) || searchVal.test(item.complete_date) || searchVal.test(item.recipient) || searchVal.test(item.address);
+        });
+      }
+      if(this.order_data.length === 0) this.no_result = true;
     },
   },
-  // computed: {
-  //   hideContent(){
-  //     console.log(this.hideOrderContent);
-  //     return {'overflow-y': this.hideOrderContent ? '' : 'scroll'};
-  //   },
-  // },
   mounted() {
     
     axios.post("http://localhost/A_cake/BE_selectAllOrder.php")
@@ -198,6 +224,8 @@ export default {
           this.order_data[orderCounter].combination[productCounter].quantity.push(data[i].ACCESSORIES_QUANTITY);
 
         }
+
+        this.order_data_unchanged = this.order_data.concat();
       })
       .catch(err => console.log(err));
   },
@@ -227,6 +255,12 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 .cake {
   display: grid;
   gap: 30px;
+    .no_result{
+    color: #515151;
+    font-size: 32px;
+    text-align: center;
+    padding-top: 100px;
+  }
 }
 #right_section {
   padding: 70px 100px;

@@ -233,7 +233,7 @@
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
-                        console.log(data);
+                        // console.log(data);
 
                         if(data.length === 0){
                             this.noCake = true;

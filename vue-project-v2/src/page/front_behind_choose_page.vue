@@ -69,11 +69,11 @@ export default {
 
         const textureLoader = new THREE.TextureLoader();
 
-        const sprite1 = textureLoader.load("../../static/snowSplite/01.png");
-        const sprite2 = textureLoader.load("../../static/snowSplite/02.png");
-        const sprite3 = textureLoader.load("../../static/snowSplite/03.png");
-        const sprite4 = textureLoader.load("../../static/snowSplite/02.png");
-        const sprite5 = textureLoader.load("../../static/snowSplite/01.png");
+        const sprite1 = textureLoader.load(require("../../static/snowSplite/01.png"));
+        const sprite2 = textureLoader.load(require("../../static/snowSplite/02.png"));
+        const sprite3 = textureLoader.load(require("../../static/snowSplite/03.png"));
+        const sprite4 = textureLoader.load(require("../../static/snowSplite/02.png"));
+        const sprite5 = textureLoader.load(require("../../static/snowSplite/01.png"));
 
         for (let i = 0; i < 2000; i++) {
           const x = Math.random() * 2000 - 1000;

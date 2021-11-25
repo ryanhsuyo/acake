@@ -41,7 +41,7 @@
                     </select>
                 </div>
                 <!-- searchbar組件 -->
-                <input type="text" placeholder="輸入訂單編號或蛋糕名稱..." class="search" @input="searchCake" v-model="searchValue">
+                <input type="text" placeholder="輸入訂單編號或蛋糕名稱..." class="search" @input="searchCake" v-model="searchValue" :style="{opacity:'70%'}">
             </form>
         </section>
 

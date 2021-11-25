@@ -2,7 +2,7 @@
   <section id="right_section">
     <div class="title">
       <h1>人氣投票上傳</h1>
-      <searchBar @selectData="goSearching" placeholder="輸入蛋糕名稱或創作理念..."></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入蛋糕名稱或創作理念..." :style="{opacity:'70%'}"></searchBar>
     </div>
     <div class="cake">
       <div class="no_result" v-show="no_result">沒有符合的搜尋結果！</div>

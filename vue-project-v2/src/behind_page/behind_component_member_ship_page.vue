@@ -2,7 +2,7 @@
   <section id="right_section">
     <div class="title">
       <h1>會員資料</h1>
-      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..."></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..." :style="{opacity:'70%'}"></searchBar>
     </div>
     <div class="cake">
       

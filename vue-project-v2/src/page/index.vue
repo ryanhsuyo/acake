@@ -106,7 +106,7 @@
             <div class="third_screen section">
                 <div class="vote_box">
                     <div class="vote_inside">
-                        <div class="vote_topthree" v-for="(three,index) in 3" :key="index">
+                        <!-- <div class="vote_topthree" v-for="(three,index) in 3" :key="index">
                             <img
                                 :src="require('@/assets/images/chefHatNo'+(index+1)+'.png')"
                                 alt=""
@@ -117,8 +117,43 @@
                                 <p class="title">巧克力蛋糕<p/>
                                 <p>Chocolate cake</p>
                             </div>
+                        </div> -->
+                        <div class="vote_topthree" v-for="(three,index) in 1" :key="index">
+                            <img
+                                :src="require('@/assets/images/chefHatNo'+(index+1)+'.png')"
+                                alt=""
+                                class="topthree_hat"
+                            />
+                            <img src="../assets/images/cake11.jpg" alt="" class="pic_cake" />
+                            <div>
+                                <p class="title">巧克力蛋糕<p/>
+                                <p>Chocolate cake</p>
+                            </div>
                         </div>
-                    </div>
+                        <div class="vote_topthree" v-for="(three,index) in 1" :key="index">
+                            <img
+                                :src="require('@/assets/images/chefHatNo'+(index+2)+'.png')"
+                                alt=""
+                                class="topthree_hat"
+                            />
+                            <img src="../assets/images/cake12.jpg" alt="" class="pic_cake" />
+                            <div>
+                                <p class="title">巧克力蛋糕<p/>
+                                <p>Chocolate cake</p>
+                            </div>
+                        </div>
+                        <div class="vote_topthree" v-for="(three,index) in 1" :key="index">
+                            <img
+                                :src="require('@/assets/images/chefHatNo'+(index+3)+'.png')"
+                                alt=""
+                                class="topthree_hat"
+                            />
+                            <img src="../assets/images/cake13.jpg" alt="" class="pic_cake" />
+                            <div>
+                                <p class="title">巧克力蛋糕<p/>
+                                <p>Chocolate cake</p>
+                            </div>
+                        </div>                    </div>
                     <div class="third_screen_button">
                     <router-link to="/cakeDesign" id="cakeDesign">
                         <buttontest3 title=" 進入投票" style=""></buttontest3>
@@ -132,9 +167,49 @@
                         <titleh1 title="主廚推薦"></titleh1>
                     </div>
                     <div class="fourth_card">
-                        <cardProduct v-for="(cake_name,index) in 6" :key="index"></cardProduct>
-                        <!-- <cardVoting></cardVoting> -->
-                        <!-- <card-voting v-for="(cake_name,index) in 6" :key="index"></card-voting> -->
+                        <!-- <cardProduct v-for="(cake_name,index) in 6" :key="index"></cardProduct> -->
+                        
+                        <!-- 主廚推薦 蛋糕卡片 -->
+                        <div id="product_cakecard" >
+                            <div class="product_card_outline" v-for="(card, index) in cakeCard" :key="index"> 
+                                <div class="product_cake_title" >{{card.cakeName}}
+                                    <!-- <img class="loveicon2" src="../assets/images/love_icon_h.svg" > -->
+                                    <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="openFavorite=!openFavorite;loveActive()" :class="{'active':0}" />
+                                    <!-- <img class="loveicon" src="../assets/images/love_icon.svg"> -->
+                                    <!-- <SelectFavorite class="openFavorite" :openFavorite="openFavorite"></SelectFavorite> -->
+                                </div>
+                                <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
+                                    <!-- <router-link to="product_detail"  > -->
+                                        <img class="product_img_container_img" :src="card.img" />
+                                    <!-- </router-link> -->
+                                </div>
+                                <div class="product_introduce">
+                                    <div class="product_detail">
+                                        <div class="ntandprice">
+                                            <span class="nt">NT$</span>
+                                            <span class="price">{{card.price}}</span>
+                                        </div>
+                                        <div class="size">{{card.size}}吋</div>
+                                    </div>
+                                    <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
+                                        加入購物車 
+                                        <img src="../assets/images/shoppingCar.svg">
+                                        <!-- <transition appear
+                                            @before-appear="beforeEnter"
+                                            @after-appear='afterEnter'
+                                            v-for="(item,index) in 1"
+                                            :key="index.id">
+                                            <div class="move_dot"
+                                                ref="ball"
+                                                v-if="item">
+                                            </div>
+                                        </transition>        -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 主廚推薦 蛋糕卡片 -->
+
                     </div>
                 </div>
             </div>
@@ -145,7 +220,7 @@
                     </div>
                     <div class="first_knowledge_img">
                         <img src="../assets/images/int_cho_cake.gif" alt="">
-                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="first_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
+                        <router-link to="/product" id="product"  class="headerIcon" ><button class="first_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
                     </div>
                     <div class="first_knowledge_text">
                         <h2>維也納朱古力杏仁蛋糕的由來</h2>
@@ -166,15 +241,15 @@
                     </div>
                     <div class="third_knowledge_img">
                         <img src="../assets/images/int_sch_cake.gif" alt="">
-                        <router-link to="/product" id="product"  class="headerIcon" :class="{'open':openWhat == 'product'}"><button class="third_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
+                        <router-link to="/product" id="product"  class="headerIcon" ><button class="third_knowledge_button" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">Buy New</button></router-link>
                     </div>
                     <div class="third_knowledge_text">
                         <h2>黑森林蛋糕由來</h2>
                         <h3><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg);">Schwarzwaelder Kirschtorte</h3>
                         <hr>
-                        其實黑森林蛋糕(Schwarzwaelder Kirschtorte)若翻譯成 “ 黑森林櫻桃奶油蛋糕 ” 應該是較恰當吧。因為德文全名里的Schwarzwaelder即為黑森林，而Kirschtorte也就是櫻桃奶油蛋糕的意思。
+                        其實黑森林蛋糕 (Schwarzwaelder Kirschtorte) 若翻譯成 “ 黑森林櫻桃奶油蛋糕 ” 應該是較恰當吧。因為德文全名里的Schwarzwaelder即為黑森林，而Kirschtorte也就是櫻桃奶油蛋糕的意思。
                         <br>
-                        相傳古早以前，每當黑森林區的櫻桃豐收時，農婦們除了將過剩的櫻桃製成果醬外，在做蛋糕時，也會非常大方地將櫻桃塞在蛋糕的夾層里，或是一顆顆細心地裝飾在蛋糕上。而在打制蛋糕的鮮奶油時，更會加入不少櫻桃汁～而這種以櫻桃與鮮奶油為主的蛋糕，從黑森林傳到外地後，也就變成所謂的“黑森林蛋糕”了！
+                        相傳古早以前，每當黑森林區的櫻桃豐收時，農婦們除了將過剩的櫻桃製成果醬外，在做蛋糕時，也會非常大方地將櫻桃塞在蛋糕的夾層里，或是一顆顆細心地裝飾在蛋糕上。而在打制蛋糕的鮮奶油時，更會加入不少櫻桃汁～而這種以櫻桃與鮮奶油為主的蛋糕，從黑森林傳到外地後，也就變成所謂的 “ 黑森林蛋糕 ” 了！
                         <br>
                         黑森林蛋糕真正的主角，還是那鮮美豐富的櫻桃喔！以前德國曾出現消費者因某家黑森林蛋糕的櫻桃含量太少而提出控告的案例～也因此德國政府對這種國寶級黑森林，也作出了相關的規定，像是黑森林蛋糕的鮮奶油部份，就至少得含有80克的櫻桃汁才行喔！
                         所以黑森林呀，真的不是代表黑黑的意思啦。而黑森林蛋糕，更不是朱古力蛋糕的代名詞喔！黑森林是位於德國西南的一個山區，從巴登巴登Baden Baden往南一直到佛來堡Freiburg這帶，都屬黑森林區。今天即使來到黑森林，並不見得到處都能幸運地嘗到沒有朱古力的黑森林蛋糕，不過有機會在此地享受黑森林時，不妨細心留意蛋糕里的小櫻桃，讓自己重新認識黑森林外，別忘了也感受一下那份藏於味蕾深處的新鮮感喔。
@@ -202,6 +277,7 @@ import cardTopthree from '../components/card_topthree.vue'
 // import cardProduct from '../components/card_product.vue'
 import cardProduct from '../components/card_product_index.vue'
 import footercom from '../components/footercom'
+import axios from 'axios';
 
 // import {gsap} from "gsap"
 // new fullpage('#fullpage', {
@@ -221,16 +297,17 @@ export default {
         // fullPage,
     },
     
-    // data() {
-    //     return {
-    //         options: {
-    //             // licenseKey: 'YOUR_KEY_HEERE',
-    //             menu: '#menu',
-    //             anchors: ['page1', 'page2', 'page3'],
-    //             // sectionsColor: ['#41b883', '#ff5f45', '#0798ec']
-    //         },
-    //     }
-    // },
+    data() {
+        return {
+            cakeCard: [],
+            // options: {
+            //     // licenseKey: 'YOUR_KEY_HEERE',
+            //     menu: '#menu',
+            //     anchors: ['page1', 'page2', 'page3'],
+            //     // sectionsColor: ['#41b883', '#ff5f45', '#0798ec']
+            // },
+        }
+    },
     methods: {
     // Called when your components are ready. That is up to you to decide when.
         componentsReady() {
@@ -368,6 +445,25 @@ export default {
             transformOrigin:'center center',
             // autoAlpha: 0,
         });
+
+        axios.post("http://localhost/melody_php/select_cakecard.php")
+            .then(res =>{
+                console.log(res);
+                let data = res["data"];
+                for(let i = 0; i < data.length; i++){
+
+                    this.cakeCard.push({
+                                cakeID: data[i].CAKE_ID,
+                                cakeName: data[i].CAKE_NAME,
+                                size: data[i].SIZE,
+                                img: data[i].CAKE_IMAGE_BLOB,
+                                price: data[i].PRICE,
+    
+                            });
+                }
+                // console.log(this.cakeCard);
+            })
+            .catch(err => console.log(err));
     },
 }
 </script>
@@ -853,28 +949,22 @@ export default {
         }
         div.fourth_card{
             display:grid;
+            align-items: center;
+            // max-width: 1200px;
             // grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             // gap: 60px 25px;
             // justify-content: space-between;
-            gap: 60px 25px;
-            grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
-            grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+            // gap: 60px 25px;
+            // grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+            // grid-template: repeat(2, 1fr) / repeat(3, 1fr);
         }
     }
 
-    @media (min-width: 576px) and (max-width: 1199.98px) {
+    @media all and (min-width: 1198.99px) {
         div.fourth_box{
             div.fourth_card{
-                gap: 35px;
-                grid-template: repeat(3, 1fr) / repeat(2, 1fr);
-            }
-        }
-    }
-    @media all and (max-width: 780px){
-        div.fourth_box{
-            div.fourth_card{
-                gap: 35px;
-                grid-template: repeat(6, 1fr) / repeat(1, 1fr);
+                align-items: center;
+                width: 1200px;
             }
         }
     }
@@ -1139,6 +1229,148 @@ export default {
             }
         }
     }
+
+    // -------------------------------- 主廚推薦 蛋糕卡片 --------------------------------
+#product_cakecard{
+    margin: 0 auto;
+    margin-bottom: 100px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+    gap:85px 30px;
+    max-width: 1120px;
+    width: 95%;
+    @media screen and (max-width:767.98px){ 
+        margin: 0 auto;
+        margin-bottom:70px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+        flex-wrap: wrap;
+        gap:70px 30px;
+        max-width: 576px;
+        width: 100%;
+    }
+    
+    .product_card_outline{
+        background-color: $palePike;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        margin: auto;
+        width: 100%;
+        max-width: 350px;
+        box-shadow: 3px 3px 6px 0px hsla(0, 0%, 0%, .3);
+        @media screen and (max-width:767.98px){ 
+            background-color: $palePike;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            width: 100%;
+            min-width: 340px;
+        }
+        .product_cake_title{
+            max-width: 300px;
+            width: 100%;
+            font-size: $h3;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            color: #515151;
+        }
+        .loveicon{
+            position: absolute;
+            top:3px;
+            right: 0px;
+            width: 25px;
+            height: 25px;
+            object-fit: fill;
+            color: #515151;
+            &:hover{
+                cursor: pointer;
+                color: rgb(235, 100, 100);
+            }
+        }
+        .loveicon.active{
+            color: rgb(160, 45, 45);
+        }
+
+        router-link{
+            text-decoration: none;
+            display: flex;
+        }
+        .product_img_container{
+            max-width: 300px;
+            // margin: 15px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            .product_img_container_img{
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+                @media screen and (max-width:767.98px){ 
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                }
+            }
+        }
+        .product_introduce{
+            margin: 15px;
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .product_detail{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                max-width: 100px;
+                width: 100%;
+                color: #515151;
+                .ntandprice{
+                    display: flex; 
+                    align-items: center;
+                    justify-content: space-between;
+                    .price{
+                        font-size: $h3;
+                        }
+                    .nt{
+                        font-size: $h3;
+                    }
+                }
+                .size{
+                    font-size: $h4;
+                }
+            }
+            .addtocar{
+                width: 180px;
+                height: 60px;
+                border-radius: 30px; 
+                box-shadow: $shadow;
+                background-color: $lightPike;
+                font-size: $h4;
+                border: 0;
+                color: #515151;
+                
+                img{
+                    width: 20px;
+                    height: 20px;
+                }
+                &:hover{
+                    // color: $lightPike;
+                    cursor: pointer;
+                    // background-color: $darkGrey;
+                }
+            }
+        }
+    }
+}
 
     // 第一屏 副標題 animation
     @keyframes movSubtitle {

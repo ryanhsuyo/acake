@@ -1,6 +1,6 @@
 <template>
     <div>
-        <headercom voteon=1 qaon=0 saleon=0 cakeon=0></headercom>
+        <headercom voteon=1 qaon=0 saleon=0 cakeon=0 openWhat="vote"></headercom>
         <div id="vote_page_main_bar">
             <titleh1 title="人氣投票"></titleh1>
             <p>
@@ -241,6 +241,7 @@ $bg: #efe6e4;
     font-size: 16px;
     line-height: 32px;
     margin-bottom: 100px;
+    color: #515151;
     span {
       display: block;
     }

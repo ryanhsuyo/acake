@@ -137,9 +137,9 @@ export default {
                 if(res.data =='登入失敗'){
                     alert(res.data)
                 }else{
-                    console.log(res.data[0].ID);
-                    this.$store.dispatch('update_memberId',res.data[0].ID)
-                    alert("登入成功，歡迎您回來，"+res.data[0].NAME)
+                    console.log(res.data[0].MEMBER_ID);
+                    this.$store.dispatch('update_memberId',res.data[0].MEMBER_ID)
+                    alert("登入成功，歡迎您回來")
                     this.$router.push('/member_data')
                 }
             }).catch((error)=>{

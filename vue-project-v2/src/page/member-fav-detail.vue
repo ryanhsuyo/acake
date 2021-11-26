@@ -153,7 +153,7 @@
         methods:{
             deleteFav(cakeID, index){
                 if(confirm("確定要將此蛋糕從收藏中刪除嗎?")){
-                    axios.post("http://localhost/A_cake/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.favCategoryID, cakeID: parseInt(cakeID)}))
+                    axios.post("./static/api/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.categoryID, cakeID: parseInt(cakeID)}))
                     .then(res => console.log(res))
                     .catch((err) => console.log(err));
 
@@ -162,12 +162,18 @@
             },
             goBuying(cakeID){
                 this.$router.push({
-                    path: `/product_detail/${cakeID}`
+                    path: `/product_detail?id=${cakeID}`
                 });
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
+
+            if(this.memberId == '0'){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign')
+            }
+
+            axios.post("./static/api/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length)

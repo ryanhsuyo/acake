@@ -235,7 +235,13 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+
+            if(this.memberId == '0'){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign')
+            }
+
+            axios.post("./static/api/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         console.log(res);
                         let data = res["data"];

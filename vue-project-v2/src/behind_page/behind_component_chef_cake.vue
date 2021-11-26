@@ -291,7 +291,7 @@ export default {
       
       if (this.newFlavor.category == 1) {
         
-        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
+        axios.post("./static/melody_php/new_flavor.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,

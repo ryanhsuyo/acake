@@ -17,7 +17,7 @@
 
     // $sql = "SELECT * FROM FLAVOR;";
     // $sql = "SELECT * FROM FLAVOR WHERE FLAVOR_ID = ?;";
-    $sql = "UPDATE `INGREDIENT` SET `INGREDIENT_NAME` = ?, `INGREDIENT_DESCRIPTION` = ?, `PRICE` = ?, `CATEGORY` = ?, `INGREDIENT_AVAILABLE`= 1 WHERE (`INGREDIENT_ID` = ?);";
+    $sql = "UPDATE `INGREDIENT` SET `INGREDIENT_NAME` = ?, `INGREDIENT_DESCRIPTION` = ?, `PRICE` = ?, `CATEGORY` = ?, `INGREDIENT_AVAILABLE`= ? WHERE (`INGREDIENT_ID` = ?);";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $name);
@@ -25,7 +25,8 @@
     // $statement->bindValue(3, $img);
     $statement->bindValue(3, $price);
     $statement->bindValue(4, $category);
-    $statement->bindValue(5,$_POST["id"]);
+    $statement->bindValue(5,$_POST["status"]);
+    $statement->bindValue(6,$_POST["id"]);
 
     $statement->execute();
     // $data = $statement->fetchAll();

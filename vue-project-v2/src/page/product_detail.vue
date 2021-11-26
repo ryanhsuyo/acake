@@ -61,7 +61,7 @@
                 </div>
                 <div class="productDetailAddenda_block" v-show="showpage" >
                     <productDetailAddenda class="heyBro" v-show="showpage" @closepage="nnn" :show="showpage"></productDetailAddenda>
-                    <div class="blackpage"></div>
+                    <div class="blackpage" @click="closeThePage"></div>
                 </div>
             </section>
         </main>
@@ -123,10 +123,14 @@ export default {
         },
         addAdditionalToStorage(additional){
         this.$store.dispatch('AStorage', additional)
+        alert('已加入購物車!!')
         },
         addToPStorage(packageSelected){
         this.$store.dispatch('PStorage', packageSelected)
         console.log('做不出來',packageSelected);
+        },
+        closeThePage(){
+            this.showpage = !this.showpage
         }
     },
     watch:{
@@ -145,30 +149,12 @@ export default {
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("http://localhost/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("./static/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
                 this.cake = res.data[0];
                 // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
-                console.log('到底要不要給我cake', this.cake)
-            // console.log('ROUTE的IID ',this.$route.params.id);
-            // for(let i = 0; i < data.length; i++){
-            //         let cake = {
-            //             cakeID: data[i].CAKE_ID,
-            //             cakeName: data[i].CAKE_NAME,
-            //             cakeDescription: data[i].CAKE_DESCRIPTION,
-            //             cakeSize: data[i].SIZE,
-            //             cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
-            //         }
-            //         this.favCategory.push(cake);
-            // }
-            console.log('到底要不要給我', pageID)
-            // const productDetailData = new URLSearchParams();
-            // params.append("page", index);
-            // axios({
-            //     method: "post",
-            //     url: "http://localhost/yoyo/productSelectCakeChangePage.php",
             //     data: pageID,
             // })
             }
@@ -177,7 +163,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -205,7 +191,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

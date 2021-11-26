@@ -2,11 +2,86 @@
   <section id="bottom_section">
     <div class="title">
       <h1>加購區</h1>
-      <searchBar></searchBar>
+      <!-- <searchBar></searchBar> -->
     </div>
     <div class="cake" >
+      <div class="outline close" @click="open()">
+        <div class="img_outline">
+          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <button @click="newClickInput($event)">
+            修改照片
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            class="imageButton"
+            @click="setNewImage()"
+          />
+        </div>
+        <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+              <p>商品ID：</p>
+              <input type="text"  disabled >
+              </div>
+              <div class="second">
+                <p>商品名稱：</p>
+                <input type="text" v-model="newPlus.newPlusName">
+              </div>
+              <!-- <div class="third">
+                <p>吋數:</p>
+                <select name="" id="" v-for="(size, index) in result" :key="index">
+                  <option>{{size}}吋</option>
+                </select>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <select name="" id="" v-model="newChefCake.newCakeFlavor">
+                  <option :value="flavor.ID" v-for="(flavor,indexxx) in allFlavor" :key="indexxx">{{flavor.NAME}}</option>
+                </select>
+              </div> -->
+            </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>狀態：</p>
+                <select name="" id="">
+                  <!-- <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
+                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option> -->
+                </select>
+              </div>
+                <div class="second">
+                <p>價格：</p>
+                <input type="text" v-model="newPlus.newPlusPrice">
+              </div>
+              <!-- <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div> -->
+
+            <!-- <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>
+            </div> -->
+          </div>
+          <div class="descript">
+              <p>描述：</p>
+              <textarea name="" id="" cols="30" rows="7" v-model="newPlus.description"></textarea>
+          </div>
+            </div>   
+            <div class="button_outline" >
+                <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
+              <div class="button_position">
+                <button @click="sendData">確認送出</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
       <div class="outline close" v-for="(plus,index) in pluses" :key="index">
-           <div class="img_outline">
+          <div class="img_outline">
           <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
           <button @click="newClickInput($event)">
             修改照片
@@ -94,8 +169,24 @@ export default {
   },
   data() {
     return {
+      index: 0,
       showWhat: [],
-      pluses:[]
+      pluses:[],
+      result: [],
+      data: [],
+      aaa: [],
+      ingredientAll: [],
+      newPlus: {
+        newPlusID:'',
+        newPlusName:'',
+        size:'',
+        newPlusPrice:'',
+        description: '',
+        img:'',
+        // available:1,
+      },
+        modifyData:'',
+        allFlavor:[],
     };
   },
   methods:{
@@ -121,11 +212,25 @@ export default {
       // console.log(readFile.readAsBinaryString(file));
       readFile.readAsDataURL(file);
       readFile.addEventListener("load", function () {
-        let image = document.getElementById("new_cake_img");
+        let image = document.getElementById("new_plus_img");
         // console.log(readFile.result);
         image.src = readFile.result;
         that.newFlavor.img = readFile.result;
       })
+    },
+     clickInput(index, $event,data) {
+      // alert(123)
+      let file = $event.target.nextSibling.nextSibling;
+      this.theIndex = index;
+      this.modifyData=data
+      console.log(index)
+      file.click();
+    },
+       setImage() {
+      // alert(this.theIndex)
+      let button =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1];
+      button.onchange = this.pushImage;
     },
     pushImage() {
       let that = this;
@@ -137,7 +242,7 @@ export default {
       // console.log(readFile.readAsBinaryString(file));
       readFile.readAsDataURL(file);
       readFile.addEventListener("load", function () {
-        let image = document.getElementsByClassName("cake_make_image")[index];
+        let image = document.getElementsByClassName("plus_image")[index];
         // console.log(readFile.result);
         image.src = readFile.result;
         const params = new FormData();
@@ -146,7 +251,7 @@ export default {
         params.append("index", this.modifyData.ID);
         axios({
           method: "post",
-          url: "./static/melody_php/new_flavor.php",
+          url: "./static/yoyo/behindInsertPlusImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -169,6 +274,39 @@ export default {
       console.log(index)
       file.click();
     },
+     sendData(){
+      let data = new URLSearchParams();
+      data.append('name',this.newPlus.newPlusName)
+      data.append('img',this.newPlus.img)
+      data.append('price',this.newPlus.newPlusPrice)
+      data.append('description',this.newPlus.description)
+      axios({
+        data,
+        url:"./static/yoyo/behindComponentPlusInsert.php",
+        method:"POST",
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+  },
+   updateData(datas){
+      let data = new URLSearchParams();
+      data.append('name',datas.Plus_NAME)
+      data.append('id',datas.Plus_ID)
+      data.append('description',datas.Plus_DESCRIPTION)
+      data.append('available',datas.Plus_AVAILABLE)
+      data.append('price',datas.PRICE)
+      axios({
+        method:"POST",
+        data,
+        url:"./static/yoyo/behindComponentPlusUpdate.php"
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
   },
   computed:{
     //   data(){
@@ -182,7 +320,7 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+            url: "./static/yoyo/behindComponentPlusSelect.php",
             data: params,
         })
         .then((res) => {
@@ -193,7 +331,42 @@ export default {
         .catch((error) => {
             console.log(error);
         })
+        const params2 = new URLSearchParams();
+        axios({
+            method: "post",
+            url: "./static/yoyo/behindComponentPlusSelect.php",
+            data: params2,
+        })
+        .then((res) => {
+            let data = res.data;
+            this.plus = data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    const ingredientAll = new URLSearchParams();
+        axios({
+            method: "post",
+            url: "./static/yoyo/behindComponentSelectIngredientAll.php",
+            data: ingredientAll,
+        })
+        .then((res) => {
+            let data = res.data;
+            console.log(data);
+            this.ingredientAll = data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
   },
+  watch:{
+    modifyData:{
+      deep:true
+    },
+    newChefCake:{
+      deep:true
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

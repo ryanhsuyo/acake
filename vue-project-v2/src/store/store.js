@@ -8,7 +8,7 @@ const state = {
   member_id: 1,
   employee_id: 1,
   cart:{},
-  AStorage:{},  // 加購倉庫
+  AStorage:[],  // 加購倉庫
   storage:{},   // 蛋糕倉庫
   cakeQuantity:1,  // 蛋糕數量
   PStorage:{},  // 包裝倉庫

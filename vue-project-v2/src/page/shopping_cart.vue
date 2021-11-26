@@ -24,7 +24,7 @@
                     <div class="addenda_block_list1">
                         <div class="addenda_block_cake">
                             <div class="addenda_block_cake_img_block">
-                                <img src="../assets/images/bit_cake.jpg" alt="">
+                                <img :src="cake.CAKE_IMAGE_BLOB" alt="">
                             </div>
                             <div class="addenda_block_cake_content">
                                 <div class="addenda_block_cake_title">{{cake.CAKE_NAME}}</div>
@@ -47,7 +47,7 @@
 
                             <div class="addenda_block_package" v-if="packageSelected.ACCESSORIES_NAME">
                                 <div class="addenda_block_package_item_img_block">
-                                    <img src="../assets/images/cho_cake.jpg" alt="">
+                                    <img :src="packageSelected.ACCESSORIES_IMG" alt="">
                                 </div>
                                 <div class="addenda_block_cake_content">
                                     <div class="addenda_block_cake_title">{{packageSelected.ACCESSORIES_NAME}}</div>
@@ -79,7 +79,7 @@
                     <div class="addenda_block_list2" v-for="(addendacard,index) in addendacards" :key='index' >
                         <div class="addenda_item_block_cardorcandle">
                             <div class="addenda_block_cake_img_block_cardorcandle">
-                                <img src="../assets/images/bit_cake.jpg" alt="">
+                                <img :src="addendacard.choice.ACCESSORIES_IMG" alt="">
                             </div>
                             <div class="addenda_block_cake_content_cardorcandle">
                                 <div class="addenda_block_cake_title_cardorcandle">{{addendacard.choice.ACCESSORIES_NAME}}</div>
@@ -283,8 +283,9 @@ export default {
         return{
             index: 0,
             packages: [],
-            packageSelected: this.$store.state.PStorage,
+            packageSelected: {},
             choices: [],
+            forCty:[],
         }
     },
     methods:{
@@ -318,8 +319,10 @@ export default {
     watch: {                  // 2 宣告成物件
     },
     computed:{
+        
         notSelectedChoices(){
             //全部商品過濾每個商品
+                this.$forceUpdate()
             return this.choices.filter((choice) => {
                 // console.log('thischoices這個',choices);
                 // 已選的商品如果有回傳true
@@ -346,12 +349,13 @@ export default {
             return this.$store.state.PStorage
         }
     },
-    mounted(){
-        const params = new URLSearchParams();
+    beforeMount(){
+const params = new URLSearchParams();
         // params.append("page", index);
+        
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -359,41 +363,17 @@ export default {
             let data = res.data;
             console.log('這是什麼', data)
             this.choices = data;
-            // console.log('012', this.choices);
-            // this.addendacards = 
-            //     [
-            //     {
-            //         quantity: 1,
-            //         choice: this.choices[0],
-            //     },
-            //     {
-            //         quantity: 1,
-            //         choice: this.choices[2],
-            //     }
             //     ]
             console.log('這個choices', this.choices)
         })
         .catch((error) => {
             console.log(error);
         })
-        // for(let prop in this.$store.state.AStorage){
-        //     console.log(this.$store.state.AStorage[prop])
-        //     this.addendacards.push(this.$store.state.AStorage[prop]);
-        // }
-        // this.addendacards.concat(this.$store.state.AStorage);
-        // 會員認證，非會員跳轉到登入頁面
-            // if(this.$store.state.member_id==0){
-            //     alert("您尚未登入，將跳轉到登入頁面");
-            //     this.$router.push('/assign')
-            // }
-
-            // return this.$store.state.storage;
-            // return this.$store.state.Astorage;
             const data = new URLSearchParams();
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -401,25 +381,24 @@ export default {
             let data = res.data;
             this.packages = data;
             console.log('shopping這是什麼packages', this.packages)
-            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCake);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data);
-            // console.log(datalength);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);
         })
-            
+    },
+    mounted(){
+        this.packageSelected = this.$store.state.PStorage
     },
     updated() {
         // console.log(`updated() pack: ---> ${this.packdata}`)
     },
     created(){
         document.querySelector('body').style.overflow='auto'
+    },
+    beforeDestroy(){
+             this.$store.dispatch('AStorage', this.addendacards)
+      this.$store.dispatch('PStorage', this.packageSelected)
+
     }
 }
 

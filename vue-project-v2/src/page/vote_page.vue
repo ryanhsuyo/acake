@@ -241,6 +241,7 @@ $bg: #efe6e4;
     font-size: 16px;
     line-height: 32px;
     margin-bottom: 100px;
+    color: #515151;
     span {
       display: block;
     }

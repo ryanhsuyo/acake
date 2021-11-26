@@ -105,7 +105,7 @@
                             
                             <swiper-slide v-for="(slide, key) in swiperList1" :key="key" >
                                 <div align="center" class="cake_box" style="position: relative;">
-                                    <img class="cake" :src="slide.img" @click="[method(slide,key),bigPic=slide.img]" alt="">
+                                    <img class="cake" :src="slide.img" @click="bigPic=slide.img; sendFlavorID(slide.flavorID, slide.price)" alt="">
                                     <img class="cake_plate" src="../assets/images/cake_design/plate.png" alt="">
                                 </div>
                                 <div class="instructions_text">
@@ -131,19 +131,13 @@
                      <!-- @click=data='datatotal[index]' -->
                  </div>
                  
-                 <!-- <div id="instructions_text" v-show='indexx==key' v-for="(slide,key) in swiperList" :key="key"> -->
-                     <!-- <div id="instructions_text_con" v-show='indexx==key' v-for="(slide,key) in swiperList" :key="key">
-                         <h4 style="margin-top: 0px; margin-bottom: 2px;">
-                            {{slide.title}}
-                        </h4>
-                            {{slide.text}}
-                     </div> -->
+                
                 <!-- </div> -->
                  
                  <div class="mascot_box">
                      <!-- <button class="delete_button" @click="deleteImg">刪除已選裝飾</button> -->
                      <div class="mascot">
-                        <img src="../assets/images/mascot1.png" alt="">
+                        <img src="../assets/images/mascot1.gif" alt="">
                      </div>
                  </div>
              </div>
@@ -187,7 +181,7 @@
                  <div class="mascot_box">
                      <button class="delete_button" @click="deleteImg">刪除已選水果</button>
                      <div class="mascot">
-                        <img src="../assets/images/mascot1.png" alt="">
+                        <img src="../assets/images/mascot1.gif" alt="">
                      </div>
                  </div>
                  <!-- <div class="delete_button_box">
@@ -234,7 +228,7 @@
                  <div class="mascot_box">
                      <button class="delete_button" @click="deleteImg">刪除已選裝飾</button>
                      <div class="mascot">
-                        <img src="../assets/images/mascot1.png" alt="">
+                        <img src="../assets/images/mascot1.gif" alt="">
                      </div>
                  </div>
              </div>
@@ -279,7 +273,7 @@
             </div>
             <!-- 下雪 -->
             <div id="finish_cake_box">
-                <img :src="htmlUrl" v-show="isShow" style="width:300px;">
+                <img :src="htmlUrl" v-show="isShow" class="finish_cake_img">
                 <img id="shiny1" src="../assets/images/shiny.svg" alt="">
                 <img id="shiny2" src="../assets/images/shiny.svg" alt="">
                 <img id="shiny3" src="../assets/images/shiny.svg" alt="">
@@ -293,11 +287,15 @@
             <div id="finish_designIdea_box">
                 <div class="designIdea_name">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕名稱</p>
-                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱"></textarea>
+                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱" v-model="newCakeDesign.name"></textarea>
+                </div>
+                <div class="designIdea_name">
+                    <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕英文名稱</p>
+                    <textarea name="" id="" cols="50" rows="2" placeholder="蛋糕英文名稱" v-model="newCakeDesign.nameEng"></textarea>
                 </div>
                 <div class="designIdea">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕設計理念</p>
-                    <textarea name="" id="" cols="50" rows="5" placeholder="我的蛋糕設計理念..."></textarea>
+                    <textarea name="" id="" cols="50" rows="5" placeholder="我的蛋糕設計理念..." v-model="newCakeDesign.description"></textarea>
                 </div>
             </div>
             <div id="finish_mascot_box">
@@ -307,14 +305,14 @@
                     </p>
                 </div>
                 <div class="mascot">
-                    <img src="../assets/images/mascot1.png" alt="">
+                    <img src="../assets/images/mascot1.gif" alt="">
                 </div>
                 <div class="finish_cakeDesign_button_box">
-                    <div id="finish_cakeDesign_button" @click="isPopup">
-                        <buttontest3 title=" 儲存蛋糕"></buttontest3>
-                    </div>
                     <div id="remake_button" @click="initial">
                         <buttontest2 title=" 重新製作"><router-link to="/cakeDesign" id="cakeDesign"  class="headerIcon" :class="{'open':openWhat == 'cakeDesign'}" ></router-link></buttontest2>
+                    </div>
+                    <div id="finish_cakeDesign_button" @click="isPopup">
+                        <buttontest title=" 儲存蛋糕"></buttontest>
                     </div>
                 </div>
             </div>
@@ -323,8 +321,9 @@
                 <article>
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">是否直接購買設計完成的客製化蛋糕?</p>
                     <div class="popup_button">
-                        <button class="yes" @click="memberLogin">是，直接購買</button>
-                        <button class="no" @click="memberLogin">否，加入設計庫</button>
+                        <router-link to="/member_data" id="member_data">
+                        <button class="no" @click="keepCakeDesign">否，加入設計庫</button></router-link>
+                        <button class="yes" @click="keepCakeDesign">是，直接購買</button>
                         <!-- <buttontest title=" 是，直接購買"></buttontest> -->
                         <!-- <buttontest title=" 否，加入設計庫"></buttontest> -->
                     </div>
@@ -363,6 +362,7 @@ import buttontest from '../components/button_h1.vue'
 import buttontest2 from '../components/button_h1_2.vue'
 import buttontest3 from '../components/button_h1_3.vue'
 import footercom from '../components/footercom'
+import store from '../store/store';
 
 import axios from 'axios'
 import qs from 'qs'
@@ -383,8 +383,15 @@ export default {
     },
     data(){
         return{
-            // 會員自己的創意蛋糕
-
+            newCakeDesign:{
+                name:'',
+                nameEng:'',
+                description:'',
+                flavorID: '1',
+                flavorPrice: '',
+                voteID: '',
+                price: '500',
+            },
             flavor: 1,
             ingredient: 1,
             // theFlavor:[],
@@ -401,122 +408,132 @@ export default {
             // bigImages:["../../static/cake_design/cake_model"],
             bigPic:require ('../assets/images/cake_design/cake_model1.png'),
             // 糕體
-            swiperList1:[
-                {img:require ('../assets/images/cake_design/cake_model1.png'),
-                title:'優格馬斯卡邦糕體',
-                text: '酸甜可口的特製野莓優格醬搭配鬆軟的海綿糕體，甜而不膩 ♡',
-                prize: 500
-                },
-                {img:require ('../assets/images/cake_design/cake_model2.png'),
-                title:'鮮奶油草莓糕體',
-                text: '百分百法國原裝頂級鮮奶油，與大溪地香草完美比例的清新香緹 ♡',
-                prize: 600
-                },
-                {img:require ('../assets/images/cake_design/cake_model3.png'),
-                title:'威士忌覆盆子巧克力糕體',
-                text: '72% 法國頂級苦甜黑巧克力的香緹，打造重磅迷人的大人風味 ♡',
-                prize: 700
-                },
-                {img:require ('../assets/images/cake_design/cake_model4.png'),
-                title:'藍莓優格乳酪糕體',
-                text: '濃郁微酸的優格與藍莓果餡層層疊疊起清爽酸甜的口味，讓妳不禁一口接一口 ♡',
-                prize: 500
-                },
-                {img:require ('../assets/images/cake_design/cake_model5.png'),
-                title:'鮮奶油抹茶香緹糕體',
-                text: '原裝頂級鮮奶油，搭配外圍綠色漸層抹面天然抹茶香緹，碰撞出溫柔的幸福風味 ♡',
-                prize: 500
-                },
-                {img:require ('../assets/images/cake_design/cake_model6.png'),
-                title:'鮮奶油紅茶香緹糕體',
-                text: '原裝頂級鮮奶油，搭配外圍橘黃色漸層抹面天然紅茶香緹，成熟又不失優雅的大人感 ♡',
-                prize: 500
-                },
-            ],
+            // swiperList1:[
+            //     {img:require ('../assets/images/cake_design/cake_model1.png'),
+            //     title:'優格馬斯卡邦糕體',
+            //     text: '酸甜可口的特製野莓優格醬搭配鬆軟的海綿糕體，甜而不膩 ♡',
+            //     price: 500,
+            //     flavorID: 1,
+            //     },
+            //     {img:require ('../assets/images/cake_design/cake_model2.png'),
+            //     title:'鮮奶油草莓糕體',
+            //     text: '百分百法國原裝頂級鮮奶油，與大溪地香草完美比例的清新香緹 ♡',
+            //     price: 600,
+            //     flavorID: 2,
+            //     },
+            //     {img:require ('../assets/images/cake_design/cake_model3.png'),
+            //     title:'威士忌覆盆子巧克力糕體',
+            //     text: '72% 法國頂級苦甜黑巧克力的香緹，打造重磅迷人的大人風味 ♡',
+            //     price: 700,
+            //     flavorID: 3,
+            //     },
+            //     {img:require ('../assets/images/cake_design/cake_model4.png'),
+            //     title:'藍莓優格乳酪糕體',
+            //     text: '濃郁微酸的優格與藍莓果餡層層疊疊起清爽酸甜的口味，讓妳不禁一口接一口 ♡',
+            //     price: 500,
+            //     flavorID: 4,
+            //     },
+            //     {img:require ('../assets/images/cake_design/cake_model5.png'),
+            //     title:'鮮奶油抹茶香緹糕體',
+            //     text: '原裝頂級鮮奶油，搭配外圍綠色漸層抹面天然抹茶香緹，碰撞出溫柔的幸福風味 ♡',
+            //     price: 500,
+            //     flavorID: 5,
+            //     },
+            //     {img:require ('../assets/images/cake_design/cake_model6.png'),
+            //     title:'鮮奶油紅茶香緹糕體',
+            //     text: '原裝頂級鮮奶油，搭配外圍橘黃色漸層抹面天然紅茶香緹，成熟又不失優雅的大人感 ♡',
+            //     price: 500,
+            //     flavorID: 6,
+            //     },
+            // ],
             cakeImg: '',
-            datatotal:[
-                
-                ],
+            datatotal:[],
                 // imgIndex: 0,
 
                 // 水果配料
-                swiperList2:[
+                // swiperList2:[
                     
-                    {img:require ('../assets/images/cake_design/fruit1.png'),
-                    title:'當季新鮮草莓（整顆）',
-                    text: '來自苗栗大湖現採草莓，趕快試看看把草莓加到你的設計上，甜入你心～ ♡',
-                    prize: 50
-                    },
-                    {img:require ('../assets/images/cake_design/fruit2.png'),
-                    title:'當季新鮮草莓（半顆）',
-                    text: '來自苗栗大湖現採草莓，風味絕佳，帶有牛奶香味 ♡',
-                    prize: 50
-                    },
-                    {img:require ('../assets/images/cake_design/fruit3.png'),
-                    title:'新鮮藍莓',
-                    text: '藍莓是五大健康水果之一呦！選了他，你的蛋糕一定會像你一樣吸引人 ♡',
-                    prize: 20
-                    },
-                    {img:require ('../assets/images/cake_design/fruit4.png'),
-                    title:'新鮮櫻桃',
-                    text: '你知道嗎？櫻桃常被用來代表許多美好的事物，猶如甜蜜的幸福 ♡',
-                    prize: 30
-                    },
-                    {img:require ('../assets/images/cake_design/fruit5.png'),
-                    title:'新鮮綠葡萄',
-                    text: '綠葡萄含有豐富的維生素 C，能促進膠原蛋白合成、提升免疫力 ♡',
-                    prize: 10
-                    },
-                    {img:require ('../assets/images/cake_design/fruit6.png'),
-                    title:'新鮮奇異果',
-                    text: '外表可愛的 kiwi 能養顏美容、增強免疫系統、幫助消化，吃一口好處多多 ♡',
-                    prize: 20
-                    },
-                    {img:require ('../assets/images/cake_design/fruit7.png'),
-                    title:'新鮮檸檬',
-                    text: '天然的美容聖品 ♡',
-                    prize: 50
-                    },
-                    {img:require ('../assets/images/cake_design/fruit8.png'),
-                    title:'もも水蜜桃片',
-                    text: '甜甜滋滋的桃子，如同愛情中溫柔的珍惜，快為蛋糕增添更多粉色泡泡吧 ♡',
-                    prize: 50
-                    },
-                ],
+                //     {img:require ('../assets/images/cake_design/fruit1.png'),
+                //     title:'當季新鮮草莓（整顆）',
+                //     text: '來自苗栗大湖現採草莓，趕快試看看把草莓加到你的設計上，甜入你心～ ♡',
+                //     price: 50
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit2.png'),
+                //     title:'當季新鮮草莓（半顆）',
+                //     text: '來自苗栗大湖現採草莓，風味絕佳，帶有牛奶香味 ♡',
+                //     price: 50
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit3.png'),
+                //     title:'新鮮藍莓',
+                //     text: '藍莓是五大健康水果之一呦！選了他，你的蛋糕一定會像你一樣吸引人 ♡',
+                //     price: 20
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit4.png'),
+                //     title:'新鮮櫻桃',
+                //     text: '你知道嗎？櫻桃常被用來代表許多美好的事物，猶如甜蜜的幸福 ♡',
+                //     price: 30
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit5.png'),
+                //     title:'新鮮綠葡萄',
+                //     text: '綠葡萄含有豐富的維生素 C，能促進膠原蛋白合成、提升免疫力 ♡',
+                //     price: 10
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit6.png'),
+                //     title:'新鮮奇異果',
+                //     text: '外表可愛的 kiwi 能養顏美容、增強免疫系統、幫助消化，吃一口好處多多 ♡',
+                //     price: 20
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit7.png'),
+                //     title:'新鮮檸檬',
+                //     text: '天然的美容聖品 ♡',
+                //     price: 50
+                //     },
+                //     {img:require ('../assets/images/cake_design/fruit8.png'),
+                //     title:'もも水蜜桃片',
+                //     text: '甜甜滋滋的桃子，如同愛情中溫柔的珍惜，快為蛋糕增添更多粉色泡泡吧 ♡',
+                //     price: 50
+                //     },
+                // ],
+                swiperList1: [],
+                swiperList2: [],
+                swiperList3: [],
+
+                // 蛋糕價格計算
+                allPrice: 0,
 
                 // 裝飾
-                swiperList3:[
-                    {img:require ('../assets/images/cake_design/decoration1.png'),
-                    title:'HAPPY BIRTHDAY 立牌',
-                    text: '甜甜的蛋糕，暖暖的祝福 ♡',
-                    prize: 50
-                    },
-                    {img:require ('../assets/images/cake_design/decoration2.png'),
-                    title:'裝飾小葉子',
-                    text: '快為蛋糕點綴一點俏皮可愛的小綠葉吧 ♡',
-                    prize: 20
-                    },
-                    {img:require ('../assets/images/cake_design/decoration3.png'),
-                    title:'A cake 小立牌',
-                    text: '讓你一整天都 A piece of cake ♡',
-                    prize: 20
-                    },
-                    {img:require ('../assets/images/cake_design/decoration4.png'),
-                    title:'鮮奶油',
-                    text: '白花花的鮮奶油是甜點界的花仙子，將美好幻想帶入生活 ♡',
-                    prize: 10
-                    },
-                    {img:require ('../assets/images/cake_design/decoration5.png'),
-                    title:'薄荷葉',
-                    text: '清爽氣息綠意盎然，如同喝了冰鎮飲料，格外清涼 ♡',
-                    prize: 10
-                    },
-                    {img:require ('../assets/images/cake_design/decoration6.png'),
-                    title:'迷迭香',
-                    text: '海洋之露，小巧清新而不失優雅，替你抹去記憶裡的憂傷 ♡',
-                    prize: 20
-                    },
-                ],
+                // swiperList3:[
+                //     {img:require ('../assets/images/cake_design/decoration1.png'),
+                //     title:'HAPPY BIRTHDAY 立牌',
+                //     text: '甜甜的蛋糕，暖暖的祝福 ♡',
+                //     price: 50
+                //     },
+                //     {img:require ('../assets/images/cake_design/decoration2.png'),
+                //     title:'裝飾小葉子',
+                //     text: '快為蛋糕點綴一點俏皮可愛的小綠葉吧 ♡',
+                //     price: 20
+                //     },
+                //     {img:require ('../assets/images/cake_design/decoration3.png'),
+                //     title:'A cake 小立牌',
+                //     text: '讓你一整天都 A piece of cake ♡',
+                //     price: 20
+                //     },
+                //     {img:require ('../assets/images/cake_design/decoration4.png'),
+                //     title:'鮮奶油',
+                //     text: '白花花的鮮奶油是甜點界的花仙子，將美好幻想帶入生活 ♡',
+                //     price: 10
+                //     },
+                //     {img:require ('../assets/images/cake_design/decoration5.png'),
+                //     title:'薄荷葉',
+                //     text: '清爽氣息綠意盎然，如同喝了冰鎮飲料，格外清涼 ♡',
+                //     price: 10
+                //     },
+                //     {img:require ('../assets/images/cake_design/decoration6.png'),
+                //     title:'迷迭香',
+                //     text: '海洋之露，小巧清新而不失優雅，替你抹去記憶裡的憂傷 ♡',
+                //     price: 20
+                //     },
+                // ],
 
             canvas:[],
             rect:[],
@@ -543,29 +560,39 @@ export default {
         }
     },
     methods:{
-        // 判斷會員是否登入
-        memberLogin(){
-            if(this.$store.state.member_id === 0 || typeof this.$store.state.member_id !== "number"){
-                alert("您尚未登入，將跳轉到登入頁面");
-                this.$router.push('/assign');
-            }else{
-                axios.post("./static/melody_php/new_ingredient.php", qs.stringify({
-                // name: this.newFlavor.name,
-                // description: this.newFlavor.description,
-                img: this.newFlavor.img,
-                // price: this.newFlavor.price,
-                // category: this.newFlavor.category,
-                // available: this.newFlavor.available,
-                })).then(res => {
-                // this.newFlavor = res.data;
-                // let data = res["data"];
-                console.log(res.data);
-                })
-                .catch(err => console.log(err));
-                // this.$router.push('/member_data');
-            }
-        },
+        // 將資料加入設計庫
+        keepCakeDesign(){
+            // let that = this;
+            // let file = document.querySelectorAll("input[type='file']")[0].files[0];
+            // let file = this.htmlUrl;
+            // console.log(this.newCakeDesign.name, );
+            axios.post("http://localhost/melody_php/new_cake_design.php", qs.stringify({
+                name: this.newCakeDesign.name, 
+                nameEng: this.newCakeDesign.nameEng, 
+                price: this.allPrice + parseInt(this.newCakeDesign.flavorPrice), 
+                description: this.newCakeDesign.description, 
+                flavorID: this.newCakeDesign.flavorID,
+                cakeDesignImageBlob: this.htmlUrl, 
+                memberID: this.$store.state.member_id, 
+                authorization: Math.ceil(Math.random() * 3), 
+                votingID: this.newCakeDesign.voteID,
+            }))
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+            
+            // let readFile = new FileReader();
+            // console.log(readFile.readAsBinaryString(file));
+    //         readFile.readAsDataURL(file);
+    //         readFile.addEventListener("load", function () {
+    //             let image = this.htmlUrl;
+    //             // console.log(readFile.result);
+    //             image.src = readFile.result;
+    //             that.file.img = readFile.result;
 
+                
+    //   })
+        },
+        
         // 製作完成
         isFinish(){
             this.isFinish1 = false;
@@ -636,28 +663,12 @@ export default {
             this.$refs.hits.$swiper.slideNext();
         },
 
-        // 大圖換小圖
-         method (val,index) {
-             let that = this;
-             console.log(val)
-            //  console.log(that.swiperList[index])
-            // this.cakeImg = val;
-            this.indexx=index;
-            // $("#big_cake_model").attr( "src" , val.img );
-            that.datatotal.push({
-                    title: '',
-                    text: '',
-                    img: val,
-                    prize: '',
-                });
-            
-        },
-
         // 點擊刪除蛋糕配料
         deleteImg(){
             
             this.canvas.remove(this.canvas.getActiveObject()) 
             this.canvas.renderAll()
+            this.allPrice -= parseInt(slide.price);
         },
 
         // 點擊增加水果
@@ -683,10 +694,11 @@ export default {
             
             this.canvas.add(imgInstance);
             // imgInstance.onclick
-            
+            // console.log(typeof slide.price);
+            this.allPrice += parseInt(slide.price);
         },
 
-        // 點擊增加水果
+        // 點擊增加裝飾
         decorationCake2 (slide2,key){
             var imgElement = document.getElementById(slide2.img+key)
             // console.log(imgElement);
@@ -709,6 +721,7 @@ export default {
             
             this.canvas.add(imgInstance);
             // imgInstance.onclick
+            this.allPrice += parseInt(slide2.price);
         },
 
 
@@ -731,6 +744,12 @@ export default {
         // 蛋糕製作步驟 按鈕
         changeShowArea(action){
             action === "back" ? this.showArea-- : action === "next" ? this.showArea++ : this.showArea;
+        },
+
+        // 送出所選的糕體ID
+        sendFlavorID(flavorID, price){
+            this.newCakeDesign.flavorID = flavorID;
+            this.newCakeDesign.flavorPrice = price;
         },
 
         // 頁面元素轉圖片
@@ -770,18 +789,63 @@ export default {
         this.showArea = 1;
 
         // -------------------------------------------- 資料處理部分 --------------------------------------------
-                axios.post("./static/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
                 .then(res => {
                     let theFlavor = res["data"];
-                    console.log(theFlavor);
+                    // console.log(theFlavor);
                 })
                 .catch(err => console.log(err));
 
                 // select配料&裝飾
-                axios.post("./static/melody_php/select_ingredient.php", qs.stringify({ingredientId: this.ingredient}))
+                axios.post("http://localhost/melody_php/select_ingredient_all.php")
                 .then(res => {
                     let data = res["data"];
                     console.log(data);
+                    let dataFruits = data.filter(item => item.CATEGORY === '2');
+                    let dataDecoration = data.filter(item => item.CATEGORY === '3');
+                    for(let i = 0; i < dataFruits.length; i++){
+                        this.swiperList2.push({
+                            ingredientID: dataFruits[i].INGREDIENT_ID,
+                            img: dataFruits[i].IMG,
+                            title: dataFruits[i].INGREDIENT_NAME,
+                            text: dataFruits[i].INGREDIENT_DESCRIPTION,
+                            price: dataFruits[i].PRICE,
+                        });
+                    }
+                    for(let i = 0; i < dataDecoration.length; i++){
+                        this.swiperList3.push({
+                            ingredientID: dataDecoration[i].INGREDIENT_ID,
+                            img: dataDecoration[i].IMG,
+                            title: dataDecoration[i].INGREDIENT_NAME,
+                            text: dataDecoration[i].INGREDIENT_DESCRIPTION,
+                            price: dataDecoration[i].PRICE,
+                        });
+                    }
+                    // console.log(this.swiperList2);
+                    console.log(this.swiperList3);
+                })
+                .catch(err => console.log(err));
+
+                axios.post("http://localhost/melody_php/select_flavor_all.php")
+                .then(res =>{
+                    let data = res["data"];
+                    for(let i = 0; i < data.length; i++){
+                        this.swiperList1.push({
+                            flavorID: data[i].ID,
+                            img: data[i].IMG,
+                            title: data[i].NAME,
+                            text: data[i].DESCRIPTION,
+                            price: data[i].PRICE,
+                        });
+                    }
+                    console.log(this.swiperList1);
+                })
+                .catch(err => console.log(err));
+
+                // 取得最近的投票活動ID
+                axios.post("http://localhost/melody_php/get_latest_voteID.php")
+                .then(res =>{
+                    this.newCakeDesign.voteID = res.data[0].ID;
                 })
                 .catch(err => console.log(err));
     },
@@ -962,15 +1026,15 @@ li.nav_item > a#cakeDesign{
     }
     //---------------------------------- 最外層 ----------------------------------
     section#outside{
-        overflow: hidden;
+        overflow-x: hidden;
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
     }
-    @media all and (max-width: 976px){
-        section#outside{
-            height: 200vh;
-        }
-    }
+    // @media all and (max-width: 976px){
+    //     section#outside{
+    //         height: 200vh;
+    //     }
+    // }
     //---------------------------------- 開始製作 first_screen ----------------------------------
     section#first_screen.start{
         // display: none;
@@ -1102,12 +1166,13 @@ li.nav_item > a#cakeDesign{
         // top: 50%;
         // left: 50%;
         // transform: translate(-50%,0)
-        // overflow: hidden;
+        overflow: hidden;
         display: none;
     }
     @media all and (max-width: 976px){
         section#second_screen{
             grid-template-columns: 1fr;
+            height: 200vh;
         }
     }
     img.first_screen_cake_look{
@@ -1330,6 +1395,7 @@ li.nav_item > a#cakeDesign{
             cursor: pointer;
             transition: 0.2s;
             background-color:rgba(0, 0, 0, 0.0);
+            z-index: 5;
             &:hover{
                 transform: translateY(-5px);
             }
@@ -1344,6 +1410,7 @@ li.nav_item > a#cakeDesign{
             cursor: pointer;
             transition: 0.2s;
             background-color:rgba(0, 0, 0, 0.0);
+            z-index: 5;
             &:hover{
                 transform: translateY(-5px);
             }
@@ -1359,6 +1426,7 @@ li.nav_item > a#cakeDesign{
             cursor: pointer;
             transition: 0.2s;
             background-color:rgba(0, 0, 0, 0.0);
+            z-index: 5;
             &:hover{
                 transform: translateY(-5px);
             }
@@ -1394,6 +1462,58 @@ li.nav_item > a#cakeDesign{
             // input#next_step{
             //     display: none;
             // }
+        }
+    }
+    @media all and (max-width: 660px){
+        div#production_area{
+            div#cake_box{
+                width: 400px;
+                height: 400px;
+            }
+        }
+        input#pseudo_element_button{
+            position: absolute;
+            left: 2%;
+        }
+        input#back_step{
+            position: absolute;
+            left: 2%;
+        }
+        input#next_step{
+            position: absolute;
+            right: 2%;
+        }
+        input#finish{
+            position: absolute;
+            right: 2%;
+        }
+    }
+    @media all and (max-width: 490px){
+        div#production_area{
+            div#cake_box{
+                width: 385px;
+                height: 385px;
+            }
+        }
+        input#pseudo_element_button{
+            position: absolute;
+            left: 25%;
+            bottom: 20%;
+        }
+        input#back_step{
+            position: absolute;
+            left: 25%;
+            bottom: 20%;
+        }
+        input#next_step{
+            position: absolute;
+            right: 25%;
+            bottom: 20%;
+        }
+        input#finish{
+            position: absolute;
+            right: 25%;
+            bottom: 20%;
         }
     }
 
@@ -1561,7 +1681,7 @@ li.nav_item > a#cakeDesign{
             order: 1;
         }
     }
-
+    
     // ------------------------------------------- 選擇水果 -------------------------------------------
     div.choose_cake_fruits{
         // overflow: hidden;
@@ -1715,6 +1835,7 @@ li.nav_item > a#cakeDesign{
                     color: #515151;
                     box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
                     transition: 0.2s;
+                    font-size: 14px;
                     &:hover{
                         background-color: #515151;
                         color: #F7EDD4;
@@ -1890,6 +2011,7 @@ li.nav_item > a#cakeDesign{
                     color: #515151;
                     box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
                     transition: 0.2s;
+                    font-size: 14px;
                     &:hover{
                         background-color: #515151;
                         color: #F7EDD4;
@@ -1993,6 +2115,7 @@ li.nav_item > a#cakeDesign{
             margin: 0;
             position: relative;
             // display: none;
+            overflow: hidden;
         
             background-image: url("../assets/images/index_kitchen_img_small.png");
             background-size: cover;
@@ -2009,6 +2132,19 @@ li.nav_item > a#cakeDesign{
                 justify-content: space-evenly;
             }
         }
+        @media all and (max-width: 768px){
+            section#third_screen{
+                grid-template-columns: 1fr;
+                height: 200vh;
+                div.finish_cakeDesign_button_box{
+                    flex-direction: column;
+                    align-items: center;
+                    height: 200px;
+                    bottom: 3%;
+                }
+            }
+        }
+        
         div#finish_cake_box{
             height: 100vh;
             display: flex;
@@ -2016,6 +2152,9 @@ li.nav_item > a#cakeDesign{
             justify-content: space-evenly;
             align-items: center;
             grid-column: 1/3;
+            img.finish_cake_img{
+                width:300px;
+            }
             // z-index: 1;
             img.first_screen_cake_look{
                 // z-index: 1;
@@ -2099,7 +2238,7 @@ li.nav_item > a#cakeDesign{
                     position: absolute;
                     transform: rotate(15deg);
                     top: 400px;
-                    right: 0px;
+                    right: 25px;
                     // 動畫效果
                     animation-name: shiny_animation6;
                     animation-duration: 3s;
@@ -2111,7 +2250,7 @@ li.nav_item > a#cakeDesign{
                     position: absolute;
                     transform: rotate(30deg);
                     top: 390px;
-                    right: 20px;
+                    right: 45px;
                     // 動畫效果
                     animation-name: shiny_animation7;
                     animation-duration: 3s;
@@ -2124,7 +2263,7 @@ li.nav_item > a#cakeDesign{
                     position: absolute;
                     transform: rotate(-15deg);
                     top: 370px;
-                    right: 5px;
+                    right: 30px;
                     // 動畫效果
                     animation-name: shiny_animation8;
                     animation-duration: 3s;
@@ -2133,6 +2272,35 @@ li.nav_item > a#cakeDesign{
                     animation-delay: 2s;
                 }
         }
+        @media all and (max-width: 768px){
+            div#finish_cake_box{
+                margin-top: 130px;
+                margin-bottom: 30px;
+                grid-column: 1/2;
+                height: 40vh;
+                img.first_screen_cake_look{
+                    top: 2%;
+                    right: 20%;
+                }
+                img#shiny6{
+                    top: 40%;
+                }
+                img#shiny7{
+                    top: 43%;
+                }
+                img#shiny8{
+                    top: 50%;
+                }
+            }
+        }
+        @media all and (max-width: 490px){
+            div#finish_cake_box{
+                img.finish_cake_img{
+                width:200px;
+            }
+            }
+        }
+
         div#finish_designIdea_box{
             padding-top: 80px;
             padding-bottom: 200px;
@@ -2175,6 +2343,31 @@ li.nav_item > a#cakeDesign{
                 }
             }
         }
+        @media all and (max-width: 768px){
+            div#finish_designIdea_box{
+                height: 400px;
+                grid-column: 1/2;
+                padding-top: 0;
+                align-items: center;
+                padding-bottom: 0;
+            }
+        }
+        @media all and (max-width: 490px){
+            div#finish_designIdea_box{
+                div.designIdea_name{
+                    textarea{
+                        max-width: 360px;
+                    }
+                }
+                div.designIdea{
+                    textarea{
+                        max-width: 360px;
+                    }
+                }
+
+            }
+        }
+
         div#finish_mascot_box{
             padding-top: 180px;
             height: 100vh;
@@ -2220,6 +2413,18 @@ li.nav_item > a#cakeDesign{
                 img{
                     width: 100%;
                 }
+            }
+        }
+        @media all and (max-width: 768px){
+            div#finish_mascot_box{
+                margin-top: 10px;
+                grid-column: 1/2;
+                order:2;
+                padding: 0;
+                align-items: center;
+                // div.mascot{
+                //     margin-bottom: 200px;
+                // }
             }
         }
 

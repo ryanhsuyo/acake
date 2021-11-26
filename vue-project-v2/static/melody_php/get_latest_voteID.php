@@ -11,7 +11,7 @@
     // $memberId = htmlspecialchars($_POST["memberId"]);
     // $name = htmlspecialchars($_POST["name"]);
     // $description = htmlspecialchars($_POST["description"]);
-    $img = htmlspecialchars($_POST["img"]);
+    // $img = htmlspecialchars($_POST["img"]);
     // $price = htmlspecialchars($_POST["price"]);
 
     
@@ -27,6 +27,6 @@
     // $statement->execute();
     $data = $statement->fetchAll();
 
-    echo $data;
+    echo json_encode($data);
 
 ?>

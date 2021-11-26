@@ -468,7 +468,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-    // @import "../assets/style/var.scss";
+    @import "../assets/style/var.scss";
     $shadow:rgba(0,0,0,1);
     @import "../assets/style/fullpage.min.css";
     body{

@@ -2,7 +2,7 @@
   <section id="right_section">
     <div class="title">
       <h1>會員資料</h1>
-      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..."></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..." :style="{opacity:'70%'}"></searchBar>
     </div>
     <div class="cake">
       
@@ -120,7 +120,7 @@ export default {
     },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectMember.php")
+    axios.post("./static/api/BE_selectMember.php")
       .then(res => {
         let data = res["data"];
         // console.log(data);

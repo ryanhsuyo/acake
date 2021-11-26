@@ -16,14 +16,15 @@
 
     // $sql = "SELECT * FROM FLAVOR;";
     // $sql = "SELECT * FROM FLAVOR WHERE FLAVOR_ID = ?;";
-    $sql = "UPDATE `FLAVOR` SET `NAME`= ?, `DESCRIPTION`= ?, `PRICE`= ?, `CATEGORY_NAME`= 'cake', `AVAILABLE`= 1 WHERE (`ID` = ?);";
+    $sql = "UPDATE `FLAVOR` SET  `NAME`= ?, `DESCRIPTION`= ?, `PRICE`= ?, `CATEGORY_NAME`= 'cake', `AVAILABLE`= ? WHERE (`ID` = ?);";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $name);
     $statement->bindValue(2, $description);
     // $statement->bindValue(3, $img);
     $statement->bindValue(3, $price);
-    $statement->bindValue(4,$_POST["id"]);
+    $statement->bindValue(4,$_POST["status"]);
+    $statement->bindValue(5,$_POST["id"]);
 
     $statement->execute();
     // $data = $statement->fetchAll();

@@ -41,6 +41,7 @@
 <script>
 import axios from 'axios';
 import qs from "qs";
+import store from '../store/store';
 
 export default {
     name: "member_main_bar",
@@ -57,6 +58,7 @@ export default {
             }
         },
         uploadAvatar(){
+            let that = this;
             let memberId = this.memberId;
             let file = document.getElementById("avatar_upload").files[0];
             let reader = new FileReader();
@@ -64,7 +66,7 @@ export default {
             reader.addEventListener("load", function(){
                 document.getElementById("avatar_pic").src = reader.result;
 
-                axios.post("http://localhost/A_cake/uploadAvatar.php",qs.stringify({memberId: memberId, imgBlob: reader.result}))
+                axios.post("./static/api/uploadAvatar.php",qs.stringify({memberId: that.$store.state.member_id, imgBlob: reader.result}))
                     .then(res => {
                         // console.log(res);
                     })
@@ -76,7 +78,7 @@ export default {
     mounted(){
         document.getElementById("avatar_upload").addEventListener("change", this.uploadAvatar);
 
-        axios.post("http://localhost/A_cake/selectAvatar.php",qs.stringify({memberId: this.memberId}))
+        axios.post("./static/api/selectAvatar.php",qs.stringify({memberId: this.$store.state.member_id}))
             .then(res => {
                 // console.log(res);
                 document.getElementById("avatar_pic").src = res["data"][0].MEMBER_IMG_BLOB;

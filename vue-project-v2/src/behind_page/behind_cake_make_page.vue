@@ -79,7 +79,7 @@
          <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
     <div class="switch" id="outline" >
-    <span class="circle" id="circle"></span>
+    <span class="circle" id="circle" ></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -142,9 +142,9 @@
       <div class="button_upsite">
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
-    <div class="switch" id="outline" :class="{'-on':1}">
+    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus(data);updateData(data)">
       <!-- :class="{'-on':data.status} -->
-    <span class="circle" id="circle" :class="{'-on':1}"></span>
+    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}" ></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -207,8 +207,8 @@
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
     <!-- 叫庭揚修 -->
-    <div class="switch" id="outline" :class="{'-on':1}">
-    <span class="circle" id="circle" :class="{'-on':1}"></span>
+    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus(data);updateData(data)">
+    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus(data);updateData(data)"></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -344,6 +344,15 @@ export default {
     };
   },
   methods: {
+    changeStatus(value){
+      // console.log(value)
+      console.log(value.AVAILABLE)
+      if(value.AVAILABLE == 1){
+        value.AVAILABLE =0
+      }else{
+        value.AVAILABLE =1
+      }
+    },
     change(index){
         let i =  this.data[index].status;
         this.data[index].status = this.data[index].status?0:1
@@ -425,6 +434,7 @@ export default {
         id: data.ID,
         name: data.NAME,
         description: data.DESCRIPTION,
+        status:data.AVAILABLE,
         // img: data.IMG,
         price: data.PRICE,
         // category: this.newFlavor.category,
@@ -444,6 +454,7 @@ export default {
         name: data.INGREDIENT_NAME,
         description: data.INGREDIENT_DESCRIPTION,
         img: data.IMG,
+        status:data.INGREDIENT_AVAILABLE,
         // price: data.PRICE,
         category: data.CATEGORY,
         // available: this.newFlavor.available,

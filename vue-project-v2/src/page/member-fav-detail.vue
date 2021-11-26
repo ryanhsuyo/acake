@@ -29,7 +29,7 @@
                         <h4 class="cake_title">{{item.cakeName}}</h4>
                         <p class="design_idea">{{item.cakeDescription}}</p>
                         <div class="interact_area">
-                            <button class="go_shopping">進入商品頁面</button>
+                            <button class="go_shopping" @click="goBuying(item.cakeID)">進入商品頁面</button>
                             <div class="delete" @click="deleteFav(item.cakeID, index)">
                                 <font-awesome-icon icon="fa-solid fa-trash-can" class="trash_can_icon" />
                             </div>
@@ -153,16 +153,27 @@
         methods:{
             deleteFav(cakeID, index){
                 if(confirm("確定要將此蛋糕從收藏中刪除嗎?")){
-                    axios.post("http://localhost/A_cake/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.favCategoryID, cakeID: parseInt(cakeID)}))
+                    axios.post("./static/api/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.categoryID, cakeID: parseInt(cakeID)}))
                     .then(res => console.log(res))
                     .catch((err) => console.log(err));
 
                     this.favCategory.splice(index, 1);
                 }
             },
+            goBuying(cakeID){
+                this.$router.push({
+                    path: `/product_detail?id=${cakeID}`
+                });
+            },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
+
+            if(this.memberId == '0'){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign')
+            }
+
+            axios.post("./static/api/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length)
@@ -174,7 +185,7 @@
                                     cakeID: data[i].CAKE_ID,
                                     cakeName: data[i].CAKE_NAME,
                                     cakeDescription: data[i].CAKE_DESCRIPTION,
-                                    cakeImg: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                    cakeImg: !!data[i].CAKE_IMAGE_BLOB ? data[i].CAKE_IMAGE_BLOB : data[i].CAKE_DESIGN_IMAGE_BLOB,
                                     cakeImgBlob: data[i].CAKE_IMG_BLOB,
                                 }
                                 this.favCategory.push(cake);

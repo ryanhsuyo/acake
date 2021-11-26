@@ -41,7 +41,7 @@
                     </select>
                 </div>
                 <!-- searchbar組件 -->
-                <input type="text" placeholder="輸入訂單編號或蛋糕名稱..." class="search" @input="searchCake" v-model="searchValue">
+                <input type="text" placeholder="輸入訂單編號..." class="search" @input="searchCake" v-model="searchValue" @keydown.enter.prevent="" :style="{opacity:'70%'}">
             </form>
         </section>
 
@@ -151,6 +151,7 @@
     import axios from 'axios';
     import $ from 'jquery';
     import qs from "qs";
+    import store from "../store/store";
     
     import switch_tab from "../components/switchTabMember"
     import member_main_bar from "../components/member_main_bar";
@@ -234,9 +235,15 @@
             },
         },
         mounted(){
-            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+
+            if(this.memberId == '0'){
+                alert("您尚未登入，將跳轉到登入頁面");
+                this.$router.push('/assign')
+            }
+
+            axios.post("./static/api/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        // console.log(res);
+                        console.log(res);
                         let data = res["data"];
                         let orderID = null;   // orderID控制要不要加入同筆訂單共用資料，第一筆資料會判定加入
                         let ongoingCakeCount = -1;  // 控制加入蛋糕配料的位置
@@ -265,7 +272,7 @@
 
                             // 加入單筆訂單中不同的蛋糕資料
                             let cakeData = {
-                                cakeImage: require("../assets/images/" + data[i].CAKE_IMAGE),
+                                cakeImage: !!data[i].CAKE_IMAGE_BLOB ? data[i].CAKE_IMAGE_BLOB : data[i].CAKE_DESIGN_IMAGE_BLOB,
                                 cakeName: data[i].CAKE_NAME,
                                 cakeDescription: data[i].CAKE_DESCRIPTION,
                                 quantity: data[i].QUANTITY,
@@ -726,7 +733,7 @@ input.search{
     border-radius: 100px;
     border:none;
     padding:0 30px;
-    opacity:70%;
+    // opacity:0.7;
     box-shadow: $shadow;
     font-size: 20px;
     cursor: text;
@@ -762,7 +769,7 @@ input.search{
 }
 .slide-enter-to, .slide-leave{
     // transform: translateY(0);
-    opacity: 100%;
+    opacity: 1; 
 }
 
 </style>

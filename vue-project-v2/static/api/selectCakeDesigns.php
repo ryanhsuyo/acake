@@ -6,7 +6,7 @@
 
     $memberId = htmlspecialchars($_POST["memberId"]);
 
-    $sql = "SELECT * FROM CAKE c join `MEMBER` m on c.MEMBER_ID = m.MEMBER_ID WHERE m.MEMBER_ID = ?;";
+    $sql = "SELECT * FROM CAKE c join `MEMBER` m on c.MEMBER_ID = m.MEMBER_ID WHERE m.MEMBER_ID = ? ORDER BY CAKE_ID desc;";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $memberId);

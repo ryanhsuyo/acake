@@ -2,7 +2,7 @@
   <section id="right_section">
     <div class="title">
       <h1>人氣投票上傳</h1>
-      <searchBar @selectData="goSearching" placeholder="輸入蛋糕名稱或創作理念..."></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入蛋糕名稱或創作理念..." :style="{opacity:'70%'}"></searchBar>
     </div>
     <div class="cake">
       <div class="no_result" v-show="no_result">沒有符合的搜尋結果！</div>
@@ -72,7 +72,7 @@ export default {
         // console.log(unchangedIndex);
         // cake_data_unchanged[unchangedIndex].cakeIMG = reader.result;
 
-        axios.post("http://localhost/A_cake/BE_updateCakeImage.php", qs.stringify({cakeID: cakeID, cakeImgBlob: reader.result}))
+        axios.post("./static/api/BE_updateCakeImage.php", qs.stringify({cakeID: cakeID, cakeImgBlob: reader.result}))
         .then(res => console.log(res))
         .catch(err => console.log(err));
       });
@@ -103,7 +103,7 @@ export default {
     // },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectCake.php")
+    axios.post("./static/api/BE_selectCake.php")
       .then(res => {
         let data = res["data"];
 

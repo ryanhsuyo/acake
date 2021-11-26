@@ -411,7 +411,7 @@ body{
     border-radius: 100px;
     border:none;
     padding:0 30px;
-    opacity:70%;
+    // opacity:0.7;
     box-shadow: $shadow;
     font-size: $h4;
     display: flex;

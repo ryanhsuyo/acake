@@ -566,7 +566,7 @@ export default {
             // let file = document.querySelectorAll("input[type='file']")[0].files[0];
             // let file = this.htmlUrl;
             // console.log(this.newCakeDesign.name, );
-            axios.post("http://localhost/melody_php/new_cake_design.php", qs.stringify({
+            axios.post("./static/melody_php/new_cake_design.php", qs.stringify({
                 name: this.newCakeDesign.name, 
                 nameEng: this.newCakeDesign.nameEng, 
                 price: this.allPrice + parseInt(this.newCakeDesign.flavorPrice), 
@@ -789,7 +789,7 @@ export default {
         this.showArea = 1;
 
         // -------------------------------------------- 資料處理部分 --------------------------------------------
-                axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                axios.post("./static/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
                 .then(res => {
                     let theFlavor = res["data"];
                     // console.log(theFlavor);
@@ -797,7 +797,7 @@ export default {
                 .catch(err => console.log(err));
 
                 // select配料&裝飾
-                axios.post("http://localhost/melody_php/select_ingredient_all.php")
+                axios.post("./static/melody_php/select_ingredient_all.php")
                 .then(res => {
                     let data = res["data"];
                     console.log(data);
@@ -826,7 +826,7 @@ export default {
                 })
                 .catch(err => console.log(err));
 
-                axios.post("http://localhost/melody_php/select_flavor_all.php")
+                axios.post("./static/melody_php/select_flavor_all.php")
                 .then(res =>{
                     let data = res["data"];
                     for(let i = 0; i < data.length; i++){
@@ -843,7 +843,7 @@ export default {
                 .catch(err => console.log(err));
 
                 // 取得最近的投票活動ID
-                axios.post("http://localhost/melody_php/get_latest_voteID.php")
+                axios.post("./static/melody_php/get_latest_voteID.php")
                 .then(res =>{
                     this.newCakeDesign.voteID = res.data[0].ID;
                 })

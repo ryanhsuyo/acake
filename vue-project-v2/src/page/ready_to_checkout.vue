@@ -35,65 +35,37 @@
                             </div>
                             <div class="preset_address">
                                 <div class="address_inline">
-                                    <input type="radio"  name= "address" id="" checked>運送到預設地址
+                                    <input type="radio"  name= "address" id="" checked>運送地址
                                 </div>
-                                <input class="bill_individual_address" type="textarea" value="本來的地址本來的地址本來的地址本來的地址本來的地址"  v-model="address">
-                            </div>
-                            <div class="new_address">
-                                <div class="address_inline">
-                                <input type="radio" name="address" id="">運送到不同地址
-                                </div>
-                                <input class="bill_individual_address"  type="textarea" v-model="otheraddress">
+                                <input class="bill_individual_address" v-model="address" type="textarea" value="本來的地址本來的地址本來的地址本來的地址本來的地址">
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
-                                <input class="bill_individual_short" type="date" name="" id="myID" >
+                                <input class="bill_individual_short" type="date" name="" id="myID" v-model="date">
                             </div>
                             <div class="mark">
                                 <label class="bill_individual_title_long">註記<span class="bill_individual_title_marktext">(選擇宅配需在下方留下您當日方便收件時間)</span></label>
-                                <textarea class="bill_individual_mark" type="text" name="" id="" placeholder="請留下配送當日您方便收件的時間及其他想傳達給我們的資訊"></textarea>
+                                <textarea class="bill_individual_mark" type="text" name="" id="" v-model="mark" placeholder="請留下配送當日您方便收件的時間及其他想傳達給我們的資訊"></textarea>
                             </div>
                             
                             
-                          
-                            <!-- <div id="coupon">
-                                <div id="coupon_left_block">
-                                <div id="discount_amout">$<span>150</span></div>
-                                <div id="A_cake_text_logo">
-                                    <img src="../assets/images/logo_title.png" alt="">
-                                </div>
-                                <div id="coupon_left_decoration_img">
-                                    <img src="../assets/images/blueberry_cream.png" alt="">
-                                </div>
-                                <div id="use_threshold">消費滿<span>1000</span>即可折抵</div>
-                                <img id="bottom_decoration_img" src="../assets/images/snowRWD.svg" />
-                                </div>
-                                <div id="coupon_right_block">
-                                <div id="expiration">
-                                    <span>使用期限</span>
-                                    <span id="expiration_date">2021/10/31</span>
-                                </div>
-                                <div id="coupon_right_decoration_img">
-                                    <img src="../assets/images/jellyfish_icon.svg" alt="">
-                                </div>
-                                <div id="expiration_countdown">即將失效：剩下<span>10</span>天</div>
-                                </div>
-                            </div> -->
-                            <!-- <div class="ready_to_checkout_coupon">
-                                <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="0" checked v-model="couponDiscount">
-                                <label for="">不使用折價卷</label>
-                            </div> -->
-                            <div class="coupon" v-for="(item, index) in couponData" :key="index" :value="item.discount" @click="chooseDiscount(item.discount)">
+                            <div class="ready_to_checkout_coupon">
+                                <input id="nonono" type="radio"  class="ready_to_checkout_coupon_click cursorPoint" value="0" v-model="couponDiscount">
+                                <label for="nonono" class="cursorPoint">不使用折價卷</label>
+                            </div>
+                            <div class="coupon " v-for="(item, index) in couponData" :key="index" >
                                 <div class="ready_to_checkout_coupon">
-                                    <input type="radio" name="item" class="ready_to_checkout_coupon_click" value="item.discount" v-model="couponDiscount" >
-                                    <label for="">使用折價卷</label>
+                                    <input type="radio" :id="item.couponId" class="ready_to_checkout_coupon_click" :value="item" v-model="couponDiscount" >
+                                    <label :for="item.couponId" class="cursorPoint">使用折價卷</label>
                                 </div>
-                                <div class="coupon_block">
+                                <label :for="item.couponId">
+                                <div class="coupon_block cursorPoint" >
 
                                     <div class="coupon_left_block">
                                         <div class="discount_amout">$<span>{{item.discount}}</span></div>
                                         <div class="A_cake_text_logo">
                                             <img src="../assets/images/logo_title.png" alt="">
+                                            
                                         </div>
                                         <div class="coupon_left_decoration_img">
                                             <img src="../assets/images/blueberry_cream.png" alt="">
@@ -113,7 +85,9 @@
                                             即將失效：剩下&nbsp;<span>{{}}</span>&nbsp;天
                                         </div>
                                     </div>
+                                
                                 </div>
+                                </label>
                             </div>
                         </form>
                     </div>
@@ -121,7 +95,7 @@
 
                     <!-- 我的訂單 -->
                     <div class="bill_details_outline">
-                        <form action="" class="ready_bill_details">
+                        <form class="ready_bill_details">
                             <div class="ready_bill_details_title">您的訂單</div>
                             <label class="ready_bill_details_second_title">商品</label>
                             <div class="hr3"></div>
@@ -164,12 +138,12 @@
                                     <div class="ready_bill_details_product_cake_price">{{storage.PRICE * cakeQuantity + aPrice }}</div>
                                 </div>
                             </div>
-                            <div class="hr3"  v-if="couponDiscount > 0"></div>
-                            <div class="couple_cost" v-if="couponDiscount > 0">
+                            <div class="hr3"  v-if="couponDiscount.discount > 0"></div>
+                            <div class="couple_cost" v-if="couponDiscount.discount > 0">
                                 <label for="" class="ready_bill_details_second_title">折價卷</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price">{{couponDiscount}}</div>
+                                    <div class="ready_bill_details_product_cake_price">- {{couponDiscount.discount}}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -178,7 +152,7 @@
                                 <div class="shipping_style_block">
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="" value="150" v-model="shipPrice">宅配
+                                            <input type="radio" name="shipping_style" id="" value="宅配" v-model="shipPrice">宅配
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -187,7 +161,7 @@
                                     </div>
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="" value="120" v-model="shipPrice">黑貓宅急便
+                                            <input type="radio" name="shipping_style" id="" value="黑貓宅急便" v-model="shipPrice">黑貓宅急便
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -201,7 +175,7 @@
                                 <label for="" class="ready_bill_details_second_title">總計</label>
                                 <div class="ready_bill_details_product_twandprice">
                                     <div class="ready_bill_details_product_cake_tw ready_bill_special_color">NT$</div>
-                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{storage.PRICE * cakeQuantity + aPrice + parseInt(shipPrice) }}</div>
+                                    <div class="ready_bill_details_product_cake_price last_price  ready_bill_special_color">{{totalMoney}}</div>
                                 </div>
                             </div>
                             <div class="hr3"></div>
@@ -211,21 +185,21 @@
                                 </label>
                                 <div class="bill_payment_block">
                                     <div class="bill_payment_style_block">
-                                        <input type="radio" name="payment" id="">信用卡付款/ATM轉帳
+                                        <input type="radio" name="payment" v-model="payment" id="" class="cursorPoint" value=0>信用卡付款/ATM轉帳
                                         <img class="img_30" src="../assets/images/ecpay_icon.png" alt="">
                                     </div>
-                                    <div class="bill_payment_style_block">
-                                        <input type="radio" name="payment" id="">貨到付款
+                                    <div class="bill_payment_style_block" >
+                                        <input type="radio" class="cursorPoint" name="payment" id="" v-model="payment" value=1>貨到付款
                                     </div>
                                     <div class="bill_payment_style_block">
-                                        <input type="radio" name="payment" id="">LinePay
+                                        <input type="radio" name="payment" id="" class="cursorPoint" v-model="payment" value=2>LinePay
                                         <img src="../assets/images/linepay_icon.png" alt="">
                                     </div>
                                 </div>
                             </div>
-                            <router-link to="checkout_complete">
-                                <button class="bill_ready_to_checkout_sumbit">下單購買</button>
-                            </router-link>
+                            
+                                <button class="bill_ready_to_checkout_sumbit" @click.prevent="submitorder">下單購買</button>
+                            
                             <span class="security_and_privacy">您的個人數據將用於處理您的訂單，支持您在整個網站的體驗，以及我們的隱私權政策中描述的其他目的</span>
                         </form>
                     </div>
@@ -271,37 +245,150 @@ export default {
             address: '',
             otheraddress: '',
             aPrice: 0,
-            shipPrice: 0,
+            shipPrice: '宅配',
             couponDiscount: 0,
             // 折價券資料
             couponData: [],
-            // myID,
+            // 寄送資訊
+            recipient:'',
+            phone:'',
+            address:'',
+            mark:'尚無注記',
+            date:'',
+            payment: 0,
+            newOrderDate:'',
         }
     },
     methods:{
         chooseDiscount(item){
-            this.couponDiscount = item;
+            this.couponDiscount.discount = item;
         },
         submitorder(){
-            let memberId = new URLSearchParams;
-            memberId.append("memberId", this.memberId);
-            axios.post("http://localhost/yoyo/submitorder.php", memberId)
-                .then(res => {
-                    let data = res.data;
-                    this.recipient = data[0].RECEIVER;
-                    this.phone = data[0].PHONE;
-                    this.address = data[0].ADDRESS;
-    
-                })
-                .catch( err => cosole.log(err));
+            if(this.date!=''&&this.recipient!=''&&this.phone!=''&&this.adress!=''){ //擋下智障
+
+                let data = new URLSearchParams();
+                    data.append('payment',this.payment); //付款方法
+                    if(this.couponDiscount ==0){
+                        data.append('coupon',0)
+                    }else{
+                        data.append('coupon',this.couponDiscount.couponId); //優惠卷ID
+                    }
+                    data.append("memberId",this.$store.state.member_id); //會員ID
+                    data.append('shipday',this.date); //寄送日期
+                    data.append("fee",this.changejaipei); //寄送金額
+                    data.append('recipient',this.recipient); //收信人
+                    data.append("address",this.address); //地址
+                    data.append('deliver_method', this.changeCTY); //配送
+                    data.append("phone",this.phone); //電話
+                    data.append("mark",this.mark); //註記
+                    axios({
+                        method:"POST",
+                        data,
+                        url:"./static/yoyo/insertOrder.php"
+                    }).then((res)=>{
+                        // 流程控制，寫入訂單詳細資訊
+                        this.newOrderDate = res.data;
+                        let orderDetail=new URLSearchParams();
+                        orderDetail.append('cakeId',this.$store.state.storage.CAKE_ID)
+                        orderDetail.append('number',this.$store.state.cakeQuantity);
+                        orderDetail.append('total',parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity));
+                        orderDetail.append('time',this.newOrderDate);
+                        axios({
+                            method:"POST",
+                            url:'./static/yoyo/insertOrderCake.php',
+                            data:orderDetail,
+                        }).then((res)=>{
+                            // 以下為流程控制寫入包裝
+                            let packages = new URLSearchParams();
+                            packages.append('packages', this.$store.state.PStorage.ID)
+                            packages.append('time', this.newOrderDate)
+                            axios({
+                                method:"POST",
+                                data:packages,
+                                url:"./static/yoyo/insertPackages.php"
+                            }).then((res)=>{
+                                console.log(res.data);
+                            }).catch((err)=>{
+                                console.log(err)
+                            })
+                            // 以上為流程控制寫入包裝
+                            // 以下為流程控制寫入加購品
+                            let access = new URLSearchParams();
+                            access.append('time', this.newOrderDate)
+                            let accessId=[];
+                            let accessNum=[];
+                            for(let i =0;i<this.$store.state.AStorage.length;i++){
+                                accessId.push(this.$store.state.AStorage[i].choice.ID);
+                                accessNum.push(this.$store.state.AStorage[i].quantity)
+                            }
+                            access.append('accessId',accessId);
+                            access.append('accessNum',accessNum);
+                            axios({
+                                method:"POST",
+                                data:access,
+                                url:'./static/yoyo/insertAdditionals.php'
+                            }).then((res)=>{
+                                console.log(res.data);
+                            }).catch((err)=>{
+                                console.log(err);
+                            })
+                        }).catch((err)=>{
+                            console.log(err);
+                        })
+                        // 以上為流程控制寫入加購品
+                        // 流程控制，刪除該張coupon券
+                        if(this.couponDiscount!=0){
+                            let couponData = new URLSearchParams()
+                            couponData.append('coupon',this.couponDiscount.couponId)
+                            axios({
+                                method:"POST",
+                                url:'./static/yoyo/updateCouponId.php',
+                                data:couponData,
+                            }).then((res)=>{
+                            }).catch((err)=>{
+                                console.log(err);
+                            })
+                        // 以上為流程控制幹掉贖罪券
+
+                        }
+                        this.$router.push('checkout_complete')
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+            }else{
+                alert("您可能日期尚未輸入唷!!")
+            }
         },
-      
-        
     },
     watch:{
         
     },
     computed:{
+        changejaipei(){
+            switch(this.shipPrice){
+                case '黑貓宅急便':
+                    return 120;
+                case '宅配':
+                    return 150;
+            }
+        },
+        changeCTY(){//更改寄送方式成為數字
+            switch(this.shipPrice){
+                case "黑貓宅急便":
+                    return '0';
+                case "宅配":
+                    return '1';
+            }
+        },
+        totalMoney(){
+            if(this.couponDiscount == 0){
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE)  +parseInt(this.changejaipei)
+            return allPrice
+            }else{
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
+            return allPrice
+            }
+        },
         countDays(expiration){
             let future = new Date(...expiration).getTime() / 1000;
             let now = new Date().getTime() / 1000;
@@ -330,7 +417,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/yoyo/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "./static/yoyo/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
@@ -340,7 +427,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("http://localhost/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
@@ -349,9 +436,11 @@ export default {
                                 threshold: data[i].USE_THRESHOLD,
                                 expirationForCal: data[i].EXPIRATION_DATE.split(" ")[0].split("-"),
                                 expiration: data[i].EXPIRATION_DATE.split(" ")[0].replace(/-/g, "/"),
+                                couponId:data[i].COUPON_ID,
                             };
 
                             this.couponData.push(couponInfo);
+                            
 
                             // 顯示所有折價券的按鈕
                             // this.viewCouponButton = (this.couponData.length > 2 ? true : false);
@@ -581,24 +670,21 @@ router-link{
                                 }
                             }
                         }
-                        .preset_address,.new_address,.mark{
+                        .preset_address,.mark{
                             display: flex;
                             flex-direction: column;
                             .address_inline{
                                 display: flex;
                                 align-items: center;
-                                max-width: 170px;
-                                justify-content: space-between  ;
-                                width: 100%;
+                                // max-width: 170px;
+                                // justify-content: space-between  ;
+                                // width: 100%;
                                 margin-bottom: 15px;
                             }
                         }
                     }
                     .ready_to_checkout_coupon{
                         align-items: center;
-                        &:hover{
-                            cursor: pointer;
-                        }
                     }
 
                 }
@@ -770,8 +856,8 @@ router-link{
                     justify-content: space-between;
                     margin-bottom: 5px;
                     .shipping_style_input{
-                        max-width: 200px;
-                        width: 100%;
+                        // max-width: 200px;
+                        // width: 100%;
                         display: inline-block;
                         cursor: pointer;
                     }
@@ -785,7 +871,7 @@ router-link{
                     margin-bottom: 5px;
                     line-height: 30px;
                     display: flex;
-                    cursor: pointer;
+                    // cursor: pointer;
                     .img_30{
                         width: 30px;
                         height: 30px;
@@ -1109,7 +1195,7 @@ router-link{
     display: flex;
     align-items: center;
     max-width: 170px;
-    justify-content: space-between  ;
+    // justify-content: space-between  ;
     width: 100%;
     margin-bottom: 15px;
 }
@@ -1273,8 +1359,11 @@ justify-content: flex-end;
     margin-bottom: 5px;
 }
 .shipping_style_input{
-    max-width: 200px;
-    width: 100%;
+    // max-width: 200px;
+    // width: 100%;
+    padding-right: 10px;
+    white-space: nowrap;
+    line-height: 30px;
     display: inline-block;
 }
 .ready_bill_total{
@@ -1291,8 +1380,11 @@ justify-content: flex-end;
 }
 .bill_payment_style_block{
     margin-bottom: 5px;
+    padding-right: 10px;
     display: flex;
     align-items: center;
+    width: auto;
+    cursor: pointer;
 }
 .bill_ready_to_checkout_sumbit{
     margin-top: 45px;
@@ -1530,6 +1622,8 @@ font-weight: bold;
     }
   }
 }
-
+.cursorPoint{
+    cursor: pointer;
+}
 
 </style>

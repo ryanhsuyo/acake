@@ -2,7 +2,7 @@
   <section id="bottom_section">
     <div class="title">
       <h1>主廚推薦蛋糕</h1>
-      <searchBar></searchBar>
+      <!-- <searchBar></searchBar> -->
     </div>
     <div class="cake" >
       <div class="outline close" @click="open()">
@@ -26,8 +26,8 @@
                 <input type="text"  disabled >
               </div>
               <div class="second">
-                <p>蛋糕名稱：</p>
-                <input type="text" >
+                <p>蛋糕名稱</p>
+                <input type="text" v-model="newChefCake.newCakeName">
               </div>
               <div class="third">
                 <p>吋數:</p>
@@ -37,7 +37,9 @@
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <input type="text" >
+                <select name="" id="" v-model="newChefCake.newCakeFlavor">
+                  <option :value="flavor.ID" v-for="(flavor,indexxx) in allFlavor" :key="indexxx">{{flavor.NAME}}</option>
+                </select>
               </div>
             </div>
             <div class="right_infor">
@@ -50,7 +52,7 @@
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text" >
+                <input type="text" v-model="newChefCake.newCakePrice">
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -75,6 +77,7 @@
               id=""
               cols="30"
               rows="7"
+              v-model="newChefCake.description"
             ></textarea>
           </div>
         </div>
@@ -85,7 +88,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button @click="updateData(data)">確認修改</button>
+            <button @click="sendData">確認送出</button>
           </div>
         </div>
       </div>
@@ -94,7 +97,7 @@
       <!-- 已有蛋糕 -->
       <div class="outline close" v-for="(chefCake, index) in chefCakes" :key="index">
         <div class="img_outline">
-          <img :src="data.IMG" alt="" class="cake_make_image" />
+          <img :src="chefCake.CAKE_IMAGE_BLOB" alt="" class="cake_make_image" />
           <button @click="clickInput(index, $event, chefCake)">修改圖片</button>
           <input type="file" style="display: none" class="imageButton" @click="setImage()">
         </div>
@@ -107,28 +110,34 @@
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <p>{{chefCake.CAKE_NAME}}</p>
+                <input type="text" v-model="chefCake.CAKE_NAME" />
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <p>{{chefCake.SIZE}}吋</p>
+                <select name="" id="" v-model="chefCake.SIZE">
+                  <option value="6">6吋</option>
+                  <option value="8">8吋</option>
+                  <option value="10">10吋</option>
+                </select>
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <p>{{chefCake.CATEGORY_NAME}}</p>
+                <select name="" id="" v-model="chefCake.FLAVOR_ID">
+                  <option :value="flavor.ID" v-for="(flavor,index2) in allFlavor" :key="index2">{{flavor.NAME}}</option>
+                </select>
               </div>
             </div>
             <div class="right_infor">
               <div class="first">
                 <p>狀態：</p>
-                <select name="" id="">
-                  <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
-                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option>
+                <select name="" id="" @change="updateData(chefCake)" v-model="chefCake.CAKE_AVAILABLE">
+                  <option value="1" :selected='chefCake.CAKE_AVAILABLE=="1"'>上架</option>
+                  <option value="0" :selected='chefCake.CAKE_AVAILABLE=="0"'>下架</option>
                 </select>
               </div>
               <div class="second">
                 <p>價格：</p>
-                <p>{{chefCake.PRICE}}</p>
+                <input type="text" v-model="chefCake.PRICE" />
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -140,12 +149,12 @@
               </div>
             </div>
           </div>
-          <div class="ingredientOutline">
+          <!-- <div class="ingredientOutline">
 
             <div class="ingredient" v-for="(ingredient, index) in ingredientAll" :key="index">
               <input class="icheckbox" type="checkbox" >{{ingredient.INGREDIENT_NAME}}
             </div>
-          </div>
+          </div> -->
           <div class="descript">
             <p>描述：</p>
             <textarea
@@ -164,7 +173,7 @@
             @click="open"
           />
           <div class="button_position">
-            <button>確認修改</button>
+            <button @click="updateData(chefCake)">確認修改</button>
           </div>
         </div>
       </div>
@@ -201,8 +210,11 @@ export default {
         newCakeFlavor: '',
         newCakePrice:'',
         description: '',
+        img:'',
         // available:1,
       },
+        modifyData:'',
+        allFlavor:[],
     };
   },
   methods: {
@@ -235,10 +247,11 @@ export default {
         let image = document.getElementById("new_cake_img");
         // console.log(readFile.result);
         image.src = readFile.result;
-        that.newFlavor.img = readFile.result;
+        that.newChefCake.img = readFile.result;
       })
     },
     clickInput(index, $event,data) {
+      // alert(123)
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
       this.modifyData=data
@@ -247,9 +260,9 @@ export default {
     },
     setImage() {
       // alert(this.theIndex)
-      // let button =
-      //   document.querySelectorAll("input[type='file']")[this.theIndex + 1];
-      // button.onchange = this.pushImage;
+      let button =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1];
+      button.onchange = this.pushImage;
     },
     pushImage() {
       let that = this;
@@ -265,12 +278,11 @@ export default {
         // console.log(readFile.result);
         image.src = readFile.result;
         const params = new FormData();
-        params.append("img", that.imgData);
         params.append("test", readFile.result);
-        params.append("index", this.modifyData.ID);
+        params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "./static/melody_php/new_flavor.php",
+          url: "./static/yoyo/behindInsertChefCakeImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -288,37 +300,40 @@ export default {
     },
     // ---------------- 新增配料 ----------------
     sendData(){
-      
-      if (this.newFlavor.category == 1) {
-        
-        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
-        name: this.newFlavor.name,
-        description: this.newFlavor.description,
-        img: this.newFlavor.img,
-        price: this.newFlavor.price,
-        // category: this.newFlavor.category,
-        // available: this.newFlavor.available,
-        })).then((res)=>{
-          console.log(res.data);
-        }).catch((error)=>{
-          console.log(error);
-        })
-
-      } else {
-        
-        axios.post("http://localhost/yoyo/behindComponentChefCakeInsert.php", qs.stringify({
-        name: this.newFlavor.name,
-        description: this.newFlavor.description,
-        img: this.newFlavor.img,
-        price: this.newFlavor.price,
-        category: this.newFlavor.category,
-        })).then(res => {
-          // this.newFlavor = res.data;
-          // let data = res["data"];
-          console.log(res.data);
-        })
-        .catch(err => console.log(err));
-      }
+      let data = new URLSearchParams();
+      data.append('name',this.newChefCake.newCakeName)
+      data.append('img',this.newChefCake.img)
+      data.append('price',this.newChefCake.newCakePrice)
+      data.append('flavor',this.newChefCake.newCakeFlavor)
+      data.append('description',this.newChefCake.description)
+      axios({
+        data,
+        url:"./static/yoyo/behindComponentChefCakeInsert.php",
+        method:"POST",
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+    updateData(datas){
+      let data = new URLSearchParams();
+      data.append('name',datas.CAKE_NAME)
+      data.append('flavor',datas.FLAVOR_ID)
+      data.append('id',datas.CAKE_ID)
+      data.append('description',datas.CAKE_DESCRIPTION)
+      data.append('available',datas.CAKE_AVAILABLE)
+      data.append('size',datas.SIZE)
+      data.append('price',datas.PRICE)
+      axios({
+        method:"POST",
+        data,
+        url:"./static/yoyo/behindComponentChefCakeUpdate.php"
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
     }
   },
   computed: {
@@ -329,11 +344,19 @@ export default {
   mounted() {
     $("#chefCake").siblings().removeClass("target");
     $("#chefCake").addClass("target");
+    axios({
+      method:"GET",
+      url:"./static/yoyo/behindGetFlavor.php",
 
+    }).then((res)=>{
+      this.allFlavor = res.data
+    }).catch((err)=>{
+      console.log(err)
+    })
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
+            url: "./static/yoyo/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -346,7 +369,7 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            url: "./static/yoyo/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
@@ -361,7 +384,7 @@ export default {
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         url: "./static/yoyo/behindComponentChefCakeSelectIngredient.php",
     //         data: INGREDIENT,
     //     })
     //     .then((res) => {
@@ -377,6 +400,14 @@ export default {
     //         console.log(error);
     //     })
   },
+  watch:{
+    modifyData:{
+      deep:true
+    },
+    newChefCake:{
+      deep:true
+    }
+  }
 
 };
 </script>

@@ -2,74 +2,186 @@
     <section id="bottom_section">
     <div class="title">
         <h1>創意蛋糕</h1>
-        <searchBar></searchBar>
+        <!-- <searchBar></searchBar> -->
     </div>
+    
+
     <div class="cake" >
-        <div class="outline close" v-for="(ideaCake,index) in ideaCakes" :key="index">
-            <div class="img_outline">
-                <img src="../assets/images/cho_cake.jpg" alt="">
-                <button>修改照片</button>
+
+        <!-- <div class="outline close" @click="open()"> -->
+        <!-- <div class="img_outline">
+          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <button @click="newClickInput($event)">
+            修改照片
+          </button>
+          <input
+            type="file"
+            style="display: none"
+            class="imageButton"
+            @click="setNewImage()"
+          />
+        </div> -->
+        <!-- <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+                <p>蛋糕ID：</p>
+                <input type="text"  disabled >
+              </div>
+              <div class="second">
+                <p>蛋糕名稱</p>
+                <input type="text" v-model="newIdeaCake.newIdeaCake">
+              </div>
+              <div class="third">
+                <p>吋數:</p>
+                <select name="" id="" v-for="(size, index) in result" :key="index">
+                  <option>{{size}}吋</option>
+                </select>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <select name="" id="" v-model="newIdeaCake.newCakeFlavor">
+                  <option :value="flavor.ID" v-for="(flavor,indexxx) in allFlavor" :key="indexxx">{{flavor.NAME}}</option>
+                </select>
+              </div>
             </div>
-            <div class="text_outline">
-                <div class="infor">
-                    <div class="left_infor">
-                        <div class="first">
-                            <p>蛋糕ID：</p>
-                            <p>{{ideaCake.CAKE_ID}}</p>
-                        </div>
-                        <div class="second">
-                            <p>蛋糕名稱：</p>
-                            <p>{{ideaCake.CAKE_NAME}}</p>
-                        </div>
-                        <div class="third">
-                            <p>吋數:</p>
-                            <p>{{ideaCake.SIZE}}</p>
-                        </div>
-                        <div class="forth">
-                            <p>糕體口味：</p>
-                            <p>{{ideaCake.CATEGORY_NAME}}</p>
-                        </div>
-                    </div>
-                    <div class="right_infor">
-                        <div class="first">
-                            <p>狀態：</p>
-                            <select name="" id="">
-                                <option value="" :selected="ideaCake.AVAIABLE==1">上架</option>
-                                <option value="" :selected="ideaCake.AVAIABLE==0">下架</option>
-                            </select>
-                        </div>
-                        <div class="second">
-                            <p>價格：</p>
-                            <p>{{ideaCake.PRICE}}</p>
-                        </div>
-                        <!-- <div class="third">
-                            <p>10吋價格：</p>
-                            <p>{{data.ten}}</p>
-                        </div> -->
-                        <div class="forth">
-                            <p>製作者：</p>
-                            <p>{{ideaCake.NICKNAME}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="ingredientOutline">
-                    <div class="ingredient" v-for="(ingredient, index) in ingredientAll" :key="index">
-                        <input class="icheckbox" type="checkbox" >{{ingredient.INGREDIENT_NAME}}
-                    </div>
-                </div>
-                <div class="descript">
-                    <p>描述：</p>
-                    <textarea name="" id="" cols="30" rows="7" v-model="ideaCake.CAKE_DESCRIPTION"></textarea>
-                </div>
-            </div>   
-            <div class="button_outline" >
-                <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
-                <div class="button_position">
-                    <button>修改</button>
-                    <button>確認</button>
-                </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>狀態：</p>
+                <select name="" id="">
+                  <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
+                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option>
+                </select>
+              </div>
+              <div class="second">
+                <p>價格：</p>
+                <input type="text" v-model="newIdeaCake.newCakePrice">
+              </div>
+              <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div>
+              <div class="forth">
+                <p>製作者：</p>
+                <p></p>
+              </div>
             </div>
+          </div>
+          <div class="ingredientOutline">
+
+            <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
+              <input class="icheckbox" type="checkbox" checked>
+            </div>
+          </div>
+          <div class="descript">
+            <p>描述：</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="7"
+              v-model="newIdeaCake.description"
+            ></textarea>
+          </div>
         </div>
+        <div class="button_outline">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            id="toggle"
+            @click="open"
+          />
+          <div class="button_position">
+            <button @click="sendData">確認送出</button>
+          </div>
+        </div>
+      </div> -->
+
+
+
+
+       <!-- 已有蛋糕 -->
+      <div class="outline close" v-for="(ideaCake, index) in ideaCakes" :key="index">
+        <div class="img_outline">
+          <img :src="ideaCake.CAKE_IMAGE_BLOB" alt="" class="cake_make_image" />
+          <button @click="clickInput(index, $event, ideaCake)">修改圖片</button>
+          <input type="file" style="display: none" class="imageButton" @click="setImage()">
+        </div>
+        <div class="text_outline">
+          <div class="infor">
+            <div class="left_infor">
+              <div class="first">
+                <p>蛋糕ID：</p>
+                <p>{{ideaCake.CAKE_ID}}</p>
+              </div>
+              <div class="second">
+                <p>蛋糕名稱：</p>
+                <input type="text" v-model="ideaCake.CAKE_NAME" />
+              </div>
+              <div class="third">
+                <p>吋數:</p>
+                <select name="" id="" v-model="ideaCake.SIZE">
+                  <option value="6">6吋</option>
+                  <option value="8">8吋</option>
+                  <option value="10">10吋</option>
+                </select>
+              </div>
+              <div class="forth">
+                <p>糕體口味：</p>
+                <select name="" id="" v-model="ideaCake.FLAVOR_ID">
+                  <option :value="flavor.ID" v-for="(flavor,index2) in allFlavor" :key="index2">{{flavor.NAME}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="right_infor">
+              <div class="first">
+                <p>狀態：</p>
+                <select name="" id="" @change="updateData(ideaCake)" v-model="ideaCake.CAKE_AVAILABLE">
+                  <option value="1" :selected='ideaCake.CAKE_AVAILABLE=="1"'>上架</option>
+                  <option value="0" :selected='ideaCake.CAKE_AVAILABLE=="0"'>下架</option>
+                </select>
+              </div>
+              <div class="second">
+                <p>價格：</p>
+                <input type="text" v-model="ideaCake.PRICE" />
+              </div>
+              <!-- <div class="third">
+                <p>10吋價格：</p>
+                <p>等下</p>
+              </div> -->
+              <div class="forth">
+                <p>製作者：</p>
+                <p>{{ideaCake.NAME}}</p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="ingredientOutline">
+
+            <div class="ingredient" v-for="(ingredient, index) in ingredientAll" :key="index">
+              <input class="icheckbox" type="checkbox" >{{ingredient.INGREDIENT_NAME}}
+            </div>
+          </div> -->
+          <div class="descript">
+            <p>描述：</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="7"
+              v-model="ideaCake.CAKE_DESCRIPTION"
+            ></textarea>
+          </div>
+        </div>
+        <div class="button_outline">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            id="toggle"
+            @click="open"
+          />
+          <div class="button_position">
+            <button @click="updateData(ideaCake)">確認修改</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -81,7 +193,7 @@ import searchBar from "../components/search_bar";
 import cakeData from "../components/behind_cake_data";
 import axios from "axios"
 export default {
-  name: "idea_cake",
+  name: "ideaCake",
   components: {
     behindHeader,
     searchBar,
@@ -92,76 +204,177 @@ export default {
       showWhat: [],
       ideaCakes: {},
       ingredientAll: [],
-    //   data:[{
-    //       id: 1,
-    //       name: 3,
-    //       eight: 5,
-    //       test: 2,
-    //       author: 2,
-    //       six: 3,
-    //       ten: 5,
-    //   }]
+      cake: [],
+      result: [],
+      data: [],
+      aaa: [],
+    ingredientAll: [],
+      newIdeaCake: {
+        newCakeID:'',
+        newCakeName:'',
+        size:'',
+        newCakeFlavor: '',
+        newCakePrice:'',
+        description: '',
+        img:'',
+      },
+        modifyData:'',
+        allFlavor:[],
     };
+  },
+  methods: {
+    open: function(e) {
+      $(e.target)
+        .parents(".outline")
+        .siblings()
+        .addClass("close");
+      $(e.target)
+        .parents(".outline")
+        .toggleClass("close");
+    },
+    newClickInput($event){
+      let file = $event.target.nextSibling.nextSibling;
+      file.click();
+    },
+    setNewImage(){
+      let button =
+        document.querySelectorAll("input[type='file']")[0];
+      button.onchange = this.pushNewImage;
+    },
+    pushNewImage(){
+      let that = this;
+      let file = document.querySelectorAll("input[type='file']")[0].files[0];
+      
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementById("new_cake_img");
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        that.newIdeaCake.img = readFile.result;
+      })
+    },
+    clickInput(index, $event,data) {
+      // alert(123)
+      let file = $event.target.nextSibling.nextSibling;
+      this.theIndex = index;
+      this.modifyData=data
+      console.log(index)
+      file.click();
+    },
+    setImage() {
+      // alert(this.theIndex)
+      let button =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1];
+      button.onchange = this.pushImage;
+    },
+    pushImage() {
+      let that = this;
+      let index = this.theIndex;
+      let file =
+        document.querySelectorAll("input[type='file']")[this.theIndex + 1].files[0];
+      this.imgData = file;
+      let readFile = new FileReader();
+      // console.log(readFile.readAsBinaryString(file));
+      readFile.readAsDataURL(file);
+      readFile.addEventListener("load", function () {
+        let image = document.getElementsByClassName("cake_make_image")[index];
+        // console.log(readFile.result);
+        image.src = readFile.result;
+        const params = new FormData();
+        params.append("test", readFile.result);
+        params.append("index", that.modifyData.CAKE_ID);
+        axios({
+          method: "post",
+          url: "./static/yoyo/behindInsertIdeaCakeImg.php",
+
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: params,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+      // 寫進資料庫
+    },
+    // ---------------- 新增配料 ----------------
+    sendData(){
+      let data = new URLSearchParams();
+      data.append('name',this.newIdeaCake.newCakeName)
+      data.append('img',this.newIdeaCake.img)
+      data.append('price',this.newIdeaCake.newCakePrice)
+      data.append('flavor',this.newIdeaCake.newCakeFlavor)
+      data.append('description',this.newIdeaCake.description)
+      axios({
+        data,
+        url:"./static/yoyo/behindComponentIdeaCakeInsert.php",
+        method:"POST",
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+    updateData(datas){
+      let data = new URLSearchParams();
+      data.append('name',datas.CAKE_NAME)
+      data.append('flavor',datas.FLAVOR_ID)
+      data.append('id',datas.CAKE_ID)
+      data.append('description',datas.CAKE_DESCRIPTION)
+      data.append('available',datas.CAKE_AVAILABLE)
+      data.append('size',datas.SIZE)
+      data.append('price',datas.PRICE)
+      axios({
+        method:"POST",
+        data,
+        url:"./static/yoyo/behindComponentIdeaCakeUpdate.php"
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+  },
+  computed: {
+    // data() {
+    //   return this.$store.state.chef_cake;
+    // }
   },
   mounted() {
     $("#ideaCake").siblings().removeClass("target");
     $("#ideaCake").addClass("target");
-     const params = new URLSearchParams();
-            // params.append("page", index);
+    axios({
+      method:"GET",
+      url:"./static/yoyo/behindGetFlavor.php",
+
+    }).then((res)=>{
+      this.allFlavor = res.data
+    }).catch((err)=>{
+      console.log(err)
+    })
+    const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
+            url: "./static/yoyo/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {
-            // console.log(res.data);
             let data = res.data;
-            console.log('應該要有三個蛋糕 ',data);
-            // this.chefCakes = data.filter(item => item.MEMBER_ID === "0")
-            
-            // 
-            for (let index = 0; index < data.length; index++) {
-                const element = data[index];
-                console.log('element' , element)
-                const id = element.ID;
-                console.log('這個印出的id', id);
-                if(this.ideaCakes[id]){
-                    this.ideaCakes[id].INGREDIENT_NAME.push(element.INGREDIENT_NAME) 
-                }else{
-                    this.ideaCakes[id] = element
-                    this.ideaCakes[id].INGREDIENT_NAME = [this.ideaCakes[id].INGREDIENT_NAME]
-                }
-                
-                // console.log('可以可以印隊的給我',this.ideaCakes[id]);
-            }
-            this.$forceUpdate()
-            // a = this.chefCakes.ID
-            // for(let i = 0; i < data.length; i++){
-              // INGREDIENT.push()
-        
-            // let currentCakeID = "-1";
-            //   if(data[i].CAKE_ID !== currentCakeID){
-            //     currentCakeID = data[i].CAKE_ID;
-                
-            //   }
-            // }
-            
-            // console.log(this.chefCakes);
-            //  = this.chefCakes.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = a.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCakes);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data.length);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
+            this.ideaCakes = data
         })
         .catch((error) => {
             console.log(error);
         })
-            const ingredientAll = new URLSearchParams();
+    const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            url: "./static/yoyo/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
@@ -172,44 +385,35 @@ export default {
         .catch((error) => {
             console.log(error);
         })
-  },
 
-//     const params = new URLSearchParams();
-//                 // params.append("page", index);
-//             axios({
-//                 method: "post",
-//                 url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
-//                 data: params,
-//             })
-//             .then((res) => {
-//                 // console.log(res.data);
-//                 let data = res.data;
-//                 // console.log(data);
-//                 this.ideaCakes = data.filter(item => item.MEMBER_ID === "1");
-//                 // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-//                 console.log('thischefcake', this.ideaCakes);
-//                 // console.log('thisdesingerckae', this.designerCake);
-//                 // console.log(data.length);
-//                 // console.log(data.length); 
-//                 // this.DesignerCake = res.data
-//             })
-//             .catch((error) => {
-//                 console.log(error);
-//             })
-    
-//   },
-  methods:{
-    open:　function(e){
-        // console.log($(e.target).parents('.outline').siblings())
-        $(e.target).parents('.outline').siblings().addClass('close');
-        $(e.target).parents('.outline').toggleClass('close');
-    },
+    // const INGREDIENT = new URLSearchParams();
+    //     axios({
+    //         method: "post",
+    //         url: "./static/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         data: INGREDIENT,
+    //     })
+    //     .then((res) => {
+    //         let data = res.data;
+    //         console.log(data);
+    //         data.forEach(function (data, item){
+    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
+    //           // console.log(item);
+    //         });
+    //         // this.ingredient = 
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
   },
-//   computed:{
-//     //   data(){
-//     //       return this.$store.state.chef_cake
-//     //   }
-//   },
+  watch:{
+    modifyData:{
+      deep:true
+    },
+    newIdeaCake:{
+      deep:true
+    }
+  }
+
 };
 </script>
 <style scoped lang="scss">

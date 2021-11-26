@@ -12,7 +12,7 @@
         <div class="addenda_detail_item">
           <div id="addenda_detail">
             <div class="addenda_img">
-              <img src="../assets/images/cho_cake.jpg" alt="" />
+              <img :src="packageSelected.ACCESSORIES_IMG" alt="" />
             </div>
             <div class="addenda_describe">{{ packageSelected.ACCESSORIES_DESCRIPTION }}</div>
           </div>
@@ -56,7 +56,7 @@
         <div class="addenda_detail_item">
           <div id="addenda_detail">
             <div class="addenda_img">
-              <img src="../assets/images/cho_cake.jpg" alt="" />
+              <img :src="addendacard.choice.ACCESSORIES_IMG" alt="" />
             </div>
             <div class="addenda_describe" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_DESCRIPTION">
               {{addendacard.choice.ACCESSORIES_DESCRIPTION}}
@@ -89,8 +89,8 @@
       <span class="addnew_product_hr"></span>
       <div v-show="addendacards.length<choices.length" class="new_addenda_titlebar">
         <div class="new_addenda" @click="addaddenda()">
-        <div class="new_addenda_title" >新增加購</div>
-            <img src="../assets/images/cho_cake.jpg" alt="" />
+        <div class="new_addenda_title">新增加購</div>
+            <img src="../assets/images/add_purchase_icon.png" alt="" />
         </div>
       </div>
       <div class="addenda_button_bar">
@@ -98,9 +98,7 @@
         <button id="addenda_button_backtoproduct" @click="close">
             返回商品
         </button>
-        <router-link to="shopping_cart" >
-          <button id="addenda_button_sumbit" @click="addAdditionalToStorage(addendacards); addPStorage(packageSelected)">前往結帳</button>
-        </router-link>
+          <button id="addenda_button_sumbit" ><router-link to="shopping_cart" >前往結帳 </router-link></button>
       </div>
     </div>
   </div>
@@ -159,8 +157,8 @@ export default {
       this.$store.dispatch('AStorage', additional)
     },
     addPStorage(packageSelected){
+      console.log((packageSelected))
       this.$store.dispatch('PStorage', packageSelected)
-      console.log('做不出來',packageSelected);
     }
   },
   computed: {
@@ -185,7 +183,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -213,7 +211,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -240,7 +238,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+    //         url: "./static/yoyo/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -269,7 +267,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
+      //       url: "./static/yoyo/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {
@@ -293,6 +291,10 @@ export default {
   },
   created() {
   },
+  beforeDestroy(){
+     this.$store.dispatch('AStorage', this.addendacards)
+      this.$store.dispatch('PStorage', this.packageSelected)
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -850,5 +852,9 @@ body {
   &:hover {
     color: $lightYellow;
   }
+}
+a{
+  color: white;
+  text-decoration: none;
 }
 </style>

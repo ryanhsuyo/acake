@@ -25,7 +25,7 @@
           <img :src="three.CAKE_IMAGE_BLOB" alt="" class="pic_cake" />
           <div>
             <h1>{{three.CAKE_NAME}}</h1>
-            <p>{{three.CAKE_ENGLISH_NAME}}</p>
+            <p>Voting NO. {{three.CAKE_ID}}</p>
             <!-- 資料庫給副標題 -->
           </div>
         </div>
@@ -47,11 +47,30 @@
         >
         <search-bar></search-bar>
       </h1>
-      <section id="vote">
-        <card-voting v-for="(cake, index) in vote_cake" :key="index"
+      <!-- <card-voting 
         :cake_name="cake.CAKE_NAME" :cake_description="cake.DESCRIPTION" :cake_vote_num="cake.VOTING_NUM"
         :cake_id="cake.CAKE_ID" :cake_img="cake.CAKE_IMAGE_BLOB"
-        ></card-voting>
+        ></card-voting> -->
+      <section id="vote">
+        <div class="card_outline2" v-for="(cake, index) in vote_cake" :key="index">
+        <div class="img_container">
+            <img :src="cake.CAKE_IMAGE_BLOB">
+        </div>
+        <div class="down_block">
+            <h4 class="cake_title">{{cake.CAKE_NAME}}</h4>
+            <p class="design_idea">{{cake.DESCRIPTION}}</p>
+            <div class="voting_area">
+                <div class="voting_num">
+                    <span class="heart_icon"></span>
+                    <span class="num">{{cake.VOTING_NUM}}</span>
+                </div>
+                <button class="voting" @click="votePlus(cake)" :class="{'check':cake.choose}" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`}">
+                    投票
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
       </section>
       <ul>
       <li
@@ -84,9 +103,9 @@ export default {
   name: "votePage",
   data(){
     return{
-      total_decorations:["圓形立牌",'生日立牌','奶油','葉子','迷迭香'],
-total_ingredients:["草莓","藍莓","芒果","橘子","檸檬"],
-total_cakebodys:["巧克力夾心","巧克力奶油","水果鮮奶油","綜合口味"],
+      total_decorations:["裝飾小葉子",'A cake 小立牌','鮮奶油','薄荷葉','迷迭香'],
+      total_ingredients:["新鮮藍莓","新鮮櫻桃","新鮮綠葡萄","新鮮奇異果","もも水蜜桃片"],
+      total_cakebodys:["優格馬斯卡邦","鮮奶油草莓","藍莓優格乳酪","奶油抹茶香緹","奶油紅茶香緹"],
 topthree:[],
 vote_info:{},
 pages:[],
@@ -106,6 +125,86 @@ vote_cake:[],
     card_topthree,
   },
     methods:{
+      votePlus(cake){
+            if(this.$store.state.member_id==0){
+                alert('您尚未登入')
+            }else{
+                //先判定是否是會員才進行投票判定
+            if(cake.choose == 0){
+                //加一票
+                        //如果投過三票
+                    if(document.cookie.indexOf(`${this.$store.state.member_id}-3`)!=-1){
+                        alert('你今天已經投過三票囉')
+                    }
+                
+                    //如果投過兩票
+                    if(document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&(document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1)){
+                            document.cookie = `${this.$store.state.member_id}-3=Mike222; max-age=60`;
+                        cake.choose = 1;
+                        cake.VOTING_NUM++;
+                        alert('今天投完票囉')
+                    }
+                //如果投過一票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&(document.cookie.indexOf(`${this.$store.state.member_id}-2`)==-1)){
+                    document.cookie = `${this.$store.state.member_id}-2=Mike222; max-age=60;`
+                    cake.choose = 1;
+                    cake.VOTING_NUM++;
+                    alert('剩下一票')
+                }
+                    //如果都沒投票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)==-1){
+                document.cookie = `${this.$store.state.member_id}-1=Mike222; max-age=60;`
+                cake.choose = 1;
+                cake.VOTING_NUM++;
+                alert('剩下兩票')
+                }
+            }else{
+                //減一票
+                //收回第一票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)==-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1){
+                    document.cookie = `${this.$store.state.member_id}-1=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    cake.choose = 0;
+                    cake.VOTING_NUM--
+                    alert('取消第一票')
+                }
+                //收回第二票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)==-1){
+                    document.cookie = `${this.$store.state.member_id}-2=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    cake.choose = 0;
+                    cake.VOTING_NUM--
+                    alert('取消第二票')
+                }
+                //收回第三票
+                if(document.cookie.indexOf(`${this.$store.state.member_id}-1`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-2`)!=-1&&document.cookie.indexOf(`${this.$store.state.member_id}-3`)!=-1){
+                    document.cookie = `${this.$store.state.member_id}-3=Mike222=;expires=${(new Date(0)).toGMTString()}`;
+                    cake.choose = 0;
+                    cake.VOTING_NUM--
+                    alert('取消第三票')
+                }
+                
+            }
+            // 將投票資訊送出
+            let data = new URLSearchParams();
+            data.append('id',cake.CAKE_ID)
+            data.append('vote',cake.VOTING_NUM)
+            axios({
+        method: "post",
+        url: "./static/cty_api/update_card_vote_num.php",
+        // headers: {
+        //   "Content-Type": "application/x-www-form-urlencoded",
+        // },
+        data: data,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+            }
+        }
+      ,
+
       page(){
         axios({
       method: "get",
@@ -131,6 +230,9 @@ vote_cake:[],
         .then((res) => {
           // console.log(res.data);
           this.vote_cake = res.data
+          for(let i =0;i<this.vote_cake.length;i++){
+            this.vote_cake[i].choose=0
+          }
         })
         .catch((error) => {
           // console.log(error);
@@ -148,6 +250,9 @@ vote_cake:[],
       }).then((res)=>{
         console.log(res.data);
         this.vote_cake=res.data
+        for(let i =0;i<this.vote_cake.length;i++){
+          this.vote_cake[i].choose=0
+        }
         this.pages = []
       }).catch((error)=>{
         // console.log(error);
@@ -163,13 +268,13 @@ vote_cake:[],
     }).then((res) => {
       console.log(res.data);
       this.vote_cake = res.data
+      for(let i =0;i<this.vote_cake.length;i++){
+        this.vote_cake[i].choose=0
+      }
     });
     
       }
     }
-    },
-    watch:{
-        
     },
     computed:{
         sn() {
@@ -211,6 +316,9 @@ vote_cake:[],
     }).then((res) => {
       // console.log(res.data);
       this.vote_cake = res.data
+      for(let i = 0;i<this.vote_cake.length;i++){
+        this.vote_cake[i].choose=0
+      }
     });
     },
 
@@ -219,7 +327,7 @@ vote_cake:[],
 
 </script>
 <style scoped lang="scss">
-// @import "../assets/style/var.scss";
+@import "../assets/style/var.scss";
 * {
   box-sizing: border-box;
 }
@@ -391,5 +499,98 @@ ul {
   }
 }
 
+.card_outline2{
+    box-sizing: border-box;
 
+    background-color: #DFB9B0;
+    width: 350px;
+    height: 480px;
+    padding: 25px;
+    border-radius: 7px;
+    .img_container{
+        overflow: hidden;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        img{
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .down_block{
+        .cake_title{
+            margin: 15px 0;
+            text-align: left;
+            font-size: 20px;
+            line-height: 20px;
+            color: #515151;
+            font-weight: 400;
+        }
+        .design_idea{
+            margin: 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 16px;
+            line-height: 16px;
+            color: #515151;
+        }
+        .voting_area{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            .voting_num{
+                margin-top: 35px;
+                .heart_icon{
+                    @extend %heart_icon;
+                }
+                .num{
+                    font-size: 20px;
+                    vertical-align: top;
+                    line-height: 25px;
+                    color: #515151;
+                }
+            }
+            .voting{
+                margin-top: 15px;
+                width: 180px;
+                height: 60px;
+                border-radius: 100px;
+                border: 0;
+                box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+                font-size: 20px;
+                position: relative;
+                color: #515151;
+                cursor: pointer;
+                background-color: #EFE6E4;
+                &:hover{
+                    background-color: #F4E9C9;
+                }
+                
+                span{
+                    @extend %heart_icon;
+                    position: absolute;
+                    right: 15px;
+                    top: 30px;
+                    transform: translateY(-50%);
+                }
+            }
+            .voting.check{
+                box-shadow: inset $shadow;
+                background: #F4E9C9;
+            }
+        }
+    }
+}
+
+// 設定愛心的背景圖
+%heart_icon{
+    background-image: url('../assets/images/favorites_icon_1.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+}
 </style>

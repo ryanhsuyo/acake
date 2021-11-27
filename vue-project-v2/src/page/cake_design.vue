@@ -573,7 +573,7 @@ export default {
             // alert('step1')
                 axios({
                     method:"GET",
-                    url:"http://localhost/melody_php/productDetailSelectPackage.php"
+                    url:"./static/melody_php/productDetailSelectPackage.php"
                 }).then((res)=>{
                     this.thePackage = res.data
                 }).catch((err)=>{
@@ -581,7 +581,7 @@ export default {
                 })
                 axios({
                     method:"GET",
-                    url:"http://localhost/melody_php/productDetailSelectAdditional.php"
+                    url:"./static/melody_php/productDetailSelectAdditional.php"
                 }).then((res)=>{
                     this.theAdditional.push(res.data[0])
                 }).catch((err)=>{
@@ -589,14 +589,14 @@ export default {
                 })
                 axios({
                     method:"GET",
-                    url:"http://localhost/melody_php/productDetailSelectAdditional2.php"
+                    url:"./static/melody_php/productDetailSelectAdditional2.php"
                 }).then((res)=>{
                     this.theAdditional.push(res.data[0])
                 }).catch((err)=>{
                     console.log(err)
                 })
             
-            axios.post("http://localhost/melody_php/new_cake_design.php", qs.stringify({
+            axios.post("./static/melody_php/new_cake_design.php", qs.stringify({
                 name: this.newCakeDesign.name, 
                 nameEng: this.newCakeDesign.nameEng, 
                 price: parseInt(parseInt(this.allPrice) + parseInt(this.newCakeDesign.flavorPrice)), 
@@ -619,7 +619,7 @@ export default {
                 axios({
                     method:"POST",
                     data,
-                    url:'http://localhost/melody_php/buy_new_cake_design.php'
+                    url:'./static/melody_php/buy_new_cake_design.php'
                 }).then((res)=>{
                     // alert(this.buy)
                     console.log(res.data);
@@ -851,7 +851,7 @@ export default {
         this.showArea = 1;
 
         // -------------------------------------------- 資料處理部分 --------------------------------------------
-                // axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                // axios.post("./static/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
                 // .then(res => {
                 //     let theFlavor = res["data"];
                 //     // console.log(theFlavor);
@@ -859,7 +859,7 @@ export default {
                 // .catch(err => console.log(err));
 
                 // select配料&裝飾
-                axios.post("http://localhost/melody_php/select_ingredient_all.php")
+                axios.post("./static/melody_php/select_ingredient_all.php")
                 .then(res => {
                     let data = res["data"];
                     console.log(data);
@@ -888,7 +888,7 @@ export default {
                 })
                 .catch(err => console.log(err));
 
-                axios.post("http://localhost/melody_php/select_flavor_all.php")
+                axios.post("./static/melody_php/select_flavor_all.php")
                 .then(res =>{
                     let data = res["data"];
                     console.log(res)
@@ -906,7 +906,7 @@ export default {
                 .catch(err => console.log(err));
 
                 // 取得最近的投票活動ID
-                axios.post("http://localhost/melody_php/get_latest_voteID.php")
+                axios.post("./static/melody_php/get_latest_voteID.php")
                 .then(res =>{
                     this.newCakeDesign.voteID = res.data[0].ID;
                 })

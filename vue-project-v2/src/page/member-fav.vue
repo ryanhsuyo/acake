@@ -30,7 +30,7 @@
                     <div class="folder_img_outline">
                         <a @click.prevent="selectFavFolder({categoryID: '0'})">
                             <div class="four_pic_container" v-if="noCake === false">
-                                <img :src="item" v-for="(item, index) in randomIndexInFolder" :key="index">
+                                <img :src="item" v-for="(item) in randomIndexInFolder" :key="item">
                                 <img src="../assets/images/mascot1.png" v-for="item in (4 - randomIndexInFolder.length)" :key="item">
                             </div>
                             <span v-else>收藏內尚未加入任何蛋糕！</span>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="folder" v-for="(item, index) in favFolder" :key="index">
+                <div class="folder" v-for="(item, index) in favFolder" :key="item">
                     <div class="folder_title_tag">
                         <span class="folder_title" v-show="!editTitle[index]" @click="editTitleContent(index, true)">{{item.categoryName}}</span>
                         <input type="text" v-model.lazy="item.categoryName" v-show="editTitle[index]">
@@ -167,13 +167,13 @@
                 this.editTitle = Array(this.favFolder.length).fill(false);
                 if(confirm("確定要刪除此分類資料夾?")){
                     // console.log(categoryId);
-                    axios.post("./static/api/deleteFavFolder.php",qs.stringify({categoryId: categoryID}))
+                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID, memberId: this.memberId}))
                         .then(res => {
-                            // console.log(res);
+                            console.log(res.data);
                             this.favFolder = [];
                             this.selectFolder();
                             this.editTitle.pop();
-                            console.log(this.editTitle);
+                            // console.log(this.editTitle);
                             // console.log(this.favFolder);
                         })
                         .catch(err => cosole.log(err));
@@ -183,7 +183,7 @@
                 let newName = prompt("請輸入資料夾名稱");
                 if(newName === "") alert("資料夾名稱未輸入！")
                 if(!!newName === true){
-                    axios.post("./static/api/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
+                    axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
                             .then(res => {
                                 // console.log(res);
                                 this.favFolder = [];
@@ -198,7 +198,7 @@
                 this.$set(this.editTitle, index, boo);
             },
             updateTitle(index){
-                axios.post("./static/api/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
+                axios.post("http://localhost/A_cake/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
                     .then(res => {
                         // console.log(res);
                     })
@@ -210,7 +210,7 @@
                 });
             },
             // addPhoto(){
-            //     axios.post("./static/api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
             //         .then(res => {
             //             // console.log(res);
             //             let data = res["data"];
@@ -231,7 +231,7 @@
 
             selectFolder(){
                 // axios做兩次呼叫取資料合併成一個物件時，第二次取得的資料有問題，重整後不會渲染畫面，下面暫且先合併成一次axios呼叫做處理
-                axios.post("./static/api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+                axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
@@ -290,7 +290,7 @@
                 this.$router.push('/assign')
             }
 
-            //     axios.post("./static/api/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
             //                 // console.log(res);
         //                 let data = res["data"];

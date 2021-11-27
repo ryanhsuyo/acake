@@ -145,7 +145,7 @@ export default {
         $(e.target).closest('.detail_outline').toggleClass('scroll_y');
     },
     updateNote($event, orderID){
-      axios.post("./static/api/BE_updateOrderNote.php", qs.stringify({orderID: orderID, note: $($event.target).parent().siblings(".order_note")[0].value}))
+      axios.post("http://localhost/A_cake/BE_updateOrderNote.php", qs.stringify({orderID: orderID, note: $($event.target).parent().siblings(".order_note")[0].value}))
       .then(res => {
         // console.log(res);
         alert("成功修改備註！")
@@ -171,7 +171,7 @@ export default {
   },
   mounted() {
     
-    axios.post("./static/api/BE_selectAllOrder.php")
+    axios.post("http://localhost/A_cake/BE_selectAllOrder.php")
       .then(res => {
         let data = res["data"];
         console.log(data);

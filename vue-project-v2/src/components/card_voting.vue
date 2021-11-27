@@ -1,5 +1,5 @@
 <template>
-	<div class="card_outline">
+	<div class="card_outline2">
         <div class="img_container">
             <img :src="cake_image">
         </div>
@@ -23,7 +23,7 @@
 import axios from 'axios'
 export default {
     name:"card_voting",
-    props:['cake_name','cake_description','cake_vote_num','cake_id','cake_image'],
+    props:['cake_name','cake_description','cake_vote_num','cake_id',],
     data(){
         return{
             choose:0,
@@ -118,7 +118,7 @@ $shadow:4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 *{
     box-sizing: border-box;
 }
-.card_outline{
+.card_outline2{
     box-sizing: border-box;
 
     background-color: #DFB9B0;

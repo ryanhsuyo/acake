@@ -19,7 +19,8 @@
       </section>
       <section class="middle_site">
         <div class="who">
-          <img :src="select_member.MEMBER_IMG_BLOB" alt="">
+          <img :src="select_member.MEMBER_IMG_BLOB" alt="" v-show="select_member.MEMBER_IMG_BLOB">
+          <img :src="select_member.MEMBER_IMG_BLOB" style="width:0;height:0" alt="" v-show="!select_member.MEMBER_IMG_BLOB">
           <div class="status">
             <p>{{select_member.NAME}}</p>
           </div>

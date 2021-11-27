@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: *");
 header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $id = $_POST['id'];
 //建立SQL語法
-$sql = "SELECT * FROM A_cake.MEMBER WHERE EMAIL = ?;";
+$sql = "SELECT * FROM `MEMBER` WHERE EMAIL = ?;";
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$id);
 $statement -> execute();

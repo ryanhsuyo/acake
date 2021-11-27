@@ -11,7 +11,7 @@ $flavor_el = mb_split(',',$flavor);
 // $ingredient_query = str_repeat('?,',count($ingredient).'?');
 // 如果配料選項為空
 if($ingredient =='' && $flavor!=''){
-    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID
+    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB
 FROM INGREDIENT i 
 	JOIN CAKE_INGREDIENT ci
 		on i.INGREDIENT_ID = ci.INGREDIENT_ID
@@ -19,8 +19,8 @@ FROM INGREDIENT i
 		on ci.CAKE_ID = c.CAKE_ID
 	JOIN FLAVOR f
 		on c.FLAVOR_ID = f.ID
-        WHERE FIND_IN_SET(f.NAME,?)
-        GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID;
+        WHERE FIND_IN_SET (f.NAME,?)
+        GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB;
 ';
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$flavor);
@@ -32,7 +32,7 @@ $statement -> bindValue(1,$flavor);
 
 // 如果糕體選項為空
 if($ingredient !='' && $flavor ==''){
-    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID
+    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB
     FROM INGREDIENT i 
         JOIN CAKE_INGREDIENT ci
             on i.INGREDIENT_ID = ci.INGREDIENT_ID
@@ -40,8 +40,8 @@ if($ingredient !='' && $flavor ==''){
             on ci.CAKE_ID = c.CAKE_ID
         JOIN FLAVOR f
             on c.FLAVOR_ID = f.ID
-            WHERE FIND_IN_SET(i.INGREDIENT_NAME,?)
-            GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID;
+            WHERE FIND_IN_SET (i.INGREDIENT_NAME,?)
+            GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB;
     ';
     $statement = getPDO()->prepare($sql);
     $statement -> bindValue(1,$ingredient);
@@ -55,7 +55,7 @@ echo json_encode($data);
 
 // 如果兩者都有
 if($ingredient !='' && $flavor !=''){
-    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID
+    $sql = 'SELECT CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB
     FROM INGREDIENT i 
         JOIN CAKE_INGREDIENT ci
             on i.INGREDIENT_ID = ci.INGREDIENT_ID
@@ -64,8 +64,8 @@ if($ingredient !='' && $flavor !=''){
         JOIN FLAVOR f
             on c.FLAVOR_ID = f.ID
             WHERE FIND_IN_SET(i.INGREDIENT_NAME,?)
-        OR FIND_IN_SET(f.NAME,?)
-        GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID;
+        OR FIND_IN_SET (f.NAME,?)
+        GROUP BY CAKE_NAME,c.CAKE_DESCRIPTION,c.CAKE_IMAGE,VOTING_NUM,c.CAKE_ID,c.CAKE_IMAGE_BLOB;
     ';
     $statement = getPDO()->prepare($sql);
     $statement -> bindValue(1,$ingredient);

@@ -18,7 +18,7 @@ $data = $statement->fetchAll();
 if(COUNT($data)>0){
     echo json_encode($data);
 }else{
-$sql="INSERT INTO `MESSAGE` (`MESSAGE`, `SENDER`, `MEMBER_ID`) VALUES ('您尚未提問', '0', ?);";
+$sql="INSERT INTO `MESSAGE` (`MESSAGE`, `SENDER`, `MEMBER_ID`) VALUES ('請輸入您的問題', '0', ?);";
 $statement = getPDO()->prepare($sql);
 $statement -> bindValue(1,$id);
 $statement -> execute();

@@ -4,7 +4,7 @@
 
   // $memberId = htmlspecialchars($_POST["memberId"]);
 
-  $sql = "SELECT * FROM A_cake.ACCESSORIES;";
+  $sql = "SELECT * FROM ACCESSORIES;";
   // $sql = "SELECT * FROM A_cake.CAKE;";
 
   $statement = $pdo->prepare($sql);

@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Origin, Methods, Content-Type");
 $page = $_POST['page'];
 $page = $page*9;
 //建立SQL語法
-$sql = "SELECT * FROM `CAKE` WHERE VOTING_ID = 1 LIMIT $page,9;";
+$sql = "SELECT * FROM `CAKE` WHERE `MEMBER_ID` != 0 LIMIT $page,9;";
 $statement = getPDO()->prepare($sql);
 $statement -> execute();
 $data = $statement->fetchAll();

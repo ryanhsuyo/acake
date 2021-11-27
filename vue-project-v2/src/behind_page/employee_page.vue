@@ -30,7 +30,7 @@
               </div>
               <div class="manager_list_content">
                 <div class="manager_details">
-                  <label for="">員工編號</label>
+                  <label for="">員工帳號</label>
                   <input
                     class="authority"
                     type="text"
@@ -114,7 +114,7 @@
               />
               <span
                 class="switch_button"
-                @click="[change(index), updateData(index)]"
+                @click="[change(index), updateData(data)]"
               >
                 <label for="">狀態</label>
                 <div
@@ -180,11 +180,11 @@
                 </div>
                 <div class="manager_details">
                   <label for="">權限</label>
-                  <select name="" class="authority">
-                    <option value="" :selected="data.AUTHORITY == 0">
+                  <select name="" class="authority" v-model="data.AUTHORITY">
+                    <option value="0" :selected="data.AUTHORITY == 0">
                       管理者
                     </option>
-                    <option value="" :selected="data.AUTHORITY == 1">
+                    <option value="1" :selected="data.AUTHORITY == 1">
                       超級管理者
                     </option>
                   </select>
@@ -192,8 +192,7 @@
               </div>
               <!--按鈕開關-->
               <div class="manager_list_button">
-                <button @click="updateData(index)">修改</button>
-                <button>確認</button>
+                <button @click="updateData(data)">確定修改</button>
               </div>
             </div>
           </div>
@@ -395,7 +394,19 @@ export default {
         data: params,
       })
         .then((response) => {
-          console.log(response);
+          const params = new URLSearchParams();
+    params.append("page", this.sn - 1);
+    this.$axios({
+      method: "POST",
+      url: "./static/cty_api/quire_member.php",
+      data: params,
+    }).then((res) => {
+      // console.log(res.data);
+      this.data = res.data;
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
+      }
+    });
         })
         .catch((error) => {
           console.log(error);
@@ -408,8 +419,8 @@ export default {
       this.new_employee.create_date = "";
       this.new_employee.authority = "";
     },
-    updateData(index) {
-      let data = this.data[index];
+    updateData(data) {
+      
       const params = new URLSearchParams();
       params.append("id", data.ID);
       params.append("name", data.EMPLOYEE_NAME);
@@ -427,7 +438,19 @@ export default {
         data: params,
       })
         .then((response) => {
-          // console.log(response);
+          const params = new URLSearchParams();
+    params.append("page", this.sn - 1);
+    this.$axios({
+      method: "POST",
+      url: "./static/cty_api/quire_member.php",
+      data: params,
+    }).then((res) => {
+      // console.log(res.data);
+      this.data = res.data;
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i].ACTIVE = parseInt(this.data[i].ACTIVE);
+      }
+    });
         })
         .catch((error) => {
           // console.log(error);

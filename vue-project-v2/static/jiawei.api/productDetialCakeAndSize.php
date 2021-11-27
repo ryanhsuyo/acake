@@ -4,7 +4,7 @@
 
   $memberId = htmlspecialchars($_POST["memberId"]);
 
-  $sql = "SELECT * FROM ORDER WHERE MEMBER_ID = ?;";
+  $sql = "SELECT * FROM `ORDER` WHERE MEMBER_ID = ?;";
   // $sql = "SELECT * FROM A_cake.ORDER WHERE MEMBER_ID = ?;";
 
   $statement = $pdo->prepare($sql);

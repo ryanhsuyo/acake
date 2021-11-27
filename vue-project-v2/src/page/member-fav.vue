@@ -29,7 +29,10 @@
                     </div>
                     <div class="folder_img_outline">
                         <a @click.prevent="selectFavFolder({categoryID: '0'})">
-                            <img :src="favFolder[randomIndexInFolder].categoryPic" v-if="noCake === false">
+                            <div class="four_pic_container" v-if="noCake === false">
+                                <img :src="item" v-for="(item, index) in randomIndexInFolder" :key="index">
+                                <img src="../assets/images/mascot1.png" v-for="item in (4 - randomIndexInFolder.length)" :key="item">
+                            </div>
                             <span v-else>收藏內尚未加入任何蛋糕！</span>
                         </a>
                     </div>
@@ -156,6 +159,7 @@
 
                 // 收藏內是否有蛋糕，控制未分類蛋糕資料夾的照片是否顯示
                 noCake: false,
+
             };
         },
         methods: {
@@ -163,7 +167,7 @@
                 this.editTitle = Array(this.favFolder.length).fill(false);
                 if(confirm("確定要刪除此分類資料夾?")){
                     // console.log(categoryId);
-                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID}))
+                    axios.post("./static/api/deleteFavFolder.php",qs.stringify({categoryId: categoryID}))
                         .then(res => {
                             // console.log(res);
                             this.favFolder = [];
@@ -179,7 +183,7 @@
                 let newName = prompt("請輸入資料夾名稱");
                 if(newName === "") alert("資料夾名稱未輸入！")
                 if(!!newName === true){
-                    axios.post("http://localhost/A_cake/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
+                    axios.post("./static/api/addFavFolder.php",qs.stringify({categoryName: newName, memberId: this.memberId}))
                             .then(res => {
                                 // console.log(res);
                                 this.favFolder = [];
@@ -194,7 +198,7 @@
                 this.$set(this.editTitle, index, boo);
             },
             updateTitle(index){
-                axios.post("http://localhost/A_cake/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
+                axios.post("./static/api/updateTitle.php",qs.stringify({categoryID: this.favFolder[index].categoryID, categoryName: this.favFolder[index].categoryName}))
                     .then(res => {
                         // console.log(res);
                     })
@@ -206,7 +210,7 @@
                 });
             },
             // addPhoto(){
-            //     axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("./static/api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
             //         .then(res => {
             //             // console.log(res);
             //             let data = res["data"];
@@ -227,7 +231,7 @@
 
             selectFolder(){
                 // axios做兩次呼叫取資料合併成一個物件時，第二次取得的資料有問題，重整後不會渲染畫面，下面暫且先合併成一次axios呼叫做處理
-                axios.post("http://localhost/A_cake/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
+                axios.post("./static/api/selectFavoriteCategoryPic.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
@@ -265,16 +269,18 @@
 
                         }
                         this.editTitle = Array(this.favFolder.length).fill(false);
-                        // console.log(this.editTitle);
-                        // console.log(this.favFolder);
+
                     })
                     .catch(err => {console.log(err)});
             },
+            forArrayShuffle(a,b) {
+                return Math.random() > 0.5 ? -1:1;
+            }
         },
         computed: {
+            // 所有收藏資料夾用的隨機圖片
             randomIndexInFolder(){
-                let favImageNum = this.favFolder.filter(item => !!item.categoryPic === true).length;
-                return Math.floor(Math.random() * favImageNum);
+                return this.favFolder.map(item => item.categoryPic).filter(item => item != null).sort(this.forArrayShuffle);
             },
         },
         mounted(){
@@ -284,7 +290,7 @@
                 this.$router.push('/assign')
             }
 
-            //     axios.post("http://localhost/A_cake/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
+            //     axios.post("./static/api/selectFavoriteCategory.php",qs.stringify({memberId: this.memberId}))
         //             .then(res => {
             //                 // console.log(res);
         //                 let data = res["data"];
@@ -501,8 +507,21 @@
                             top: 100px;
                         }
 
-                    }
+                        .four_pic_container{
+                        display: grid;
+                        width: 100%;
+                        height: 100%;
+                        grid-template-columns: 1fr 1fr;
+                        grid-template-rows: 1fr 1fr;
+                        grid-gap: 0;
 
+                            > img{
+                                width: 100%;
+                            }
+
+                        }
+
+                    }
 
                 }
 

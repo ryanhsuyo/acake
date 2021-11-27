@@ -149,7 +149,7 @@ export default {
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("./static/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("./static/yoyo.api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
@@ -163,7 +163,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo.api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -191,7 +191,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo.api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

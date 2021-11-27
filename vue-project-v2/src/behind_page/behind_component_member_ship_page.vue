@@ -120,7 +120,7 @@ export default {
     },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectMember.php")
+    axios.post("./static/api/BE_selectMember.php")
       .then(res => {
         let data = res["data"];
         // console.log(data);

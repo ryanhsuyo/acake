@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="addenda_block_cake_twandprice_cardorcandle">
                                     <div class="addenda_block_cake_tw_cardorcandle">NT$</div>
-                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity }}</div>
+                                    <div class="addenda_block_cake_price_cardorcandle">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity - addendacard.choice.ACCESSORIES_DISCOUNT}}</div>
                                 </div>
                             </div>
                         </div>
@@ -121,12 +121,13 @@
                         </div>
                         <div class="addenda_item_amount"></div> -->
                         <div class="addenda_item_cancel_block">
-                            <div class="addenda_item_cancel"  @click="deladdenda(index, ASt)">
+                            <div class="addenda_item_cancel"  @click="deladdenda(index)">
                                 <img src="../assets/images/trash_icon.svg" alt="">
                             </div>
                         </div>
                     </div>
-                    <div class="addenda_block_list4" v-show="addendacards.length<choices.length">
+                    <div class="addenda_block_list4" >
+                    <!-- <div class="addenda_block_list4" v-show="addendacards.length<choices.length"> -->
                         <div class="new_addenda_block_outline">
                             <div  class="new_addenda_block_square" @click="addaddenda(index)" >
                                 <img src="../assets/images/add_purchase_icon.png" alt="">
@@ -143,7 +144,7 @@
                     <button class="goto_checkout" v-if="packageSelected.ACCESSORIES_NAME" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
                 </router-link>
             </div>
-            <p class="errorText" v-if="!packageSelected.ACCESSORIES_NAME">您還沒有購入任何蛋糕</p>
+            <!-- <p class="errorText" v-if="!packageSelected.ACCESSORIES_NAME">您還沒有購入任何蛋糕</p> -->
             <router-link to="product">
                 <button class="backToProduct" v-if="!packageSelected.ACCESSORIES_NAME">選購蛋糕</button>
             </router-link>
@@ -285,7 +286,6 @@ export default {
             packages: [],
             packageSelected: {},
             choices: [],
-            forCty:[],
         }
     },
     methods:{
@@ -322,7 +322,6 @@ export default {
         
         notSelectedChoices(){
             //全部商品過濾每個商品
-                this.$forceUpdate()
             return this.choices.filter((choice) => {
                 // console.log('thischoices這個',choices);
                 // 已選的商品如果有回傳true
@@ -359,18 +358,14 @@ const params = new URLSearchParams();
             data: params,
         })
         .then((res) => {
-            console.log(res.data);
-            let data = res.data;
-            console.log('這是什麼', data)
-            this.choices = data;
+            this.choices = res.data;
             //     ]
-            console.log('這個choices', this.choices)
+            console.log('這個choices', this.choices[0])
         })
         .catch((error) => {
             console.log(error);
         })
-            const data = new URLSearchParams();
-        // params.append("page", index);
+        const data = new URLSearchParams();
         axios({
             method: "post",
             url: "./static/yoyo.api/productDetailSelectPackage.php",
@@ -394,10 +389,11 @@ const params = new URLSearchParams();
     },
     created(){
         document.querySelector('body').style.overflow='auto'
+        window.scrollTo(0, 0);
     },
     beforeDestroy(){
-             this.$store.dispatch('AStorage', this.addendacards)
-      this.$store.dispatch('PStorage', this.packageSelected)
+    // this.$store.dispatch('AStorage', this.addendacards)
+    // this.$store.dispatch('PStorage', this.packageSelected)
 
     }
 }

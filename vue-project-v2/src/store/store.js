@@ -12,6 +12,7 @@ const state = {
   storage:{},   // 蛋糕倉庫
   cakeQuantity:1,  // 蛋糕數量
   PStorage:{},  // 包裝倉庫
+  cakeClass: '',
   // Quantity:1,
 };
 export default new Vuex.Store({
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     },
     PStorage(context, PStoragearr){
       context.commit("updatePStorage", PStoragearr);
+    },
+    cakeClass(context, cakeClass){
+      context.commit("updateCakeClass", cakeClass);
     }
   },
   // 操作狀態
@@ -52,6 +56,9 @@ export default new Vuex.Store({
     },
     updatePStorage(state, PStoragearr){
       state.PStorage = PStoragearr
+    },
+    updateCakeClass(state, cakeClass){
+      state.cakeClass = cakeClass
     }
   }
 });

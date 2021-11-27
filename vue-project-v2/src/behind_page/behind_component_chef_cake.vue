@@ -300,6 +300,8 @@ export default {
     },
     // ---------------- 新增配料 ----------------
     sendData(){
+      let i = confirm('是否要新登蛋糕')
+      if(i == true){
       let data = new URLSearchParams();
       data.append('name',this.newChefCake.newCakeName)
       data.append('img',this.newChefCake.img)
@@ -315,25 +317,30 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
+      }
     },
     updateData(datas){
-      let data = new URLSearchParams();
-      data.append('name',datas.CAKE_NAME)
-      data.append('flavor',datas.FLAVOR_ID)
-      data.append('id',datas.CAKE_ID)
-      data.append('description',datas.CAKE_DESCRIPTION)
-      data.append('available',datas.CAKE_AVAILABLE)
-      data.append('size',datas.SIZE)
-      data.append('price',datas.PRICE)
-      axios({
-        method:"POST",
-        data,
-        url:"./static/yoyo.api/behindComponentChefCakeUpdate.php"
-      }).then((res)=>{
-        console.log(res.data)
-      }).catch((err)=>{
-        console.log(err)
-      })
+      let i = confirm('是否要新登蛋糕')
+      if(i == true){
+        alert('新增成功')
+        let data = new URLSearchParams();
+        data.append('name',datas.CAKE_NAME)
+        data.append('flavor',datas.FLAVOR_ID)
+        data.append('id',datas.CAKE_ID)
+        data.append('description',datas.CAKE_DESCRIPTION)
+        data.append('available',datas.CAKE_AVAILABLE)
+        data.append('size',datas.SIZE)
+        data.append('price',datas.PRICE)
+        axios({
+          method:"POST",
+          data,
+          url:"./static/yoyo.api/behindComponentChefCakeUpdate.php"
+        }).then((res)=>{
+          console.log(res.data)
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     }
   },
   computed: {

@@ -119,14 +119,14 @@
                                         <div class="ready_bill_details_product_cake_x"></div>
                                         <div class="ready_bill_details_product_cake_amount"></div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSORIES_PRICE}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSORIES_PRICE - PStorage.ACCESSORIES_DISCOUNT}}</div>
                                     </div>
                                     <div class="ready_bill_details_product_detail"  v-for="(addendacard,index) in AStorage" :key='index'>
                                         <label for="" class="ready_bill_details_product_item">{{addendacard.choice.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x">X</div>
                                         <div class="ready_bill_details_product_cake_amount">{{addendacard.quantity}}</div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity - addendacard.choice.ACCESSORIES_DISCOUNT}}</div>
                                     </div>
                                 </div>
                             <div class="hr3"></div>
@@ -382,10 +382,10 @@ export default {
         },
         totalMoney(){
             if(this.couponDiscount == 0){
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE)  +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT)  +parseInt(this.changejaipei)
             return allPrice
             }else{
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
             return allPrice
             }
         },
@@ -394,7 +394,6 @@ export default {
             let now = new Date().getTime() / 1000;
             return Math.ceil((future - now) / 86400);
         },
-        
         ...mapState([
             'storage',
             'PStorage',
@@ -405,7 +404,7 @@ export default {
             let a = this.$store.state.AStorage;
             let sum = 0;
             for(let i = 0; i < a.length; i++){
-                a[i].price = a[i].quantity * a[i].choice.ACCESSORIES_PRICE;
+                a[i].price = a[i].quantity * a[i].choice.ACCESSORIES_PRICE - a[i].choice.ACCESSORIES_DISCOUNT;
                 sum = sum + a[i].price
             }
             
@@ -452,10 +451,9 @@ export default {
     my(){
         return this.$store.state.memberId
     },
-    // myID(){
-        
-    // }
-
+    created(){
+        window.scrollTo(0, 0);
+    },
     
 }
 

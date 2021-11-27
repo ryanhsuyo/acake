@@ -57,7 +57,6 @@ export default {
     },
     data(){
         return{
-            asd:123546
         }
     },
     methods:{
@@ -71,7 +70,9 @@ export default {
     },
     mounted(){
     },
-
+    created(){
+        window.scrollTo(0, 0);
+    },
     
 }
 

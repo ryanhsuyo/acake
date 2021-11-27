@@ -322,8 +322,8 @@
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">是否直接購買設計完成的客製化蛋糕?</p>
                     <div class="popup_button">
                         <router-link to="/member_data" id="member_data">
-                        <button class="no" @click="keepCakeDesign">否，加入設計庫</button></router-link>
-                        <button class="yes" @click="keepCakeDesign">是，直接購買</button>
+                        <button class="no" @click="buy = 0;keepCakeDesign()">否，加入設計庫</button></router-link>
+                        <button class="yes" @click="buy = 1;keepCakeDesign()">是，直接購買</button>
                         <!-- <buttontest title=" 是，直接購買"></buttontest> -->
                         <!-- <buttontest title=" 否，加入設計庫"></buttontest> -->
                     </div>
@@ -501,6 +501,13 @@ export default {
                 // 蛋糕價格計算
                 allPrice: 0,
 
+                // 直接購買，將包裝加入購物車
+                thePackage: [],
+                // 直接購買，將加購品加入購物車
+                theAdditional: [],
+                // 判斷是否將蛋糕組合加入購物車
+                buy: 0,
+
                 // 裝飾
                 // swiperList3:[
                 //     {img:require ('../assets/images/cake_design/decoration1.png'),
@@ -562,14 +569,37 @@ export default {
     methods:{
         // 將資料加入設計庫
         keepCakeDesign(){
-            // let that = this;
-            // let file = document.querySelectorAll("input[type='file']")[0].files[0];
-            // let file = this.htmlUrl;
-            // console.log(this.newCakeDesign.name, );
-            axios.post("./static/melody_php/new_cake_design.php", qs.stringify({
+            // 加購品呼叫
+            // alert('step1')
+                axios({
+                    method:"GET",
+                    url:"http://localhost/melody_php/productDetailSelectPackage.php"
+                }).then((res)=>{
+                    this.thePackage = res.data
+                }).catch((err)=>{
+                    console.log(err)
+                })
+                axios({
+                    method:"GET",
+                    url:"http://localhost/melody_php/productDetailSelectAdditional.php"
+                }).then((res)=>{
+                    this.theAdditional.push(res.data[0])
+                }).catch((err)=>{
+                    console.log(err)
+                })
+                axios({
+                    method:"GET",
+                    url:"http://localhost/melody_php/productDetailSelectAdditional2.php"
+                }).then((res)=>{
+                    this.theAdditional.push(res.data[0])
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            
+            axios.post("http://localhost/melody_php/new_cake_design.php", qs.stringify({
                 name: this.newCakeDesign.name, 
                 nameEng: this.newCakeDesign.nameEng, 
-                price: this.allPrice + parseInt(this.newCakeDesign.flavorPrice), 
+                price: parseInt(parseInt(this.allPrice) + parseInt(this.newCakeDesign.flavorPrice)), 
                 description: this.newCakeDesign.description, 
                 flavorID: this.newCakeDesign.flavorID,
                 cakeDesignImageBlob: this.htmlUrl, 
@@ -577,7 +607,39 @@ export default {
                 authorization: Math.ceil(Math.random() * 3), 
                 votingID: this.newCakeDesign.voteID,
             }))
-            .then(res => console.log(res))
+            .then((res)=>{
+                // alert("step2")
+                if(this.buy==1){
+                    
+                
+                let data=new URLSearchParams();
+                data.append("time",res['data'])
+                console.log(res['data'])
+                
+                axios({
+                    method:"POST",
+                    data,
+                    url:'http://localhost/melody_php/buy_new_cake_design.php'
+                }).then((res)=>{
+                    // alert(this.buy)
+                    console.log(res.data);
+                    // 蛋糕要給('蛋糕名稱','蛋糕圖片''''''')
+                    
+                    this.$store.dispatch('storage', res.data)
+                    // 蛋糕數量給1就可
+                    this.$store.dispatch('cakeQ', 1)
+                    // 加購品給0跟6就好
+                    this.$store.dispatch('AStorage', this.theAdditional)
+                    // 包裝
+                    this.$store.dispatch('PStorage', this.thePackage)
+                    alert('已加入購物車');
+                    this.$router.push('/shopping_cart')
+
+                }).catch((err)=>{
+                    console.log(err)
+                })
+                }
+            })
             .catch(err => console.log(err));
             
             // let readFile = new FileReader();
@@ -789,15 +851,15 @@ export default {
         this.showArea = 1;
 
         // -------------------------------------------- 資料處理部分 --------------------------------------------
-                axios.post("./static/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
-                .then(res => {
-                    let theFlavor = res["data"];
-                    // console.log(theFlavor);
-                })
-                .catch(err => console.log(err));
+                // axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({flavorId: this.flavor}))
+                // .then(res => {
+                //     let theFlavor = res["data"];
+                //     // console.log(theFlavor);
+                // })
+                // .catch(err => console.log(err));
 
                 // select配料&裝飾
-                axios.post("./static/melody_php/select_ingredient_all.php")
+                axios.post("http://localhost/melody_php/select_ingredient_all.php")
                 .then(res => {
                     let data = res["data"];
                     console.log(data);
@@ -826,9 +888,10 @@ export default {
                 })
                 .catch(err => console.log(err));
 
-                axios.post("./static/melody_php/select_flavor_all.php")
+                axios.post("http://localhost/melody_php/select_flavor_all.php")
                 .then(res =>{
                     let data = res["data"];
+                    console.log(res)
                     for(let i = 0; i < data.length; i++){
                         this.swiperList1.push({
                             flavorID: data[i].ID,
@@ -843,7 +906,7 @@ export default {
                 .catch(err => console.log(err));
 
                 // 取得最近的投票活動ID
-                axios.post("./static/melody_php/get_latest_voteID.php")
+                axios.post("http://localhost/melody_php/get_latest_voteID.php")
                 .then(res =>{
                     this.newCakeDesign.voteID = res.data[0].ID;
                 })
@@ -856,6 +919,9 @@ export default {
             this.productId = this.$route.params.Id
             this.getDetail()
             }
+        },
+        buy:{
+            deep:true
         }
     },
 }
@@ -1179,7 +1245,7 @@ li.nav_item > a#cakeDesign{
                 // z-index: 1;
                 width: 40px;
                 position: absolute;
-                top: 24%;
+                top: 18%;
                 right: 80px;
                 transform-origin: bottom left;
                 // transform: translate(-50%, -50%);
@@ -1188,7 +1254,29 @@ li.nav_item > a#cakeDesign{
                 animation-iteration-count: infinite;
                 animation-direction: ease;
                 animation-fill-mode:both;
-            }
+    }
+    @media all and (max-width: 976px){
+        img.first_screen_cake_look{
+            top: 8%;
+            right: 38%;
+        }
+    }
+    @media all and (max-width: 768px){
+        img.first_screen_cake_look{
+            right: 35%;
+        }
+    }
+    @media all and (max-width: 576px){
+        img.first_screen_cake_look{
+            right: 30%;
+        }
+    }
+    @media all and (max-width: 576px){
+        img.first_screen_cake_look{
+            right: 25%;
+        }
+    }
+
     div#cake_box_outline{
         display: flex;
         justify-content: center;
@@ -1498,22 +1586,22 @@ li.nav_item > a#cakeDesign{
         input#pseudo_element_button{
             position: absolute;
             left: 25%;
-            bottom: 20%;
+            bottom: 10%;
         }
         input#back_step{
             position: absolute;
             left: 25%;
-            bottom: 20%;
+            bottom: 10%;
         }
         input#next_step{
             position: absolute;
             right: 25%;
-            bottom: 20%;
+            bottom: 10%;
         }
         input#finish{
             position: absolute;
             right: 25%;
-            bottom: 20%;
+            bottom: 10%;
         }
     }
 
@@ -1679,6 +1767,9 @@ li.nav_item > a#cakeDesign{
         div.choose_cake_model{
             grid-column: 1/2;
             order: 1;
+            div#cake_model_title_box{
+                width: 90%;
+            }
         }
     }
     

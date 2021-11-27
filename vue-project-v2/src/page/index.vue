@@ -126,8 +126,8 @@
                             />
                             <img src="../assets/images/cake11.jpg" alt="" class="pic_cake" />
                             <div>
-                                <p class="title">巧克力蛋糕<p/>
-                                <p>Chocolate cake</p>
+                                <p class="title">優格馬斯卡邦蛋糕<p/>
+                                <p>NO.1</p>
                             </div>
                         </div>
                         <div class="vote_topthree" v-for="(three,index) in 1" :key="index">
@@ -138,8 +138,8 @@
                             />
                             <img src="../assets/images/cake12.jpg" alt="" class="pic_cake" />
                             <div>
-                                <p class="title">巧克力蛋糕<p/>
-                                <p>Chocolate cake</p>
+                                <p class="title">威士忌巧克力蛋糕<p/>
+                                <p>NO.2</p>
                             </div>
                         </div>
                         <div class="vote_topthree" v-for="(three,index) in 1" :key="index">
@@ -150,12 +150,12 @@
                             />
                             <img src="../assets/images/cake13.jpg" alt="" class="pic_cake" />
                             <div>
-                                <p class="title">巧克力蛋糕<p/>
-                                <p>Chocolate cake</p>
+                                <p class="title">法國草莓茶芙蓮<p/>
+                                <p>NO.3</p>
                             </div>
                         </div>                    </div>
                     <div class="third_screen_button">
-                    <router-link to="/cakeDesign" id="cakeDesign">
+                    <router-link to="/vote" id="vote">
                         <buttontest3 title=" 進入投票" style=""></buttontest3>
                     </router-link>
                 </div>
@@ -446,7 +446,7 @@ export default {
             // autoAlpha: 0,
         });
 
-        axios.post("./static/melody_php/select_cakecard.php")
+        axios.post("http://localhost/melody_php/select_cakecard.php")
             .then(res =>{
                 console.log(res);
                 let data = res["data"];
@@ -468,7 +468,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-    // @import "../assets/style/var.scss";
+    @import "../assets/style/var.scss";
     $shadow:rgba(0,0,0,1);
     @import "../assets/style/fullpage.min.css";
     body{
@@ -857,7 +857,7 @@ export default {
         color: #515151;
         border-radius: 5px;
         height: 340px;
-        box-shadow: $shadow;
+        box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
         .topthree_hat {
             position: absolute;
             width: 110px;
@@ -1024,7 +1024,7 @@ export default {
                 color: #515151;
                 font-size: 24px;
                 border: none;
-                box-shadow: $shadow;
+                box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
                 transition: 0.2s;
                  // animation
                 animation-name: movButton;
@@ -1102,7 +1102,7 @@ export default {
                 color: #515151;
                 font-size: 24px;
                 border: none;
-                box-shadow: $shadow;
+                box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
                 transition: 0.2s;
                  // animation
                 animation-name: movButton;
@@ -1353,10 +1353,11 @@ export default {
                 width: 180px;
                 height: 60px;
                 border-radius: 30px; 
-                box-shadow: $shadow;
+                box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
                 background-color: $lightPike;
                 font-size: $h4;
                 border: 0;
+                box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
                 color: #515151;
                 
                 img{

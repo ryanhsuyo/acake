@@ -1,6 +1,7 @@
 <template>
     <div>
         <headercom></headercom>
+        <topButton></topButton>
         <!-- <full-page ref="fullpage" :options="options" id="fullpage"> -->
         <div id="first_box show_content section">
             <div class="first_screen">
@@ -277,6 +278,7 @@ import cardTopthree from '../components/card_topthree.vue'
 // import cardProduct from '../components/card_product.vue'
 import cardProduct from '../components/card_product_index.vue'
 import footercom from '../components/footercom'
+import topButton from '../components/top_button.vue'
 import axios from 'axios';
 
 // import {gsap} from "gsap"
@@ -294,6 +296,7 @@ export default {
         cardTopthree,
         cardProduct,
         footercom,
+        topButton,
         // fullPage,
     },
     
@@ -323,6 +326,8 @@ export default {
         }
     },
     mounted() {
+        // 阻止three.js覆蓋
+        document.querySelector("body").style.overflow="auto";
         // 第一屏 parallax 效果
         $(window).on('mousemove', function(e) {
             var w = $(window).width();

@@ -50,8 +50,8 @@
         </div>
         <div>
           <p>ID：</p>
-          <!-- <p>{{data.INGREDIENT_ID}}</p> -->
-          <input class="new_id" type="text" v-model="newFlavor.id"/>
+          <p>{{newFlavor.id}}</p>
+          <!-- <input class="new_id" type="text" v-model="newFlavor.id"/> -->
         </div>
         <div>
           <p>價格：</p>
@@ -207,8 +207,8 @@
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
     <!-- 叫庭揚修 -->
-    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus(data);updateData(data)">
-    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus(data);updateData(data)"></span>
+    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus2(data);updateData(data)">
+    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}"></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -270,8 +270,8 @@
       <div class="button_upsite">
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
-    <div class="switch" id="outline" :class="{'-on':1}">
-    <span class="circle" id="circle" :class="{'-on':1}"></span>
+    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus2(data);updateData(data)">
+    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}"></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -353,6 +353,15 @@ export default {
         value.AVAILABLE =1
       }
     },
+    changeStatus2(value){
+      // console.log(value)
+      console.log(value.INGREDIENT_AVAILABLE)
+      if(value.INGREDIENT_AVAILABLE == 1){
+        value.INGREDIENT_AVAILABLE =0
+      }else{
+        value.INGREDIENT_AVAILABLE =1
+      }
+    },
     change(index){
         let i =  this.data[index].status;
         this.data[index].status = this.data[index].status?0:1
@@ -393,7 +402,7 @@ export default {
       
       if (this.newFlavor.category == 1) {
         
-        axios.post("./static/melody_php/new_flavor.php", qs.stringify({
+        axios.post("http://localhost/melody_php/new_flavor.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -408,7 +417,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/new_ingredient.php", qs.stringify({
+        axios.post("http://localhost/melody_php/new_ingredient.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -430,7 +439,7 @@ export default {
     updateData(data){
       if (data.CATEGORY == undefined) {
         
-        axios.post("./static/melody_php/update_flavor.php", qs.stringify({
+        axios.post("http://localhost/melody_php/update_flavor.php", qs.stringify({
         id: data.ID,
         name: data.NAME,
         description: data.DESCRIPTION,
@@ -449,7 +458,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/update_ingredient.php", qs.stringify({
+        axios.post("http://localhost/melody_php/update_ingredient.php", qs.stringify({
         id: data.INGREDIENT_ID,
         name: data.INGREDIENT_NAME,
         description: data.INGREDIENT_DESCRIPTION,
@@ -508,7 +517,7 @@ export default {
 
         if (that.newFlavor.CATEGORY == undefined) {
         
-        axios.post("./static/melody_php/update_flavor_img.php", qs.stringify({
+        axios.post("http://localhost/melody_php/update_flavor_img.php", qs.stringify({
         id: parseInt(that.newFlavor.ID),
         img: readFile.result,
         })).then((res)=>{
@@ -519,7 +528,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/update_ingredient_img.php", qs.stringify({
+        axios.post("http://localhost/melody_php/update_ingredient_img.php", qs.stringify({
         id: that.newFlavor.INGREDIENT_ID,
         img: readFile.result,
         category: that.newFlavor.CATEGORY,
@@ -545,7 +554,7 @@ export default {
     $("#cake").addClass("target");
 
     // select糕體
-    axios.post("./static/melody_php/select_flavor.php", qs.stringify({
+    axios.post("http://localhost/melody_php/select_flavor.php", qs.stringify({
       flavorId: this.flavor,
       
       }))
@@ -557,7 +566,7 @@ export default {
       .catch(err => console.log(err));
 
     // select配料
-    axios.post("./static/melody_php/select_ingredient.php", qs.stringify({
+    axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({
       ingredientId: 2}))
       .then(res => {
         this.theIngredient2 = res.data;
@@ -567,7 +576,7 @@ export default {
       .catch(err => console.log(err));
 
     // select裝飾
-    axios.post("./static/melody_php/select_ingredient.php", qs.stringify({
+    axios.post("http://localhost/melody_php/select_ingredient.php", qs.stringify({
       ingredientId: 3}))
       .then(res => {
         this.theIngredient3 = res.data;

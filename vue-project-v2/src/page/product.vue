@@ -19,7 +19,7 @@
                         <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="returnTrueOrFalse(card);loveActive();openSelect(card)" :class="{'active':returnTrueOrFalse(card)}" />
                         <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS"></SelectFavorite>
                     </div>
-                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
+                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID); addCakeName('主廚蛋糕')">
                         <!-- <router-link to="product_detail"  > -->
                             <img class="product_img_container_img" :src="card.CAKE_IMAGE_BLOB" />
                         <!-- </router-link> -->
@@ -34,7 +34,7 @@
                         </div>
                         <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
                             加入購物車 
-                            <img src="../assets/images/shoppingCar.svg">
+                            <font-awesome-icon icon="fa-solid fa-cart-plus" />
                             <transition appear
                                 @before-appear="beforeEnter"
                                 @after-appear='afterEnter'
@@ -67,7 +67,7 @@
                         <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="returnTrueOrFalse(card);loveActive();openSelect(card)" :class="{'active':returnTrueOrFalse(card)}" />
                         <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS"></SelectFavorite>
                     </div>
-                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID)">
+                    <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID); addCakeName('私廚蛋糕')">
                         <img class="product_img_container_img" :src="card.CAKE_IMAGE_BLOB" />
                     </div>
                     <div class="product_introduce">
@@ -80,9 +80,9 @@
 
 
                         </div>
-                           <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
+                        <button class="addtocar" @click="addToCakeCart(card); addQuantityToCart(counter); addToPStorage(packageSelected); addAdditionalToStorage(addendacards)">
                             加入購物車 
-                            <img src="../assets/images/shoppingCar.svg">
+                            <font-awesome-icon icon="fa-solid fa-cart-plus" />
                             <transition appear
                                 @before-appear="beforeEnter"
                                 @after-appear='afterEnter'
@@ -152,7 +152,7 @@ export default {
             this.choosefavoritefunction()
         },
         callFile(){//呼叫資料夾做比對
-            axios.post("./static/yoyo/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/yoyo/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 // console.log(res.data);
                 let data = res["data"];
@@ -178,7 +178,7 @@ export default {
                     axios({
                         method:"POST",
                         data:data2,
-                        url:'./static/yoyo/cancelFavoriteBox.php'
+                        url:'http://localhost/yoyo/cancelFavoriteBox.php'
                     }).then((res)=>{
                         console.log(res.data)
                         this.realCallFile()
@@ -208,7 +208,7 @@ export default {
             // console.log(this.light);
         },
         abc(ev){
-            this.bbb = ev;
+            this.bbb = ev; 
         },   
         addToCart(product, num){
             this.showMoveDot = [...this.showMoveDot, true];
@@ -220,16 +220,19 @@ export default {
             this.$router.push({path: `product_detail?id=${id}`});
             // console.log('讓我看看',id);
         },
+        // 蛋糕要給('蛋糕名稱','蛋糕圖片''''''')
         addToCakeCart(cake){
             this.$store.dispatch('storage', cake)
         },
+        // 蛋糕數量給1就可
         addQuantityToCart(counter){
             this.$store.dispatch('cakeQ', counter)
         },
+        // 加購品給0跟6就好
         addAdditionalToStorage(additional){
-            
         this.$store.dispatch('AStorage', additional)
         },
+        // 包裝
         addToPStorage(packageSelected){
         this.$store.dispatch('PStorage', packageSelected)
         alert('已加入購物車')
@@ -244,13 +247,17 @@ export default {
             this.openFavorite=!this.openFavorite
         },
         choosefavoritefunction(){
-            axios.post("./static/yoyo/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/yoyo/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                     this.choosefavorite = res.data;
                 })
             .catch((error) => {
                 console.log(error);
             })
+        },
+        // 將麵包屑分類送至下個頁面
+        addCakeName(cakeClass){
+            this.$store.dispatch('cakeClass', cakeClass,)
         }
 
     },
@@ -287,11 +294,10 @@ export default {
     mounted(){
         
         this.callFile();
-       
         const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -299,6 +305,7 @@ export default {
             let data = res.data;
             // console.log('這是什麼', data)
             this.choices = data;
+            console.log('到底哪個不用錢',this.choices);
             this.addendacards = 
                 [
                 {
@@ -307,10 +314,9 @@ export default {
                 },
                 {
                     quantity: 1,
-                    choice: this.choices[2],
+                    choice: this.choices[6],
                 }
                 ]
-            // console.log('這個choices', this.choices)
         })
         .catch((error) => {
             console.log(error);
@@ -318,20 +324,22 @@ export default {
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
             // console.log(res.data);
             let data = res.data;
             this.packages = data;
-            // console.log('這是什麼packages', this.packages)
             this.packageSelected = this.packages[0]
         })
         .catch((error) => {
             console.log(error);
         })
         this.choosefavoritefunction()
+    },
+    created(){
+        window.scrollTo(0, 0);
     },
     
     
@@ -574,14 +582,18 @@ body{
                 font-size: $h4;
                 border: 0;
                 
-                img{
+                i{
                     width: 20px;
                     height: 20px;
                 }
+                // img{
+                //     width: 20px;
+                //     height: 20px;
+                // }
                 &:hover{
-                    // color: $lightPike;
+                    color: $lightPike;
                     cursor: pointer;
-                    // background-color: $darkGrey;
+                    background-color: $darkGrey;
                 }
             }
         }

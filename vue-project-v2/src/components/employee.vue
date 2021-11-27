@@ -13,7 +13,7 @@
             <label for="">員工密碼</label>
             <input class="authority" type="password">
         </div>
-       <div class="manager_details">
+      <div class="manager_details">
             <label for="">員工姓名</label>
             <input class="authority" type="text">
         </div>

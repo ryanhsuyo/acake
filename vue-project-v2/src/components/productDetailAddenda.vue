@@ -33,7 +33,7 @@
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price">{{ packageSelected.ACCESSORIES_PRICE }}</div>
+              <div class="addenda_price">{{ packageSelected.ACCESSORIES_PRICE - packageSelected.ACCESSORIES_DISCOUNT}}</div>
             </div>
           </div>
         </div>
@@ -81,12 +81,12 @@
             </div>
             <div class="addenda_twandprice">
               <div class="addenda_price_tw">NT$</div>
-              <div class="addenda_price" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_PRICE">{{ addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity}}</div>
+              <div class="addenda_price" v-if="addendacard.choice && addendacard.choice.ACCESSORIES_PRICE">{{ addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity  - addendacard.choice.ACCESSORIES_DISCOUNT}}</div>
             </div>
           </div>
         </div>
       </div>
-      <span class="addnew_product_hr"></span>
+      <span class="addnew_product_hr" v-show="!addendacards.length == 0"></span>
       <div v-show="addendacards.length<choices.length" class="new_addenda_titlebar">
         <div class="new_addenda" @click="addaddenda()">
         <div class="new_addenda_title">新增加購</div>
@@ -183,7 +183,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -211,7 +211,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -238,7 +238,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo/productDetailSelectAdditional.php",
+    //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -267,7 +267,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "./static/yoyo/productDetailSelectPackage.php",
+      //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {

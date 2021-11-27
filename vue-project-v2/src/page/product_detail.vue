@@ -4,12 +4,12 @@
         <main id="product_details">
             <section class="shopping_cart_bread">
                 <router-link to="product">
-                    <span class="shopping_cart_page">主廚蛋糕</span>
+                    <span class="shopping_cart_page" v-if="cakeClass">{{cakeClass}}</span>
                 </router-link>
                 <div class="shopping_cart_bread_arrow">
                     <img class="shopping_cart_bread_arrow_img" src="../assets/images/process_icon.svg" alt="">
                 </div>
-                <span class="prepare_checkout_page">巧克力蛋糕</span>
+                <span class="prepare_checkout_page" v-if="cake && cake.CAKE_NAME">{{cake.CAKE_NAME}}</span>
                 <!-- <div class="shopping_cart_bread_arrow">
                     <img class="shopping_cart_bread_arrow_img" src="../assets/images/process_icon.svg" alt="">
                 </div>
@@ -34,7 +34,7 @@
                                     <!-- </router-link> -->
                                     <!-- <router-link to="shopping_cart"> -->
 
-                                        <button id="product_details_combination1_buy" @click="open(); addToStorageQ(counter) ;addToStorage(cake)">直接購買</button>
+                                        <button id="product_details_combination1_buy" @click="open(); addToStorageQ(counter) ;addToStorage(cake);">直接購買</button>
                                     <!-- </router-link> -->
                                 </div>
 
@@ -92,6 +92,7 @@ export default {
             counter: 1,
             showpage: false,
             cake: {},
+            cakeClass: '',
         }
     },
     methods:{
@@ -115,23 +116,30 @@ export default {
         nnn(ev){
             this.showpage = ev;
         },
+        // 蛋糕數量資料 可給1就好
         addToStorageQ(cakeQuantity){
             this.$store.dispatch('cakeQ', cakeQuantity)
         },
+        // 蛋糕資訊 ('圖片名稱','價錢','價錢','圖片','吋數')
         addToStorage(cake){
             this.$store.dispatch('storage', cake)
         },
+        // 加購商品資料
         addAdditionalToStorage(additional){
-        this.$store.dispatch('AStorage', additional)
-        alert('已加入購物車!!')
+            this.$store.dispatch('AStorage', additional)
+            alert('已加入購物車!!')
         },
+        // 包裝資料
         addToPStorage(packageSelected){
-        this.$store.dispatch('PStorage', packageSelected)
-        console.log('做不出來',packageSelected);
+            this.$store.dispatch('PStorage', packageSelected)
+            console.log('做不出來',packageSelected);
         },
         closeThePage(){
             this.showpage = !this.showpage
-        }
+        },
+        // getCakeClass(){
+        //     return this.$store.state.cakeClass
+        // }
     },
     watch:{
         
@@ -149,7 +157,7 @@ export default {
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("./static/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("http://localhost/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
@@ -163,7 +171,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -191,7 +199,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -214,6 +222,7 @@ export default {
         .catch((error) => {
             console.log(error);
         })
+        this.cakeClass = this.$store.state.cakeClass
 
         }
         
@@ -263,7 +272,7 @@ body{
         //     text-decoration: none;
         //     color: black;
         // }
-        .shopping_cart_page,.prepare_checkout_page,.checkout_page{
+        .shopping_cart_page,.checkout_page{
             font-size: $p;
             max-width: 80px;
             width: 100%;
@@ -275,6 +284,14 @@ body{
                 max-width: 100px;
                 width: 100%;
             }
+        }
+        .prepare_checkout_page{
+            font-size: $p;
+            max-width: 200px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
         .shopping_cart_bread_arrow{
             width: 100%;

@@ -119,14 +119,14 @@
                                         <div class="ready_bill_details_product_cake_x"></div>
                                         <div class="ready_bill_details_product_cake_amount"></div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSORIES_PRICE}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{PStorage.ACCESSORIES_PRICE - PStorage.ACCESSORIES_DISCOUNT}}</div>
                                     </div>
                                     <div class="ready_bill_details_product_detail"  v-for="(addendacard,index) in AStorage" :key='index'>
                                         <label for="" class="ready_bill_details_product_item">{{addendacard.choice.ACCESSORIES_NAME}}</label>
                                         <div class="ready_bill_details_product_cake_x">X</div>
                                         <div class="ready_bill_details_product_cake_amount">{{addendacard.quantity}}</div>
                                         <div class="ready_bill_details_product_cake_tw">NT$</div>
-                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity}}</div>
+                                        <div class="ready_bill_details_product_cake_price">{{addendacard.choice.ACCESSORIES_PRICE * addendacard.quantity - addendacard.choice.ACCESSORIES_DISCOUNT}}</div>
                                     </div>
                                 </div>
                             <div class="hr3"></div>
@@ -284,7 +284,7 @@ export default {
                     axios({
                         method:"POST",
                         data,
-                        url:"./static/yoyo/insertOrder.php"
+                        url:"http://localhost/yoyo/insertOrder.php"
                     }).then((res)=>{
                         // 流程控制，寫入訂單詳細資訊
                         this.newOrderDate = res.data;
@@ -295,7 +295,7 @@ export default {
                         orderDetail.append('time',this.newOrderDate);
                         axios({
                             method:"POST",
-                            url:'./static/yoyo/insertOrderCake.php',
+                            url:'http://localhost/yoyo/insertOrderCake.php',
                             data:orderDetail,
                         }).then((res)=>{
                             // 以下為流程控制寫入包裝
@@ -305,7 +305,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:packages,
-                                url:"./static/yoyo/insertPackages.php"
+                                url:"http://localhost/yoyo/insertPackages.php"
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -326,7 +326,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:access,
-                                url:'./static/yoyo/insertAdditionals.php'
+                                url:'http://localhost/yoyo/insertAdditionals.php'
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -342,7 +342,7 @@ export default {
                             couponData.append('coupon',this.couponDiscount.couponId)
                             axios({
                                 method:"POST",
-                                url:'./static/yoyo/updateCouponId.php',
+                                url:'http://localhost/yoyo/updateCouponId.php',
                                 data:couponData,
                             }).then((res)=>{
                             }).catch((err)=>{
@@ -382,10 +382,10 @@ export default {
         },
         totalMoney(){
             if(this.couponDiscount == 0){
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE)  +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT)  +parseInt(this.changejaipei)
             return allPrice
             }else{
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
             return allPrice
             }
         },
@@ -394,7 +394,6 @@ export default {
             let now = new Date().getTime() / 1000;
             return Math.ceil((future - now) / 86400);
         },
-        
         ...mapState([
             'storage',
             'PStorage',
@@ -405,7 +404,7 @@ export default {
             let a = this.$store.state.AStorage;
             let sum = 0;
             for(let i = 0; i < a.length; i++){
-                a[i].price = a[i].quantity * a[i].choice.ACCESSORIES_PRICE;
+                a[i].price = a[i].quantity * a[i].choice.ACCESSORIES_PRICE - a[i].choice.ACCESSORIES_DISCOUNT;
                 sum = sum + a[i].price
             }
             
@@ -417,7 +416,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "http://localhost/yoyo/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
@@ -427,7 +426,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("./static/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
@@ -452,10 +451,9 @@ export default {
     my(){
         return this.$store.state.memberId
     },
-    // myID(){
-        
-    // }
-
+    created(){
+        window.scrollTo(0, 0);
+    },
     
 }
 

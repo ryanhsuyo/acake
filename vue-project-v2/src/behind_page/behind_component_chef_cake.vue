@@ -282,7 +282,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "./static/yoyo/behindInsertChefCakeImg.php",
+          url: "http://localhost/yoyo/behindInsertChefCakeImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -300,6 +300,8 @@ export default {
     },
     // ---------------- 新增配料 ----------------
     sendData(){
+      let i = confirm('是否要新登蛋糕')
+      if(i == true){
       let data = new URLSearchParams();
       data.append('name',this.newChefCake.newCakeName)
       data.append('img',this.newChefCake.img)
@@ -308,32 +310,37 @@ export default {
       data.append('description',this.newChefCake.description)
       axios({
         data,
-        url:"./static/yoyo/behindComponentChefCakeInsert.php",
+        url:"http://localhost/yoyo/behindComponentChefCakeInsert.php",
         method:"POST",
       }).then((res)=>{
         console.log(res.data)
       }).catch((err)=>{
         console.log(err)
       })
+      }
     },
     updateData(datas){
-      let data = new URLSearchParams();
-      data.append('name',datas.CAKE_NAME)
-      data.append('flavor',datas.FLAVOR_ID)
-      data.append('id',datas.CAKE_ID)
-      data.append('description',datas.CAKE_DESCRIPTION)
-      data.append('available',datas.CAKE_AVAILABLE)
-      data.append('size',datas.SIZE)
-      data.append('price',datas.PRICE)
-      axios({
-        method:"POST",
-        data,
-        url:"./static/yoyo/behindComponentChefCakeUpdate.php"
-      }).then((res)=>{
-        console.log(res.data)
-      }).catch((err)=>{
-        console.log(err)
-      })
+      let i = confirm('是否要新登蛋糕')
+      if(i == true){
+        alert('新增成功')
+        let data = new URLSearchParams();
+        data.append('name',datas.CAKE_NAME)
+        data.append('flavor',datas.FLAVOR_ID)
+        data.append('id',datas.CAKE_ID)
+        data.append('description',datas.CAKE_DESCRIPTION)
+        data.append('available',datas.CAKE_AVAILABLE)
+        data.append('size',datas.SIZE)
+        data.append('price',datas.PRICE)
+        axios({
+          method:"POST",
+          data,
+          url:"http://localhost/yoyo/behindComponentChefCakeUpdate.php"
+        }).then((res)=>{
+          console.log(res.data)
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     }
   },
   computed: {
@@ -346,7 +353,7 @@ export default {
     $("#chefCake").addClass("target");
     axios({
       method:"GET",
-      url:"./static/yoyo/behindGetFlavor.php",
+      url:"http://localhost/yoyo/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -356,7 +363,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo/behindComponentChefCakeSelect.php",
+            url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -369,7 +376,7 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo/behindComponentSelectIngredientAll.php",
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
@@ -384,7 +391,7 @@ export default {
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
     //         data: INGREDIENT,
     //     })
     //     .then((res) => {

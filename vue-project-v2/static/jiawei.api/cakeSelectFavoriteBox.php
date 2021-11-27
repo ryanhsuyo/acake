@@ -5,7 +5,7 @@
   // $memberId = htmlspecialchars($_POST["memberId"]);
 
   $sql = "SELECT m.MEMBER_ID, fc.CATEGORY_ID, fc.CATEGORY_NAME
-  FROM A_cake.FAVORITE_CATEGORY fc
+  FROM FAVORITE_CATEGORY fc
   JOIN MEMBER m on fc.MEMBER_ID = m.MEMBER_ID
   JOIN FAVORITE f on fc.CATEGORY_ID = f.FAVORITE_CATEGORY_ID
   where m.MEMBER_ID = 1

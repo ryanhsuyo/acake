@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="productDetailAddenda_block" v-show="showpage" >
-                    <productDetailAddenda class="heyBro" v-show="showpage" @closepage="nnn" :show="showpage"></productDetailAddenda>
+                    <productDetailAddenda class="heyBro" v-show="showpage" @click="closeThePage" @closepage="nnn" :show="showpage"></productDetailAddenda>
                     <div class="blackpage" @click="closeThePage"></div>
                 </div>
             </section>
@@ -224,9 +224,10 @@ export default {
         })
         this.cakeClass = this.$store.state.cakeClass
 
-        }
-        
-    // }
+    },
+    created(){
+        window.scrollTo(0, 0);
+    },
 }
         
 
@@ -292,6 +293,9 @@ body{
             display: flex;
             align-items: center;
             justify-content: flex-start;
+            @media screen and (max-width:767.98px){ 
+                justify-content: center;
+            }
         }
         .shopping_cart_bread_arrow{
             width: 100%;
@@ -718,11 +722,15 @@ body{
     z-index: 99999999;
     // transform: scale(0.5);
     @media screen and (max-width:767.98px){ 
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.35);
+        
     }
     .heyBro{
         margin: 100px auto;
         @media screen and (max-width:767.98px){ 
-            // margin: 20px auto;
+            margin: 250px auto;
         }
     }
 

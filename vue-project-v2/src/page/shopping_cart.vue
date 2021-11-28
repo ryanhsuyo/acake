@@ -18,7 +18,6 @@
             <!-- 從這開始 -->
             <section class="addenda_block_outline" v-if="cake.CAKE_NAME">
                 <div class="addenda_cancel_button">
-                    <font-awesome-icon class="addenda_cancel_button_icon" icon="fa-solid fa-xmark" />
                 </div>
                 <div class="addenda_block_inline">
                     <div class="addenda_block_list1">

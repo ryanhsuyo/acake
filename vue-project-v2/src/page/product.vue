@@ -534,7 +534,9 @@ body{
             display: flex;
             justify-content: center;
             .product_img_container_img{
-                object-fit: cover;
+                object-fit: fill;
+                max-width: 300px;
+                max-height: 300px;
                 width: 100%;
                 height: 100%;
                 @media screen and (max-width:767.98px){ 

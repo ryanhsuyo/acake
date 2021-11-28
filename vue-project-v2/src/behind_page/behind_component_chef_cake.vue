@@ -320,9 +320,9 @@ export default {
       }
     },
     updateData(datas){
-      let i = confirm('是否要新登蛋糕')
+      let i = confirm('是否更新蛋糕資訊')
       if(i == true){
-        alert('新增成功')
+        alert('更新成功')
         let data = new URLSearchParams();
         data.append('name',datas.CAKE_NAME)
         data.append('flavor',datas.FLAVOR_ID)

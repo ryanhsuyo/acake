@@ -1,5 +1,6 @@
 <template>
   <div class="addenda_all">
+   
     <div class="addenda_title_block">
       <div class="addenda_titlebar">
         <div class="addenda_title">
@@ -856,5 +857,12 @@ body {
 a{
   color: white;
   text-decoration: none;
+}
+.addenda_cancel_button_icon{
+  position: absolute;
+  right: 200px;
+  top: 150px;
+  width: 30px;
+  height:30px;
 }
 </style>

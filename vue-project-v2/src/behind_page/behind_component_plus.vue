@@ -251,7 +251,7 @@ export default {
         params.append("index", this.modifyData.ID);
         axios({
           method: "post",
-          url: "http://localhost/yoyo/behindInsertPlusImg.php",
+          url: "./static/yoyo.api/behindInsertPlusImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -282,7 +282,7 @@ export default {
       data.append('description',this.newPlus.description)
       axios({
         data,
-        url:"http://localhost/yoyo/behindComponentPlusInsert.php",
+        url:"./static/yoyo.api/behindComponentPlusInsert.php",
         method:"POST",
       }).then((res)=>{
         console.log(res.data)
@@ -301,7 +301,7 @@ export default {
       axios({
         method:"POST",
         data,
-        url:"http://localhost/yoyo/behindComponentPlusUpdate.php"
+        url:"./static/yoyo.api/behindComponentPlusUpdate.php"
       }).then((res)=>{
         console.log(res.data)
       }).catch((err)=>{
@@ -320,7 +320,7 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+            url: "./static/yoyo.api/behindComponentPlusSelect.php",
             data: params,
         })
         .then((res) => {
@@ -334,7 +334,7 @@ export default {
         const params2 = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+            url: "./static/yoyo.api/behindComponentPlusSelect.php",
             data: params2,
         })
         .then((res) => {
@@ -347,7 +347,7 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            url: "./static/yoyo.api/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {

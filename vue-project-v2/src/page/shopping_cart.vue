@@ -23,7 +23,8 @@
                     <div class="addenda_block_list1">
                         <div class="addenda_block_cake">
                             <div class="addenda_block_cake_img_block">
-                                <img :src="cake.CAKE_IMAGE_BLOB" alt="">
+                                <img :src="cake.CAKE_IMAGE_BLOB" alt="" v-if="cake.CAKE_IMAGE_BLOB">
+                                <img :src="cake.CAKE_DESIGN_IMAGE_BLOB" alt="" v-else>
                             </div>
                             <div class="addenda_block_cake_content">
                                 <div class="addenda_block_cake_title">{{cake.CAKE_NAME}}</div>
@@ -353,7 +354,7 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo.api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -367,7 +368,7 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo.api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

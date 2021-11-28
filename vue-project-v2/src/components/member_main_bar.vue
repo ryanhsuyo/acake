@@ -48,7 +48,7 @@ export default {
     props: ["page"],
     data(){
         return {
-            memberId: 1,
+            // memberId: 1,
         }
     },
     methods: {

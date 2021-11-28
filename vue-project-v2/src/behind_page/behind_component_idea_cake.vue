@@ -99,7 +99,7 @@
 
 
 
-       <!-- 已有蛋糕 -->
+      <!-- 已有蛋糕 -->
       <div class="outline close" v-for="(ideaCake, index) in ideaCakes" :key="index">
         <div class="img_outline">
           <img :src="ideaCake.CAKE_IMAGE_BLOB" alt="" class="cake_make_image" />
@@ -287,7 +287,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "http://localhost/yoyo/behindInsertIdeaCakeImg.php",
+          url: "./static/yoyo.api/behindInsertIdeaCakeImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -360,7 +360,7 @@ export default {
     $("#ideaCake").addClass("target");
     axios({
       method:"GET",
-      url:"http://localhost/yoyo/behindGetFlavor.php",
+      url:"./static/yoyo.api/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -370,7 +370,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
+            url: "./static/yoyo.api/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -383,7 +383,7 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+            url: "./static/yoyo.api/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
@@ -398,7 +398,7 @@ export default {
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         url: "./static/yoyo.api/behindComponentChefCakeSelectIngredient.php",
     //         data: INGREDIENT,
     //     })
     //     .then((res) => {

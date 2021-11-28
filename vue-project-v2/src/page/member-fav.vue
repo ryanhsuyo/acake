@@ -29,13 +29,16 @@
                     </div>
                     <div class="folder_img_outline">
                         <a @click.prevent="selectFavFolder({categoryID: '0'})">
-                            <img :src="favFolder[randomIndexInFolder].categoryPic" v-if="noCake === false">
+                            <div class="four_pic_container" v-if="noCake === false">
+                                <img :src="item" v-for="(item) in randomIndexInFolder" :key="item">
+                                <img src="../assets/images/mascot1.png" v-for="item in (4 - randomIndexInFolder.length)" :key="item">
+                            </div>
                             <span v-else>收藏內尚未加入任何蛋糕！</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="folder" v-for="(item, index) in favFolder" :key="index">
+                <div class="folder" v-for="(item, index) in favFolder" :key="item">
                     <div class="folder_title_tag">
                         <span class="folder_title" v-show="!editTitle[index]" @click="editTitleContent(index, true)">{{item.categoryName}}</span>
                         <input type="text" v-model.lazy="item.categoryName" v-show="editTitle[index]">
@@ -156,6 +159,7 @@
 
                 // 收藏內是否有蛋糕，控制未分類蛋糕資料夾的照片是否顯示
                 noCake: false,
+
             };
         },
         methods: {
@@ -163,13 +167,13 @@
                 this.editTitle = Array(this.favFolder.length).fill(false);
                 if(confirm("確定要刪除此分類資料夾?")){
                     // console.log(categoryId);
-                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID}))
+                    axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID, memberId: this.memberId}))
                         .then(res => {
-                            // console.log(res);
+                            console.log(res.data);
                             this.favFolder = [];
                             this.selectFolder();
                             this.editTitle.pop();
-                            console.log(this.editTitle);
+                            // console.log(this.editTitle);
                             // console.log(this.favFolder);
                         })
                         .catch(err => cosole.log(err));
@@ -265,16 +269,18 @@
 
                         }
                         this.editTitle = Array(this.favFolder.length).fill(false);
-                        // console.log(this.editTitle);
-                        // console.log(this.favFolder);
+
                     })
                     .catch(err => {console.log(err)});
             },
+            forArrayShuffle(a,b) {
+                return Math.random() > 0.5 ? -1:1;
+            }
         },
         computed: {
+            // 所有收藏資料夾用的隨機圖片
             randomIndexInFolder(){
-                let favImageNum = this.favFolder.filter(item => !!item.categoryPic === true).length;
-                return Math.floor(Math.random() * favImageNum);
+                return this.favFolder.map(item => item.categoryPic).filter(item => item != null).sort(this.forArrayShuffle);
             },
         },
         mounted(){
@@ -501,8 +507,21 @@
                             top: 100px;
                         }
 
-                    }
+                        .four_pic_container{
+                        display: grid;
+                        width: 100%;
+                        height: 100%;
+                        grid-template-columns: 1fr 1fr;
+                        grid-template-rows: 1fr 1fr;
+                        grid-gap: 0;
 
+                            > img{
+                                width: 100%;
+                            }
+
+                        }
+
+                    }
 
                 }
 

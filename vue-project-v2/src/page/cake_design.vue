@@ -391,7 +391,7 @@ export default {
                 nameEng:'',
                 description:'',
                 flavorID: '1',
-                flavorPrice: '',
+                flavorPrice: '500',
                 voteID: '',
                 price: '500',
             },
@@ -579,7 +579,7 @@ export default {
                     url:"./static/melody_php/productDetailSelectPackage.php"
                 }).then((res)=>{
                     this.thePackage = res.data[0]
-                    console.log(this.thePackage)
+                    // console.log(this.thePackage)
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -618,6 +618,7 @@ export default {
                 votingID: this.newCakeDesign.voteID,
             }))
             .then((res)=>{
+                console.log("執行");
                 // alert("step2")
                 if(this.buy==1){
                     

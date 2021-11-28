@@ -2,7 +2,7 @@
   <section id="right_section">
     <div class="title">
       <h1>會員資料</h1>
-      <searchBar @selectData="goSearching" placeholder="輸入會員姓名、暱稱或Email..." :style="{opacity:'70%'}"></searchBar>
+      <searchBar @selectData="goSearching" placeholder="輸入會員ID、姓名或Email..." :style="{opacity:'70%'}"></searchBar>
     </div>
     <div class="cake">
       
@@ -45,13 +45,13 @@
             <!-- </span>
           </div> -->
           <div class="text">
+            <label for="">會員ID:<span>&nbsp;{{status.memberID}}</span></label>
             <label for="">姓名:<span>&nbsp;{{status.name}}</span></label>
-            <label for="">Email:<span>&nbsp;{{status.email}}</span></label>
             <span class="icon" @click="status.show = !status.show"><font-awesome-icon icon="fa-solid fa-caret-down"/></span>
           </div>
           <div class="text">
+            <label for="">Email:<span>&nbsp;{{status.email}}</span></label>
             <label for="">暱稱:<span>&nbsp;{{status.nickName}}</span></label>
-            <label for="">創建日期:<span>&nbsp;{{status.createDate}}</span></label>
           </div>
           <div class="text">
             <label for="">手機號碼:<span>&nbsp;{{status.phone}}</span></label>
@@ -114,21 +114,21 @@ export default {
       this.member_data = this.member_data_unchanged.concat();
       let searchVal = new RegExp(newVal, "i");
       this.member_data = this.member_data.filter(item => {
-        return searchVal.test(item.name) || searchVal.test(item.nickName) ||searchVal.test(item.email);
+        return searchVal.test(item.name) || searchVal.test(item.memberID) ||searchVal.test(item.email);
       });
       if(this.member_data.length === 0) this.no_result = true;
     },
   },
   mounted() {
-    axios.post("http://localhost/A_cake/BE_selectMember.php")
+    axios.post("./static/api/BE_selectMember.php")
       .then(res => {
         let data = res["data"];
-        // console.log(data);
+        console.log(data);
 
         for(let i = 0; i < data.length; i++){
           this.member_data.push({
             show: false,
-            memberID: data[i].member_ID,
+            memberID: data[i].MEMBER_ID,
             name: data[i].NAME,
             nickName: data[i].NICKNAME,
             email: data[i].EMAIL,

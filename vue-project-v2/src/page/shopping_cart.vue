@@ -18,7 +18,6 @@
             <!-- 從這開始 -->
             <section class="addenda_block_outline" v-if="cake.CAKE_NAME">
                 <div class="addenda_cancel_button">
-                    <font-awesome-icon class="addenda_cancel_button_icon" icon="fa-solid fa-xmark" />
                 </div>
                 <div class="addenda_block_inline">
                     <div class="addenda_block_list1">
@@ -355,7 +354,7 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -369,7 +368,7 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

@@ -1,5 +1,6 @@
 <template>
   <div class="addenda_all">
+   
     <div class="addenda_title_block">
       <div class="addenda_titlebar">
         <div class="addenda_title">
@@ -183,7 +184,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -211,7 +212,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -238,7 +239,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+    //         url: "./static/yoyo_api/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -267,7 +268,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
+      //       url: "./static/yoyo_api/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {
@@ -856,5 +857,12 @@ body {
 a{
   color: white;
   text-decoration: none;
+}
+.addenda_cancel_button_icon{
+  position: absolute;
+  right: 200px;
+  top: 150px;
+  width: 30px;
+  height:30px;
 }
 </style>

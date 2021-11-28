@@ -152,7 +152,7 @@ export default {
             this.choosefavoritefunction()
         },
         callFile(){//呼叫資料夾做比對
-            axios.post("http://localhost/yoyo/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("./static/yoyo_api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 // console.log(res.data);
                 let data = res["data"];
@@ -178,7 +178,7 @@ export default {
                     axios({
                         method:"POST",
                         data:data2,
-                        url:'http://localhost/yoyo/cancelFavoriteBox.php'
+                        url:'./static/yoyo_api/cancelFavoriteBox.php'
                     }).then((res)=>{
                         console.log(res.data)
                         this.realCallFile()
@@ -247,7 +247,7 @@ export default {
             this.openFavorite=!this.openFavorite
         },
         choosefavoritefunction(){
-            axios.post("http://localhost/yoyo/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("./static/yoyo_api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                     this.choosefavorite = res.data;
                 })
@@ -297,7 +297,7 @@ export default {
         const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -324,7 +324,7 @@ export default {
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -534,7 +534,9 @@ body{
             display: flex;
             justify-content: center;
             .product_img_container_img{
-                object-fit: cover;
+                object-fit: fill;
+                max-width: 300px;
+                max-height: 300px;
                 width: 100%;
                 height: 100%;
                 @media screen and (max-width:767.98px){ 

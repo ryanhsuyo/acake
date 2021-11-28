@@ -48,6 +48,7 @@ import $ from 'jquery'
 import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
+import axios from "axios"
 export default {
     name:'shopping_cart',
     components:{
@@ -57,6 +58,8 @@ export default {
     },
     data(){
         return{
+            recipient,
+            address
         }
     },
     methods:{
@@ -69,11 +72,25 @@ export default {
 
     },
     mounted(){
+        let memberId = new URLSearchParams;
+        memberId.append("memberId", this.memberId);
+        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
+            .then(res => {
+                let data = res.data;
+                // this.recipient = data[0].RECEIVER;
+                // this.address = data[0].ADDRESS;
+                console.log('貓咪一直稅',data);
+
+            })
+            .catch( err => console.log(err));
+
     },
     created(){
         window.scrollTo(0, 0);
     },
-    
+    my(){
+        return this.$store.state.memberId
+    },
 }
 
 </script>

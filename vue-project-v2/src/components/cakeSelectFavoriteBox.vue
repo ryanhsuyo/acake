@@ -34,7 +34,7 @@ name: "switchTab",
                 data.append('allID',this.totalFavoriteID)
                 axios({
                     method:"POST",
-                    url:'http://localhost/yoyo/insertFavorite.php',
+                    url:'./static/yoyo_api/insertFavorite.php',
                     data,
                 }).then((res)=>{
                     alert(`已將此蛋糕加入${choose.CATEGORY_NAME}資料夾`)
@@ -52,7 +52,7 @@ name: "switchTab",
     },
     mounted(){
         this.$emit('callFile');
-        axios.post("http://localhost/yoyo/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
+        axios.post("./static/yoyo_api/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                     this.allFavorite = res.data;
                     this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'}

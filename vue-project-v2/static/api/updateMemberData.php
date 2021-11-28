@@ -13,7 +13,7 @@
     $phone = htmlspecialchars($_POST["phone"]);
     $password = htmlspecialchars($_POST["password"]);
 
-    $sql = "UPDATE `MEMBER` SET `NAME` = ?, `NICKNAME` = ?, `BIRTHDAY` = ?, `EMAIL` = ?, `ADDRESS` = ?, `PHONE` = ?, `PASSWORD` = ? WHERE MEMBER_ID = ?;";
+    $sql = "UPDATE `A_cake`.`MEMBER` SET `NAME` = ?, `NICKNAME` = ?, `BIRTHDAY` = ?, `EMAIL` = ?, `ADDRESS` = ?, `PHONE` = ?, `PASSWORD` = ? WHERE MEMBER_ID = ?;";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue(1, $name);

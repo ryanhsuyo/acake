@@ -20,9 +20,9 @@
           <img
             :src="require('@/assets/images/chefHatNo'+(index+1)+'.png')"
             alt=""
-            class="topthree_hat"
+            class="topthree_hat" 
           />
-          <img :src="three.CAKE_IMAGE_BLOB" alt="" class="pic_cake" />
+          <img :src="three.CAKE_IMAGE_BLOB" alt="" class="pic_cake" style="borderRadius:10px 10px 0 0"/>
           <div>
             <h1>{{three.CAKE_NAME}}</h1>
             <p>Voting NO. {{three.CAKE_ID}}</p>
@@ -52,7 +52,7 @@
         :cake_id="cake.CAKE_ID" :cake_img="cake.CAKE_IMAGE_BLOB"
         ></card-voting> -->
       <section id="vote">
-        <div class="card_outline2" v-for="(cake, index) in vote_cake" :key="index">
+        <div class="card_outline2" v-for="(cake, index) in vote_cake" :key="index" >
         <div class="img_container">
             <img :src="cake.CAKE_IMAGE_BLOB">
         </div>
@@ -414,6 +414,7 @@ $bg: #efe6e4;
     div.vote_topthree:nth-child(1) {
       grid-area: one;
       transform: scale(1.1);
+      
     }
     div.vote_topthree:nth-child(2) {
       grid-area: second;
@@ -445,6 +446,8 @@ section#vote {
 }
 // 以下前三名
 div.vote_topthree {
+  border-radius:10px;
+      // overflow:hidden;
   margin: 0 auto;
   display: inline-block;
   position: relative;
@@ -501,7 +504,7 @@ ul {
 
 .card_outline2{
     box-sizing: border-box;
-
+    margin:0 auto;
     background-color: #DFB9B0;
     width: 350px;
     height: 480px;

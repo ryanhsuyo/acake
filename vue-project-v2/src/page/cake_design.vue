@@ -1,6 +1,7 @@
 <template>
     <div class="all">
         <headercom openWhat="cakeDesign"></headercom>
+        <topButton></topButton>
         <section id="outside">
         <!-- 開始製作 -->
         <section id="first_screen">
@@ -362,6 +363,7 @@ import buttontest from '../components/button_h1.vue'
 import buttontest2 from '../components/button_h1_2.vue'
 import buttontest3 from '../components/button_h1_3.vue'
 import footercom from '../components/footercom'
+import topButton from '../components/top_button.vue'
 import store from '../store/store';
 
 import axios from 'axios'
@@ -380,6 +382,7 @@ export default {
         fabric,
         html2canvas,
         footercom,
+        topButton,
     },
     data(){
         return{
@@ -575,7 +578,8 @@ export default {
                     method:"GET",
                     url:"./static/melody_php/productDetailSelectPackage.php"
                 }).then((res)=>{
-                    this.thePackage = res.data
+                    this.thePackage = res.data[0]
+                    console.log(this.thePackage)
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -583,7 +587,10 @@ export default {
                     method:"GET",
                     url:"./static/melody_php/productDetailSelectAdditional.php"
                 }).then((res)=>{
-                    this.theAdditional.push(res.data[0])
+                    this.theAdditional.push({
+                        quantity:1,
+                        choice:res.data[0]
+                    })
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -591,7 +598,10 @@ export default {
                     method:"GET",
                     url:"./static/melody_php/productDetailSelectAdditional2.php"
                 }).then((res)=>{
-                    this.theAdditional.push(res.data[0])
+                    this.theAdditional.push({
+                        quantity:1,
+                        choice:res.data[0]
+                    })
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -622,10 +632,10 @@ export default {
                     url:'./static/melody_php/buy_new_cake_design.php'
                 }).then((res)=>{
                     // alert(this.buy)
-                    console.log(res.data);
+                    console.log(res.data[0]);
                     // 蛋糕要給('蛋糕名稱','蛋糕圖片''''''')
                     
-                    this.$store.dispatch('storage', res.data)
+                    this.$store.dispatch('storage', res.data[0])
                     // 蛋糕數量給1就可
                     this.$store.dispatch('cakeQ', 1)
                     // 加購品給0跟6就好
@@ -846,7 +856,9 @@ export default {
         // }
     },
     mounted() {
-
+        // 阻止three.js覆蓋
+        document.querySelector("body").style.overflow="auto";
+        
         this.canvas = new fabric.Canvas('c');
         this.showArea = 1;
 

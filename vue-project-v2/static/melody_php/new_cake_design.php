@@ -1,5 +1,5 @@
 <?php
-
+    date_default_timezone_set('Asia/Taipei');  
     include "connection.php";
     // 解決跨域問題
     header("Access-Control-Allow-Origin: *");
@@ -19,7 +19,7 @@
     $authorization = htmlspecialchars($_POST["authorization"]);
     $votingID = htmlspecialchars($_POST["votingID"]);
 
-    
+    $DateAndTime = date('Y-m-d H:i:s', time());
     $sql = "INSERT INTO `CAKE`  (`CAKE_NAME`,`CAKE_NAME_ENG`,`SIZE`, `PRICE`,`CAKE_DESCRIPTION`, `FLAVOR_ID`, CAKE_DESIGN_IMAGE_BLOB , `MEMBER_ID`, `AUTHORIZATION`, `VOTING_ID`) VALUES ( ?, ?, '6', ?, ?, ?, ?, ?, ?, ?);";
 
     $statement = $pdo->prepare($sql);
@@ -38,6 +38,7 @@
     $statement->execute();
     // $data = $statement->fetchAll();
 
-    echo 'success';
+    // echo 'success';
+    echo $DateAndTime;
 
 ?>

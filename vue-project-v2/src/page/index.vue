@@ -451,7 +451,7 @@ export default {
             // autoAlpha: 0,
         });
 
-        axios.post("http://localhost/melody_php/select_cakecard.php")
+        axios.post("./static/melody_php/select_cakecard.php")
             .then(res =>{
                 console.log(res);
                 let data = res["data"];

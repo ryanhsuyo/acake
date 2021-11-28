@@ -41,7 +41,7 @@
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
-                                <input class="bill_individual_short" type="date" name="" id="myID" v-model="date">
+                                <input class="bill_individual_short" type="date" name="" id="myID" v-model="date" :picker-option="{disableDate}">
                             </div>
                             <div class="mark">
                                 <label class="bill_individual_title_long">註記<span class="bill_individual_title_marktext">(選擇宅配需在下方留下您當日方便收件時間)</span></label>
@@ -82,7 +82,7 @@
                                             <img src="../assets/images/jellyfish_icon.svg" alt="">
                                         </div>
                                         <div class="expiration_countdown">
-                                            即將失效：剩下&nbsp;<span>{{}}</span>&nbsp;天
+                                            即將失效：剩下&nbsp;<span>{{7}}</span>&nbsp;天
                                         </div>
                                     </div>
                                 
@@ -260,6 +260,29 @@ export default {
         }
     },
     methods:{
+        disableDate(date){
+            var t = new Date();
+            var t_s = t.getTime();
+            t.setTime(t_s + 3000 * 60 * 60 *24);
+
+            // var days = parseInt(Math.abs(Date.now() + 259200) / 1000 / 60 / 60 / 24);
+            // alert(days);
+
+            let myID = document.getElementById("myID");
+            const fp = flatpickr(myID, 
+            {       
+                    
+                    minDate: t,
+                    defaultDate: t,
+                    maxDate: new Date().fp_incr(90),
+                    
+                });
+            function clickthis(){
+                console.log( myID.value);
+        }
+        // let calendar = flatpickr(myID, "config");
+        //     calendar.changeDates(3); // 提前一个月
+        },
         chooseDiscount(item){
             this.couponDiscount.discount = item;
         },
@@ -970,192 +993,196 @@ router-link{
 .coupon_block{
     display: flex;
     transform: scale(0.8);
+    @media screen and (max-width:767.98px){ 
+        transform: scale(1);
+    }
 }
 .ready_to_checkout_coupon{
     align-items: center;
+     
 }
 .ready_to_checkout_coupon_click{
     cursor: pointer;
 }
 .coupon{
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 25px;
-                
-                .coupon_option{
-                    display: flex;
-                }
-                .coupon_left_block{
-                    width: 300px;
-                    height: 150px;
-                    background-color: #F0D5CE;
-                    position: relative;
-                    border-right: 1px solid $palePike;
-                    border-top-left-radius: 5px;
-                    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    
+    .coupon_option{
+        display: flex;
+    }
+    .coupon_left_block{
+        width: 300px;
+        height: 150px;
+        background-color: #F0D5CE;
+        position: relative;
+        border-right: 1px solid $palePike;
+        border-top-left-radius: 5px;
+        overflow: hidden;
 
-                    .discount_amout{
-                        font-size: 50px;
-                        line-height: 56px;
-                        position: absolute;
-                        top: 19px;
-                        left: 27px;
-                        color: #515151;
-                    }
+        .discount_amout{
+            font-size: 50px;
+            line-height: 56px;
+            position: absolute;
+            top: 19px;
+            left: 27px;
+            color: #515151;
+        }
 
-                    .A_cake_text_logo{
-                        width: 60px;
-                        height: 22px;
-                        position: absolute;
-                        top: 33px;
-                        right: 34px;
-                        overflow: hidden;
+        .A_cake_text_logo{
+            width: 60px;
+            height: 22px;
+            position: absolute;
+            top: 33px;
+            right: 34px;
+            overflow: hidden;
 
-                        // border: 1px solid blue;
+            // border: 1px solid blue;
 
-                        > img{
-                            width: 100%;
-                        }
-
-                        > span{
-                            font-size: 5px;
-                            line-height: 4px;
-                            color: #515151
-                        }
-
-                    }
-
-                    .coupon_left_decoration_img{
-                        position: absolute;
-                        left: 15px;
-                        bottom: -10px;
-                        width: 100px;
-                        z-index: 100;
-
-                        >img{
-                            width: 100%;
-                        }
-
-                    }
-
-                    .use_threshold{
-                        font-size: $p;
-                        color: #515151;
-                        position: absolute;
-                        bottom: 30px;
-                        right: 34px;
-                    }
-
-                    .bottom_decoration_img{
-                        width: 200%;
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        transform: rotate(180deg);
-                    }
-
-                    > svg{
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        transform: rotate(180deg);
-                    }
-
-                }
-
-                .coupon_right_block{
-                    background-color: #F7EDD4;
-                    position: relative;
-                    width: 120px;
-                    height: 150px;
-                    border-bottom-right-radius: 5px;
-
-                    &::after{
-                        content: "";
-                        display: inline-block;
-                        width: 42px;
-                        height: 42px;
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        background-image: linear-gradient(45deg, #EFDCAC 50%, #F7F2F1 50%);
-                        border-bottom-left-radius: 5px;
-                    }
-
-                    .expiration{
-                        width: 80px;
-                        height: 31px;
-                        position: absolute;
-                        top: 30px;
-                        left: 20px;
-                        display: flex;
-                        flex-direction: column;
-
-                        > span:first-child{
-                            align-self: flex-start;
-                            font-size: 12px;
-                            transform: scale(0.83);
-                            transform-origin:center left;
-                            line-height: 14px;
-                            color: #515151;
-                            margin-bottom: 3px;
-                        }
-
-                        .expiration_date{
-                            align-self: flex-end;
-                            font-size: 12px;
-                            line-height: 14px;
-                            color: #515151;
-                        }
-
-                    }
-
-                    .coupon_right_decoration_img{
-                        position: absolute;
-                        top: 65px;
-                        left: 10px;
-                        width: 39px;
-                        height: 39px;
-                        overflow: hidden;
-
-                        > img{
-                            width: 100%;
-                        }
-
-                    }
-
-                    .expiration_countdown{
-                        color: #E8542E;
-                        font-size: 12px;
-                        white-space: nowrap;
-                        transform: scale(.6);
-                        transform-origin:center left;
-                        position: absolute;
-                        line-height: 10px;
-                        left: 28px;
-                        bottom: 32px;
-                    }
-
-                }
-
-                @media (min-width: 1029.98px){
-                // 排版上一列有兩個時用的設定
-                    &:nth-child(2n){
-                        justify-self: start;
-                    }
-
-                    &:nth-child(2n + 1){
-                        justify-self: end;
-                    }
-                }
-
-                @media (max-width: 575.98px){
-                    // 手機版
-                    transform-origin: center top;
-                    transform: scale(.75);
-                }
-
+            > img{
+                width: 100%;
             }
+
+            > span{
+                font-size: 5px;
+                line-height: 4px;
+                color: #515151
+            }
+
+        }
+
+        .coupon_left_decoration_img{
+            position: absolute;
+            left: 15px;
+            bottom: -10px;
+            width: 100px;
+            z-index: 100;
+
+            >img{
+                width: 100%;
+            }
+
+        }
+
+        .use_threshold{
+            font-size: $p;
+            color: #515151;
+            position: absolute;
+            bottom: 30px;
+            right: 34px;
+        }
+
+        .bottom_decoration_img{
+            width: 200%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: rotate(180deg);
+        }
+
+        > svg{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: rotate(180deg);
+        }
+
+    }
+
+    .coupon_right_block{
+        background-color: #F7EDD4;
+        position: relative;
+        width: 120px;
+        height: 150px;
+        border-bottom-right-radius: 5px;
+
+        &::after{
+            content: "";
+            display: inline-block;
+            width: 42px;
+            height: 42px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-image: linear-gradient(45deg, #EFDCAC 50%, #F7F2F1 50%);
+            border-bottom-left-radius: 5px;
+        }
+
+        .expiration{
+            width: 80px;
+            height: 31px;
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+
+            > span:first-child{
+                align-self: flex-start;
+                font-size: 12px;
+                transform: scale(0.83);
+                transform-origin:center left;
+                line-height: 14px;
+                color: #515151;
+                margin-bottom: 3px;
+            }
+
+            .expiration_date{
+                align-self: flex-end;
+                font-size: 12px;
+                line-height: 14px;
+                color: #515151;
+            }
+
+        }
+
+        .coupon_right_decoration_img{
+            position: absolute;
+            top: 65px;
+            left: 10px;
+            width: 39px;
+            height: 39px;
+            overflow: hidden;
+
+            > img{
+                width: 100%;
+            }
+
+        }
+
+        .expiration_countdown{
+            color: #E8542E;
+            font-size: 12px;
+            white-space: nowrap;
+            transform: scale(.6);
+            transform-origin:center left;
+            position: absolute;
+            line-height: 10px;
+            left: 28px;
+            bottom: 32px;
+        }
+
+    }
+
+    @media (min-width: 1029.98px){
+    // 排版上一列有兩個時用的設定
+        &:nth-child(2n){
+            justify-self: start;
+        }
+
+        &:nth-child(2n + 1){
+            justify-self: end;
+        }
+    }
+
+    @media (max-width: 575.98px){
+        // 手機版
+        transform-origin: center top;
+        transform: scale(.75);
+    }
+
+}
 .bill_individual_title_short{
     display: flex;
     max-width: 100px;

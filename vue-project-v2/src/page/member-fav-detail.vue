@@ -155,7 +155,7 @@
             deleteFav(cakeID, index){
                 if(this.categoryID != 0){
                     if(confirm("確定要將此蛋糕從此分類中刪除嗎?")){
-                        axios.post("http://localhost/A_cake/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.categoryID, cakeID: parseInt(cakeID), memberID: this.memberID}))
+                        axios.post("./static/api/deleteFavorite.php",qs.stringify({favoriteCategoryID: this.categoryID, cakeID: parseInt(cakeID), memberID: this.memberID}))
                         .then(res => console.log(res))
                         .catch((err) => console.log(err));
 
@@ -163,7 +163,7 @@
                     }
                 }else{
                     if(confirm("確定要將此蛋糕從收藏中完全刪除嗎?")){
-                        axios.post("http://localhost/A_cake/deleteFavoriteAll.php",qs.stringify({cakeID: parseInt(cakeID), memberID: this.memberID}))
+                        axios.post("./static/api/deleteFavoriteAll.php",qs.stringify({cakeID: parseInt(cakeID), memberID: this.memberID}))
                         .then(res => console.log(res))
                         .catch((err) => console.log(err));
 
@@ -184,7 +184,7 @@
                 this.$router.push('/assign')
             }
 
-            axios.post("http://localhost/A_cake/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
+            axios.post("./static/api/selectFavDetail.php",qs.stringify({memberID: this.memberID, favCategoryID: this.categoryID}))
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length)
@@ -208,7 +208,7 @@
                     })
                     .catch(err => console.log(err));
 
-            // axios.post("http://localhost/A_cake/checkFavFolderType.php",qs.stringify({categoryID: this.categoryID}))
+            // axios.post("./static/api/checkFavFolderType.php",qs.stringify({categoryID: this.categoryID}))
             // .then(res => {
             //     console.log(res)
             //     // this.favFolderType = res.data[0]

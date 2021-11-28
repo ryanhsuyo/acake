@@ -169,7 +169,7 @@
                     // console.log(categoryId);
                     axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID, memberId: this.memberId}))
                         .then(res => {
-                            console.log(res.data);
+                            // console.log(res.data);
                             this.favFolder = [];
                             this.selectFolder();
                             this.editTitle.pop();
@@ -188,6 +188,11 @@
                                 // console.log(res);
                                 this.favFolder = [];
                                 this.selectFolder();
+                                // this.favfolder.push({
+                                //     categoryName: newName,
+                                //     categoryID: "暫時還沒處理",
+                                //     categoryPic: "",
+                                // });
                                 this.editTitle.push(false);
                                 // console.log(this.editTitle);
                             })
@@ -235,7 +240,7 @@
                     .then(res => {
                         let data = res["data"];
                         // console.log(data.length);
-                        // console.log(data);
+                        console.log(data);
 
                         if(data.length === 0){
                             this.noCake = true;

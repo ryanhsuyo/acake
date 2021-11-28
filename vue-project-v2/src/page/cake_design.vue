@@ -1,7 +1,7 @@
 <template>
     <div class="all">
         <headercom openWhat="cakeDesign"></headercom>
-        <topButton></topButton>
+        <!-- <topButton></topButton> -->
         <section id="outside">
         <!-- 開始製作 -->
         <section id="first_screen">
@@ -288,7 +288,7 @@
             <div id="finish_designIdea_box">
                 <div class="designIdea_name">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕名稱</p>
-                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱" v-model="newCakeDesign.name"></textarea>
+                    <textarea name="" id="" cols="50" rows="2" placeholder="我的蛋糕名稱" v-model="newCakeDesign.name" required></textarea>
                 </div>
                 <div class="designIdea_name">
                     <p><img src="../assets/images/leaf.png" alt="" style="width: 30px;transform: rotate(-15deg) translate(-5px , 8px);">蛋糕英文名稱</p>
@@ -363,7 +363,7 @@ import buttontest from '../components/button_h1.vue'
 import buttontest2 from '../components/button_h1_2.vue'
 import buttontest3 from '../components/button_h1_3.vue'
 import footercom from '../components/footercom'
-import topButton from '../components/top_button.vue'
+// import topButton from '../components/top_button.vue'
 import store from '../store/store';
 
 import axios from 'axios'
@@ -382,7 +382,7 @@ export default {
         fabric,
         html2canvas,
         footercom,
-        topButton,
+        // topButton,
     },
     data(){
         return{
@@ -391,7 +391,7 @@ export default {
                 nameEng:'',
                 description:'',
                 flavorID: '1',
-                flavorPrice: '',
+                flavorPrice: '500',
                 voteID: '',
                 price: '500',
             },
@@ -579,7 +579,7 @@ export default {
                     url:"./static/melody_php/productDetailSelectPackage.php"
                 }).then((res)=>{
                     this.thePackage = res.data[0]
-                    console.log(this.thePackage)
+                    // console.log(this.thePackage)
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -614,10 +614,11 @@ export default {
                 flavorID: this.newCakeDesign.flavorID,
                 cakeDesignImageBlob: this.htmlUrl, 
                 memberID: this.$store.state.member_id, 
-                authorization: Math.ceil(Math.random() * 3), 
+                authorization: 0, 
                 votingID: this.newCakeDesign.voteID,
             }))
             .then((res)=>{
+                console.log("執行");
                 // alert("step2")
                 if(this.buy==1){
                     
@@ -652,17 +653,6 @@ export default {
             })
             .catch(err => console.log(err));
             
-            // let readFile = new FileReader();
-            // console.log(readFile.readAsBinaryString(file));
-    //         readFile.readAsDataURL(file);
-    //         readFile.addEventListener("load", function () {
-    //             let image = this.htmlUrl;
-    //             // console.log(readFile.result);
-    //             image.src = readFile.result;
-    //             that.file.img = readFile.result;
-
-                
-    //   })
         },
         
         // 製作完成
@@ -2398,6 +2388,11 @@ li.nav_item > a#cakeDesign{
         }
         @media all and (max-width: 490px){
             div#finish_cake_box{
+                img.first_screen_cake_look{
+                    width: 50px;
+                    top: 2%;
+                    right: 15%;
+                }
                 img.finish_cake_img{
                 width:200px;
             }
@@ -2528,6 +2523,11 @@ li.nav_item > a#cakeDesign{
                 // div.mascot{
                 //     margin-bottom: 200px;
                 // }
+            }
+        }
+        @media all and (max-width: 400px){
+            div.mascot{
+                display: none;
             }
         }
 

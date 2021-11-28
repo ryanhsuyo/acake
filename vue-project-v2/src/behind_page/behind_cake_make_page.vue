@@ -207,8 +207,8 @@
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
     <!-- 叫庭揚修 -->
-    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus2(data);updateData(data)">
-    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}"></span>
+    <div class="switch" id="outline" :class="{'-on':1}" @click="changeStatus2(data);updateData(data)">
+    <span class="circle" id="circle" :class="{'-on':1}"></span>
     </div>
     <!--按鈕開關-->
 </span>
@@ -270,8 +270,8 @@
       <div class="button_upsite">
         <span class="switch_button" @click="change(index)">
     <label for="" style="margin-right:3px;">狀態</label>
-    <div class="switch" id="outline" :class="{'-on':data.AVAILABLE=='1'}" @click="changeStatus2(data);updateData(data)">
-    <span class="circle" id="circle" :class="{'-on':data.AVAILABLE=='1'}"></span>
+    <div class="switch" id="outline" :class="{'-on':1}" @click="changeStatus2(data);updateData(data)">
+    <span class="circle" id="circle" :class="{'-on':1}"></span>
     </div>
     <!--按鈕開關-->
 </span>

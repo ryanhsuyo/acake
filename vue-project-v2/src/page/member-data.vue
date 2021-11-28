@@ -1177,6 +1177,7 @@
                 display: inline-block;
                 font-size: 34px;
                 line-height: 3px;
+                color: #515151;
             }
             
         }

@@ -66,7 +66,7 @@
           <div class="addenda_detail_outline">
             <div class="addenda_amount">
               <label for="">
-                <select v-model="addendacards[index].choice">
+                <select v-model="addendacards[index].choice" style="margin-bottom: 5px;">
                   <option
                     v-for="(choice, i) in choices"
                     :key="i"
@@ -181,7 +181,11 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+=======
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: params,
         })
         .then((res) => {
@@ -206,7 +210,11 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectPackage.php",
+=======
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: data,
         })
         .then((res) => {
@@ -221,7 +229,11 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
+<<<<<<< HEAD
     //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+=======
+    //         url: "./static/yoyo_api/productDetailSelectAdditional.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
     //         data: params,
     //     })
     //     .then((res) => {
@@ -250,7 +262,11 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
+<<<<<<< HEAD
       //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
+=======
+      //       url: "./static/yoyo_api/productDetailSelectPackage.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
       //       data: data,
       //   })
       //   .then((res) => {
@@ -301,6 +317,7 @@ body {
   height: 350px;
   padding-top: 10px;
   margin-top: 30px;
+  color: #515151;
   @media screen and (max-width: 767.98px) {
     height: 400px;
   }
@@ -312,6 +329,7 @@ body {
   margin-top: 45px;
   max-width: 900px;
   width: 95%;
+  color: #515151;
   // background-color: $pi;
   .addenda_title {
     font-size: 20px;
@@ -401,6 +419,8 @@ body {
         height: 40px;
         font-size: $h4;
         cursor: pointer;
+        color: #515151;
+        margin-bottom: 2px;
         select {
           width: 200px;
           height: 40px;
@@ -408,6 +428,10 @@ body {
           text-align: center;
           background-color: #f8f8f8;
           cursor: pointer;
+          color: #515151;
+          border: none;
+          border-radius: 5px;
+          box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
         }
         @media screen and (max-width: 767.98px) {
           max-width: 576px;
@@ -814,6 +838,7 @@ body {
   cursor: pointer;
   border-radius: 5px;
   border: 0;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
   &:hover {
     color: $lightYellow;
   }
@@ -832,6 +857,7 @@ body {
   cursor: pointer;
   border-radius: 5px;
   border: 0;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
   &:hover {
     color: $lightYellow;
   }

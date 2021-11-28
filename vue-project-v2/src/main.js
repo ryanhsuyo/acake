@@ -21,9 +21,9 @@ import html2canvas from "html2canvas"
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGoogle,faInstagram,faLine} from '@fortawesome/free-brands-svg-icons'
-import { faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,faHeart,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown, faCartPlus} from '@fortawesome/free-solid-svg-icons'
+import { faAnglesLeft,faAngleLeft,faAnglesRight,faAngleRight,faHeart,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown, faCartPlus,faRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faGoogle,faInstagram,faLine,faAnglesLeft,faAngleLeft,faHeart,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown, faCartPlus)
+library.add(faGoogle,faInstagram,faLine,faAnglesLeft,faAngleLeft,faHeart,faAnglesRight,faAngleRight,fa5,fa4,fa3,fa2,fa1,faXmark,faSortDown,faSortUp, faCircle, faMagnifyingGlass, faAnglesDown, faPlus, faMinus, faTrashCan,faSquarePlus, faCheck, faPenToSquare, faCaretDown, faCartPlus,faRightFromBracket)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.prototype.$qs = qs
 // Vue.use(VueFullpage)

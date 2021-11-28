@@ -243,8 +243,8 @@
 
             axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
-                        console.log(res);
                         let data = res["data"];
+                        console.log(res.data);
                         let orderID = null;   // orderID控制要不要加入同筆訂單共用資料，第一筆資料會判定加入
                         let ongoingCakeCount = -1;  // 控制加入蛋糕配料的位置
                         let totalPrice; // 計算各筆訂單總金額
@@ -257,10 +257,10 @@
                                     createDate: data[i].CREATE_DATE.split(" ")[0].replace(/-/g, "/"),
                                     // finished: data[i].FINISHED === "0" ? "進行中" : data[i].FINISHED === "1" ? "已完成" : "資料錯誤",
                                     finished: data[i].FINISHED,
-                                    paymentMethod: data[i].PAYMENT_METHOD === "0" ? "信用卡付款" : data[i].PAYMENT_METHOD === "1" ? "行動支付付款" : data[i].PAYMENT_METHOD === "2" ? "轉帳付款" : "資料錯誤",
+                                    paymentMethod: data[i].PAYMENT_METHOD === "0" ? "信用卡付款/ATM轉帳" : data[i].PAYMENT_METHOD === "1" ? "貨到付款" : data[i].PAYMENT_METHOD === "2" ? "LinePay" : "資料錯誤",
                                     address: data[i].ADDRESS,
                                     deliverFee: data[i].DELIVER_FEE,
-                                    discount: data[i].DISCOUNT === undefined ? "0" : data[i].DISCOUNT,
+                                    discount: !!data[i].DISCOUNT_AMOUNT === false ? "0" : data[i].DISCOUNT_AMOUNT,
                                     cakeData: [],
                                 };
                                 orderID = data[i].ORDER_ID;
@@ -280,7 +280,8 @@
                             };
                             this.order[ongoingCakeCount].cakeData.push(cakeData);
 
-                            totalPrice += parseInt(cakeData.quantity) * parseInt(cakeData.price);
+                            // totalPrice += parseInt(cakeData.quantity) * parseInt(cakeData.price);
+                            totalPrice += parseInt(cakeData.price);
                             this.order[ongoingCakeCount].totalPrice = totalPrice;
 
                         }
@@ -356,6 +357,10 @@
                     text-align: center;
                     font-size: $h4;
                     vertical-align: top;
+                    border: none;
+                    border-radius: 5px;
+                    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+                    color: #515151;
 
                     &:nth-child(1){
                         margin-right: 40px;

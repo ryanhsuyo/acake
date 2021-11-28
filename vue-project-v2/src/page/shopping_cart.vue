@@ -349,7 +349,11 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectAdditional.php",
+=======
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: params,
         })
         .then((res) => {
@@ -361,7 +365,11 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectPackage.php",
+=======
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
+>>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: data,
         })
         .then((res) => {
@@ -397,6 +405,9 @@ const params = new URLSearchParams();
 }
 body{
     background-color: $bg;
+}
+p{
+    color: #515151 !important;
 }
 #main-bar-img300{
     margin-top: 50px;
@@ -449,6 +460,7 @@ body{
             width: 100%;
             display: flex;
             justify-content: center;
+            color: #515151;
             @media screen and (max-width:767.98px){ 
                 font-size: $h4;
             }
@@ -512,6 +524,7 @@ body{
             width: 95%;
             margin: auto;
             margin-bottom: 50px;
+            color: #515151;
             .addenda_block_list1{
                 max-width: 845px;
                 margin-top: 30px;
@@ -666,6 +679,7 @@ body{
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
+                            margin-left: 18px;
                             // margin: 0px;
                             @media screen and (max-width:991.98px){ 
                                 margin-left: 18px;
@@ -702,6 +716,12 @@ body{
                     align-items: center;
                     text-align: center;
                     margin-left: 0px;
+                    #addenda_block_package_select{
+                        border: none;
+                        border-radius: 5px;
+                        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+                        color: #515151;
+                    }
                     @media screen and (max-width:991.98px){ 
                         max-width: 120px;
                         width: 100%;
@@ -822,6 +842,10 @@ body{
                     height: 30px;
                     display: flex;
                     justify-content: center;
+                    border: none;
+                    border-radius: 5px;
+                    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+                    color: #515151;
                     @media screen and (max-width:991.98px){
                         max-width: 150px;
                         width: 80%;
@@ -850,6 +874,10 @@ body{
                     height: 30px;
                     display: flex;
                     justify-content: center;
+                    border: none;
+                    border-radius: 5px;
+                    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+                    color: #515151;
                     @media screen and (max-width:991.98px){
                         width: 80%;
                         margin: auto;
@@ -941,6 +969,7 @@ body{
             color: white;
             font-size: $h4;
             box-shadow: $shadow;
+            border: none;
             &:hover{
                 color: $lightYellow;
                 cursor: pointer;
@@ -954,6 +983,7 @@ body{
             color: white;
             font-size: $h4;
             box-shadow: $shadow;
+            border: none;
             &:hover{
                 color: $lightYellow;
                 cursor: pointer;
@@ -975,6 +1005,7 @@ body{
     font-size: $h4;
     box-shadow: $shadow;
     margin-bottom: 100px;
+    border: none;
     &:hover{
         color: $lightYellow;
         cursor: pointer;

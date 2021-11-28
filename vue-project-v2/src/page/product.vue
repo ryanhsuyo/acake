@@ -152,7 +152,7 @@ export default {
             this.choosefavoritefunction()
         },
         callFile(){//呼叫資料夾做比對
-            axios.post("./static/yoyo_api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/static/yoyo_api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 // console.log(res.data);
                 let data = res["data"];
@@ -178,7 +178,7 @@ export default {
                     axios({
                         method:"POST",
                         data:data2,
-                        url:'./static/yoyo_api/cancelFavoriteBox.php'
+                        url:'http://localhost/static/yoyo_api/cancelFavoriteBox.php'
                     }).then((res)=>{
                         console.log(res.data)
                         this.realCallFile()
@@ -247,7 +247,7 @@ export default {
             this.openFavorite=!this.openFavorite
         },
         choosefavoritefunction(){
-            axios.post("./static/yoyo_api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/static/yoyo_api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                     this.choosefavorite = res.data;
                 })
@@ -297,7 +297,7 @@ export default {
         const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo_api/productDetailSelectAdditional.php",
+            url: "http://localhost/static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -324,7 +324,7 @@ export default {
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo_api/productDetailSelectPackage.php",
+            url: "http://localhost/static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -466,6 +466,7 @@ body{
     gap:85px 30px;
     max-width: 1120px;
     width: 95%;
+    color: #515151;
     @media screen and (max-width:767.98px){ 
         margin: 0 auto;
         margin-bottom:70px;
@@ -559,11 +560,12 @@ body{
                 justify-content: space-between;
                 max-width: 100px;
                 width: 100%;
-                color: black;
+                color: #515151;
                 .ntandprice{
                     display: flex; 
                     align-items: center;
                     justify-content: space-between;
+                    color: #515151;
                     .price{
                         font-size: $h3;
                         }
@@ -583,6 +585,7 @@ body{
                 background-color: $lightPike;
                 font-size: $h4;
                 border: 0;
+                color: #515151;
                 
                 i{
                     width: 20px;

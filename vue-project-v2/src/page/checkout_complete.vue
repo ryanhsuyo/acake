@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <router-link to="member_order">
+            <router-link to="member_order" style="text-decoration:none;">
                 <button class="checkout_complete_goto_statement_sumbit">訂單查詢</button>
             </router-link>
         </main>
@@ -74,7 +74,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
+        axios.post( "http://localhost/static/yoyo_api/selectOrder.php", memberId)
             .then(res => {
                 let data = res.data;
                 // this.recipient = data[0].RECEIVER;
@@ -154,6 +154,7 @@ body{
             width: 100%;
             display: flex;
             justify-content: center;
+            color: #515151;
             @media screen and (max-width:767.98px){ 
                 font-size: $h4;
             }
@@ -196,6 +197,8 @@ body{
     color: white;
     font-size: $h4;
     box-shadow: $shadow;
+    border: none;
+    text-decoration:none;
 }
 .checkout_complete_goto_statement_sumbit:hover{
     color: $lightYellow;
@@ -211,6 +214,7 @@ body{
     align-items: center;
     justify-content: center;
     font-size: 28px;
+    color: #515151;
 }
 .checkout_complete_list{
     height: 250px;
@@ -221,6 +225,7 @@ body{
     justify-content: space-around;
     align-items: center;
     background-color: $lightYellow;
+    color: #515151;
 }
 .checkout_complete_list_orderidandother{
     height: 120px;
@@ -293,6 +298,7 @@ body{
     }
     .checkout_complete_goto_statement_sumbit{
         margin-top: 50px;
+        border: none;
     }
 }
 

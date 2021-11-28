@@ -131,6 +131,7 @@ input {
   box-shadow: inset -1px -1px 3px rgba(0, 0, 0, 0.8);
   position: relative;
   vertical-align: sub;
+  border: none;
   // top: 4px;
 }
 #treat {
@@ -171,13 +172,18 @@ button {
   right: 180px;
   top: 40px;
   background: transparent;
+  background-color: rgba(255, 255, 255, 0.8);
   color:#515151;
   font-family: 'EB Garamond','jf open 粉圓 1.1';
+  border: none;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
 }
 #send{
   right: 40px;
   top: 40px;
   font-family: 'EB Garamond','jf open 粉圓 1.1';
+  border: none;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
 }
 #choose_label {
   display:grid;
@@ -192,6 +198,7 @@ button {
 }
 .checkbox {
   display: flex;
+  border: none;
   // flex-direction: column;
   // justify-content: center;
   // align-items: center;

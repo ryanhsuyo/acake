@@ -67,7 +67,7 @@ export default {
     quireTotalMember(){
       axios({
         method:"POST",
-        url:"./static/cty_api/quire_total_member.php",
+        url:"http://localhost/static/cty_api/quire_total_member.php",
       }).then((res)=>{
         this.total_member = res.data
       }).catch((error)=>{
@@ -79,7 +79,7 @@ export default {
       data.append("id",id)
       axios({
         method:"POST",
-        url:'./static/cty_api/quire_member_message.php',
+        url:'http://localhost/static/cty_api/quire_member_message.php',
         data,
       }).then((res)=>{
         this.select_member_message = res.data;
@@ -95,7 +95,7 @@ export default {
         data.append('message',this.answer);
         axios({
           method:"POST",
-          url:'./static/cty_api/send_message_answer.php',
+          url:'http://localhost/static/cty_api/send_message_answer.php',
           data,
         }).then((res)=>{
           if(res.data=="success"){
@@ -115,7 +115,7 @@ export default {
       data.append("id",this.select_member.MEMBER_ID);
       axios({
         method:"POST",
-        url:'./static/cty_api/change_unsolved_problem.php',
+        url:'http://localhost/static/cty_api/change_unsolved_problem.php',
         data,
       }).then((res)=>{
         if(res.data="success"){

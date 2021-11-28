@@ -287,7 +287,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "./static/yoyo_api/behindInsertIdeaCakeImg.php",
+          url: "http://localhost/static/yoyo_api/behindInsertIdeaCakeImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -316,7 +316,7 @@ export default {
         data.append('description',this.newIdeaCake.description)
         axios({
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeInsert.php",
+          url:"http://localhost/static/yoyo_api/behindComponentIdeaCakeInsert.php",
           method:"POST",
         }).then((res)=>{
           console.log(res.data)
@@ -341,7 +341,7 @@ export default {
         axios({
           method:"POST",
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeUpdate.php"
+          url:"http://localhost/static/yoyo_api/behindComponentIdeaCakeUpdate.php"
         }).then((res)=>{
           console.log(res.data)
         }).catch((err)=>{
@@ -360,7 +360,7 @@ export default {
     $("#ideaCake").addClass("target");
     axios({
       method:"GET",
-      url:"./static/yoyo_api/behindGetFlavor.php",
+      url:"http://localhost/static/yoyo_api/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -370,7 +370,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo_api/behindComponentIdeaCakeSelect.php",
+            url: "http://localhost/static/yoyo_api/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -383,7 +383,7 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo_api/behindComponentSelectIngredientAll.php",
+            url: "http://localhost/static/yoyo_api/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
@@ -398,7 +398,7 @@ export default {
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo_api/behindComponentChefCakeSelectIngredient.php",
+    //         url: "http://localhost/static/yoyo_api/behindComponentChefCakeSelectIngredient.php",
     //         data: INGREDIENT,
     //     })
     //     .then((res) => {

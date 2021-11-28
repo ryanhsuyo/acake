@@ -7,7 +7,7 @@ $id = $_POST['id'];
 //建立SQL語法
 $sql = "SELECT ms.MESSAGE,ms.SENDER,m.MEMBER_ID,m.UNSOLVED_PROBLEM 
 FROM `MESSAGE` ms 
-JOIN MEMBER m 
+JOIN `MEMBER` m 
 	ON ms.MEMBER_ID = m.MEMBER_ID 
     WHERE ms.MEMBER_ID = ?;";
 $statement = getPDO()->prepare($sql);
@@ -24,7 +24,7 @@ $statement -> bindValue(1,$id);
 $statement -> execute();
 $sql2 = "SELECT ms.MESSAGE,ms.SENDER,m.MEMBER_ID,m.UNSOLVED_PROBLEM 
 FROM `MESSAGE` ms 
-JOIN MEMBER m 
+JOIN `MEMBER` m 
 	ON ms.MEMBER_ID = m.MEMBER_ID 
     WHERE ms.MEMBER_ID = ?;";
 $statement2 = getPDO()->prepare($sql2);

@@ -446,6 +446,7 @@ export default {
 @import "../assets/style/var.scss";
 * {
   box-sizing: border-box;
+  color: #515151 !important;
 }
 body {
   background-color: $bg;
@@ -453,8 +454,12 @@ body {
 }
 #chat_icon_block {
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: 15px;
+  right: 90px;
+  // z-index: 9999;
+  // animation: floattop;
+  // animation-duration: 2s;
+  // animation-iteration-count: infinite;
   
   #chat_icon {
     width: 50px;
@@ -729,4 +734,19 @@ body {
 .qa_question_barother {
   border-radius: 10px;
 }
+
+@keyframes floattop{
+
+0% {
+
+    transform: translate(0px, 0px);
+}
+
+50% {
+    transform: translate(0px, -10px);
+}
+
+100% {
+    transform: translate(0px, 0px);
+}}
 </style>

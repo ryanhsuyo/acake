@@ -307,7 +307,7 @@ export default {
                     axios({
                         method:"POST",
                         data,
-                        url:"./static/yoyo_api/insertOrder.php"
+                        url:"http://localhost/static/yoyo_api/insertOrder.php"
                     }).then((res)=>{
                         // 流程控制，寫入訂單詳細資訊
                         this.newOrderDate = res.data;
@@ -316,9 +316,10 @@ export default {
                         orderDetail.append('number',this.$store.state.cakeQuantity);
                         orderDetail.append('total',parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity));
                         orderDetail.append('time',this.newOrderDate);
+                        orderDetail.append('smallPrice', parseInt(this.storage.PRICE * this.cakeQuantity + this.aPrice))
                         axios({
                             method:"POST",
-                            url:'./static/yoyo_api/insertOrderCake.php',
+                            url:'http://localhost/static/yoyo_api/insertOrderCake.php',
                             data:orderDetail,
                         }).then((res)=>{
                             // 以下為流程控制寫入包裝
@@ -328,7 +329,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:packages,
-                                url:"./static/yoyo_api/insertPackages.php"
+                                url:"http://localhost/static/yoyo_api/insertPackages.php"
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -349,7 +350,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:access,
-                                url:'./static/yoyo_api/insertAdditionals.php'
+                                url:'http://localhost/static/yoyo_api/insertAdditionals.php'
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -365,7 +366,7 @@ export default {
                             couponData.append('coupon',this.couponDiscount.couponId)
                             axios({
                                 method:"POST",
-                                url:'./static/yoyo_api/updateCouponId.php',
+                                url:'http://localhost/static/yoyo_api/updateCouponId.php',
                                 data:couponData,
                             }).then((res)=>{
                             }).catch((err)=>{
@@ -381,6 +382,10 @@ export default {
             }else{
                 alert("您可能日期尚未輸入唷!!")
             }
+
+            axios.post("", qs.stringify({smallPrice: parseInt(this.storage.PRICE * this.cakeQuantity + this.aPrice)}))
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
         },
     },
     watch:{
@@ -405,10 +410,10 @@ export default {
         },
         totalMoney(){
             if(this.couponDiscount == 0){
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT)  +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT) + parseInt(this.changejaipei)
             return allPrice
             }else{
-                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT) - parseInt(this.couponDiscount.discount) +parseInt(this.changejaipei)
+                let allPrice = parseInt(this.$store.state.storage.PRICE)*parseInt(this.$store.state.cakeQuantity)+parseInt(this.aPrice) + parseInt(this.$store.state.PStorage.ACCESSORIES_PRICE - this.$store.state.PStorage.ACCESSORIES_DISCOUNT) - parseInt(this.couponDiscount.discount) + parseInt(this.changejaipei)
             return allPrice
             }
         },
@@ -439,7 +444,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo_api/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "http://localhost/static/yoyo_api/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
@@ -449,7 +454,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("./static/yoyo_api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/static/yoyo_api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
@@ -544,6 +549,7 @@ router-link{
             width: 100%;
             display: flex;
             justify-content: center;
+            color: #515151;
             @media screen and (max-width:767.98px){ 
                 font-size: $h4;
             }
@@ -714,6 +720,7 @@ router-link{
     }
     .bill_details_outline{
         display: flex;
+        color: #515151;
         .ready_bill_details{
             width: 95%;
             margin-top: 35px;
@@ -955,6 +962,7 @@ router-link{
     justify-content: center;
     max-width: 1120px;
     width: 100%;
+    color: #515151;
 }
 .bill_list_contentbar{
         width: 100%;
@@ -1421,6 +1429,7 @@ justify-content: flex-end;
     color: white;
     font-size: $h4;
     box-shadow: $shadow;
+    border: none;
 }
 .bill_ready_to_checkout_sumbit:hover{
     color: $lightYellow;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <headercom></headercom>
-        <topButton></topButton>
+        <!-- <topButton></topButton> -->
         <!-- <full-page ref="fullpage" :options="options" id="fullpage"> -->
         <div id="first_box show_content section">
             <div class="first_screen">
@@ -278,7 +278,7 @@ import cardTopthree from '../components/card_topthree.vue'
 // import cardProduct from '../components/card_product.vue'
 import cardProduct from '../components/card_product_index.vue'
 import footercom from '../components/footercom'
-import topButton from '../components/top_button.vue'
+// import topButton from '../components/top_button.vue'
 import axios from 'axios';
 
 // import {gsap} from "gsap"
@@ -296,7 +296,7 @@ export default {
         cardTopthree,
         cardProduct,
         footercom,
-        topButton,
+        // topButton,
         // fullPage,
     },
     
@@ -451,7 +451,7 @@ export default {
             // autoAlpha: 0,
         });
 
-        axios.post("./static/melody_php/select_cakecard.php")
+        axios.post("http://localhost/static/melody_php/select_cakecard.php")
             .then(res =>{
                 console.log(res);
                 let data = res["data"];

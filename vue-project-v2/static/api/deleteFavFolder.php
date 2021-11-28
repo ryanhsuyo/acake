@@ -60,7 +60,7 @@
             $statement->execute();
             $deleteID = $statement->fetch();
 
-            echo json_encode($deleteID);
+            // echo json_encode($deleteID);
 
             $sql = "DELETE FROM FAVORITE WHERE ID = ?";
             

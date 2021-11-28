@@ -49,8 +49,8 @@
                                 <input type='text' name='quantity' value='數量' class='qty' disabled v-model="counter"/>
                                 <input type='button' value='+' class='qtyplus' field='quantity' @click="add"/>
                             </form>
-                            <div id="cake_size">
-                                <label for="">
+                            <div id="cake_size" style="border-radius: 5px;">
+                                <label for="" style="border-radius: 5px;">
                                     <select class="cake_size_select">
                                         <option v-if="cake && cake.SIZE">{{cake.SIZE}}吋</option>
                                     </select>
@@ -157,7 +157,7 @@ export default {
         let pageID = this.$route.query.id;
         // console.log('蔗葉id', pageID);
         //     {
-            axios.post("./static/yoyo_api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("http://localhost/static/yoyo_api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 console.log(1232131321)
                 console.log(res.data[0])
@@ -171,7 +171,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo_api/productDetailSelectAdditional.php",
+            url: "http://localhost/static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -199,7 +199,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo_api/productDetailSelectPackage.php",
+            url: "http://localhost/static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -259,7 +259,7 @@ body{
         // margin-bottom: 50px;
         a{
             text-decoration: none;
-            color: black;
+            color: #515151;
         }
         @media screen and (max-width:767.98px){ 
             display: flex;
@@ -293,6 +293,7 @@ body{
             display: flex;
             align-items: center;
             justify-content: flex-start;
+            color: #515151;
             @media screen and (max-width:767.98px){ 
                 justify-content: center;
             }
@@ -386,6 +387,7 @@ body{
                     flex-direction: column;
                     justify-content: space-between;
                     height: 220px;
+                    color: #515151;
                     @media screen and (max-width:767.98px){ 
                         margin-top: 20px;
                     }
@@ -440,9 +442,22 @@ body{
                     font-size: 0;
                     margin-top: 40px;
                     #cake_quantity{
-                        display: block;
+                        display: flex;
                         margin-bottom: 40px;
-                        .qtyminus,.qtyplus{
+                        align-items: center;
+                        .qtyminus{
+                            border: none;
+                            border-radius: 5px 0px 0px 5px;
+                            cursor: pointer;
+                            width:50px;
+                            height: 40px;
+                            display: inline-block;
+                            font-size: 25px;
+                            background-color: #F7Edd4;
+                        }
+                        .qtyplus{
+                            border: none;
+                            border-radius: 0px 5px 5px 0px;
                             cursor: pointer;
                             width:50px;
                             height: 40px;
@@ -451,6 +466,7 @@ body{
                             background-color: #F7Edd4;
                         }
                         .qty{
+                            border: none;
                             background-color: white;
                             margin: 0;
                             display: inline-block;
@@ -479,6 +495,9 @@ body{
                             text-align: center;
                             height: 40px;
                             max-width: 470px;
+                            color: #515151;
+                            border: none;
+                            border-radius: 5px;
                         }
                     }
                 }
@@ -675,6 +694,7 @@ body{
             cursor: pointer;
             border-radius: 5px;
             border: 0;
+            box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
             &:hover{
                 color: $lightYellow;
             }
@@ -698,6 +718,7 @@ body{
             cursor: pointer;
             border-radius: 5px;
             border: 0;
+            box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
             &:hover{
                 color: $lightYellow;
             }

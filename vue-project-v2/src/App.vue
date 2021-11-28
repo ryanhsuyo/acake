@@ -2,14 +2,16 @@
   <div id="app" :style="{fontFamily: `'EB Garamond','jf open 粉圓 1.1'`, padding: `0 !important`}">
     
     <router-view></router-view>
-    
+    <topButton></topButton>
   </div>
 </template>
 <script>
 import $ from "jquery";
+import topButton from './components/top_button.vue'
 export default {
   name: "App",
   components: {
+    topButton,
   },
   mounted(){
     $("body").css({"margin":0,"padding":0,"backgroundColor":"#EFE6E4"});

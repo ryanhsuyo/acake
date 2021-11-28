@@ -6,8 +6,8 @@ date_default_timezone_set('Asia/Taipei');
   $cakeId=$_POST['cakeId'];
   $time=$_POST['time'];
   $number=$_POST['number'];
-  // $total=$_POST['total'];
-  $smallPrice=$_POST['smallPrice'];
+  $total=$_POST['total'];
+
 
     $sql = "INSERT INTO `PRODUCT` (`CAKE_ID`, `ORDER_ID`, `QUANTITY`, `PRICE`) VALUES (?, (SELECT ORDER_ID FROM `ORDER` WHERE CREATE_DATE = ?), ?, ?);
     ";
@@ -16,7 +16,7 @@ date_default_timezone_set('Asia/Taipei');
     $statement->bindValue(1, $cakeId);
     $statement->bindValue(2, $time);
     $statement->bindValue(3, $number);
-    $statement->bindValue(4, $smallPrice);
+    $statement->bindValue(4, $total);
     $statement->execute();
     
   echo $time

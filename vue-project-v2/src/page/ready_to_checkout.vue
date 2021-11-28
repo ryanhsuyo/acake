@@ -307,7 +307,7 @@ export default {
                     axios({
                         method:"POST",
                         data,
-                        url:"http://localhost/static/yoyo_api/insertOrder.php"
+                        url:"./static/yoyo_api/insertOrder.php"
                     }).then((res)=>{
                         // 流程控制，寫入訂單詳細資訊
                         this.newOrderDate = res.data;
@@ -319,7 +319,7 @@ export default {
                         orderDetail.append('smallPrice', parseInt(this.storage.PRICE * this.cakeQuantity + this.aPrice))
                         axios({
                             method:"POST",
-                            url:'http://localhost/static/yoyo_api/insertOrderCake.php',
+                            url:'./static/yoyo_api/insertOrderCake.php',
                             data:orderDetail,
                         }).then((res)=>{
                             // 以下為流程控制寫入包裝
@@ -329,7 +329,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:packages,
-                                url:"http://localhost/static/yoyo_api/insertPackages.php"
+                                url:"./static/yoyo_api/insertPackages.php"
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -350,7 +350,7 @@ export default {
                             axios({
                                 method:"POST",
                                 data:access,
-                                url:'http://localhost/static/yoyo_api/insertAdditionals.php'
+                                url:'./static/yoyo_api/insertAdditionals.php'
                             }).then((res)=>{
                                 console.log(res.data);
                             }).catch((err)=>{
@@ -366,7 +366,7 @@ export default {
                             couponData.append('coupon',this.couponDiscount.couponId)
                             axios({
                                 method:"POST",
-                                url:'http://localhost/static/yoyo_api/updateCouponId.php',
+                                url:'./static/yoyo_api/updateCouponId.php',
                                 data:couponData,
                             }).then((res)=>{
                             }).catch((err)=>{
@@ -444,7 +444,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/static/yoyo_api/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "./static/yoyo_api/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
@@ -454,7 +454,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("http://localhost/static/yoyo_api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/yoyo_api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){

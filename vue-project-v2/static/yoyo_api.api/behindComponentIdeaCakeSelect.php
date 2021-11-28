@@ -8,7 +8,7 @@
   FROM CAKE c
     JOIN FLAVOR f
   on c.FLAVOR_ID = f.ID
-    JOIN MEMBER m
+    JOIN `MEMBER` m
   on c.MEMBER_ID = m.MEMBER_ID
     LEFT JOIN CAKE_INGREDIENT i
   on c.CAKE_ID = i.CAKE_ID

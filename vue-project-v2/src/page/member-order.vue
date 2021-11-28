@@ -241,7 +241,7 @@
                 this.$router.push('/assign')
             }
 
-            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
+            axios.post("./static/api/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         console.log(res.data);
@@ -257,7 +257,7 @@
                                     createDate: data[i].CREATE_DATE.split(" ")[0].replace(/-/g, "/"),
                                     // finished: data[i].FINISHED === "0" ? "進行中" : data[i].FINISHED === "1" ? "已完成" : "資料錯誤",
                                     finished: data[i].FINISHED,
-                                    paymentMethod: data[i].PAYMENT_METHOD === "0" ? "信用卡付款" : data[i].PAYMENT_METHOD === "1" ? "行動支付付款" : data[i].PAYMENT_METHOD === "2" ? "轉帳付款" : "資料錯誤",
+                                    paymentMethod: data[i].PAYMENT_METHOD === "0" ? "信用卡付款/ATM轉帳" : data[i].PAYMENT_METHOD === "1" ? "貨到付款" : data[i].PAYMENT_METHOD === "2" ? "LinePay" : "資料錯誤",
                                     address: data[i].ADDRESS,
                                     deliverFee: data[i].DELIVER_FEE,
                                     discount: !!data[i].DISCOUNT_AMOUNT === false ? "0" : data[i].DISCOUNT_AMOUNT,

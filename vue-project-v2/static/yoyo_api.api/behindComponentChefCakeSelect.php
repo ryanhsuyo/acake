@@ -5,7 +5,7 @@
   // $memberId = htmlspecialchars($_POST["memberId"]);
 
   $sql = "SELECT * FROM CAKE c 
-  JOIN MEMBER m 
+  JOIN `MEMBER` m 
   ON m.MEMBER_ID = c.MEMBER_ID
   Where m.MEMBER_ID = 0;";
 

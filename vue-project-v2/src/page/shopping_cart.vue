@@ -144,7 +144,7 @@
                     <button class="goto_checkout" v-if="packageSelected.ACCESSORIES_NAME" @click="addToCart(addendacards, cake, cakeQuantity, packageSelected)">前往結帳</button>
                 </router-link>
             </div>
-            <!-- <p class="errorText" v-if="!packageSelected.ACCESSORIES_NAME">您還沒有購入任何蛋糕</p> -->
+            <p class="errorText" v-if="!packageSelected.ACCESSORIES_NAME">您還沒有購入任何蛋糕</p>
             <router-link to="product">
                 <button class="backToProduct" v-if="!packageSelected.ACCESSORIES_NAME">選購蛋糕</button>
             </router-link>

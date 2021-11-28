@@ -300,8 +300,9 @@ export default {
     },
     // ---------------- 新增配料 ----------------
     sendData(){
-      let i = confirm('是否要新登蛋糕')
+      let i = confirm('是否要新增蛋糕')
       if(i == true){
+      alert('新增成功');
       let data = new URLSearchParams();
       data.append('name',this.newChefCake.newCakeName)
       data.append('img',this.newChefCake.img)

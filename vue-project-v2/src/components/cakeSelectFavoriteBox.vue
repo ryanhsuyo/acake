@@ -15,11 +15,10 @@ name: "switchTab",
         return{
             switch_tab: true,
             choosefavorite: [],
-            allFavorite: [],
-            totalFavoriteID:0,
+            totalFavoriteID: '1',
         }
     },
-    props:['openFavorite','cakeID'],
+    props:['allFavorite','openFavorite','cakeID'],
     methods: {
         switchLite(){
             this.$emit("receive",this.switch_tab);
@@ -50,24 +49,7 @@ name: "switchTab",
             return this.switch_tab? true:false;
         }
     },
-    mounted(){
-        this.$emit('callFile');
-        axios.post("http://localhost/yoyo/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
-            .then(res => {
-                    this.allFavorite = res.data;
-                    this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'}
-                        )
-                        [0].CATEGORY_ID
-                })
-            .catch((error) => {
-                console.log(error);
-            })
-        
-        
-    
-    },
-    watch:{
-    },
+
 };
 </script>
 <style scoped lang="scss">

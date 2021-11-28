@@ -41,7 +41,7 @@
                             </div>
                             <div class="send_date">
                                 <label class="bill_individual_title_short">寄送日期</label>
-                                <input class="bill_individual_short" type="date" name="" id="myID" v-model="date" :picker-option="{disableDate}">
+                                <input class="bill_individual_short" type="date" name="" id="myID" v-model="date"  value="" :min="minDate">
                             </div>
                             <div class="mark">
                                 <label class="bill_individual_title_long">註記<span class="bill_individual_title_marktext">(選擇宅配需在下方留下您當日方便收件時間)</span></label>
@@ -257,6 +257,7 @@ export default {
             date:'',
             payment: 0,
             newOrderDate:'',
+            minDate: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split('T')[0]
         }
     },
     methods:{

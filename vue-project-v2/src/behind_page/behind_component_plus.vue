@@ -5,7 +5,9 @@
       <!-- <searchBar></searchBar> -->
     </div>
     <div class="cake" >
-      <div class="outline close" @click="open()">
+
+      <!-- 新增加購 -->
+      <!-- <div class="outline close" @click="open()">
         <div class="img_outline">
           <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
           <button @click="newClickInput($event)">
@@ -22,67 +24,41 @@
           <div class="infor">
             <div class="left_infor">
               <div class="first">
-              <p>商品ID：</p>
-              <input type="text"  disabled >
+                <p>商品ID：</p>
               </div>
               <div class="second">
                 <p>商品名稱：</p>
                 <input type="text" v-model="newPlus.newPlusName">
               </div>
-              <!-- <div class="third">
-                <p>吋數:</p>
-                <select name="" id="" v-for="(size, index) in result" :key="index">
-                  <option>{{size}}吋</option>
-                </select>
-              </div>
-              <div class="forth">
-                <p>糕體口味：</p>
-                <select name="" id="" v-model="newChefCake.newCakeFlavor">
-                  <option :value="flavor.ID" v-for="(flavor,indexxx) in allFlavor" :key="indexxx">{{flavor.NAME}}</option>
-                </select>
-              </div> -->
             </div>
             <div class="right_infor">
               <div class="first">
                 <p>狀態：</p>
-                <select name="" id="">
-                  <!-- <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
-                  <option value="" :selected="chefCake.AVAIABLE == 0">下架</option> -->
-                </select>
               </div>
                 <div class="second">
                 <p>價格：</p>
                 <input type="text" v-model="newPlus.newPlusPrice">
               </div>
-              <!-- <div class="third">
-                <p>10吋價格：</p>
-                <p>等下</p>
-              </div> -->
-
-            <!-- <div class="ingredient" v-for="(name, index) in chefCake.INGREDIENT_NAME" :key="index">
-              <input class="icheckbox" type="checkbox" checked>
-            </div> -->
           </div>
           <div class="descript">
               <p>描述：</p>
               <textarea name="" id="" cols="30" rows="7" v-model="newPlus.description"></textarea>
           </div>
-            </div>   
-            <div class="button_outline" >
-                <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
-              <div class="button_position">
-                <button @click="sendData">確認送出</button>
-              </div>
-            </div>
+        </div>   
+        <div class="button_outline" >
+          <font-awesome-icon icon="fa-solid fa-xmark" id="toggle" @click="open"  />
+          <div class="button_position">
+              <button @click="sendData">確認送出</button>
+          </div>
         </div>
-    </div>
+      </div>
+    </div> -->
 
 
-
-
+    <!-- 已有加購 -->
       <div class="outline close" v-for="(plus,index) in pluses" :key="index">
           <div class="img_outline">
-          <img src="../assets/images/add_icon.svg" alt="" id="new_cake_img"/>
+          <img :src="plus.ACCESSORIES_IMG" alt="" id="new_cake_img"/>
           <button @click="newClickInput($event)">
             修改照片
           </button>
@@ -271,29 +247,37 @@ export default {
       this.modifyData=data
       file.click();
     },
-     sendData(){
-      let data = new URLSearchParams();
-      data.append('name',this.newPlus.newPlusName)
-      data.append('img',this.newPlus.img)
-      data.append('price',this.newPlus.newPlusPrice)
-      data.append('description',this.newPlus.description)
-      axios({
-        data,
-        url:"http://localhost/yoyo/behindComponentPlusInsert.php",
-        method:"POST",
-      }).then((res)=>{
-      }).catch((err)=>{
-        console.log(err)
-      })
+    sendData(){
+      let i = confirm('是否要新增加購商品')
+      if(i == true){
+        alert('新增成功');
+        let data = new URLSearchParams();
+        data.append('name',this.newPlus.newPlusName)
+        data.append('img',this.newPlus.img)
+        data.append('price',this.newPlus.newPlusPrice)
+        data.append('description',this.newPlus.description)
+        axios({
+          data,
+          url:"http://localhost/yoyo/behindComponentPlusInsert.php",
+          method:"POST",
+        }).then((res)=>{
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     },
   },
-   updateData(datas){
-      let data = new URLSearchParams();
-      data.append('name',datas.Plus_NAME)
-      data.append('id',datas.Plus_ID)
-      data.append('description',datas.Plus_DESCRIPTION)
-      data.append('available',datas.Plus_AVAILABLE)
-      data.append('price',datas.PRICE)
+  updateData(datas){
+    let i = confirm('是否要更新加購商品')
+      if(i == true){
+        alert('更新成功');
+        let data = new URLSearchParams();
+        data.append('name',datas.Plus_NAME)
+        data.append('id',datas.Plus_ID)
+        data.append('description',datas.Plus_DESCRIPTION)
+        data.append('available',datas.Plus_AVAILABLE)
+        data.append('price',datas.PRICE)
+      
       axios({
         method:"POST",
         data,
@@ -302,6 +286,7 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
+    }
   },
   computed:{
     //   data(){

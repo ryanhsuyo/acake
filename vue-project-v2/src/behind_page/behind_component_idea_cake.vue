@@ -23,11 +23,11 @@
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <input type="text" v-model="ideaCake.CAKE_NAME" />
+                <input type="text" v-model="ideaCake.CAKE_NAME"  class="inputBlock" />
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <select name="" id="" v-model="ideaCake.SIZE">
+                <select name="" id="" v-model="ideaCake.SIZE"  class="sizeSelect">
                   <option value="6">6吋</option>
                   <option value="8">8吋</option>
                   <option value="10">10吋</option>
@@ -35,7 +35,7 @@
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <select name="" id="" v-model="ideaCake.FLAVOR_ID">
+                <select name="" id="" v-model="ideaCake.FLAVOR_ID"  class="selectBlock">
                   <option :value="flavor.ID" v-for="(flavor,index2) in allFlavor" :key="index2">{{flavor.NAME}}</option>
                 </select>
               </div>
@@ -43,14 +43,14 @@
             <div class="right_infor">
               <div class="first">
                 <p>狀態：</p>
-                <select name="" id="" @change="updateData(ideaCake)" v-model="ideaCake.CAKE_AVAILABLE">
+                <select name="" id="" @change="updateData(ideaCake)" v-model="ideaCake.CAKE_AVAILABLE" class="availableBlock">
                   <option value="1" :selected='ideaCake.CAKE_AVAILABLE=="1"'>上架</option>
                   <option value="0" :selected='ideaCake.CAKE_AVAILABLE=="0"'>下架</option>
                 </select>
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text" v-model="ideaCake.PRICE" />
+                <input type="text" v-model="ideaCake.PRICE"  class="inputBlock"/>
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -61,7 +61,7 @@
                 <p>{{ideaCake.NAME}}</p>
               </div>
               <div class="five">
-                <p>配料：</p>
+                <!-- <p>配料：</p> -->
                 <!-- <div class="ingredientBlock" v-for="(ingredient, index) in ingredientAll" :key="index">
                   <input type="checkbox"><p>{{ingredient.INGREDIENT_NAME}}</p>
                 </div> -->
@@ -75,7 +75,7 @@
             </div>
           </div> -->
           <div class="descript">
-            <p>描述：</p>
+            <p class="descriptP">描述：</p>
             <textarea
               name=""
               id=""
@@ -126,7 +126,7 @@ export default {
       newIdeaCake: {
         newCakeID:'',
         newCakeName:'',
-        size:'',
+        size:0,
         newCakeFlavor: '',
         newCakePrice:'',
         description: '',
@@ -263,6 +263,7 @@ export default {
     // data() {
     //   return this.$store.state.chef_cake;
     // }
+    
   },
   mounted() {
     $("#ideaCake").siblings().removeClass("target");
@@ -301,11 +302,31 @@ export default {
         })
         .then((res) => {
             let data = res.data;
-            this.ideaCakes = data
+            this.ideaCakes = data;
+            
+            // if(let i = 0;i < this.ideaCakes.length; i++){
+              
+            // }
+            // console.log(this.ideaCakes);
         })
         .catch((error) => {
             console.log(error);
         })
+        
+
+
+
+// 參考
+  // notSelectedChoices(){
+  //           //全部商品過濾每個商品
+  //           return this.choices.filter((choice) => {
+  //               return !this.addendacards.some((addendacard) => {
+  //                   return JSON.stringify(addendacard.choice.ID) === JSON.stringify(choice.ID)
+  //               })
+  //           })
+  //       },
+        // 所有配料跟擁有配料比較
+
         
   },
   watch:{
@@ -352,7 +373,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   width: 1025px;
   height: 300px; /*展開300px*/
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   background: #f7dcdc;
   border-radius: 5px;
   transition: 0.3s;
@@ -413,15 +434,18 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 }
 .first{
   height: 50px;
+  display: flex;
+  align-items: center;
 }
 .descript {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: 1fr 7fr;
+  // margin-top: 10px;
+  display: flex;
+  // grid-template-columns: 1fr 7fr;
   height: 70px;
   textarea {
     width: 100%;
     resize: none;
+    border: 2px solid rgb(118, 118, 118);
   }
   p {
     white-space: nowrap;
@@ -504,5 +528,52 @@ select{
     width: 150px;
     align-items: center;
     margin: 10px;
+}
+.five{
+  display: inline-block;
+
+}
+.ingredientBlock{
+  display: flex;
+  max-width: 240px;
+  width: 100%;
+}
+.selectBlock{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+}
+p{
+  line-height: 30px;
+}
+.sizeSelect{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+
+}
+.descriptP{
+  max-width: 80px;
+  width: 100%;
+  margin: 0;
+  
+}
+.new_cake_img{
+  width: 250px;
+  height: 250px;
+}
+.inputBlock{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+}
+.availableBlock{
+    margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
 }
 </style>

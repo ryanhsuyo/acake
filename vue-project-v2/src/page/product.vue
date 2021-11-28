@@ -17,7 +17,7 @@
                 <div class="product_card_outline" v-for="(card, index) in chefCake" :key="index"> 
                     <div class="product_cake_title" >{{card.CAKE_NAME}}
                         <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="returnTrueOrFalse(card);loveActive();openSelect(card)" :class="{'active':returnTrueOrFalse(card)}" />
-                        <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS"></SelectFavorite>
+                        <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS" :allFavorite="allFavorite"></SelectFavorite>
                     </div>
                     <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID); addCakeName('主廚蛋糕')">
                         <!-- <router-link to="product_detail"  > -->
@@ -65,7 +65,7 @@
                 <div class="product_card_outline" v-for="(card, index) in designerCake" :key="index"> 
                     <div class="product_cake_title" >{{card.CAKE_NAME}}
                         <font-awesome-icon class="loveicon" icon="fa-solid fa-heart"  @click="returnTrueOrFalse(card);loveActive();openSelect(card)" :class="{'active':returnTrueOrFalse(card)}" />
-                        <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS"></SelectFavorite>
+                        <SelectFavorite @callFile="realCallFile()" :cakeID="card.CAKE_ID" class="openFavorite" :openFavorite="card.STATUS"  :allFavorite="allFavorite"></SelectFavorite>
                     </div>
                     <div class="product_img_container" @click="addToStorage(card, card.CAKE_ID); addCakeName('私廚蛋糕')">
                         <img class="product_img_container_img" :src="card.CAKE_IMAGE_BLOB" />
@@ -139,6 +139,7 @@ export default {
             light:false,
             packageSelected: {},
             addendacards:[],
+            allFavorite :[],
             favoriteFold: [],
             // pageID: 0,
         }
@@ -327,9 +328,21 @@ export default {
             console.log(error);
         })
         this.choosefavoritefunction()
+    //         mounted(){
+    },
+    watch:{
+
     },
     created(){
         window.scrollTo(0, 0);
+        axios.post("http://localhost/yoyo/cakeSelectFavoriteBoxAll.php")
+            .then(res => {
+                this.allFavorite = res.data;
+                this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'})[0].CATEGORY_ID
+            })
+        .catch((error) => {
+            console.log(error);
+        })
     },
     
     

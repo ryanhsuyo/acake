@@ -130,7 +130,7 @@ export default {
             data.append("password",this.password);
             axios({
                 method:"POST",
-                url: "http://localhost/static/cty_api/confirm_member.php",
+                url: "./static/cty_api/confirm_member.php",
                 data,
             }).then((res)=>{
                 // console.log(res.data);
@@ -170,7 +170,7 @@ export default {
                 data.append('birthday',birthday)
                 axios({
                     method:"POST",
-                    url:'http://localhost/static/cty_api/join_newMember.php',
+                    url:'./static/cty_api/join_newMember.php',
                     data,
                 }).then((res)=>{
                     if(res.data=='success'){
@@ -180,7 +180,7 @@ export default {
                         data.append("password",that.registPassword);
                             axios({
                                 method:"POST",
-                                url: "http://localhost/static/cty_api/confirm_member.php",
+                                url: "./static/cty_api/confirm_member.php",
                                 data,
                             }).then((res)=>{
                                 // console.log(res.data);
@@ -195,7 +195,7 @@ export default {
                                     axios({
                                         method:"POST",
                                         data:data2,
-                                        url:'http://localhost/static/cty_api/insertAllFav.php'
+                                        url:'./static/cty_api/insertAllFav.php'
                                     }).then((res)=>{
                                         console.log(res.data);
                                     }).catch((err)=>{
@@ -229,7 +229,7 @@ export default {
                 let data2 = new URLSearchParams();
                 data2.append('id',newValue);
     axios({
-                    url:'http://localhost/static/cty_api/again_account.php',
+                    url:'./static/cty_api/again_account.php',
                     method:"POST",
                     data:data2,
                 }).then((res)=>{

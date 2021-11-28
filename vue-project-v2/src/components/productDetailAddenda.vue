@@ -183,7 +183,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -211,7 +211,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -238,7 +238,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo.api/productDetailSelectAdditional.php",
+    //         url: "./static/yoyo_api/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -267,7 +267,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "./static/yoyo.api/productDetailSelectPackage.php",
+      //       url: "./static/yoyo_api/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {

@@ -169,7 +169,7 @@
                     // console.log(categoryId);
                     axios.post("http://localhost/A_cake/deleteFavFolder.php",qs.stringify({categoryId: categoryID, memberId: this.memberId}))
                         .then(res => {
-                            console.log(res.data);
+                            // console.log(res.data);
                             this.favFolder = [];
                             this.selectFolder();
                             this.editTitle.pop();

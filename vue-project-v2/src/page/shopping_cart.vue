@@ -355,7 +355,7 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "./static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -369,7 +369,7 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "./static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {

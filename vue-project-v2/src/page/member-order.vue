@@ -241,7 +241,7 @@
                 this.$router.push('/assign')
             }
 
-            axios.post("./static/api/selectOrder.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/A_cake/selectOrder.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         console.log(res.data);

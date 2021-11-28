@@ -8,7 +8,8 @@
         <option value="-1" selected disabled>使用門檻</option>
         <option :value="item" v-for="(item, index) in useThresholdArr" :key="index">{{item}}</option>
       </select>
-      <input type="text" maxlength="10" placeholder="期限" v-model="deadline" @keydown="keyInDate($event)" @keyup="keyInDate_II($event)" @change="checkDate($event)"/>
+      <!-- <input type="text" maxlength="10" placeholder="期限" v-model="deadline" @keydown="keyInDate($event)" @keyup="keyInDate_II($event)" @change="checkDate($event)"/> -->
+      <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="期限" v-model="deadline" :min="getDate" @change="checkDate($event)">
     </div>
     <div class="coupon">
       <div id="coupon" style="transform:scale(.8) translate(-105px,37px);">
@@ -96,14 +97,16 @@ export default {
       }
     },
     checkDate($event){
-      console.log(new Date($event.target.value));
-      if(isNaN(new Date($event.target.value).getTime())){
-        alert("無效的日期，請重新輸入。");
-        $event.target.value = "";
-      }
+      // console.log(new Date($event.target.value));
+      // if(isNaN(new Date($event.target.value).getTime())){
+      //   alert("無效的日期，請重新輸入。");
+      //   $event.target.value = "";
+      //   this.deadline = "";
+      // }
       if(new Date($event.target.value).getTime() < new Date().getTime()){
         alert("期限至少要大於1天，請重新輸入。");
         $event.target.value = "";
+        this.deadline = "";
       }
     },
     keyInNumber($event){
@@ -135,7 +138,7 @@ export default {
     updateCoupon(){
       console.log(typeof this.useThreshold);
       if(this.memberID && this.discount && this.useThreshold != "-1" && this.deadline && this.quantity){
-        axios.post("./static/api/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline, quantity: this.quantity}))
+        axios.post("http://localhost/A_cake/BE_updateCoupon.php", qs.stringify({memberID: this.memberID, discount: this.discount, threshold: this.useThreshold, expiration: this.deadline, quantity: this.quantity}))
         .then(res => {
           // console.log(res)
           alert("成功送出折價券！");
@@ -152,6 +155,9 @@ export default {
     },
   },
   computed: {
+    getDate(){
+      return new Date().getFullYear() + "-" + (parseInt(new Date().getMonth()) + 1) + "-" + new Date().getDate();
+    },
     daysCountDown(){
       let future = new Date(this.deadline).getTime() / 1000;
       let now = new Date().getTime() / 1000;
@@ -162,7 +168,7 @@ export default {
     },
   },
   mounted() {
-    axios.post("./static/api/BE_selectAllMemberID.php")
+    axios.post("http://localhost/A_cake/BE_selectAllMemberID.php")
       .then(res => {
         this.allMemberID = res.data.map(item => item.MEMBER_ID);
       })

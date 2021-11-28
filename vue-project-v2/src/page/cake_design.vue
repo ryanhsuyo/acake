@@ -614,7 +614,7 @@ export default {
                 flavorID: this.newCakeDesign.flavorID,
                 cakeDesignImageBlob: this.htmlUrl, 
                 memberID: this.$store.state.member_id, 
-                authorization: Math.ceil(Math.random() * 3), 
+                authorization: 0, 
                 votingID: this.newCakeDesign.voteID,
             }))
             .then((res)=>{
@@ -653,17 +653,6 @@ export default {
             })
             .catch(err => console.log(err));
             
-            // let readFile = new FileReader();
-            // console.log(readFile.readAsBinaryString(file));
-    //         readFile.readAsDataURL(file);
-    //         readFile.addEventListener("load", function () {
-    //             let image = this.htmlUrl;
-    //             // console.log(readFile.result);
-    //             image.src = readFile.result;
-    //             that.file.img = readFile.result;
-
-                
-    //   })
         },
         
         // 製作完成

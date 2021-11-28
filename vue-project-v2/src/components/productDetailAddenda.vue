@@ -137,7 +137,6 @@ export default {
   methods: {
     close() {
       this.$emit("closepage", !this.show);
-      // console.log(this.show);
       document.querySelector('body').style.overflow='auto'
     },
     addaddenda(){
@@ -152,13 +151,11 @@ export default {
     },
     deladdenda(index){
       this.addendacards.splice(index,1);
-      console.log(this.addendacards);
     },
     addAdditionalToStorage(additional){
       this.$store.dispatch('AStorage', additional)
     },
     addPStorage(packageSelected){
-      console.log((packageSelected))
       this.$store.dispatch('PStorage', packageSelected)
     }
   },
@@ -184,13 +181,11 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
-            console.log(res.data);
             let data = res.data;
-            console.log('這是什麼', data)
             this.choices = data;
             this.addendacards = 
                   [
@@ -203,7 +198,6 @@ export default {
                       choice: this.choices[2],
                     }
                   ]
-            console.log('這個choices', this.choices)
         })
         .catch((error) => {
             console.log(error);
@@ -212,25 +206,13 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
-            console.log(res.data);
             let data = res.data;
             this.packages = data;
-            console.log('這是什麼packages', this.packages)
             this.packageSelected = this.packages[0]
-            console.log(this.packageSelected);
-            console.log(this.packageSelected.ACCESSOPIES_PRICE);
-            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCake);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data);
-            // console.log(datalength);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);
@@ -239,7 +221,7 @@ export default {
     //     // params.append("page", index);
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo.api/productDetailSelectAdditional.php",
+    //         url: "http://localhost/yoyo/productDetailSelectAdditional.php",
     //         data: params,
     //     })
     //     .then((res) => {
@@ -268,7 +250,7 @@ export default {
       //   // params.append("page", index);
       //   axios({
       //       method: "post",
-      //       url: "./static/yoyo.api/productDetailSelectPackage.php",
+      //       url: "http://localhost/yoyo/productDetailSelectPackage.php",
       //       data: data,
       //   })
       //   .then((res) => {

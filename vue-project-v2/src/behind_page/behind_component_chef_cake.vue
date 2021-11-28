@@ -23,21 +23,23 @@
             <div class="left_infor">
               <div class="first">
                 <p>蛋糕ID：</p>
-                <input type="text"  disabled >
+                <!-- <input type="text"  disabled > -->
               </div>
               <div class="second">
-                <p>蛋糕名稱</p>
-                <input type="text" v-model="newChefCake.newCakeName">
+                <p >蛋糕名稱</p>
+                <input type="text" v-model="newChefCake.newCakeName" class="inputBlock">
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <select name="" id="" v-for="(size, index) in result" :key="index">
-                  <option>{{size}}吋</option>
+                <select name="" id="" class="sizeSelect" v-model="chefCakes[0].SIZE">
+                  <option value="6">6吋</option>
+                  <option value="8">8吋</option>
+                  <option value="10">10吋</option>
                 </select>
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <select name="" id="" v-model="newChefCake.newCakeFlavor">
+                <select name="" id="" v-model="newChefCake.newCakeFlavor" class="selectBlock">
                   <option :value="flavor.ID" v-for="(flavor,indexxx) in allFlavor" :key="indexxx">{{flavor.NAME}}</option>
                 </select>
               </div>
@@ -45,14 +47,14 @@
             <div class="right_infor">
               <div class="first">
                 <p>狀態：</p>
-                <select name="" id="">
+                <!-- <select name="" id=""> -->
                   <!-- <option value="" :selected="chefCake.AVAIABLE == 1">上架</option>
                   <option value="" :selected="chefCake.AVAIABLE == 0">下架</option> -->
-                </select>
+                <!-- </select>。 -->
               </div>
               <div class="second">
-                <p>價格：</p>
-                <input type="text" v-model="newChefCake.newCakePrice">
+                <p >價格：</p>
+                <input type="text" v-model="newChefCake.newCakePrice" class="inputBlock">
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -71,7 +73,7 @@
             </div> -->
           </div>
           <div class="descript">
-            <p>描述：</p>
+            <p class="descriptP">描述：</p>
             <textarea
               name=""
               id=""
@@ -110,11 +112,11 @@
               </div>
               <div class="second">
                 <p>蛋糕名稱：</p>
-                <input type="text" v-model="chefCake.CAKE_NAME" />
+                <input type="text" v-model="chefCake.CAKE_NAME" class="inputBlock"/>
               </div>
               <div class="third">
                 <p>吋數:</p>
-                <select name="" id="" v-model="chefCake.SIZE">
+                <select name="" id="" class="sizeSelect" v-model="chefCake.SIZE">
                   <option value="6">6吋</option>
                   <option value="8">8吋</option>
                   <option value="10">10吋</option>
@@ -122,7 +124,7 @@
               </div>
               <div class="forth">
                 <p>糕體口味：</p>
-                <select name="" id="" v-model="chefCake.FLAVOR_ID">
+                <select name="" id="" v-model="chefCake.FLAVOR_ID" class="selectBlock">
                   <option :value="flavor.ID" v-for="(flavor,index2) in allFlavor" :key="index2">{{flavor.NAME}}</option>
                 </select>
               </div>
@@ -130,14 +132,14 @@
             <div class="right_infor">
               <div class="first">
                 <p>狀態：</p>
-                <select name="" id="" @change="updateData(chefCake)" v-model="chefCake.CAKE_AVAILABLE">
+                <select name="" id="" @change="updateData(chefCake)" v-model="chefCake.CAKE_AVAILABLE" class="availableBlock">
                   <option value="1" :selected='chefCake.CAKE_AVAILABLE=="1"'>上架</option>
                   <option value="0" :selected='chefCake.CAKE_AVAILABLE=="0"'>下架</option>
                 </select>
               </div>
               <div class="second">
                 <p>價格：</p>
-                <input type="text" v-model="chefCake.PRICE" />
+                <input type="text" v-model="chefCake.PRICE" class="inputBlock"/>
               </div>
               <!-- <div class="third">
                 <p>10吋價格：</p>
@@ -156,7 +158,7 @@
             </div>
           </div> -->
           <div class="descript">
-            <p>描述：</p>
+            <p class="descriptP">描述：</p>
             <textarea
               name=""
               id=""
@@ -255,7 +257,6 @@ export default {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
       this.modifyData=data
-      console.log(index)
       file.click();
     },
     setImage() {
@@ -282,7 +283,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "./static/yoyo.api/behindInsertChefCakeImg.php",
+          url: "http://localhost/yoyo/behindInsertChefCakeImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -290,7 +291,6 @@ export default {
           data: params,
         })
           .then((response) => {
-            console.log(response);
           })
           .catch((error) => {
             console.log(error);
@@ -310,10 +310,9 @@ export default {
       data.append('description',this.newChefCake.description)
       axios({
         data,
-        url:"./static/yoyo.api/behindComponentChefCakeInsert.php",
+        url:"http://localhost/yoyo/behindComponentChefCakeInsert.php",
         method:"POST",
       }).then((res)=>{
-        console.log(res.data)
       }).catch((err)=>{
         console.log(err)
       })
@@ -334,9 +333,8 @@ export default {
         axios({
           method:"POST",
           data,
-          url:"./static/yoyo.api/behindComponentChefCakeUpdate.php"
+          url:"http://localhost/yoyo/behindComponentChefCakeUpdate.php"
         }).then((res)=>{
-          console.log(res.data)
         }).catch((err)=>{
           console.log(err)
         })
@@ -353,7 +351,7 @@ export default {
     $("#chefCake").addClass("target");
     axios({
       method:"GET",
-      url:"./static/yoyo.api/behindGetFlavor.php",
+      url:"http://localhost/yoyo/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -363,7 +361,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/behindComponentChefCakeSelect.php",
+            url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
             data: params,
         })
         .then((res) => {
@@ -376,12 +374,11 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/behindComponentSelectIngredientAll.php",
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
             let data = res.data;
-            console.log(data);
             this.ingredientAll = data
         })
         .catch((error) => {
@@ -391,7 +388,7 @@ export default {
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
-    //         url: "./static/yoyo.api/behindComponentChefCakeSelectIngredient.php",
+    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
     //         data: INGREDIENT,
     //     })
     //     .then((res) => {
@@ -451,7 +448,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   width: 1025px;
   height: 300px; /*展開300px*/
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   background: #f7dcdc;
   border-radius: 5px;
   transition: 0.3s;
@@ -484,6 +481,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   }
   .text_outline {
     // flex:1;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -512,15 +510,19 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
 }
 .first{
   height: 50px;
+  display: flex;
+  align-items: center;
 }
 .descript {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: 1fr 7fr;
+  // margin-top: 10px;
+  display: flex;
+  // grid-template-columns: 1.5fr 7fr;
   height: 70px;
+  
   textarea {
     width: 100%;
     resize: none;
+    border: 2px solid rgb(118, 118, 118);
   }
   p {
     white-space: nowrap;
@@ -532,6 +534,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+  
   #toggle {
     cursor: pointer;
     font-size: 24px;
@@ -571,6 +574,7 @@ $shadow: 4px 4px 5px 0 rgba(0, 0, 0, 0.3);
   .button_outline {
     flex-shrink: 1;
     display: flex;
+    // flex-direction: column;
     justify-content: center;
     align-items: center;
     #toggle {
@@ -604,5 +608,43 @@ select{
   width: 150px;
   align-items: center;
   margin: 10px;
+}
+.selectBlock{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+}
+p{
+  line-height: 30px;
+}
+.sizeSelect{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+
+}
+.descriptP{
+  max-width: 80px;
+  width: 100%;
+  margin: 0;
+  
+}
+.new_cake_img{
+  width: 250px;
+  height: 250px;
+}
+.inputBlock{
+  margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
+}
+.availableBlock{
+    margin: 0;
+  border: 2px solid rgb(118, 118, 118);
+  max-width: 240px;
+  width: 100%;
 }
 </style>

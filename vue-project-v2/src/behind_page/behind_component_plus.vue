@@ -223,7 +223,6 @@ export default {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
       this.modifyData=data
-      console.log(index)
       file.click();
     },
        setImage() {
@@ -251,7 +250,7 @@ export default {
         params.append("index", this.modifyData.ID);
         axios({
           method: "post",
-          url: "./static/yoyo.api/behindInsertPlusImg.php",
+          url: "http://localhost/yoyo/behindInsertPlusImg.php",
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -259,7 +258,6 @@ export default {
           data: params,
         })
           .then((response) => {
-            console.log(response);
           })
           .catch((error) => {
             console.log(error);
@@ -271,7 +269,6 @@ export default {
       let file = $event.target.nextSibling.nextSibling;
       this.theIndex = index;
       this.modifyData=data
-      console.log(index)
       file.click();
     },
      sendData(){
@@ -282,10 +279,9 @@ export default {
       data.append('description',this.newPlus.description)
       axios({
         data,
-        url:"./static/yoyo.api/behindComponentPlusInsert.php",
+        url:"http://localhost/yoyo/behindComponentPlusInsert.php",
         method:"POST",
       }).then((res)=>{
-        console.log(res.data)
       }).catch((err)=>{
         console.log(err)
       })
@@ -301,9 +297,8 @@ export default {
       axios({
         method:"POST",
         data,
-        url:"./static/yoyo.api/behindComponentPlusUpdate.php"
+        url:"http://localhost/yoyo/behindComponentPlusUpdate.php"
       }).then((res)=>{
-        console.log(res.data)
       }).catch((err)=>{
         console.log(err)
       })
@@ -320,13 +315,11 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/behindComponentPlusSelect.php",
+            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
             data: params,
         })
         .then((res) => {
             this.pluses = res.data;
-            console.log(pluses);
-            console.log('plus', pluses);
         })
         .catch((error) => {
             console.log(error);
@@ -334,7 +327,7 @@ export default {
         const params2 = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/behindComponentPlusSelect.php",
+            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
             data: params2,
         })
         .then((res) => {
@@ -347,12 +340,11 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/behindComponentSelectIngredientAll.php",
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
             data: ingredientAll,
         })
         .then((res) => {
             let data = res.data;
-            console.log(data);
             this.ingredientAll = data
         })
         .catch((error) => {

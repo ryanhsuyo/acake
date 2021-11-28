@@ -57,6 +57,9 @@ export default {
       $("#shop").siblings().removeClass("target");
     $("#shop").addClass("target");
   },
+  created(){
+    window.scrollTo(0, 0);
+  }
 };
 </script>
 <style scoped lang="scss">

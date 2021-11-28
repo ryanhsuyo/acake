@@ -13,6 +13,8 @@ const state = {
   cakeQuantity:1,  // 蛋糕數量
   PStorage:{},  // 包裝倉庫
   cakeClass: '',
+  orderDate: '',
+  
   // Quantity:1,
 };
 export default new Vuex.Store({
@@ -37,6 +39,9 @@ export default new Vuex.Store({
     },
     cakeClass(context, cakeClass){
       context.commit("updateCakeClass", cakeClass);
+    },
+    orderDate(context, orderDate){
+      context.commit('updateOrderDate', orderDate);
     }
   },
   // 操作狀態
@@ -59,6 +64,9 @@ export default new Vuex.Store({
     },
     updateCakeClass(state, cakeClass){
       state.cakeClass = cakeClass
+    },
+    updateOrderDate(state, orderDate){
+      state.orderDate = orderDate
     }
   }
 });

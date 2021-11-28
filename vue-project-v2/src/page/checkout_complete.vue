@@ -26,13 +26,12 @@
             </div>
             <div class="checkout_complete_list">
                 <div class="checkout_complete_list_orderidandother">
-                    
                     <div class="checkout_complete_list_orderid">
-                            親愛的買家您好，非常感謝您的訂購，您的訂單#211021D0tJ7WAH將於2021/11/23送達
+                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.{{this.orderID}}將於{{this.shippingDate}}送達
                     </div>
                     <div class="checkout_complete_list_orderother">
                         請再次確認商品詳細內容，若有任何訂單上的疑問歡迎透過Q&A聯絡我們，將由專人為您解答。另外提醒您，由於蛋糕採新鮮現做，3日內冷藏食用完畢為佳
-                            想進一步瞭解A cake的產品或服務， 或是對我們有任何寶貴意見，都歡迎您與我們聯繫，我們將竭誠為您服務!
+                        想進一步瞭解A cake的產品或服務， 或是對我們有任何寶貴意見，都歡迎您與我們聯繫，我們將竭誠為您服務!
                     </div>
                 </div>
             </div>
@@ -49,6 +48,7 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import axios from "axios"
+import qs from "qs"
 export default {
     name:'shopping_cart',
     components:{
@@ -59,7 +59,10 @@ export default {
     data(){
         return{
             recipient,
-            address
+            address,
+            memberId: 1,
+            shippingDate: 1234,
+            orderID: 1234,
         }
     },
     methods:{
@@ -72,18 +75,25 @@ export default {
 
     },
     mounted(){
-        let memberId = new URLSearchParams;
-        memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/yoyo/selectOrder.php", memberId)
-            .then(res => {
+        let data = new URLSearchParams
+        data.append("memberId", this.$store.state.member_id);
+        data.append("orderDate", this.$store.state.orderDate);
+        axios({
+            url:"http://localhost/yoyo/selectOrder.php",
+            data,
+            method: "POST",
+        }).then((res) => {
                 let data = res.data;
-                // this.recipient = data[0].RECEIVER;
-                // this.address = data[0].ADDRESS;
-                console.log('貓咪一直稅',data);
-
-            })
-            .catch( err => console.log(err));
-
+                console.log(data);
+                this.recipient = data[0].RECEIVER;
+                this.address = data[0].ADDRESS;
+                this.shippingDate = data[0].SHIPPING_DATE;
+                this.orderID = data[0].ORDER_ID;
+                console.log(this.orderID);
+                
+        }).catch((err) => {
+                console.log(err);
+        })
     },
     created(){
         window.scrollTo(0, 0);
@@ -91,6 +101,7 @@ export default {
     my(){
         return this.$store.state.memberId
     },
+    
 }
 
 </script>

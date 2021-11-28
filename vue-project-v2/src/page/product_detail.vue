@@ -132,7 +132,6 @@ export default {
         // 包裝資料
         addToPStorage(packageSelected){
             this.$store.dispatch('PStorage', packageSelected)
-            console.log('做不出來',packageSelected);
         },
         closeThePage(){
             this.showpage = !this.showpage
@@ -155,12 +154,9 @@ export default {
     },
     mounted(){
         let pageID = this.$route.query.id;
-        // console.log('蔗葉id', pageID);
         //     {
-            axios.post("./static/yoyo.api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
+            axios.post("http://localhost/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
-                console.log(1232131321)
-                console.log(res.data[0])
                 this.cake = res.data[0];
                 // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
             //     data: pageID,
@@ -171,13 +167,11 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
-            console.log(res.data);
             let data = res.data;
-            console.log('這是什麼', data)
             this.choices = data;
             this.addendacards = 
                 [
@@ -190,7 +184,6 @@ export default {
                     choice: this.choices[2],
                 }
                 ]
-            console.log('這個choices', this.choices)
         })
         .catch((error) => {
             console.log(error);
@@ -199,25 +192,13 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
-            console.log(res.data);
             let data = res.data;
             this.packages = data;
-            console.log('這是什麼packages', this.packages)
             this.packageSelected = this.packages[0]
-            console.log(this.packageSelected);
-            console.log(this.packageSelected.ACCESSOPIES_PRICE);
-            // this.chefCake = data.filter(item => item.MEMBER_ID === "0");
-            // this.designerCake = data.filter(item => item.MEMBER_ID !== "0");
-            // console.log('thischefcake', this.chefCake);
-            // console.log('thisdesingerckae', this.designerCake);
-            // console.log(data);
-            // console.log(datalength);
-            // console.log(data.length); 
-            // this.DesignerCake = res.data
         })
         .catch((error) => {
             console.log(error);
@@ -390,16 +371,18 @@ body{
                         margin-top: 20px;
                     }
                     #cake_titlebar{
-                        height: 50px; 
+                        // height: 50px; 
+                        // max-height: 120px;
+                        // height: 100%;
+
                         display: flex;
-                        align-items: center;
+                        align-items: flex-start;
                         justify-content: space-between;
                         @media screen and (max-width:767.98px){ 
                             margin-bottom: 70px;
                         }
                         #cake_title{
                             font-size: 36px;
-                            // display: flex;
                             .cake_detail_img{
                                 object-fit: cover;
                                 width: 20px;
@@ -438,10 +421,13 @@ body{
                     justify-content: space-between;
                     width: 100%;
                     font-size: 0;
+                    // margin: 0;
                     margin-top: 40px;
                     #cake_quantity{
-                        display: block;
+                        display: flex;
+                        
                         margin-bottom: 40px;
+                        
                         .qtyminus,.qtyplus{
                             cursor: pointer;
                             width:50px;
@@ -659,7 +645,7 @@ body{
         justify-content: space-between;
         max-width: 120px;
         height: 100px; 
-        margin-top: 50px;
+        // margifn-top: 50px;
         align-items: flex-end;
         width: 100%;
         #product_details_combination1_commit{

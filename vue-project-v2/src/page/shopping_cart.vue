@@ -292,7 +292,6 @@ export default {
         testChange(){
             let select = document.getElementById('addenda_block_package_select');
             this.packageSelected=select.value
-            console.log(select)
         },
         addaddenda(){
             if(this.addendacards.length < this.choices.length ){
@@ -308,10 +307,6 @@ export default {
             this.addendacards.splice(index,1);
         },
         addToCart(addendacards, cake, cakeQuantity, packageSelected){
-            console.log(addendacards);
-            console.log(cake);
-            console.log(cakeQuantity);
-            console.log(packageSelected);
             
         }
         
@@ -354,13 +349,11 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
             this.choices = res.data;
-            //     ]
-            console.log('這個choices', this.choices[0])
         })
         .catch((error) => {
             console.log(error);
@@ -368,14 +361,12 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
-            console.log(res.data);
             let data = res.data;
             this.packages = data;
-            console.log('shopping這是什麼packages', this.packages)
         })
         .catch((error) => {
             console.log(error);

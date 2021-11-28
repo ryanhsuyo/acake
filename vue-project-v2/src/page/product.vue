@@ -152,7 +152,7 @@ export default {
             this.choosefavoritefunction()
         },
         callFile(){//呼叫資料夾做比對
-            axios.post("./static/yoyo.api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/yoyo/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                 // console.log(res.data);
                 let data = res["data"];
@@ -178,9 +178,8 @@ export default {
                     axios({
                         method:"POST",
                         data:data2,
-                        url:'./static/yoyo.api/cancelFavoriteBox.php'
+                        url:'http://localhost/yoyo/cancelFavoriteBox.php'
                     }).then((res)=>{
-                        console.log(res.data)
                         this.realCallFile()
                     }).catch((err)=>{
                         console.log(err)
@@ -205,7 +204,6 @@ export default {
         },
         loveActive(){
             this.light = !this.light
-            // console.log(this.light);
         },
         abc(ev){
             this.bbb = ev; 
@@ -218,7 +216,6 @@ export default {
         addToStorage(cake, id){
             this.$store.dispatch('storage', cake);
             this.$router.push({path: `product_detail?id=${id}`});
-            // console.log('讓我看看',id);
         },
         // 蛋糕要給('蛋糕名稱','蛋糕圖片''''''')
         addToCakeCart(cake){
@@ -236,18 +233,15 @@ export default {
         addToPStorage(packageSelected){
         this.$store.dispatch('PStorage', packageSelected)
         alert('已加入購物車')
-        // console.log('做不出來',packageSelected);
         },
         openClick(card, index){
             document.getElementById('index')
 
-            // console.log(this.chefCake[index]);
             this.chefCake[index]
-            // console.log(this.chefCake);
             this.openFavorite=!this.openFavorite
         },
         choosefavoritefunction(){
-            axios.post("./static/yoyo.api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
+            axios.post("http://localhost/yoyo/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
             .then(res => {
                     this.choosefavorite = res.data;
                 })
@@ -297,15 +291,12 @@ export default {
         const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectAdditional.php",
+            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
-            // console.log(res.data);
             let data = res.data;
-            // console.log('這是什麼', data)
             this.choices = data;
-            console.log('到底哪個不用錢',this.choices);
             this.addendacards = 
                 [
                 {
@@ -324,11 +315,10 @@ export default {
         const data = new URLSearchParams();
         axios({
             method: "post",
-            url: "./static/yoyo.api/productDetailSelectPackage.php",
+            url: "http://localhost/yoyo/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
-            // console.log(res.data);
             let data = res.data;
             this.packages = data;
             this.packageSelected = this.packages[0]

@@ -152,7 +152,7 @@
                                 <div class="shipping_style_block">
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="" value="宅配" v-model="shipPrice">宅配
+                                            <input type="radio" class="cursorPoint" name="shipping_style" id="sendtohome" value="宅配" v-model="shipPrice"><label class="cursorPoint" for="sendtohome">宅配</label>
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -161,7 +161,7 @@
                                     </div>
                                     <div class="shipping_style_titlebar">
                                         <div class="shipping_style_input">
-                                            <input type="radio" name="shipping_style" id="" value="黑貓宅急便" v-model="shipPrice">黑貓宅急便
+                                            <input type="radio" class="cursorPoint" name="shipping_style" id="blackcat" value="黑貓宅急便" v-model="shipPrice"><label class="cursorPoint" for="blackcat">黑貓宅急便</label>
                                         </div>
                                         <div class="ready_bill_details_product_twandprice">
                                             <div class="ready_bill_details_product_cake_tw">NT$</div>
@@ -185,15 +185,15 @@
                                 </label>
                                 <div class="bill_payment_block">
                                     <div class="bill_payment_style_block">
-                                        <input type="radio" name="payment" v-model="payment" id="" class="cursorPoint" value=0>信用卡付款/ATM轉帳
+                                        <input type="radio" name="payment" v-model="payment" id="paybycard" class="cursorPoint" value=0><label class="cursorPoint" for="paybycard">信用卡付款/ATM轉帳</label>
                                         <img class="img_30" src="../assets/images/ecpay_icon.png" alt="">
                                     </div>
                                     <div class="bill_payment_style_block" >
-                                        <input type="radio" class="cursorPoint" name="payment" id="" v-model="payment" value=1>貨到付款
+                                        <input type="radio" class="cursorPoint" name="payment" id="paybypresent" v-model="payment" value=1><label class="cursorPoint" for="paybypresent">貨到付款</label>
                                     </div>
                                     <div class="bill_payment_style_block">
-                                        <input type="radio" name="payment" id="" class="cursorPoint" v-model="payment" value=2>LinePay
-                                        <img src="../assets/images/linepay_icon.png" alt="">
+                                        <input type="radio" name="payment" id="paybyline" class="cursorPoint" v-model="payment" value=2><label class="cursorPoint" for="paybyline">LinePay</label>
+                                        <img src="../assets/images/linepay_icon.png" alt="" for="paybyline">
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +278,6 @@ export default {
                     
                 });
             function clickthis(){
-                console.log( myID.value);
         }
         // let calendar = flatpickr(myID, "config");
         //     calendar.changeDates(3); // 提前一个月
@@ -287,7 +286,8 @@ export default {
             this.couponDiscount.discount = item;
         },
         submitorder(){
-            if(this.date!=''&&this.recipient!=''&&this.phone!=''&&this.adress!=''){ //擋下智障
+            if(this.date!=''&&this.recipient!=''&&this.phone!=''&&this.adress!=''){ //擋下錯誤
+            
 
                 let data = new URLSearchParams();
                     data.append('payment',this.payment); //付款方法
@@ -307,8 +307,10 @@ export default {
                     axios({
                         method:"POST",
                         data,
-                        url:"./static/yoyo.api/insertOrder.php"
+                        url:"http://localhost/yoyo/insertOrder.php"
                     }).then((res)=>{
+                        console.log('我想找時間戳',res.data);
+                        this.$store.dispatch('orderDate', res.data)
                         // 流程控制，寫入訂單詳細資訊
                         this.newOrderDate = res.data;
                         let orderDetail=new URLSearchParams();
@@ -318,9 +320,10 @@ export default {
                         orderDetail.append('time',this.newOrderDate);
                         axios({
                             method:"POST",
-                            url:'./static/yoyo.api/insertOrderCake.php',
+                            url:'http://localhost/yoyo/insertOrderCake.php',
                             data:orderDetail,
                         }).then((res)=>{
+                            
                             // 以下為流程控制寫入包裝
                             let packages = new URLSearchParams();
                             packages.append('packages', this.$store.state.PStorage.ID)
@@ -328,9 +331,8 @@ export default {
                             axios({
                                 method:"POST",
                                 data:packages,
-                                url:"./static/yoyo.api/insertPackages.php"
+                                url:"http://localhost/yoyo/insertPackages.php"
                             }).then((res)=>{
-                                console.log(res.data);
                             }).catch((err)=>{
                                 console.log(err)
                             })
@@ -349,9 +351,8 @@ export default {
                             axios({
                                 method:"POST",
                                 data:access,
-                                url:'./static/yoyo.api/insertAdditionals.php'
+                                url:'http://localhost/yoyo/insertAdditionals.php'
                             }).then((res)=>{
-                                console.log(res.data);
                             }).catch((err)=>{
                                 console.log(err);
                             })
@@ -365,7 +366,7 @@ export default {
                             couponData.append('coupon',this.couponDiscount.couponId)
                             axios({
                                 method:"POST",
-                                url:'./static/yoyo.api/updateCouponId.php',
+                                url:'http://localhost/yoyo/updateCouponId.php',
                                 data:couponData,
                             }).then((res)=>{
                             }).catch((err)=>{
@@ -439,7 +440,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo.api/redayToCheckoutSelectReceiver.php", memberId)
+        axios.post( "http://localhost/yoyo/redayToCheckoutSelectReceiver.php", memberId)
             .then(res => {
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
@@ -449,7 +450,7 @@ export default {
             })
             .catch( err => console.log(err));
             // 載入折價券資料
-            axios.post("./static/yoyo.api/selectCoupons.php",qs.stringify({memberId: this.memberId}))
+            axios.post("http://localhost/yoyo/selectCoupons.php",qs.stringify({memberId: this.memberId}))
                     .then(res => {
                         let data = res["data"];
                         for(let i = 0; i < data.length; i++){
@@ -464,10 +465,7 @@ export default {
                             this.couponData.push(couponInfo);
                             
 
-                            // 顯示所有折價券的按鈕
-                            // this.viewCouponButton = (this.couponData.length > 2 ? true : false);
                         }
-                            console.log('我家很大',this.couponData);
                     })
                     .catch(err => console.log(err));
     },
@@ -1409,7 +1407,7 @@ justify-content: flex-end;
     display: flex;
     align-items: center;
     width: auto;
-    cursor: pointer;
+    // cursor: pointer;
 }
 .bill_ready_to_checkout_sumbit{
     margin-top: 45px;

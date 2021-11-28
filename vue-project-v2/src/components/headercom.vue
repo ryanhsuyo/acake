@@ -25,14 +25,16 @@
                 </div>
 
                 <div id="header_div_two">
-                    <li class="nav_icon"><router-link to="/member_data" id="member_data"><img src="../assets/images/member.svg" alt=""></router-link></li>
+                    <li class="nav_icon" ><router-link to="/member_data" id="member_data"><img src="../assets/images/member.svg" alt=""></router-link></li>
                     <li class="nav_icon"><router-link to="/shopping_cart" id="shopping_cart"><img src="../assets/images/shoppingCar.svg" alt=""></router-link></li>
+                    <li class="nav_icon" @click="logOut" v-show="this.$store.state.member_id!=0"><router-link to="/" id="member_data"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="sign_out" /></router-link></li>
                 </div>
             </ul>
             
             <div id="header_div_two_two">
-                <li class="nav_icon"><router-link to="/member_data" id="member_data"><img src="../assets/images/member.svg" alt=""></router-link></li>
+                <li class="nav_icon" ><router-link to="/member_data" id="member_data"><img src="../assets/images/member.svg" alt=""></router-link></li>
                 <li class="nav_icon"><router-link to="/shopping_cart" id="shopping_cart" ><img src="../assets/images/shoppingCar.svg" alt=""></router-link></li>
+                <li class="nav_icon" @click="logOut" v-show="this.$store.state.member_id!=0"><router-link to="/" id="member_data"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="sign_out" /></router-link></li>
 
             <!-- RWD漢堡選單 -->
             <a id="hamburger" href="" @click.prevent="isShow">
@@ -52,6 +54,11 @@ export default {
     props:['openWhat'],
   
     methods: {
+        logOut(){
+            alert("您已登出，將為您導至首頁")
+            this.$store.dispatch('update_memberId',0)
+            this.$router.push('/index')
+        },
         isShow(){
             $('#header_nav').toggleClass('show');
             $(".nav_item").css({"margin":20,});
@@ -209,6 +216,10 @@ export default {
                                 transform:scale(1.2,1.2);
                             }
                         }
+                        .sign_out{
+                            color:#515151;
+                            font-size:25px;
+                        }
                     }
                 }
             }
@@ -311,6 +322,7 @@ export default {
                     a{
                         width: 25px;
                         display: flex;
+                        align-items: center;
                         img{
                             width: 100%;
                             /* hover放大動畫效果 */
@@ -319,6 +331,10 @@ export default {
                             &:hover{
                                 transform:scale(1.2,1.2);
                             }
+                        }
+                        .sign_out{
+                            color:#515151;
+                            font-size:25px;
                         }
                     }
                 }

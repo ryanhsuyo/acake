@@ -1028,7 +1028,7 @@ li.nav_item > a#cakeDesign{
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 100vw;
         height: 100vh;
         background-color: hsla(0, 0%, 0%, .2);
 
@@ -2526,6 +2526,9 @@ li.nav_item > a#cakeDesign{
             }
         }
         @media all and (max-width: 400px){
+            div.mascot_text{
+                display: none;
+            }
             div.mascot{
                 display: none;
             }

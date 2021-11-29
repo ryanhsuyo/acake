@@ -6,7 +6,7 @@
 
     $memberId = htmlspecialchars($_POST["memberId"]);
 
-    $sql = "SELECT * 
+    $sql = "SELECT fc.CATEGORY_NAME, fc.CATEGORY_ID, c.CAKE_IMAGE_BLOB, c.CAKE_DESIGN_IMAGE_BLOB
     FROM FAVORITE_CATEGORY fc 
         LEFT JOIN FAVORITE f 
             on fc.CATEGORY_ID = f.FAVORITE_CATEGORY_ID

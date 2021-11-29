@@ -200,12 +200,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-<<<<<<< HEAD
-          url: "http://localhost/yoyo/behindInsertIdeaCakeImg.php",
-=======
-          url: "./static/yoyo_api/behindInsertIdeaCakeImg.php",
-
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
+          url: "http://localhost/static/yoyo_api/behindInsertIdeaCakeImg.php",
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -276,33 +271,20 @@ export default {
   // 從資料庫撈取蛋糕已選配料種類
     axios({
       method:"GET",
-<<<<<<< HEAD
-      url:"http://localhost/yoyo/behindGetFlavor.php",
-=======
-      url:"./static/yoyo_api/behindGetFlavor.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
+      url:"http://localhost/static/yoyo_api/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
     }).catch((err)=>{
       console.log(err)
     })
-<<<<<<< HEAD
       // 從資料庫選取全部配料
     const ingredientAll = new URLSearchParams();
       axios({
         method: "post",
-        url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+        url: "http://localhost/static/yoyo_api/behindComponentSelectIngredientAll.php",
         data: ingredientAll,
       })
-=======
-    const params = new URLSearchParams();
-        axios({
-            method: "post",
-            url: "./static/yoyo_api/behindComponentIdeaCakeSelect.php",
-            data: params,
-        })
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
         .then((res) => {
             let data = res.data;
             this.ingredientAll = data;
@@ -315,13 +297,8 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-<<<<<<< HEAD
-            url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
+            url: "http://localhost/static/yoyo_api/behindComponentIdeaCakeSelect.php",
             data: params,
-=======
-            url: "./static/yoyo_api/behindComponentSelectIngredientAll.php",
-            data: ingredientAll,
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
         })
         .then((res) => {
             let data = res.data;
@@ -350,9 +327,6 @@ export default {
   //       },
         // 所有配料跟擁有配料比較
 
-<<<<<<< HEAD
-        
-=======
     // const INGREDIENT = new URLSearchParams();
     //     axios({
     //         method: "post",
@@ -371,7 +345,6 @@ export default {
     //     .catch((error) => {
     //         console.log(error);
     //     })
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
   },
   watch:{
     modifyData:{

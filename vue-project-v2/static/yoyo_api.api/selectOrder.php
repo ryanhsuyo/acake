@@ -1,17 +1,15 @@
 <?php
-  date_default_timezone_set('Asia/Taipei');  
-  include "connection.php";
-  $pdo = getPDO();
+// date_default_timezone_set('Asia/Taipei');
+include "connection.php";
+$pdo = getPDO();
 
-  $memberId = htmlspecialchars($_POST["memberId"]);
+$memberId = $_POST["memberId"];
+$time = $_POST["orderDate"];
+$sql = "SELECT * FROM `ORDER` WHERE MEMBER_ID = ? AND CREATE_DATE = ?";
 
-  $sql = "SELECT * FROM `ORDER` WHERE MEMBER_ID = ?;";
-
-  $statement = $pdo->prepare($sql);
-  $statement->bindValue(1, $memberId);
-  $statement->execute();
-  $data = $statement->fetchAll();
-
-  echo json_encode($data);
-
-?>
+$statement = $pdo->prepare($sql);
+$statement->bindValue(1, $memberId);
+$statement->bindValue(2, $time);
+$statement->execute();
+$data = $statement->fetchAll();
+echo json_encode($data);

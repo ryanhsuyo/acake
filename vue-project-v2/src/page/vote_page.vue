@@ -189,7 +189,7 @@ vote_cake:[],
             data.append('vote',cake.VOTING_NUM)
             axios({
         method: "post",
-        url: "./static/cty_api/update_card_vote_num.php",
+        url: "http://localhost/static/cty_api/update_card_vote_num.php",
         // headers: {
         //   "Content-Type": "application/x-www-form-urlencoded",
         // },
@@ -208,7 +208,7 @@ vote_cake:[],
       page(){
         axios({
       method: "get",
-      url: "./static/cty_api/quire_num_vote_cake.php",
+      url: "http://localhost/static/cty_api/quire_num_vote_cake.php",
     }).then((res) => {
       // console.log(res.data);
       let pages = Math.ceil(res.data / 10);
@@ -223,7 +223,7 @@ vote_cake:[],
       params.append("page", index);
       axios({
         method: "post",
-        url: "./static/cty_api/quire_vote_cake.php",
+        url: "http://localhost/static/cty_api/quire_vote_cake.php",
 
         data: params,
       })
@@ -245,7 +245,7 @@ vote_cake:[],
       data.append('flavor',choose_flavor)
       axios({
         method:"POST",
-        url:"./static/cty_api/select_cake.php",
+        url:"http://localhost/static/cty_api/select_cake.php",
         data,
       }).then((res)=>{
         console.log(res.data);
@@ -263,7 +263,7 @@ vote_cake:[],
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "./static/cty_api/quire_vote_cake.php",
+      url: "http://localhost/static/cty_api/quire_vote_cake.php",
       data: params,
     }).then((res) => {
       console.log(res.data);
@@ -286,7 +286,7 @@ vote_cake:[],
       // 取得前三名
         axios({
           method:"GET",
-          url:'./static/cty_api/quire_topThree.php',
+          url:'http://localhost/static/cty_api/quire_topThree.php',
 
         }).then((res)=>{
           // console.log(res);
@@ -297,7 +297,7 @@ vote_cake:[],
       // 取得活動資訊
       axios({
         method:"GET",
-        url:'./static/cty_api/quire_vote_information.php'
+        url:'http://localhost/static/cty_api/quire_vote_information.php'
       }).then((res)=>{
         // console.log(res);
         this.vote_info = res.data[0]
@@ -311,7 +311,7 @@ vote_cake:[],
     params.append("page", this.sn - 1);
     this.$axios({
       method: "POST",
-      url: "./static/cty_api/quire_vote_cake.php",
+      url: "http://localhost/static/cty_api/quire_vote_cake.php",
       data: params,
     }).then((res) => {
       // console.log(res.data);

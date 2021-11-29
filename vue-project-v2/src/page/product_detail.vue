@@ -155,11 +155,7 @@ export default {
     mounted(){
         let pageID = this.$route.query.id;
         //     {
-<<<<<<< HEAD
-            axios.post("http://localhost/yoyo/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
-=======
-            axios.post("./static/yoyo_api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
+            axios.post("http://localhost/static/yoyo_api/productSelectCakeChangePage.php",qs.stringify({pageID  : pageID }))
             .then(res => {
                 this.cake = res.data[0];
                 // this.cake = data.filter(item => item.CAKE_ID === 'pageID');
@@ -171,11 +167,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-<<<<<<< HEAD
-            url: "http://localhost/yoyo/productDetailSelectAdditional.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectAdditional.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
+            url: "http://localhost/static/yoyo_api/productDetailSelectAdditional.php",
             data: params,
         })
         .then((res) => {
@@ -200,11 +192,7 @@ export default {
         // params.append("page", index);
         axios({
             method: "post",
-<<<<<<< HEAD
-            url: "http://localhost/yoyo/productDetailSelectPackage.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectPackage.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
+            url: "http://localhost/static/yoyo_api/productDetailSelectPackage.php",
             data: data,
         })
         .then((res) => {
@@ -439,12 +427,6 @@ body{
                     margin-top: 40px;
                     #cake_quantity{
                         display: flex;
-<<<<<<< HEAD
-                        
-                        margin-bottom: 40px;
-                        
-                        .qtyminus,.qtyplus{
-=======
                         margin-bottom: 40px;
                         align-items: center;
                         .qtyminus{
@@ -460,7 +442,6 @@ body{
                         .qtyplus{
                             border: none;
                             border-radius: 0px 5px 5px 0px;
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
                             cursor: pointer;
                             width:50px;
                             height: 40px;

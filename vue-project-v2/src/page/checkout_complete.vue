@@ -75,21 +75,10 @@ export default {
 
     },
     mounted(){
-<<<<<<< HEAD
-        let data = new URLSearchParams
-        data.append("memberId", this.$store.state.member_id);
-        data.append("orderDate", this.$store.state.orderDate);
-        axios({
-            url:"http://localhost/yoyo/selectOrder.php",
-            data,
-            method: "POST",
-        }).then((res) => {
-=======
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
+        axios.post( "http://localhost/static/yoyo_api/selectOrder.php", memberId)
             .then(res => {
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
                 let data = res.data;
                 console.log(data);
                 this.recipient = data[0].RECEIVER;

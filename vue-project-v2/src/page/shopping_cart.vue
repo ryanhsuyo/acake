@@ -198,81 +198,6 @@ import headercom from '../components/headercom'
 import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import axios from "axios"
-// const choices =[
-//             {
-//                 idname: "一般卡片",
-//                 description: "我是一般卡片",
-//                 price: 10,
-//                 option: "",
-//                 discount: 10,
-//                 id:1,
-//             },
-//             {
-//                 idname: "一般蠟燭",
-//                 description: "我是一般蠟燭",
-//                 price: 10,
-//                 discount: 10,
-//                 option: "",
-//                 id:2,
-//             },
-//             {
-//                 idname: "特殊蠟燭",
-//                 description: "我是特殊蠟燭",
-//                 price: 50,
-//                 discount: 0,
-//                 option: "",
-//                 id:3,
-//             },
-//             {
-//                 idname: "情人節卡片",
-//                 description: "情人節卡片",
-//                 price: 30,
-//                 discount: 0,
-//                 option: "",
-//                 id:4,
-//             },
-//             {
-//                 idname: "聖誕節卡片",
-//                 description: "聖誕節卡片",
-//                 price: 30,
-//                 discount: 0,
-//                 option: "",
-//                 id:5,
-//             },
-//             {
-//                 idname: "造型數字蠟燭(0)",
-//                 description: "數字0蠟燭",
-//                 price: 30,
-//                 discount: 0,
-//                 option: "",
-//                 id:6,
-//             },
-//             {
-//                 idname: "造型數字蠟燭(1)",
-//                 description: "數字1蠟燭",
-//                 price: 30,
-//                 discount: 0,
-//                 option: "",
-//                 id:7,
-//             }
-//         ]
-
-// const AS0 = this.$store.state.AStorage[0].choice
-// const AS1 = this.$store.state.AStorage[1].choice
-
-// const packages = [{
-//     description:"一般包裝就是一班包裝",
-//     name:"普通包裝",
-//     price:0,
-// },{
-//     description:"高級包裝就是高級包裝",
-//     name: "高級包裝",
-//     price:60,
-// },{
-//     description:"特殊包裝就是特殊包裝",
-//     name: "特殊包裝",
-//     price:120,
-// }]
 export default {
     name:'shopping_cart',
     components:{
@@ -349,11 +274,7 @@ const params = new URLSearchParams();
         
         axios({
             method: "post",
-<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectAdditional.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectAdditional.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: params,
         })
         .then((res) => {
@@ -365,11 +286,7 @@ const params = new URLSearchParams();
         const data = new URLSearchParams();
         axios({
             method: "post",
-<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectPackage.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectPackage.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: data,
         })
         .then((res) => {

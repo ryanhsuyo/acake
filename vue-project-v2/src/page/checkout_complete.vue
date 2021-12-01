@@ -49,7 +49,7 @@ import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import axios from "axios"
 import qs from "qs"
-export default {
+export default{
     name:'shopping_cart',
     components:{
         titleh1,
@@ -58,24 +58,17 @@ export default {
     },
     data(){
         return{
-            recipient,
-            address,
+            recipient:'',
+            address:'',
+            // address:address,
+            // address,
             memberId: 1,
             shippingDate: 1234,
             orderID: 1234,
         }
     },
-    methods:{
-    },
-    watch:{
-        
-    },
-    computed:{
-        
-
-    },
     mounted(){
-<<<<<<< HEAD
+        // this.my()
         let data = new URLSearchParams
         data.append("memberId", this.$store.state.member_id);
         data.append("orderDate", this.$store.state.orderDate);
@@ -84,19 +77,12 @@ export default {
             data,
             method: "POST",
         }).then((res) => {
-=======
-        let memberId = new URLSearchParams;
-        memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
-            .then(res => {
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
                 let data = res.data;
-                console.log(data);
                 this.recipient = data[0].RECEIVER;
                 this.address = data[0].ADDRESS;
-                this.shippingDate = data[0].SHIPPING_DATE;
+                let shippingD = data[0].SHIPPING_DATE;
+                this.shippingDate = shippingD.substr(0,10);
                 this.orderID = data[0].ORDER_ID;
-                console.log(this.orderID);
                 
         }).catch((err) => {
                 console.log(err);
@@ -105,10 +91,6 @@ export default {
     created(){
         window.scrollTo(0, 0);
     },
-    my(){
-        return this.$store.state.memberId
-    },
-    
 }
 
 </script>

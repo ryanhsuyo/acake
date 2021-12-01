@@ -153,11 +153,7 @@ export default {
             this.choosefavoritefunction()
         },
         callFile(){//呼叫資料夾做比對
-<<<<<<< HEAD
             axios.post("http://localhost/yoyo/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
-=======
-            axios.post("./static/yoyo_api/productSelectCake.php",qs.stringify({cakeID: this.CAKE_ID}))
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             .then(res => {
                 // console.log(res.data);
                 let data = res["data"];
@@ -183,11 +179,7 @@ export default {
                     axios({
                         method:"POST",
                         data:data2,
-<<<<<<< HEAD
                         url:'http://localhost/yoyo/cancelFavoriteBox.php'
-=======
-                        url:'./static/yoyo_api/cancelFavoriteBox.php'
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
                     }).then((res)=>{
                         this.realCallFile()
                     }).catch((err)=>{
@@ -250,11 +242,7 @@ export default {
             this.openFavorite=!this.openFavorite
         },
         choosefavoritefunction(){
-<<<<<<< HEAD
             axios.post("http://localhost/yoyo/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
-=======
-            axios.post("./static/yoyo_api/cakeSelectFavoriteBox.php",qs.stringify({cakeID: this.CAKE_ID}))
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             .then(res => {
                     this.choosefavorite = res.data;
                 })
@@ -299,16 +287,11 @@ export default {
 
     },
     mounted(){
-        
         this.callFile();
         const params = new URLSearchParams();
         axios({
             method: "post",
-<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectAdditional.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectAdditional.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: params,
         })
         .then((res) => {
@@ -332,11 +315,7 @@ export default {
         const data = new URLSearchParams();
         axios({
             method: "post",
-<<<<<<< HEAD
             url: "http://localhost/yoyo/productDetailSelectPackage.php",
-=======
-            url: "./static/yoyo_api/productDetailSelectPackage.php",
->>>>>>> b18c1fa51864e670a21d999b4db465713e22dcd9
             data: data,
         })
         .then((res) => {

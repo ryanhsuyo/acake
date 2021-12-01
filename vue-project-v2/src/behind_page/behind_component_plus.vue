@@ -226,7 +226,11 @@ export default {
         params.append("index", this.modifyData.ID);
         axios({
           method: "post",
+<<<<<<< HEAD
           url: "http://localhost/yoyo/behindInsertPlusImg.php",
+=======
+          url: "http://localhost/yoyo/behindInsertPlusImg.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -247,6 +251,7 @@ export default {
       this.modifyData=data
       file.click();
     },
+<<<<<<< HEAD
     sendData(){
       let i = confirm('是否要新增加購商品')
       if(i == true){
@@ -265,6 +270,23 @@ export default {
           console.log(err)
         })
       }
+=======
+     sendData(){
+      let data = new URLSearchParams();
+      data.append('name',this.newPlus.newPlusName)
+      data.append('img',this.newPlus.img)
+      data.append('price',this.newPlus.newPlusPrice)
+      data.append('description',this.newPlus.description)
+      axios({
+        data,
+        url:"http://localhost/yoyo/behindComponentPlusInsert.php",
+        method:"POST",
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
     },
   },
   updateData(datas){
@@ -281,7 +303,11 @@ export default {
       axios({
         method:"POST",
         data,
+<<<<<<< HEAD
         url:"http://localhost/yoyo/behindComponentPlusUpdate.php"
+=======
+        url:"http://localhost/yoyo/behindComponentPlusUpdate.php"
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
       }).then((res)=>{
       }).catch((err)=>{
         console.log(err)
@@ -300,7 +326,11 @@ export default {
             // params.append("page", index);
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+=======
+            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: params,
         })
         .then((res) => {
@@ -312,7 +342,11 @@ export default {
         const params2 = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+=======
+            url: "http://localhost/yoyo/behindComponentPlusSelect.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: params2,
         })
         .then((res) => {
@@ -325,7 +359,11 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+=======
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: ingredientAll,
         })
         .then((res) => {

@@ -5,8 +5,8 @@ Vue.use(Vuex);
 // let cart = {orderID: 1, product: [{cakeID: 1, acce:[{PRODCT_ID: 1, acceID:1},{}]}, {cakeID: 2}]};
 // cart = {訂單: 1, 會員: 1,{蛋糕:1,價格: 1,{加購: 1},{加購: 2}},{蛋糕: 2}}
 const state = {
-  member_id: 1,
-  employee_id: 1,
+  member_id: 0,
+  employee_id: 0,
   cart:{},
   AStorage:[],  // 加購倉庫
   storage:{},   // 蛋糕倉庫

@@ -283,7 +283,11 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
+<<<<<<< HEAD
           url: "http://localhost/yoyo/behindInsertChefCakeImg.php",
+=======
+          url: "http://localhost/yoyo/behindInsertChefCakeImg.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
 
           headers: {
             "Content-Type": "multipart/form-data",
@@ -311,7 +315,11 @@ export default {
       data.append('description',this.newChefCake.description)
       axios({
         data,
+<<<<<<< HEAD
         url:"http://localhost/yoyo/behindComponentChefCakeInsert.php",
+=======
+        url:"http://localhost/yoyo/behindComponentChefCakeInsert.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
         method:"POST",
       }).then((res)=>{
       }).catch((err)=>{
@@ -334,7 +342,11 @@ export default {
         axios({
           method:"POST",
           data,
+<<<<<<< HEAD
           url:"http://localhost/yoyo/behindComponentChefCakeUpdate.php"
+=======
+          url:"http://localhost/yoyo/behindComponentChefCakeUpdate.php"
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
         }).then((res)=>{
         }).catch((err)=>{
           console.log(err)
@@ -352,7 +364,11 @@ export default {
     $("#chefCake").addClass("target");
     axios({
       method:"GET",
+<<<<<<< HEAD
       url:"http://localhost/yoyo/behindGetFlavor.php",
+=======
+      url:"http://localhost/yoyo/behindGetFlavor.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -362,7 +378,11 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
+=======
+            url: "http://localhost/yoyo/behindComponentChefCakeSelect.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: params,
         })
         .then((res) => {
@@ -375,7 +395,11 @@ export default {
     const ingredientAll = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+=======
+            url: "http://localhost/yoyo/behindComponentSelectIngredientAll.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: ingredientAll,
         })
         .then((res) => {
@@ -386,6 +410,27 @@ export default {
             console.log(error);
         })
 
+<<<<<<< HEAD
+=======
+    // const INGREDIENT = new URLSearchParams();
+    //     axios({
+    //         method: "post",
+    //         url: "http://localhost/yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         data: INGREDIENT,
+    //     })
+    //     .then((res) => {
+    //         let data = res.data;
+    //         console.log(data);
+    //         data.forEach(function (data, item){
+    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
+    //           // console.log(item);
+    //         });
+    //         // this.ingredient = 
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
   },
   watch:{
     modifyData:{

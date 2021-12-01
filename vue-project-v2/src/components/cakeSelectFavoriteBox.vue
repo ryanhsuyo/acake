@@ -33,7 +33,11 @@ name: "switchTab",
                 data.append('allID',this.totalFavoriteID)
                 axios({
                     method:"POST",
+<<<<<<< HEAD
                     url:'http://localhost/yoyo/insertFavorite.php',
+=======
+                    url:'http://localhost/yoyo/insertFavorite.php',
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
                     data,
                 }).then((res)=>{
                     alert(`已將此蛋糕加入${choose.CATEGORY_NAME}資料夾`)
@@ -49,6 +53,27 @@ name: "switchTab",
             return this.switch_tab? true:false;
         }
     },
+<<<<<<< HEAD
+=======
+    mounted(){
+        this.$emit('callFile');
+        axios.post("./yoyo/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
+            .then(res => {
+                    this.allFavorite = res.data;
+                    this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'}
+                        )
+                        [0].CATEGORY_ID
+                })
+            .catch((error) => {
+                console.log(error);
+            })
+        
+        
+    
+    },
+    watch:{
+    },
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
 };
 </script>
 <style scoped lang="scss">

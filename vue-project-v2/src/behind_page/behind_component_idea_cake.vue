@@ -200,7 +200,11 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
+<<<<<<< HEAD
           url: "http://localhost/yoyo/behindInsertIdeaCakeImg.php",
+=======
+          url: "http://localhost/yoyo/behindInsertIdeaCakeImg.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -227,7 +231,7 @@ export default {
         data.append('description',this.newIdeaCake.description)
         axios({
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeInsert.php",
+          url:"./yoyo/behindComponentIdeaCakeInsert.php",
           method:"POST",
         }).then((res)=>{
         }).catch((err)=>{
@@ -251,7 +255,7 @@ export default {
         axios({
           method:"POST",
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeUpdate.php"
+          url:"./yoyo/behindComponentIdeaCakeUpdate.php"
         }).then((res)=>{
         }).catch((err)=>{
           console.log(err)
@@ -271,7 +275,11 @@ export default {
   // 從資料庫撈取蛋糕已選配料種類
     axios({
       method:"GET",
+<<<<<<< HEAD
       url:"http://localhost/yoyo/behindGetFlavor.php",
+=======
+      url:"http://localhost/yoyo/behindGetFlavor.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -297,7 +305,11 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
+<<<<<<< HEAD
             url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
+=======
+            url: "http://localhost/yoyo/behindComponentIdeaCakeSelect.php",
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             data: params,
         })
         .then((res) => {
@@ -327,7 +339,28 @@ export default {
   //       },
         // 所有配料跟擁有配料比較
 
+<<<<<<< HEAD
         
+=======
+    // const INGREDIENT = new URLSearchParams();
+    //     axios({
+    //         method: "post",
+    //         url: "./yoyo/behindComponentChefCakeSelectIngredient.php",
+    //         data: INGREDIENT,
+    //     })
+    //     .then((res) => {
+    //         let data = res.data;
+    //         console.log(data);
+    //         data.forEach(function (data, item){
+    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
+    //           // console.log(item);
+    //         });
+    //         // this.ingredient = 
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
   },
   watch:{
     modifyData:{

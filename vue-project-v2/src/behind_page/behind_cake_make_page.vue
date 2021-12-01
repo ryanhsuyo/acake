@@ -402,7 +402,7 @@ export default {
       
       if (this.newFlavor.category == 1) {
         
-        axios.post("./static/melody_php/new_flavor.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/new_flavor.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -417,7 +417,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/new_ingredient.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/new_ingredient.php", qs.stringify({
         name: this.newFlavor.name,
         description: this.newFlavor.description,
         img: this.newFlavor.img,
@@ -439,7 +439,7 @@ export default {
     updateData(data){
       if (data.CATEGORY == undefined) {
         
-        axios.post("./static/melody_php/update_flavor.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/update_flavor.php", qs.stringify({
         id: data.ID,
         name: data.NAME,
         description: data.DESCRIPTION,
@@ -458,7 +458,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/update_ingredient.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/update_ingredient.php", qs.stringify({
         id: data.INGREDIENT_ID,
         name: data.INGREDIENT_NAME,
         description: data.INGREDIENT_DESCRIPTION,
@@ -517,7 +517,7 @@ export default {
 
         if (that.newFlavor.CATEGORY == undefined) {
         
-        axios.post("./static/melody_php/update_flavor_img.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/update_flavor_img.php", qs.stringify({
         id: parseInt(that.newFlavor.ID),
         img: readFile.result,
         })).then((res)=>{
@@ -528,7 +528,7 @@ export default {
 
       } else {
         
-        axios.post("./static/melody_php/update_ingredient_img.php", qs.stringify({
+        axios.post("http://localhost/static/melody_php/update_ingredient_img.php", qs.stringify({
         id: that.newFlavor.INGREDIENT_ID,
         img: readFile.result,
         category: that.newFlavor.CATEGORY,
@@ -554,7 +554,7 @@ export default {
     $("#cake").addClass("target");
 
     // select糕體
-    axios.post("./static/melody_php/select_flavor.php", qs.stringify({
+    axios.post("http://localhost/static/melody_php/select_flavor.php", qs.stringify({
       flavorId: this.flavor,
       
       }))
@@ -566,7 +566,7 @@ export default {
       .catch(err => console.log(err));
 
     // select配料
-    axios.post("./static/melody_php/select_ingredient.php", qs.stringify({
+    axios.post("http://localhost/static/melody_php/select_ingredient.php", qs.stringify({
       ingredientId: 2}))
       .then(res => {
         this.theIngredient2 = res.data;
@@ -576,7 +576,7 @@ export default {
       .catch(err => console.log(err));
 
     // select裝飾
-    axios.post("./static/melody_php/select_ingredient.php", qs.stringify({
+    axios.post("http://localhost/static/melody_php/select_ingredient.php", qs.stringify({
       ingredientId: 3}))
       .then(res => {
         this.theIngredient3 = res.data;

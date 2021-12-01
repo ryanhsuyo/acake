@@ -4,7 +4,7 @@
 
   // $memberId = htmlspecialchars($_POST["memberId"]);
 
-  $sql = "SELECT * FROM INGREDIENT;";
+  $sql = "SELECT * FROM INGREDIENT WHERE CATEGORY = 2;";
 
   $statement = $pdo->prepare($sql);
   $statement->execute();

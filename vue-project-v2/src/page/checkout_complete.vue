@@ -27,7 +27,7 @@
             <div class="checkout_complete_list">
                 <div class="checkout_complete_list_orderidandother">
                     <div class="checkout_complete_list_orderid">
-                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.{{orderID}}將於{{shippingDate}}送達
+                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.6將於2021/12/13送達
                     </div>
                     <div class="checkout_complete_list_orderother">
                         請再次確認商品詳細內容，若有任何訂單上的疑問歡迎透過Q&A聯絡我們，將由專人為您解答。另外提醒您，由於蛋糕採新鮮現做，3日內冷藏食用完畢為佳
@@ -58,16 +58,22 @@ export default{
     },
     data(){
         return{
+<<<<<<< HEAD
             recipient:'',
             address:'',
             // address:address,
             // address,
+=======
+            recipient: '',
+            address: '',
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             memberId: 1,
             shippingDate: 1234,
             orderID: 1234,
         }
     },
     mounted(){
+<<<<<<< HEAD
         // this.my()
         let data = new URLSearchParams
         data.append("memberId", this.$store.state.member_id);
@@ -77,6 +83,12 @@ export default{
             data,
             method: "POST",
         }).then((res) => {
+=======
+        let memberId = new URLSearchParams;
+        memberId.append("memberId", this.memberId);
+        axios.post( "http://localhost/yoyo/selectOrder.php", memberId)
+            .then(res => {
+>>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
                 this.address = data[0].ADDRESS;

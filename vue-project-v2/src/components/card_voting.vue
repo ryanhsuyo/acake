@@ -96,7 +96,7 @@ export default {
             data.append('vote',this.vote)
             axios({
         method: "post",
-        url: "./static/cty_api/update_card_vote_num.php",
+        url: "http://localhost/static/cty_api/update_card_vote_num.php",
         // headers: {
         //   "Content-Type": "application/x-www-form-urlencoded",
         // },

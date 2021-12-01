@@ -1092,6 +1092,30 @@ li.nav_item > a#cakeDesign{
             }
         }
     }
+
+    @media all and (max-width: 576px){
+        div.popup_box{
+            article{
+                min-width: 360px;
+                p{
+                    font-size: 16px;
+                }
+                 div.popup_button{
+                     button.yes{
+                        width: 130px;
+                        height: 45px;
+                        font-size: 16px;
+                     }
+                     button.no{
+                        width: 130px;
+                        height: 45px;
+                        font-size: 16px;
+                     }
+                 }
+            }
+        }
+    }
+
     //---------------------------------- 最外層 ----------------------------------
     section#outside{
         overflow-x: hidden;

@@ -27,7 +27,7 @@
             <div class="checkout_complete_list">
                 <div class="checkout_complete_list_orderidandother">
                     <div class="checkout_complete_list_orderid">
-                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.{{orderID}}將於{{shippingDate}}送達
+                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.6將於2021/12/13送達
                     </div>
                     <div class="checkout_complete_list_orderother">
                         請再次確認商品詳細內容，若有任何訂單上的疑問歡迎透過Q&A聯絡我們，將由專人為您解答。另外提醒您，由於蛋糕採新鮮現做，3日內冷藏食用完畢為佳
@@ -58,8 +58,8 @@ export default {
     },
     data(){
         return{
-            recipient,
-            address,
+            recipient: '',
+            address: '',
             memberId: 1,
             shippingDate: 1234,
             orderID: 1234,

@@ -58,22 +58,16 @@ export default{
     },
     data(){
         return{
-<<<<<<< HEAD
             recipient:'',
             address:'',
             // address:address,
             // address,
-=======
-            recipient: '',
-            address: '',
->>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
             memberId: 1,
             shippingDate: 1234,
             orderID: 1234,
         }
     },
     mounted(){
-<<<<<<< HEAD
         // this.my()
         let data = new URLSearchParams
         data.append("memberId", this.$store.state.member_id);
@@ -83,12 +77,6 @@ export default{
             data,
             method: "POST",
         }).then((res) => {
-=======
-        let memberId = new URLSearchParams;
-        memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/yoyo/selectOrder.php", memberId)
-            .then(res => {
->>>>>>> b721581012d7b07339edd00ee34b08bca841dc4f
                 let data = res.data;
                 this.recipient = data[0].RECEIVER;
                 this.address = data[0].ADDRESS;

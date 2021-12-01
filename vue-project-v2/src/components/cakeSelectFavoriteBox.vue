@@ -33,7 +33,7 @@ name: "switchTab",
                 data.append('allID',this.totalFavoriteID)
                 axios({
                     method:"POST",
-                    url:'http://localhost/static/yoyo_api/insertFavorite.php',
+                    url:'./static/yoyo_api/insertFavorite.php',
                     data,
                 }).then((res)=>{
                     alert(`已將此蛋糕加入${choose.CATEGORY_NAME}資料夾`)

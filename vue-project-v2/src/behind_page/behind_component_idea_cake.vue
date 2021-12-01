@@ -200,7 +200,7 @@ export default {
         params.append("index", that.modifyData.CAKE_ID);
         axios({
           method: "post",
-          url: "http://localhost/static/yoyo_api/behindInsertIdeaCakeImg.php",
+          url: "./static/yoyo_api/behindInsertIdeaCakeImg.php",
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -271,7 +271,7 @@ export default {
   // 從資料庫撈取蛋糕已選配料種類
     axios({
       method:"GET",
-      url:"http://localhost/static/yoyo_api/behindGetFlavor.php",
+      url:"./static/yoyo_api/behindGetFlavor.php",
 
     }).then((res)=>{
       this.allFlavor = res.data
@@ -282,7 +282,7 @@ export default {
     const ingredientAll = new URLSearchParams();
       axios({
         method: "post",
-        url: "http://localhost/static/yoyo_api/behindComponentSelectIngredientAll.php",
+        url: "./static/yoyo_api/behindComponentSelectIngredientAll.php",
         data: ingredientAll,
       })
         .then((res) => {
@@ -297,7 +297,7 @@ export default {
     const params = new URLSearchParams();
         axios({
             method: "post",
-            url: "http://localhost/static/yoyo_api/behindComponentIdeaCakeSelect.php",
+            url: "./static/yoyo_api/behindComponentIdeaCakeSelect.php",
             data: params,
         })
         .then((res) => {

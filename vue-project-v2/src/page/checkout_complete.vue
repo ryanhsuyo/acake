@@ -77,7 +77,7 @@ export default {
     mounted(){
         let memberId = new URLSearchParams;
         memberId.append("memberId", this.memberId);
-        axios.post( "http://localhost/static/yoyo_api/selectOrder.php", memberId)
+        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
             .then(res => {
                 let data = res.data;
                 console.log(data);

@@ -49,24 +49,6 @@ name: "switchTab",
             return this.switch_tab? true:false;
         }
     },
-    mounted(){
-        this.$emit('callFile');
-        axios.post("./static/yoyo_api/cakeSelectFavoriteBoxAll.php",qs.stringify({cakeID: this.CAKE_ID}))
-            .then(res => {
-                    this.allFavorite = res.data;
-                    this.totalFavoriteID = this.allFavorite.filter((item)=>{return item.CATEGORY_NAME=='所有收藏'}
-                        )
-                        [0].CATEGORY_ID
-                })
-            .catch((error) => {
-                console.log(error);
-            })
-        
-        
-    
-    },
-    watch:{
-    },
 };
 </script>
 <style scoped lang="scss">

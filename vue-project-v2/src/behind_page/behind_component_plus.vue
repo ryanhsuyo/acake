@@ -247,21 +247,24 @@ export default {
       this.modifyData=data
       file.click();
     },
-     sendData(){
-      let data = new URLSearchParams();
-      data.append('name',this.newPlus.newPlusName)
-      data.append('img',this.newPlus.img)
-      data.append('price',this.newPlus.newPlusPrice)
-      data.append('description',this.newPlus.description)
-      axios({
-        data,
-        url:"./static/yoyo_api/behindComponentPlusInsert.php",
-        method:"POST",
-      }).then((res)=>{
-        console.log(res.data)
-      }).catch((err)=>{
-        console.log(err)
-      })
+    sendData(){
+      let i = confirm('是否要新增加購商品')
+      if(i == true){
+        alert('新增成功');
+        let data = new URLSearchParams();
+        data.append('name',this.newPlus.newPlusName)
+        data.append('img',this.newPlus.img)
+        data.append('price',this.newPlus.newPlusPrice)
+        data.append('description',this.newPlus.description)
+        axios({
+          data,
+          url:"http://localhost/yoyo/behindComponentPlusInsert.php",
+          method:"POST",
+        }).then((res)=>{
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     },
   },
   updateData(datas){

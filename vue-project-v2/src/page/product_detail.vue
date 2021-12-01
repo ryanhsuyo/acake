@@ -427,21 +427,10 @@ body{
                     margin-top: 40px;
                     #cake_quantity{
                         display: flex;
+                        
                         margin-bottom: 40px;
-                        align-items: center;
-                        .qtyminus{
-                            border: none;
-                            border-radius: 5px 0px 0px 5px;
-                            cursor: pointer;
-                            width:50px;
-                            height: 40px;
-                            display: inline-block;
-                            font-size: 25px;
-                            background-color: #F7Edd4;
-                        }
-                        .qtyplus{
-                            border: none;
-                            border-radius: 0px 5px 5px 0px;
+                        
+                        .qtyminus,.qtyplus{
                             cursor: pointer;
                             width:50px;
                             height: 40px;
@@ -736,6 +725,7 @@ body{
         margin: 100px auto;
         @media screen and (max-width:767.98px){ 
             margin: 250px auto;
+            height: 800px;
         }
     }
 

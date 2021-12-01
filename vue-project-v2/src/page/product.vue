@@ -287,7 +287,6 @@ export default {
 
     },
     mounted(){
-        
         this.callFile();
         const params = new URLSearchParams();
         axios({

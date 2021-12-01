@@ -310,7 +310,6 @@ export default {
                         data,
                         url:"./static/yoyo_api/insertOrder.php"
                     }).then((res)=>{
-                        console.log('我想找時間戳',res.data);
                         this.$store.dispatch('orderDate', res.data)
                         // 流程控制，寫入訂單詳細資訊
                         this.newOrderDate = res.data;

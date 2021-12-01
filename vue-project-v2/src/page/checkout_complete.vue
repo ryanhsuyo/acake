@@ -27,7 +27,7 @@
             <div class="checkout_complete_list">
                 <div class="checkout_complete_list_orderidandother">
                     <div class="checkout_complete_list_orderid">
-                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.{{orderID}}將於{{shippingDate}}送達
+                        親愛的買家您好，非常感謝您的訂購，您的訂單NO.6將於2021/12/13送達
                     </div>
                     <div class="checkout_complete_list_orderother">
                         請再次確認商品詳細內容，若有任何訂單上的疑問歡迎透過Q&A聯絡我們，將由專人為您解答。另外提醒您，由於蛋糕採新鮮現做，3日內冷藏食用完畢為佳
@@ -49,7 +49,7 @@ import footercom from '../components/footercom'
 import titleh1 from "../components/title_h1.vue"
 import axios from "axios"
 import qs from "qs"
-export default {
+export default{
     name:'shopping_cart',
     components:{
         titleh1,
@@ -58,34 +58,31 @@ export default {
     },
     data(){
         return{
-            recipient,
-            address,
+            recipient:'',
+            address:'',
+            // address:address,
+            // address,
             memberId: 1,
             shippingDate: 1234,
             orderID: 1234,
         }
     },
-    methods:{
-    },
-    watch:{
-        
-    },
-    computed:{
-        
-
-    },
     mounted(){
-        let memberId = new URLSearchParams;
-        memberId.append("memberId", this.memberId);
-        axios.post( "./static/yoyo_api/selectOrder.php", memberId)
-            .then(res => {
+        // this.my()
+        let data = new URLSearchParams
+        data.append("memberId", this.$store.state.member_id);
+        data.append("orderDate", this.$store.state.orderDate);
+        axios({
+            url:"http://localhost/yoyo/selectOrder.php",
+            data,
+            method: "POST",
+        }).then((res) => {
                 let data = res.data;
-                console.log(data);
                 this.recipient = data[0].RECEIVER;
                 this.address = data[0].ADDRESS;
-                this.shippingDate = data[0].SHIPPING_DATE;
+                let shippingD = data[0].SHIPPING_DATE;
+                this.shippingDate = shippingD.substr(0,10);
                 this.orderID = data[0].ORDER_ID;
-                console.log(this.orderID);
                 
         }).catch((err) => {
                 console.log(err);
@@ -94,10 +91,6 @@ export default {
     created(){
         window.scrollTo(0, 0);
     },
-    my(){
-        return this.$store.state.memberId
-    },
-    
 }
 
 </script>

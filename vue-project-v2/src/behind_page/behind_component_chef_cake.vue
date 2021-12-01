@@ -386,24 +386,6 @@ export default {
             console.log(error);
         })
 
-    // const INGREDIENT = new URLSearchParams();
-    //     axios({
-    //         method: "post",
-    //         url: "./static/yoyo_api/behindComponentChefCakeSelectIngredient.php",
-    //         data: INGREDIENT,
-    //     })
-    //     .then((res) => {
-    //         let data = res.data;
-    //         console.log(data);
-    //         data.forEach(function (data, item){
-    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
-    //           // console.log(item);
-    //         });
-    //         // this.ingredient = 
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     })
   },
   watch:{
     modifyData:{

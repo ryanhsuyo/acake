@@ -227,7 +227,7 @@ export default {
         data.append('description',this.newIdeaCake.description)
         axios({
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeInsert.php",
+          url:"./yoyo/behindComponentIdeaCakeInsert.php",
           method:"POST",
         }).then((res)=>{
         }).catch((err)=>{
@@ -251,7 +251,7 @@ export default {
         axios({
           method:"POST",
           data,
-          url:"./static/yoyo_api/behindComponentIdeaCakeUpdate.php"
+          url:"./yoyo/behindComponentIdeaCakeUpdate.php"
         }).then((res)=>{
         }).catch((err)=>{
           console.log(err)
@@ -327,24 +327,7 @@ export default {
   //       },
         // 所有配料跟擁有配料比較
 
-    // const INGREDIENT = new URLSearchParams();
-    //     axios({
-    //         method: "post",
-    //         url: "./static/yoyo_api/behindComponentChefCakeSelectIngredient.php",
-    //         data: INGREDIENT,
-    //     })
-    //     .then((res) => {
-    //         let data = res.data;
-    //         console.log(data);
-    //         data.forEach(function (data, item){
-    //           console.log(data.CAKE_NAME,data.INGREDIENT_NAME);
-    //           // console.log(item);
-    //         });
-    //         // this.ingredient = 
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     })
+        
   },
   watch:{
     modifyData:{
